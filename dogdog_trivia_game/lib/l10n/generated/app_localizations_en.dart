@@ -326,4 +326,62 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get powerUp_use => 'Use';
+
+  @override
+  String get achievementsScreen_pleaseRetryLater => 'Please try again later';
+
+  @override
+  String get achievementsScreen_yourStatistics => 'Your Statistics';
+
+  @override
+  String get achievementsScreen_correctAnswers => 'Correct Answers';
+
+  @override
+  String get achievementsScreen_accuracy => 'Accuracy';
+
+  @override
+  String get achievementsScreen_gamesPlayed => 'Games Played';
+
+  @override
+  String get achievementsScreen_totalScore => 'Total Score';
+
+  @override
+  String get achievementsScreen_currentRank => 'Current Rank';
+
+  @override
+  String get achievementsScreen_nextRank => 'Next Rank';
+
+  @override
+  String get achievementsScreen_allRanksAchieved => 'All Ranks Achieved!';
+
+  @override
+  String get achievementsScreen_allRanksAchievedDescription =>
+      'You have unlocked all available ranks. Great job!';
+
+  @override
+  String get achievementsScreen_allAchievements => 'All Achievements';
+
+  @override
+  String achievementsScreen_correctAnswersRequired(int count) {
+    return '$count correct answers';
+  }
+
+  @override
+  String achievementsScreen_moreAnswersToUnlock(int count) {
+    return '$count more correct answers to unlock';
+  }
+
+  @override
+  String achievementsScreen_moreAnswersToNextRank(int count) {
+    return '$count more correct answers to next rank';
+  }
+
+  @override
+  String get achievementsScreen_requiredAnswers => 'Required answers:';
+
+  @override
+  String get achievementsScreen_yourAnswers => 'Your answers:';
+
+  @override
+  String get achievementsScreen_unlocked => 'Unlocked:';
 }

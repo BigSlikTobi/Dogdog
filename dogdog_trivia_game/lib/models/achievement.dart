@@ -31,8 +31,8 @@ class Achievement {
   }) {
     return Achievement(
       id: 'rank_${rank.name}',
-      name: rank.displayName,
-      description: rank.description,
+      name: '', // Will be populated via localization
+      description: '', // Will be populated via localization
       iconPath: 'assets/icons/ranks/${rank.name}.png',
       requiredCorrectAnswers: rank.requiredCorrectAnswers,
       isUnlocked: isUnlocked,

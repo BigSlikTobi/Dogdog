@@ -539,5 +539,108 @@
   "powerUp_use": "Verwenden",
   "@powerUp_use": {
     "description": "Schaltflächentext zum Verwenden eines Power-Ups"
+  },
+
+  "achievementsScreen_pleaseRetryLater": "Bitte versuche es später erneut",
+  "@achievementsScreen_pleaseRetryLater": {
+    "description": "Nachricht, die angezeigt wird, wenn Erfolge nicht geladen werden können"
+  },
+
+  "achievementsScreen_yourStatistics": "Deine Statistiken",
+  "@achievementsScreen_yourStatistics": {
+    "description": "Titel für den Statistikbereich"
+  },
+
+  "achievementsScreen_correctAnswers": "Richtige Antworten",
+  "@achievementsScreen_correctAnswers": {
+    "description": "Label für die Statistik der richtigen Antworten"
+  },
+
+  "achievementsScreen_accuracy": "Genauigkeit",
+  "@achievementsScreen_accuracy": {
+    "description": "Label für die Genauigkeitsstatistik"
+  },
+
+  "achievementsScreen_gamesPlayed": "Gespielte Spiele",
+  "@achievementsScreen_gamesPlayed": {
+    "description": "Label für die Statistik der gespielten Spiele"
+  },
+
+  "achievementsScreen_totalScore": "Gesamtpunktzahl",
+  "@achievementsScreen_totalScore": {
+    "description": "Label für die Gesamtpunktzahl-Statistik"
+  },
+
+  "achievementsScreen_currentRank": "Aktueller Rang",
+  "@achievementsScreen_currentRank": {
+    "description": "Titel für den aktuellen Rang-Bereich"
+  },
+
+  "achievementsScreen_nextRank": "Nächster Rang",
+  "@achievementsScreen_nextRank": {
+    "description": "Titel für den nächsten Rang-Bereich"
+  },
+
+  "achievementsScreen_allRanksAchieved": "Alle Ränge erreicht!",
+  "@achievementsScreen_allRanksAchieved": {
+    "description": "Titel wenn alle Ränge freigeschaltet sind"
+  },
+
+  "achievementsScreen_allRanksAchievedDescription": "Du hast alle verfügbaren Ränge freigeschaltet. Großartige Arbeit!",
+  "@achievementsScreen_allRanksAchievedDescription": {
+    "description": "Beschreibung wenn alle Ränge freigeschaltet sind"
+  },
+
+  "achievementsScreen_allAchievements": "Alle Erfolge",
+  "@achievementsScreen_allAchievements": {
+    "description": "Titel für den Bereich aller Erfolge"
+  },
+
+  "achievementsScreen_correctAnswersRequired": "{count} richtige Antworten",
+  "@achievementsScreen_correctAnswersRequired": {
+    "description": "Zeigt die Anzahl der für den Erfolg erforderlichen richtigen Antworten",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "25"
+      }
+    }
+  },
+
+  "achievementsScreen_moreAnswersToUnlock": "{count} weitere richtige Antworten zum Freischalten",
+  "@achievementsScreen_moreAnswersToUnlock": {
+    "description": "Zeigt, wie viele weitere Antworten zum Freischalten des Rangs benötigt werden",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
+  "achievementsScreen_moreAnswersToNextRank": "{count} weitere richtige Antworten zum nächsten Rang",
+  "@achievementsScreen_moreAnswersToNextRank": {
+    "description": "Zeigt, wie viele weitere Antworten für den nächsten Rang benötigt werden",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+
+  "achievementsScreen_requiredAnswers": "Erforderliche Antworten:",
+  "@achievementsScreen_requiredAnswers": {
+    "description": "Label für erforderliche Antworten im Erfolgsdialog"
+  },
+
+  "achievementsScreen_yourAnswers": "Deine Antworten:",
+  "@achievementsScreen_yourAnswers": {
+    "description": "Label für die Antworten des Benutzers im Erfolgsdialog"
+  },
+
+  "achievementsScreen_unlocked": "Freigeschaltet:",
+  "@achievementsScreen_unlocked": {
+    "description": "Label für das Freischaltdatum im Erfolgsdialog"
   }
 }

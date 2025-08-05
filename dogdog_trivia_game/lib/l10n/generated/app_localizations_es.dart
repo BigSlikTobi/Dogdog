@@ -331,4 +331,64 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get powerUp_use => 'Usar';
+
+  @override
+  String get achievementsScreen_pleaseRetryLater =>
+      'Por favor, inténtalo de nuevo más tarde';
+
+  @override
+  String get achievementsScreen_yourStatistics => 'Tus Estadísticas';
+
+  @override
+  String get achievementsScreen_correctAnswers => 'Respuestas Correctas';
+
+  @override
+  String get achievementsScreen_accuracy => 'Precisión';
+
+  @override
+  String get achievementsScreen_gamesPlayed => 'Juegos Jugados';
+
+  @override
+  String get achievementsScreen_totalScore => 'Puntuación Total';
+
+  @override
+  String get achievementsScreen_currentRank => 'Rango Actual';
+
+  @override
+  String get achievementsScreen_nextRank => 'Siguiente Rango';
+
+  @override
+  String get achievementsScreen_allRanksAchieved =>
+      '¡Todos los Rangos Alcanzados!';
+
+  @override
+  String get achievementsScreen_allRanksAchievedDescription =>
+      'Has desbloqueado todos los rangos disponibles. ¡Excelente trabajo!';
+
+  @override
+  String get achievementsScreen_allAchievements => 'Todos los Logros';
+
+  @override
+  String achievementsScreen_correctAnswersRequired(int count) {
+    return '$count respuestas correctas';
+  }
+
+  @override
+  String achievementsScreen_moreAnswersToUnlock(int count) {
+    return '$count respuestas correctas más para desbloquear';
+  }
+
+  @override
+  String achievementsScreen_moreAnswersToNextRank(int count) {
+    return '$count respuestas correctas más para el siguiente rango';
+  }
+
+  @override
+  String get achievementsScreen_requiredAnswers => 'Respuestas requeridas:';
+
+  @override
+  String get achievementsScreen_yourAnswers => 'Tus respuestas:';
+
+  @override
+  String get achievementsScreen_unlocked => 'Desbloqueado:';
 }

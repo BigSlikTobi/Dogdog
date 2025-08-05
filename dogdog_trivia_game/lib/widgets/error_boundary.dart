@@ -24,7 +24,6 @@ class ErrorBoundary extends StatefulWidget {
 
 class _ErrorBoundaryState extends State<ErrorBoundary> {
   Object? _error;
-  StackTrace? _stackTrace; // Used for error reporting and debugging
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,6 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
   void _handleError(Object error, StackTrace stackTrace) {
     setState(() {
       _error = error;
-      _stackTrace = stackTrace;
     });
 
     // Record error
@@ -83,7 +81,6 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
                     onPressed: () {
                       setState(() {
                         _error = null;
-                        _stackTrace = null;
                       });
                       widget.onRetry!();
                     },

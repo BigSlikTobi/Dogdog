@@ -662,6 +662,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use'**
   String get powerUp_use;
+
+  /// Message shown when achievements fail to load
+  ///
+  /// In en, this message translates to:
+  /// **'Please try again later'**
+  String get achievementsScreen_pleaseRetryLater;
+
+  /// Title for the statistics section
+  ///
+  /// In en, this message translates to:
+  /// **'Your Statistics'**
+  String get achievementsScreen_yourStatistics;
+
+  /// Label for correct answers statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Correct Answers'**
+  String get achievementsScreen_correctAnswers;
+
+  /// Label for accuracy statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get achievementsScreen_accuracy;
+
+  /// Label for games played statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Games Played'**
+  String get achievementsScreen_gamesPlayed;
+
+  /// Label for total score statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Total Score'**
+  String get achievementsScreen_totalScore;
+
+  /// Title for current rank section
+  ///
+  /// In en, this message translates to:
+  /// **'Current Rank'**
+  String get achievementsScreen_currentRank;
+
+  /// Title for next rank section
+  ///
+  /// In en, this message translates to:
+  /// **'Next Rank'**
+  String get achievementsScreen_nextRank;
+
+  /// Title when all ranks are unlocked
+  ///
+  /// In en, this message translates to:
+  /// **'All Ranks Achieved!'**
+  String get achievementsScreen_allRanksAchieved;
+
+  /// Description when all ranks are unlocked
+  ///
+  /// In en, this message translates to:
+  /// **'You have unlocked all available ranks. Great job!'**
+  String get achievementsScreen_allRanksAchievedDescription;
+
+  /// Title for all achievements section
+  ///
+  /// In en, this message translates to:
+  /// **'All Achievements'**
+  String get achievementsScreen_allAchievements;
+
+  /// Shows number of correct answers required for achievement
+  ///
+  /// In en, this message translates to:
+  /// **'{count} correct answers'**
+  String achievementsScreen_correctAnswersRequired(int count);
+
+  /// Shows how many more answers needed to unlock rank
+  ///
+  /// In en, this message translates to:
+  /// **'{count} more correct answers to unlock'**
+  String achievementsScreen_moreAnswersToUnlock(int count);
+
+  /// Shows how many more answers needed for next rank
+  ///
+  /// In en, this message translates to:
+  /// **'{count} more correct answers to next rank'**
+  String achievementsScreen_moreAnswersToNextRank(int count);
+
+  /// Label for required answers in achievement dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Required answers:'**
+  String get achievementsScreen_requiredAnswers;
+
+  /// Label for user's answers in achievement dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Your answers:'**
+  String get achievementsScreen_yourAnswers;
+
+  /// Label for unlock date in achievement dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocked:'**
+  String get achievementsScreen_unlocked;
 }
 
 class _AppLocalizationsDelegate

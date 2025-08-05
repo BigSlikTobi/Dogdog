@@ -158,7 +158,6 @@ class CircuitBreaker {
 
   CircuitBreakerState _state = CircuitBreakerState.closed;
   int _failureCount = 0;
-  DateTime? _lastFailureTime; // Used for circuit breaker timing
   DateTime? _nextRetryTime;
 
   CircuitBreaker({
@@ -194,14 +193,12 @@ class CircuitBreaker {
   void _onSuccess() {
     _failureCount = 0;
     _state = CircuitBreakerState.closed;
-    _lastFailureTime = null;
     _nextRetryTime = null;
   }
 
   /// Handles failed operations
   void _onFailure() {
     _failureCount++;
-    _lastFailureTime = DateTime.now();
 
     if (_failureCount >= failureThreshold) {
       _state = CircuitBreakerState.open;
@@ -219,7 +216,6 @@ class CircuitBreaker {
   void reset() {
     _state = CircuitBreakerState.closed;
     _failureCount = 0;
-    _lastFailureTime = null;
     _nextRetryTime = null;
   }
 }

@@ -7,6 +7,7 @@ import '../services/progress_service.dart';
 import 'result_screen.dart';
 import '../utils/responsive.dart';
 import '../utils/accessibility.dart';
+import '../utils/enum_extensions.dart';
 import '../widgets/loading_animation.dart';
 import '../l10n/generated/app_localizations.dart';
 
@@ -679,7 +680,7 @@ class _GameScreenState extends State<GameScreen> {
 
     return GameElementSemantics(
       label: AccessibilityUtils.createButtonLabel(
-        '${powerUpType.displayName} power-up',
+        '${powerUpType.displayName(context)} power-up',
         hint: canUse
             ? 'Tap to use this power-up. You have $count remaining.'
             : count > 0
@@ -881,7 +882,7 @@ class _GameScreenState extends State<GameScreen> {
           context: context,
           builder: (context) => AlertDialog(
             title: Text(
-              powerUpType.displayName,
+              powerUpType.displayName(context),
               style: const TextStyle(
                 color: Color(0xFF1F2937),
                 fontWeight: FontWeight.bold,
@@ -892,7 +893,7 @@ class _GameScreenState extends State<GameScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  powerUpType.description,
+                  powerUpType.description(context),
                   style: const TextStyle(
                     color: Color(0xFF6B7280),
                     fontSize: 16,

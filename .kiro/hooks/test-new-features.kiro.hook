@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Test New Features",
+  "description": "Automatically generates comprehensive unit and integration tests for every new feature added to the DogDog trivia game",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "dogdog_trivia_game/lib/**/*.dart"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A new Dart file has been added or modified in the lib directory. Please analyze the changes and create comprehensive test coverage including:\n\n1. **Unit Tests**: Test individual functions, methods, and classes in isolation\n   - Test all public methods and their edge cases\n   - Test error conditions and exception handling\n   - Test state changes and side effects\n   - Mock dependencies appropriately\n\n2. **Integration Tests**: Test how components work together\n   - Test complete user workflows\n   - Test data flow between services and controllers\n   - Test UI interactions and state updates\n   - Test error recovery mechanisms\n\n3. **Widget Tests**: For UI components\n   - Test widget rendering and layout\n   - Test user interactions (taps, gestures)\n   - Test accessibility features\n   - Test responsive behavior\n\nFollow the existing test structure in the `test/` directory and maintain the project's 95%+ test coverage target. Use Flutter's testing framework with appropriate mocking for external dependencies. Ensure tests are maintainable, readable, and follow the project's naming conventions."
+  }
+}

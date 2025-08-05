@@ -1,6 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dogdog_trivia_game/models/achievement.dart';
 import 'package:dogdog_trivia_game/models/enums.dart';
+import 'package:dogdog_trivia_game/utils/enum_extensions.dart';
+import 'package:dogdog_trivia_game/l10n/generated/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   group('Achievement', () {
@@ -21,6 +25,19 @@ void main() {
       );
     });
 
+    Widget createTestWidget({required Widget child}) {
+      return MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+        home: child,
+      );
+    }
+
     test('should create Achievement with all fields', () {
       expect(testAchievement.id, 'test_achievement');
       expect(testAchievement.name, 'Test Achievement');
@@ -32,20 +49,30 @@ void main() {
       expect(testAchievement.rank, Rank.cockerSpaniel);
     });
 
-    test('should create Achievement from Rank', () {
-      final achievement = Achievement.fromRank(Rank.pug);
+    testWidgets('should create Achievement from Rank', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: Builder(
+            builder: (context) {
+              final achievement = Achievement.fromRank(Rank.pug);
 
-      expect(achievement.id, 'rank_pug');
-      expect(achievement.name, Rank.pug.displayName);
-      expect(achievement.description, Rank.pug.description);
-      expect(achievement.iconPath, 'assets/icons/ranks/pug.png');
-      expect(
-        achievement.requiredCorrectAnswers,
-        Rank.pug.requiredCorrectAnswers,
+              expect(achievement.id, 'rank_pug');
+              expect(achievement.name, Rank.pug.displayName(context));
+              expect(achievement.description, Rank.pug.description(context));
+              expect(achievement.iconPath, 'assets/icons/ranks/pug.png');
+              expect(
+                achievement.requiredCorrectAnswers,
+                Rank.pug.requiredCorrectAnswers,
+              );
+              expect(achievement.isUnlocked, false);
+              expect(achievement.unlockedDate, isNull);
+              expect(achievement.rank, Rank.pug);
+
+              return Container();
+            },
+          ),
+        ),
       );
-      expect(achievement.isUnlocked, false);
-      expect(achievement.unlockedDate, isNull);
-      expect(achievement.rank, Rank.pug);
     });
 
     test('should create unlocked Achievement from Rank', () {

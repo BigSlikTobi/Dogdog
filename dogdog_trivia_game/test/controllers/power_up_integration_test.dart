@@ -53,7 +53,10 @@ void main() {
           final isCorrect = gameController.processAnswer(
             0,
           ); // Assume correct answer
-          if (isCorrect) correctAnswers++;
+
+          if (isCorrect) {
+            correctAnswers++;
+          }
           totalQuestions++;
 
           gameController.clearFeedback();

@@ -7,6 +7,7 @@ import '../services/audio_service.dart';
 import '../utils/animations.dart';
 import '../utils/responsive.dart';
 import '../utils/accessibility.dart';
+import '../utils/enum_extensions.dart';
 import '../widgets/animated_button.dart';
 import '../widgets/audio_settings.dart';
 import '../l10n/generated/app_localizations.dart';
@@ -521,7 +522,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               const SizedBox(height: 12),
               Text(
                 l10n.homeScreen_progress_currentRank(
-                  progress.currentRank.displayName,
+                  progress.currentRank.displayName(context),
                 ),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.white.withValues(alpha: 0.9),
@@ -530,7 +531,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               if (progress.nextRank != null)
                 Text(
                   l10n.homeScreen_progress_nextRank(
-                    progress.nextRank!.displayName,
+                    progress.nextRank!.displayName(context),
                   ),
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.white.withValues(alpha: 0.9),

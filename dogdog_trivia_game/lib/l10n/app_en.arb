@@ -539,5 +539,108 @@
   "powerUp_use": "Use",
   "@powerUp_use": {
     "description": "Button text to use a power-up"
+  },
+
+  "achievementsScreen_pleaseRetryLater": "Please try again later",
+  "@achievementsScreen_pleaseRetryLater": {
+    "description": "Message shown when achievements fail to load"
+  },
+
+  "achievementsScreen_yourStatistics": "Your Statistics",
+  "@achievementsScreen_yourStatistics": {
+    "description": "Title for the statistics section"
+  },
+
+  "achievementsScreen_correctAnswers": "Correct Answers",
+  "@achievementsScreen_correctAnswers": {
+    "description": "Label for correct answers statistic"
+  },
+
+  "achievementsScreen_accuracy": "Accuracy",
+  "@achievementsScreen_accuracy": {
+    "description": "Label for accuracy statistic"
+  },
+
+  "achievementsScreen_gamesPlayed": "Games Played",
+  "@achievementsScreen_gamesPlayed": {
+    "description": "Label for games played statistic"
+  },
+
+  "achievementsScreen_totalScore": "Total Score",
+  "@achievementsScreen_totalScore": {
+    "description": "Label for total score statistic"
+  },
+
+  "achievementsScreen_currentRank": "Current Rank",
+  "@achievementsScreen_currentRank": {
+    "description": "Title for current rank section"
+  },
+
+  "achievementsScreen_nextRank": "Next Rank",
+  "@achievementsScreen_nextRank": {
+    "description": "Title for next rank section"
+  },
+
+  "achievementsScreen_allRanksAchieved": "All Ranks Achieved!",
+  "@achievementsScreen_allRanksAchieved": {
+    "description": "Title when all ranks are unlocked"
+  },
+
+  "achievementsScreen_allRanksAchievedDescription": "You have unlocked all available ranks. Great job!",
+  "@achievementsScreen_allRanksAchievedDescription": {
+    "description": "Description when all ranks are unlocked"
+  },
+
+  "achievementsScreen_allAchievements": "All Achievements",
+  "@achievementsScreen_allAchievements": {
+    "description": "Title for all achievements section"
+  },
+
+  "achievementsScreen_correctAnswersRequired": "{count} correct answers",
+  "@achievementsScreen_correctAnswersRequired": {
+    "description": "Shows number of correct answers required for achievement",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "25"
+      }
+    }
+  },
+
+  "achievementsScreen_moreAnswersToUnlock": "{count} more correct answers to unlock",
+  "@achievementsScreen_moreAnswersToUnlock": {
+    "description": "Shows how many more answers needed to unlock rank",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
+  "achievementsScreen_moreAnswersToNextRank": "{count} more correct answers to next rank",
+  "@achievementsScreen_moreAnswersToNextRank": {
+    "description": "Shows how many more answers needed for next rank",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+
+  "achievementsScreen_requiredAnswers": "Required answers:",
+  "@achievementsScreen_requiredAnswers": {
+    "description": "Label for required answers in achievement dialog"
+  },
+
+  "achievementsScreen_yourAnswers": "Your answers:",
+  "@achievementsScreen_yourAnswers": {
+    "description": "Label for user's answers in achievement dialog"
+  },
+
+  "achievementsScreen_unlocked": "Unlocked:",
+  "@achievementsScreen_unlocked": {
+    "description": "Label for unlock date in achievement dialog"
   }
 }

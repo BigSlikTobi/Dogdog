@@ -539,5 +539,108 @@
   "powerUp_use": "Usar",
   "@powerUp_use": {
     "description": "Texto del botón para usar un power-up"
+  },
+
+  "achievementsScreen_pleaseRetryLater": "Por favor, inténtalo de nuevo más tarde",
+  "@achievementsScreen_pleaseRetryLater": {
+    "description": "Mensaje mostrado cuando los logros no se pueden cargar"
+  },
+
+  "achievementsScreen_yourStatistics": "Tus Estadísticas",
+  "@achievementsScreen_yourStatistics": {
+    "description": "Título para la sección de estadísticas"
+  },
+
+  "achievementsScreen_correctAnswers": "Respuestas Correctas",
+  "@achievementsScreen_correctAnswers": {
+    "description": "Etiqueta para la estadística de respuestas correctas"
+  },
+
+  "achievementsScreen_accuracy": "Precisión",
+  "@achievementsScreen_accuracy": {
+    "description": "Etiqueta para la estadística de precisión"
+  },
+
+  "achievementsScreen_gamesPlayed": "Juegos Jugados",
+  "@achievementsScreen_gamesPlayed": {
+    "description": "Etiqueta para la estadística de juegos jugados"
+  },
+
+  "achievementsScreen_totalScore": "Puntuación Total",
+  "@achievementsScreen_totalScore": {
+    "description": "Etiqueta para la estadística de puntuación total"
+  },
+
+  "achievementsScreen_currentRank": "Rango Actual",
+  "@achievementsScreen_currentRank": {
+    "description": "Título para la sección de rango actual"
+  },
+
+  "achievementsScreen_nextRank": "Siguiente Rango",
+  "@achievementsScreen_nextRank": {
+    "description": "Título para la sección del siguiente rango"
+  },
+
+  "achievementsScreen_allRanksAchieved": "¡Todos los Rangos Alcanzados!",
+  "@achievementsScreen_allRanksAchieved": {
+    "description": "Título cuando todos los rangos están desbloqueados"
+  },
+
+  "achievementsScreen_allRanksAchievedDescription": "Has desbloqueado todos los rangos disponibles. ¡Excelente trabajo!",
+  "@achievementsScreen_allRanksAchievedDescription": {
+    "description": "Descripción cuando todos los rangos están desbloqueados"
+  },
+
+  "achievementsScreen_allAchievements": "Todos los Logros",
+  "@achievementsScreen_allAchievements": {
+    "description": "Título para la sección de todos los logros"
+  },
+
+  "achievementsScreen_correctAnswersRequired": "{count} respuestas correctas",
+  "@achievementsScreen_correctAnswersRequired": {
+    "description": "Muestra el número de respuestas correctas requeridas para el logro",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "25"
+      }
+    }
+  },
+
+  "achievementsScreen_moreAnswersToUnlock": "{count} respuestas correctas más para desbloquear",
+  "@achievementsScreen_moreAnswersToUnlock": {
+    "description": "Muestra cuántas respuestas más se necesitan para desbloquear el rango",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
+  "achievementsScreen_moreAnswersToNextRank": "{count} respuestas correctas más para el siguiente rango",
+  "@achievementsScreen_moreAnswersToNextRank": {
+    "description": "Muestra cuántas respuestas más se necesitan para el siguiente rango",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+
+  "achievementsScreen_requiredAnswers": "Respuestas requeridas:",
+  "@achievementsScreen_requiredAnswers": {
+    "description": "Etiqueta para respuestas requeridas en el diálogo de logros"
+  },
+
+  "achievementsScreen_yourAnswers": "Tus respuestas:",
+  "@achievementsScreen_yourAnswers": {
+    "description": "Etiqueta para las respuestas del usuario en el diálogo de logros"
+  },
+
+  "achievementsScreen_unlocked": "Desbloqueado:",
+  "@achievementsScreen_unlocked": {
+    "description": "Etiqueta para la fecha de desbloqueo en el diálogo de logros"
   }
 }

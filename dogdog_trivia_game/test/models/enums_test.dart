@@ -1,13 +1,39 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dogdog_trivia_game/models/enums.dart';
+import 'package:dogdog_trivia_game/utils/enum_extensions.dart';
+import 'package:dogdog_trivia_game/l10n/generated/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
+  Widget createTestWidget({required Widget child}) {
+    return MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+      home: child,
+    );
+  }
+
   group('Difficulty', () {
-    test('should have correct display names in German', () {
-      expect(Difficulty.easy.displayName, 'Leicht');
-      expect(Difficulty.medium.displayName, 'Mittel');
-      expect(Difficulty.hard.displayName, 'Schwer');
-      expect(Difficulty.expert.displayName, 'Experte');
+    testWidgets('should have correct display names in German', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: Builder(
+            builder: (context) {
+              expect(Difficulty.easy.displayName(context), 'Leicht');
+              expect(Difficulty.medium.displayName(context), 'Mittel');
+              expect(Difficulty.hard.displayName(context), 'Schwer');
+              expect(Difficulty.expert.displayName(context), 'Experte');
+              return Container();
+            },
+          ),
+        ),
+      );
     });
 
     test('should have correct point values', () {
@@ -27,34 +53,55 @@ void main() {
   });
 
   group('PowerUpType', () {
-    test('should have correct display names in German', () {
-      expect(PowerUpType.fiftyFifty.displayName, 'Chew 50/50');
-      expect(PowerUpType.hint.displayName, 'Hinweis');
-      expect(PowerUpType.extraTime.displayName, 'Extra Zeit');
-      expect(PowerUpType.skip.displayName, 'Überspringen');
-      expect(PowerUpType.secondChance.displayName, 'Zweite Chance');
+    testWidgets('should have correct display names in German', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: Builder(
+            builder: (context) {
+              expect(PowerUpType.fiftyFifty.displayName(context), 'Chew 50/50');
+              expect(PowerUpType.hint.displayName(context), 'Hinweis');
+              expect(PowerUpType.extraTime.displayName(context), 'Extra Zeit');
+              expect(PowerUpType.skip.displayName(context), 'Überspringen');
+              expect(
+                PowerUpType.secondChance.displayName(context),
+                'Zweite Chance',
+              );
+              return Container();
+            },
+          ),
+        ),
+      );
     });
 
-    test('should have descriptions in German', () {
-      expect(
-        PowerUpType.fiftyFifty.description,
-        'Entfernt zwei falsche Antworten',
-      );
-      expect(
-        PowerUpType.hint.description,
-        'Zeigt einen Hinweis zur richtigen Antwort',
-      );
-      expect(
-        PowerUpType.extraTime.description,
-        'Fügt 10 Sekunden zur aktuellen Frage hinzu',
-      );
-      expect(
-        PowerUpType.skip.description,
-        'Springt zur nächsten Frage ohne Strafe',
-      );
-      expect(
-        PowerUpType.secondChance.description,
-        'Stellt ein verlorenes Leben wieder her',
+    testWidgets('should have descriptions in German', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: Builder(
+            builder: (context) {
+              expect(
+                PowerUpType.fiftyFifty.description(context),
+                'Entfernt zwei falsche Antworten',
+              );
+              expect(
+                PowerUpType.hint.description(context),
+                'Zeigt einen Hinweis zur richtigen Antwort',
+              );
+              expect(
+                PowerUpType.extraTime.description(context),
+                'Fügt 10 Sekunden zur aktuellen Frage hinzu',
+              );
+              expect(
+                PowerUpType.skip.description(context),
+                'Springt zur nächsten Frage ohne Strafe',
+              );
+              expect(
+                PowerUpType.secondChance.description(context),
+                'Stellt ein verlorenes Leben wieder her',
+              );
+              return Container();
+            },
+          ),
+        ),
       );
     });
 
@@ -69,12 +116,24 @@ void main() {
   });
 
   group('Rank', () {
-    test('should have correct display names in German', () {
-      expect(Rank.chihuahua.displayName, 'Chihuahua');
-      expect(Rank.pug.displayName, 'Mops');
-      expect(Rank.cockerSpaniel.displayName, 'Cocker Spaniel');
-      expect(Rank.germanShepherd.displayName, 'Deutscher Schäferhund');
-      expect(Rank.greatDane.displayName, 'Deutsche Dogge');
+    testWidgets('should have correct display names in German', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: Builder(
+            builder: (context) {
+              expect(Rank.chihuahua.displayName(context), 'Chihuahua');
+              expect(Rank.pug.displayName(context), 'Mops');
+              expect(Rank.cockerSpaniel.displayName(context), 'Cocker Spaniel');
+              expect(
+                Rank.germanShepherd.displayName(context),
+                'Deutscher Schäferhund',
+              );
+              expect(Rank.greatDane.displayName(context), 'Deutsche Dogge');
+              return Container();
+            },
+          ),
+        ),
+      );
     });
 
     test('should have correct required correct answers', () {
@@ -85,26 +144,35 @@ void main() {
       expect(Rank.greatDane.requiredCorrectAnswers, 100);
     });
 
-    test('should have descriptions in German', () {
-      expect(
-        Rank.chihuahua.description,
-        'Kleiner Anfang - Du hast deine ersten 10 Fragen richtig beantwortet!',
-      );
-      expect(
-        Rank.pug.description,
-        'Guter Fortschritt - 25 richtige Antworten erreicht!',
-      );
-      expect(
-        Rank.cockerSpaniel.description,
-        'Halbzeit-Held - 50 richtige Antworten gemeistert!',
-      );
-      expect(
-        Rank.germanShepherd.description,
-        'Treuer Begleiter - 75 richtige Antworten geschafft!',
-      );
-      expect(
-        Rank.greatDane.description,
-        'Großer Meister - 100 richtige Antworten erreicht!',
+    testWidgets('should have descriptions in German', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: Builder(
+            builder: (context) {
+              expect(
+                Rank.chihuahua.description(context),
+                'Kleiner Anfang - Du hast deine ersten 10 Fragen richtig beantwortet!',
+              );
+              expect(
+                Rank.pug.description(context),
+                'Guter Fortschritt - 25 richtige Antworten erreicht!',
+              );
+              expect(
+                Rank.cockerSpaniel.description(context),
+                'Halbzeit-Held - 50 richtige Antworten gemeistert!',
+              );
+              expect(
+                Rank.germanShepherd.description(context),
+                'Treuer Begleiter - 75 richtige Antworten geschafft!',
+              );
+              expect(
+                Rank.greatDane.description(context),
+                'Großer Meister - 100 richtige Antworten erreicht!',
+              );
+              return Container();
+            },
+          ),
+        ),
       );
     });
 
@@ -129,10 +197,19 @@ void main() {
   });
 
   group('GameResult', () {
-    test('should have correct display names in German', () {
-      expect(GameResult.win.displayName, 'Gewonnen');
-      expect(GameResult.lose.displayName, 'Verloren');
-      expect(GameResult.quit.displayName, 'Beendet');
+    testWidgets('should have correct display names in German', (tester) async {
+      await tester.pumpWidget(
+        createTestWidget(
+          child: Builder(
+            builder: (context) {
+              expect(GameResult.win.displayName(context), 'Gewonnen');
+              expect(GameResult.lose.displayName(context), 'Verloren');
+              expect(GameResult.quit.displayName(context), 'Beendet');
+              return Container();
+            },
+          ),
+        ),
+      );
     });
 
     test('should contain all expected values', () {

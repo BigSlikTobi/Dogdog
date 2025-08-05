@@ -6,6 +6,7 @@ import '../models/enums.dart';
 import '../services/progress_service.dart';
 import '../services/audio_service.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../utils/enum_extensions.dart';
 
 /// Screen displaying all achievements and player progress
 class AchievementsScreen extends StatefulWidget {
@@ -129,7 +130,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           onPressed: () async {
             await _audioService.playButtonSound();
             if (mounted) {
-              Navigator.of(context).pop();
+              Navigator.pop(context);
             }
           },
         ),
@@ -165,9 +166,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Please try again later',
-            style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+          Text(
+            AppLocalizations.of(context).achievementsScreen_pleaseRetryLater,
+            style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
           ),
           const SizedBox(height: 24),
           ElevatedButton(
@@ -259,9 +260,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Your Statistics',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context).achievementsScreen_yourStatistics,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -275,7 +276,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             children: [
               Expanded(
                 child: _buildStatCard(
-                  'Correct Answers',
+                  AppLocalizations.of(
+                    context,
+                  ).achievementsScreen_correctAnswers,
                   progress.totalCorrectAnswers.toString(),
                   Icons.check_circle,
                 ),
@@ -283,7 +286,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               const SizedBox(width: 16),
               Expanded(
                 child: _buildStatCard(
-                  'Accuracy',
+                  AppLocalizations.of(context).achievementsScreen_accuracy,
                   '${(progress.accuracy * 100).toStringAsFixed(1)}%',
                   Icons.track_changes,
                 ),
@@ -297,7 +300,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             children: [
               Expanded(
                 child: _buildStatCard(
-                  'Games Played',
+                  AppLocalizations.of(context).achievementsScreen_gamesPlayed,
                   progress.totalGamesPlayed.toString(),
                   Icons.sports_esports,
                 ),
@@ -305,7 +308,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               const SizedBox(width: 16),
               Expanded(
                 child: _buildStatCard(
-                  'Total Score',
+                  AppLocalizations.of(context).achievementsScreen_totalScore,
                   progress.totalScore.toString(),
                   Icons.star,
                 ),
@@ -374,9 +377,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             ),
             child: Column(
               children: [
-                const Text(
-                  'Current Rank',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).achievementsScreen_currentRank,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF1F2937),
@@ -420,7 +423,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 const SizedBox(height: 16),
 
                 Text(
-                  currentRank.displayName,
+                  currentRank.displayName(context),
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -433,7 +436,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 const SizedBox(height: 8),
 
                 Text(
-                  currentRank.description,
+                  currentRank.description(context),
                   style: const TextStyle(
                     fontSize: 14,
                     color: Color(0xFF6B7280),
@@ -453,7 +456,12 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      '${currentRank.requiredCorrectAnswers - progress.totalCorrectAnswers} more correct answers to unlock',
+                      AppLocalizations.of(
+                        context,
+                      ).achievementsScreen_moreAnswersToUnlock(
+                        currentRank.requiredCorrectAnswers -
+                            progress.totalCorrectAnswers,
+                      ),
                       style: const TextStyle(
                         fontSize: 12,
                         color: Color(0xFF92400E),
@@ -494,22 +502,24 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             ),
           ],
         ),
-        child: const Column(
+        child: Column(
           children: [
-            Icon(Icons.emoji_events, size: 48, color: Colors.white),
-            SizedBox(height: 16),
+            const Icon(Icons.emoji_events, size: 48, color: Colors.white),
+            const SizedBox(height: 16),
             Text(
-              'All Ranks Achieved!',
-              style: TextStyle(
+              AppLocalizations.of(context).achievementsScreen_allRanksAchieved,
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
-              'You have unlocked all available ranks. Great job!',
-              style: TextStyle(fontSize: 14, color: Colors.white),
+              AppLocalizations.of(
+                context,
+              ).achievementsScreen_allRanksAchievedDescription,
+              style: const TextStyle(fontSize: 14, color: Colors.white),
               textAlign: TextAlign.center,
             ),
           ],
@@ -549,12 +559,15 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Next Rank',
-                      style: TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
+                    Text(
+                      AppLocalizations.of(context).achievementsScreen_nextRank,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF6B7280),
+                      ),
                     ),
                     Text(
-                      nextRank.displayName,
+                      nextRank.displayName(context),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -601,7 +614,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           const SizedBox(height: 12),
 
           Text(
-            '$remainingAnswers more correct answers to next rank',
+            AppLocalizations.of(
+              context,
+            ).achievementsScreen_moreAnswersToNextRank(remainingAnswers),
             style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
           ),
         ],
@@ -616,9 +631,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'All Achievements',
-          style: TextStyle(
+        Text(
+          AppLocalizations.of(context).achievementsScreen_allAchievements,
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Color(0xFF1F2937),
@@ -708,7 +723,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                     children: [
                       Expanded(
                         child: Text(
-                          achievement.name,
+                          achievement.rank.displayName(context),
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -730,7 +745,11 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                   const SizedBox(height: 4),
 
                   Text(
-                    '${achievement.requiredCorrectAnswers} correct answers',
+                    AppLocalizations.of(
+                      context,
+                    ).achievementsScreen_correctAnswersRequired(
+                      achievement.requiredCorrectAnswers,
+                    ),
                     style: const TextStyle(
                       fontSize: 14,
                       color: Color(0xFF6B7280),
@@ -820,7 +839,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               const SizedBox(height: 16),
 
               Text(
-                achievement.name,
+                achievement.rank.displayName(context),
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -832,7 +851,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               const SizedBox(height: 8),
 
               Text(
-                achievement.description,
+                achievement.rank.description(context),
                 style: const TextStyle(fontSize: 14, color: Color(0xFF6B7280)),
                 textAlign: TextAlign.center,
               ),
@@ -850,9 +869,11 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Required answers:',
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(
+                            context,
+                          ).achievementsScreen_requiredAnswers,
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Color(0xFF6B7280),
                           ),
@@ -873,9 +894,11 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Your answers:',
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(
+                            context,
+                          ).achievementsScreen_yourAnswers,
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Color(0xFF6B7280),
                           ),
@@ -896,9 +919,11 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Unlocked:',
-                            style: TextStyle(
+                          Text(
+                            AppLocalizations.of(
+                              context,
+                            ).achievementsScreen_unlocked,
+                            style: const TextStyle(
                               fontSize: 14,
                               color: Color(0xFF6B7280),
                             ),
