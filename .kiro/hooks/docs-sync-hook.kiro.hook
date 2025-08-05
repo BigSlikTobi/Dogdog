@@ -1,0 +1,20 @@
+{
+  "enabled": true,
+  "name": "Documentation Sync",
+  "description": "Monitors Dart source files and configuration files for changes and automatically updates project documentation",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "dogdog_trivia_game/lib/**/*.dart",
+      "dogdog_trivia_game/pubspec.yaml",
+      "dogdog_trivia_game/analysis_options.yaml",
+      "dogdog_trivia_game/assets/data/*.json",
+      "dog_trivia_game_design.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Source code or configuration files have been modified in the Flutter trivia game project. Please review the changes and update the documentation accordingly. Update the README.md file in dogdog_trivia_game/ to reflect any new features, API changes, or architectural modifications. Ensure the documentation accurately describes the current state of the application including its features, setup instructions, and usage guidelines."
+  }
+}

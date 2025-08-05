@@ -1,0 +1,14 @@
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+output-dir: lib/l10n/generated
+nullable-getter: false
+synthetic-package: false
+header: |
+  /// Generated file. Do not edit.
+  ///
+  /// This file contains the localization delegates and supported locales
+  /// for the DogDog Trivia Game.
+preferred-supported-locales: ["en"]
+supported-locales: ["en", "de", "es"]

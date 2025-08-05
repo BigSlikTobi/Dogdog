@@ -1,0 +1,4 @@
+/// Generated file. Do not edit.
+///
+/// This file contains the localization delegates and supported locales
+/// for the DogDog Trivia Game.

@@ -1,0 +1,543 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2025-02-08T12:00:00.000Z",
+  
+  "appTitle": "DogDog Trivia Game",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+
+  "homeScreen_welcomeTitle": "Welcome to DogDog!",
+  "@homeScreen_welcomeTitle": {
+    "description": "Main welcome title on the home screen"
+  },
+
+  "homeScreen_welcomeSubtitle": "Test your knowledge about dogs in this fun quiz!",
+  "@homeScreen_welcomeSubtitle": {
+    "description": "Welcome subtitle explaining the game"
+  },
+
+  "homeScreen_startButton": "Start Quiz",
+  "@homeScreen_startButton": {
+    "description": "Main button to start the quiz"
+  },
+
+  "homeScreen_achievementsButton": "Achievements",
+  "@homeScreen_achievementsButton": {
+    "description": "Button to view achievements"
+  },
+
+  "homeScreen_infoCard_funQuestions_title": "Fun Questions",
+  "@homeScreen_infoCard_funQuestions_title": {
+    "description": "Title for fun questions info card"
+  },
+
+  "homeScreen_infoCard_funQuestions_description": "Learn about different dog breeds and their characteristics",
+  "@homeScreen_infoCard_funQuestions_description": {
+    "description": "Description for fun questions info card"
+  },
+
+  "homeScreen_infoCard_educational_title": "Educational",
+  "@homeScreen_infoCard_educational_title": {
+    "description": "Title for educational info card"
+  },
+
+  "homeScreen_infoCard_educational_description": "Designed for children to learn while having fun",
+  "@homeScreen_infoCard_educational_description": {
+    "description": "Description for educational info card"
+  },
+
+  "homeScreen_infoCard_progress_title": "Progress Tracking",
+  "@homeScreen_infoCard_progress_title": {
+    "description": "Title for progress tracking info card"
+  },
+
+  "homeScreen_infoCard_progress_description": "Track your progress and unlock achievements",
+  "@homeScreen_infoCard_progress_description": {
+    "description": "Description for progress tracking info card"
+  },
+
+  "homeScreen_progress_title": "Your Progress",
+  "@homeScreen_progress_title": {
+    "description": "Title for progress section"
+  },
+
+  "homeScreen_progress_currentRank": "Current Rank: {rank}",
+  "@homeScreen_progress_currentRank": {
+    "description": "Shows current player rank",
+    "placeholders": {
+      "rank": {
+        "type": "String",
+        "example": "Chihuahua"
+      }
+    }
+  },
+
+  "homeScreen_progress_nextRank": "Next: {rank}",
+  "@homeScreen_progress_nextRank": {
+    "description": "Shows next rank to achieve",
+    "placeholders": {
+      "rank": {
+        "type": "String",
+        "example": "Pug"
+      }
+    }
+  },
+
+  "difficultyScreen_title": "Choose Difficulty",
+  "@difficultyScreen_title": {
+    "description": "Title for difficulty selection screen"
+  },
+
+  "difficultyScreen_headerTitle": "Choose your difficulty level",
+  "@difficultyScreen_headerTitle": {
+    "description": "Header text for difficulty selection"
+  },
+
+  "difficultyScreen_headerSubtitle": "Each difficulty offers different challenges and rewards.",
+  "@difficultyScreen_headerSubtitle": {
+    "description": "Subtitle explaining difficulty differences"
+  },
+
+  "difficultyScreen_selectButton": "Choose this category",
+  "@difficultyScreen_selectButton": {
+    "description": "Button text to select a difficulty"
+  },
+
+  "difficulty_easy": "Easy",
+  "@difficulty_easy": {
+    "description": "Easy difficulty level name"
+  },
+
+  "difficulty_medium": "Medium",
+  "@difficulty_medium": {
+    "description": "Medium difficulty level name"
+  },
+
+  "difficulty_hard": "Hard",
+  "@difficulty_hard": {
+    "description": "Hard difficulty level name"
+  },
+
+  "difficulty_expert": "Expert",
+  "@difficulty_expert": {
+    "description": "Expert difficulty level name"
+  },
+
+  "difficulty_easy_description": "Perfect for beginners",
+  "@difficulty_easy_description": {
+    "description": "Description for easy difficulty"
+  },
+
+  "difficulty_medium_description": "For dog lovers",
+  "@difficulty_medium_description": {
+    "description": "Description for medium difficulty"
+  },
+
+  "difficulty_hard_description": "For dog experts",
+  "@difficulty_hard_description": {
+    "description": "Description for hard difficulty"
+  },
+
+  "difficulty_expert_description": "Only for professionals",
+  "@difficulty_expert_description": {
+    "description": "Description for expert difficulty"
+  },
+
+  "difficulty_points_per_question": "{points} points per question",
+  "@difficulty_points_per_question": {
+    "description": "Points awarded per correct answer",
+    "placeholders": {
+      "points": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
+  "gameScreen_level": "Level {level}",
+  "@gameScreen_level": {
+    "description": "Current level display",
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+
+  "gameScreen_loading": "Loading questions...",
+  "@gameScreen_loading": {
+    "description": "Loading message for game screen"
+  },
+
+  "gameScreen_score": "Score",
+  "@gameScreen_score": {
+    "description": "Score label"
+  },
+
+  "gameScreen_lives": "Lives",
+  "@gameScreen_lives": {
+    "description": "Lives label"
+  },
+
+  "gameScreen_timeRemaining": "Time Remaining",
+  "@gameScreen_timeRemaining": {
+    "description": "Timer label"
+  },
+
+  "gameScreen_questionCounter": "Question {current} of {total}",
+  "@gameScreen_questionCounter": {
+    "description": "Shows current question number out of total",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "5"
+      },
+      "total": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
+  "powerUp_fiftyFifty": "Chew 50/50",
+  "@powerUp_fiftyFifty": {
+    "description": "50/50 power-up name"
+  },
+
+  "powerUp_hint": "Hint",
+  "@powerUp_hint": {
+    "description": "Hint power-up name"
+  },
+
+  "powerUp_extraTime": "Extra Time",
+  "@powerUp_extraTime": {
+    "description": "Extra time power-up name"
+  },
+
+  "powerUp_skip": "Skip",
+  "@powerUp_skip": {
+    "description": "Skip power-up name"
+  },
+
+  "powerUp_secondChance": "Second Chance",
+  "@powerUp_secondChance": {
+    "description": "Second chance power-up name"
+  },
+
+  "powerUp_fiftyFifty_description": "Removes two wrong answers",
+  "@powerUp_fiftyFifty_description": {
+    "description": "50/50 power-up description"
+  },
+
+  "powerUp_hint_description": "Shows a hint for the correct answer",
+  "@powerUp_hint_description": {
+    "description": "Hint power-up description"
+  },
+
+  "powerUp_extraTime_description": "Adds 10 seconds to the current question",
+  "@powerUp_extraTime_description": {
+    "description": "Extra time power-up description"
+  },
+
+  "powerUp_skip_description": "Skips to the next question without penalty",
+  "@powerUp_skip_description": {
+    "description": "Skip power-up description"
+  },
+
+  "powerUp_secondChance_description": "Restores one lost life",
+  "@powerUp_secondChance_description": {
+    "description": "Second chance power-up description"
+  },
+
+  "rank_chihuahua": "Chihuahua",
+  "@rank_chihuahua": {
+    "description": "Chihuahua rank name"
+  },
+
+  "rank_pug": "Pug",
+  "@rank_pug": {
+    "description": "Pug rank name"
+  },
+
+  "rank_cockerSpaniel": "Cocker Spaniel",
+  "@rank_cockerSpaniel": {
+    "description": "Cocker Spaniel rank name"
+  },
+
+  "rank_germanShepherd": "German Shepherd",
+  "@rank_germanShepherd": {
+    "description": "German Shepherd rank name"
+  },
+
+  "rank_greatDane": "Great Dane",
+  "@rank_greatDane": {
+    "description": "Great Dane rank name"
+  },
+
+  "rank_chihuahua_description": "Small beginning - You answered your first 10 questions correctly!",
+  "@rank_chihuahua_description": {
+    "description": "Chihuahua rank description"
+  },
+
+  "rank_pug_description": "Good progress - 25 correct answers reached!",
+  "@rank_pug_description": {
+    "description": "Pug rank description"
+  },
+
+  "rank_cockerSpaniel_description": "Halfway hero - 50 correct answers mastered!",
+  "@rank_cockerSpaniel_description": {
+    "description": "Cocker Spaniel rank description"
+  },
+
+  "rank_germanShepherd_description": "Loyal companion - 75 correct answers achieved!",
+  "@rank_germanShepherd_description": {
+    "description": "German Shepherd rank description"
+  },
+
+  "rank_greatDane_description": "Grand master - 100 correct answers reached!",
+  "@rank_greatDane_description": {
+    "description": "Great Dane rank description"
+  },
+
+  "gameResult_win": "Won",
+  "@gameResult_win": {
+    "description": "Game result: win"
+  },
+
+  "gameResult_lose": "Lost",
+  "@gameResult_lose": {
+    "description": "Game result: lose"
+  },
+
+  "gameResult_quit": "Quit",
+  "@gameResult_quit": {
+    "description": "Game result: quit"
+  },
+
+  "feedback_correct": "Correct!",
+  "@feedback_correct": {
+    "description": "Positive feedback for correct answer"
+  },
+
+  "feedback_incorrect": "Incorrect",
+  "@feedback_incorrect": {
+    "description": "Negative feedback for incorrect answer"
+  },
+
+  "feedback_timeUp": "Time's up!",
+  "@feedback_timeUp": {
+    "description": "Message when time runs out"
+  },
+
+  "common_ok": "OK",
+  "@common_ok": {
+    "description": "OK button text"
+  },
+
+  "common_cancel": "Cancel",
+  "@common_cancel": {
+    "description": "Cancel button text"
+  },
+
+  "common_retry": "Retry",
+  "@common_retry": {
+    "description": "Retry button text"
+  },
+
+  "common_continue": "Continue",
+  "@common_continue": {
+    "description": "Continue button text"
+  },
+
+  "common_back": "Back",
+  "@common_back": {
+    "description": "Back button text"
+  },
+
+  "accessibility_pauseGame": "Pause game",
+  "@accessibility_pauseGame": {
+    "description": "Accessibility label for pause button"
+  },
+
+  "accessibility_goBack": "Go back to home screen",
+  "@accessibility_goBack": {
+    "description": "Accessibility label for back button"
+  },
+
+  "accessibility_appLogo": "DogDog app logo",
+  "@accessibility_appLogo": {
+    "description": "Accessibility label for app logo"
+  },
+
+  "achievementsScreen_title": "Achievements",
+  "@achievementsScreen_title": {
+    "description": "Title for achievements screen"
+  },
+
+  "achievementsScreen_tryAgain": "Try Again",
+  "@achievementsScreen_tryAgain": {
+    "description": "Button text to retry loading achievements"
+  },
+
+  "achievementsScreen_close": "Close",
+  "@achievementsScreen_close": {
+    "description": "Button text to close achievement dialog"
+  },
+
+  "gameOverScreen_title": "Game Over",
+  "@gameOverScreen_title": {
+    "description": "Title for game over screen"
+  },
+
+  "gameOverScreen_finalScore": "Final Score: {score}",
+  "@gameOverScreen_finalScore": {
+    "description": "Shows the final score achieved",
+    "placeholders": {
+      "score": {
+        "type": "int",
+        "example": "1250"
+      }
+    }
+  },
+
+  "gameOverScreen_correctAnswers": "{correct} out of {total} correct",
+  "@gameOverScreen_correctAnswers": {
+    "description": "Shows correct answers out of total",
+    "placeholders": {
+      "correct": {
+        "type": "int",
+        "example": "8"
+      },
+      "total": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
+  "gameOverScreen_playAgain": "Play Again",
+  "@gameOverScreen_playAgain": {
+    "description": "Button to start a new game"
+  },
+
+  "gameOverScreen_backToHome": "Back to Home",
+  "@gameOverScreen_backToHome": {
+    "description": "Button to return to home screen"
+  },
+
+  "resultScreen_funFact": "Fun Fact:",
+  "@resultScreen_funFact": {
+    "description": "Label for fun fact section"
+  },
+
+  "resultScreen_nextQuestion": "Next Question",
+  "@resultScreen_nextQuestion": {
+    "description": "Button to proceed to next question"
+  },
+
+  "resultScreen_viewResults": "View Results",
+  "@resultScreen_viewResults": {
+    "description": "Button to view final results"
+  },
+
+  "errorScreen_title": "Error Recovery",
+  "@errorScreen_title": {
+    "description": "Title for error recovery screen"
+  },
+
+  "errorScreen_servicesRestarted": "Services restarted successfully",
+  "@errorScreen_servicesRestarted": {
+    "description": "Success message for service restart"
+  },
+
+  "errorScreen_restartFailed": "Failed to restart services: {error}",
+  "@errorScreen_restartFailed": {
+    "description": "Error message for failed service restart",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Connection timeout"
+      }
+    }
+  },
+
+  "errorScreen_cacheCleared": "Cache cleared successfully",
+  "@errorScreen_cacheCleared": {
+    "description": "Success message for cache clearing"
+  },
+
+  "errorScreen_cacheClearFailed": "Failed to clear cache: {error}",
+  "@errorScreen_cacheClearFailed": {
+    "description": "Error message for failed cache clearing",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+
+  "errorScreen_resetToDefaults": "Reset to Defaults",
+  "@errorScreen_resetToDefaults": {
+    "description": "Title for reset confirmation dialog"
+  },
+
+  "errorScreen_resetConfirmation": "This will reset all app settings to their default values. Your progress will be preserved. Continue?",
+  "@errorScreen_resetConfirmation": {
+    "description": "Confirmation message for resetting settings"
+  },
+
+  "errorScreen_reset": "Reset",
+  "@errorScreen_reset": {
+    "description": "Button to confirm reset"
+  },
+
+  "errorScreen_settingsReset": "Settings reset to defaults",
+  "@errorScreen_settingsReset": {
+    "description": "Success message for settings reset"
+  },
+
+  "errorScreen_resetFailed": "Failed to reset settings: {error}",
+  "@errorScreen_resetFailed": {
+    "description": "Error message for failed settings reset",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "File access error"
+      }
+    }
+  },
+
+  "errorScreen_loadingError": "Error loading achievements: {error}",
+  "@errorScreen_loadingError": {
+    "description": "Error message for loading failures",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+
+  "powerUp_extraTimeAdded": "Extra time added!",
+  "@powerUp_extraTimeAdded": {
+    "description": "Notification when extra time power-up is used"
+  },
+
+  "powerUp_questionSkipped": "Question skipped!",
+  "@powerUp_questionSkipped": {
+    "description": "Notification when skip power-up is used"
+  },
+
+  "powerUp_lifeRestored": "Life restored!",
+  "@powerUp_lifeRestored": {
+    "description": "Notification when second chance power-up is used"
+  },
+
+  "powerUp_use": "Use",
+  "@powerUp_use": {
+    "description": "Button text to use a power-up"
+  }
+}

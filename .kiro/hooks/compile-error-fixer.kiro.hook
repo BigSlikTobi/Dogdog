@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "Compilation Error Checker",
+  "description": "Monitors Dart source files for changes and automatically checks for compilation errors, then provides fixes for any issues found",
+  "version": "1",
+  "when": {
+    "type": "userTriggered",
+    "patterns": [
+      "dogdog_trivia_game/lib/**/*.dart",
+      "dogdog_trivia_game/test/**/*.dart"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Check the console output for any compilation errors in the Flutter/Dart project. If there are compilation errors, analyze them and provide specific fixes for each error. Include the exact file paths and line numbers where changes need to be made. Focus on syntax errors, import issues, type mismatches, and missing dependencies."
+  }
+}

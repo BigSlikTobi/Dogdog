@@ -1,0 +1,1410 @@
+{
+  "easy": [
+    {
+      "id": "easy_001",
+      "text": "Welche Hunderasse ist bekannt für ihre 'Schmetterlingsohren' (Papillon)?",
+      "answers": ["Papillon", "Cavalier King Charles Spaniel", "Bassett Hound", "Saluki"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Name 'Papillon' ist französisch für 'Schmetterling' und bezieht sich auf die Form der Ohren dieser Rasse, die an die Flügel eines Schmetterlings erinnern.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Der Name der Rasse ist in der Frage versteckt!"
+    },
+    {
+      "id": "easy_002",
+      "text": "Welche Hunderasse wird oft mit Schlittenrennen in Verbindung gebracht?",
+      "answers": ["Beagle", "Greyhound", "Siberian Husky", "Bulldogge"],
+      "correctAnswerIndex": 2,
+      "funFact": "Siberian Huskys wurden vom Volk der Tschuktschen in Nordostsibirien gezüchtet, um leichte Lasten über weite Strecken bei niedrigen Temperaturen zu ziehen.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Denk an kalte Regionen und Schnee!"
+    },
+    {
+      "id": "easy_003",
+      "text": "Welche Hunderasse gilt als eine der schnellsten der Welt und wird oft bei Hunderennen eingesetzt?",
+      "answers": ["Mastiff", "Greyhound", "Bernhardiner", "Neufundländer"],
+      "correctAnswerIndex": 1,
+      "funFact": "Greyhounds können Geschwindigkeiten von bis zu 72 km/h erreichen, was sie zu den schnellsten Hunden der Welt macht. Ihr Körperbau ist perfekt auf Geschwindigkeit ausgelegt.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist für ihre schlanke und athletische Figur bekannt."
+    },
+    {
+      "id": "easy_004",
+      "text": "Welche Hunderasse ist für ihre charakteristischen Punkte bekannt?",
+      "answers": ["Pointer", "Setter", "Dalmatiner", "Harlekinpudel"],
+      "correctAnswerIndex": 2,
+      "funFact": "Dalmatinerwelpen werden rein weiß geboren und entwickeln ihre typischen schwarzen oder leberfarbenen Punkte erst in den ersten Lebenswochen.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Denk an den Hund aus einem berühmten Disney-Film!"
+    },
+    {
+      "id": "easy_005",
+      "text": "Welche kleine Hunderasse, bekannt für ihr langes weißes Fell, stammt ursprünglich aus dem Mittelmeerraum?",
+      "answers": ["West Highland White Terrier", "Malteser", "Samojede", "Bichon Frisé"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Malteser ist eine der ältesten europäischen Hunderassen, deren Geschichte über 2000 Jahre zurückreicht und die schon von den alten Griechen und Römern geschätzt wurde.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Der Name der Rasse erinnert an eine Insel im Mittelmeer."
+    },
+    {
+      "id": "easy_006",
+      "text": "Welche Hunderasse, bekannt für ihre geringe Größe und ihr langes Fell, stammt aus der mexikanischen Provinz gleichen Namens?",
+      "answers": ["Xoloitzcuintli", "Chihuahua", "Havaneser", "Papillon"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Chihuahua gilt als die kleinste Hunderasse der Welt und wurde nach dem mexikanischen Bundesstaat Chihuahua benannt, wo er im 19. Jahrhundert entdeckt wurde.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist die kleinste der Welt."
+    },
+    {
+      "id": "easy_007",
+      "text": "Welche Hunderasse wurde nach einer Stadt in Deutschland benannt, in der Viehmärkte stattfanden?",
+      "answers": ["Leonberger", "Dobermann", "Rottweiler", "Deutsche Dogge"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Rottweiler wurde in der Stadt Rottweil als Treib- und Wachhund für Viehherden und zum Ziehen von Metzgerkarren eingesetzt.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Der Name der Stadt steckt im Namen der Rasse."
+    },
+    {
+      "id": "easy_008",
+      "text": "Welche Hunderasse stammt aus den Schweizer Alpen und hat ein dreifarbiges Fell?",
+      "answers": ["Großer Schweizer Sennenhund", "Appenzeller Sennenhund", "Entlebucher Sennenhund", "Berner Sennenhund"],
+      "correctAnswerIndex": 3,
+      "funFact": "Der Berner Sennenhund war ursprünglich ein Bauernhofhund im Kanton Bern, der zum Viehtreiben, als Wachhund und zum Ziehen von Karren eingesetzt wurde.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist nach einem Schweizer Kanton benannt."
+    },
+    {
+      "id": "easy_009",
+      "text": "Welche Hunderasse hat einen charakteristischen 'Bart' und 'Augenbrauen'?",
+      "answers": ["Zwergschnauzer", "Scottish Terrier", "Airedale Terrier", "West Highland White Terrier"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der markante Bart und die buschigen Augenbrauen sind typische Merkmale aller drei Schnauzer-Varietäten (Zwerg-, Mittel- und Riesenschnauzer).",
+      "difficulty": "easy",
+      "category": "Merkmale",
+      "hint": "Der Name dieser Rasse erinnert an eine Schnauze."
+    },
+    {
+      "id": "easy_010",
+      "text": "Welche Hunderasse diente als Vorbild für die Figur 'Snoopy' aus den Peanuts-Comics?",
+      "answers": ["Fox Terrier", "Jack Russell Terrier", "Beagle", "Basset Hound"],
+      "correctAnswerIndex": 2,
+      "funFact": "Charles M. Schulz, der Schöpfer der Peanuts, basierte die Figur Snoopy lose auf seinem eigenen Kindheitshund namens Spike, der ein Beagle-Mischling war.",
+      "difficulty": "easy",
+      "category": "Popkultur",
+      "hint": "Diese Rasse ist für ihre langen Schlappohren und ihren Jagdinstinkt bekannt."
+    },
+    {
+      "id": "easy_011",
+      "text": "Welche Hunderasse wurde von Mönchen im Hospiz am Grossen St. Bernhard gezüchtet?",
+      "answers": ["Pyrenäenberghund", "Leonberger", "Bernhardiner", "Neufundländer"],
+      "correctAnswerIndex": 2,
+      "funFact": "Die Mönche des Hospizes am Grossen St. Bernhard-Pass setzten diese Hunde ab Mitte des 17. Jahrhunderts zur Rettung von in Not geratenen Reisenden ein.",
+      "difficulty": "easy",
+      "category": "Geschichte",
+      "hint": "Der Name des Ortes ist Teil des Rassenamens."
+    },
+    {
+      "id": "easy_012",
+      "text": "Welche Hunderasse stammt aus Irland und ist bekannt für ihr rotes, mahagonifarbenes Fell?",
+      "answers": ["Irish Terrier", "Irish Wolfhound", "Irish Setter", "Redbone Coonhound"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Irish Setter ist bekannt für sein elegantes Aussehen und sein glänzendes, kastanien- oder mahagonifarbenes Fell, das ihn zu einem auffälligen Jagd- und Begleithund macht.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Jagdhundrasse verrät ihre Herkunft."
+    },
+    {
+      "id": "easy_013",
+      "text": "Welche Hunderasse ist ein kleiner, langrückiger Hund, der ursprünglich zur Dachsjagd gezüchtet wurde?",
+      "answers": ["Basset Hound", "Corgi", "Dackel (Teckel)", "Skye Terrier"],
+      "correctAnswerIndex": 2,
+      "funFact": "Die charakteristische Körperform des Dackels mit kurzen Beinen und langem Rücken ermöglichte es ihm, in Dachs- und Fuchsbauten einzudringen.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse wird oft liebevoll 'Wursthund' genannt."
+    },
+    {
+      "id": "easy_014",
+      "text": "Welche Hunderasse hat einen Namen, der 'kleiner Löwe' auf Deutsch bedeutet?",
+      "answers": ["Shih Tzu", "Lhasa Apso", "Löwchen", "Pekingese"],
+      "correctAnswerIndex": 2,
+      "funFact": "Das Löwchen wurde traditionell geschoren wie ein Löwe, mit einer Mähne um Kopf und Brust und kahlem Hinterteil, was zu seinem Namen beitrug.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Die Antwort ist eine direkte Übersetzung."
+    },
+    {
+      "id": "easy_015",
+      "text": "Welche Hunderasse ist bekannt für ihre Fähigkeit, bei der Brandbekämpfung zu helfen?",
+      "answers": ["Dalmatiner", "Neufundländer", "Bernhardiner", "Rottweiler"],
+      "correctAnswerIndex": 0,
+      "funFact": "Früher liefen Dalmatiner bei den Feuerwehrwagen (die von Pferden gezogen wurden) mit, um den Weg freizumachen, die Pferde zu beruhigen und die Ausrüstung zu bewachen. Ihre Punkte machten sie gut sichtbar.",
+      "difficulty": "easy",
+      "category": "Geschichte",
+      "hint": "Diese gepunktete Rasse ist ein Maskottchen der Feuerwehr."
+    },
+    {
+      "id": "easy_016",
+      "text": "Welche Hunderasse ist ein kleiner, robuster Terrier aus Schottland mit einem dichten, rauen Fell und kurzen Beinen?",
+      "answers": ["West Highland White Terrier", "Scottish Terrier", "Cairn Terrier", "Skye Terrier"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Scottish Terrier, oft 'Scottie' genannt, wurde gezüchtet, um Füchse, Dachse und andere Schädlinge in den schottischen Highlands zu jagen.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Der Name verrät die Herkunft dieser Rasse."
+    },
+    {
+      "id": "easy_017",
+      "text": "Welche Hunderasse ist bekannt für ihre extrem kurzen Beine und langen Ohren, die beim Spurenlesen helfen?",
+      "answers": ["Dackel", "Beagle", "Basset Hound", "Bloodhound"],
+      "correctAnswerIndex": 2,
+      "funFact": "Die langen Ohren des Basset Hounds fegen den Boden und helfen dabei, Gerüche aufzuwirbeln und in Richtung der Nase zu leiten, während die kurzen Beine ihn nahe am Boden halten, wo die Spuren sind.",
+      "difficulty": "easy",
+      "category": "Merkmale",
+      "hint": "Diese Rasse hat einen besonders traurigen Gesichtsausdruck."
+    },
+    {
+      "id": "easy_018",
+      "text": "Welche kleine Rasse, oft als 'Der American Gentleman' bezeichnet, ist ein amerikanischer Begleithund?",
+      "answers": ["Boston Terrier", "French Bulldog", "Chihuahua", "Miniature Schnauzer"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Boston Terrier war eine der ersten Rassen, die in den USA entwickelt wurde, und sein gepflegtes Aussehen und freundliches Wesen brachten ihm seinen berühmten Spitznamen ein.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse enthält eine amerikanische Stadt."
+    },
+    {
+      "id": "easy_019",
+      "text": "Welche Hunderasse ist ein großer, irischer Jagdhund, bekannt für seine enorme Größe?",
+      "answers": ["Irish Setter", "Irish Terrier", "Irish Wolfhound", "Great Dane"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Irish Wolfhound ist die größte Hunderasse der Welt, gemessen an der durchschnittlichen Größe. Er wurde zur Jagd auf Wölfe und Elche eingesetzt.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse deutet auf seine ursprüngliche Beute hin."
+    },
+    {
+      "id": "easy_020",
+      "text": "Welche Hunderasse ist bekannt für ihre schwarze Zunge, stammt aus dem Norden Chinas?",
+      "answers": ["Shar Pei", "Chow Chow", "Pekingese", "Shih Tzu"],
+      "correctAnswerIndex": 1,
+      "funFact": "Die bläulich-schwarze Zunge des Chow Chow ist einzigartig und unterscheidet ihn von fast allen anderen Hunderassen.",
+      "difficulty": "easy",
+      "category": "Merkmale",
+      "hint": "Diese flauschige Rasse sieht fast wie ein Löwe aus."
+    },
+    {
+      "id": "easy_021",
+      "text": "Welche Hunderasse stammt aus den USA und ist eine Hybridrasse aus Pudel und Labrador Retriever?",
+      "answers": ["Labradoodle", "Goldendoodle", "Schnoodle", "Cockapoo"],
+      "correctAnswerIndex": 0,
+      "funFact": "Labradoodles wurden ursprünglich in Australien gezüchtet, um hypoallergene Blindenführhunde zu schaffen.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Der Name ist eine Kombination aus den beiden Elternrassen."
+    },
+    {
+      "id": "easy_022",
+      "text": "Welche Hunderasse ist bekannt für ihre Fähigkeit, Lawinenopfer durch ihren Geruchssinn zu finden?",
+      "answers": ["Bernhardiner", "Siberian Husky", "Border Collie", "Labrador Retriever"],
+      "correctAnswerIndex": 0,
+      "funFact": "Barry, ein berühmter Bernhardiner aus dem Hospiz am Grossen St. Bernhard, soll im frühen 19. Jahrhundert über 40 Menschen gerettet haben.",
+      "difficulty": "easy",
+      "category": "Verwendung",
+      "hint": "Diese Rasse wird oft mit einem Fässchen am Halsband dargestellt."
+    },
+    {
+      "id": "easy_023",
+      "text": "Welche Hunderasse stammt aus den USA und ist eine Hybridrasse aus Pudel und Golden Retriever?",
+      "answers": ["Labradoodle", "Goldendoodle", "Cockapoo", "Schnoodle"],
+      "correctAnswerIndex": 1,
+      "funFact": "Goldendoodles sind für ihr freundliches, verspieltes Wesen bekannt und werden oft als Therapie- oder Familienhunde eingesetzt.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Der Name kombiniert 'Golden' mit einer anderen Rasse."
+    },
+    {
+      "id": "easy_024",
+      "text": "Welche Hunderasse stammt aus dem Tibet und ist bekannt für ihr flaches Gesicht und langes Fell, das oft das Gesicht verdeckt?",
+      "answers": ["Lhasa Apso", "Shih Tzu", "Tibetan Terrier", "Pekingese"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Shih Tzu bedeutet 'Löwenhund' und wurde am chinesischen Kaiserhof gezüchtet. Sein langes Fell benötigte intensive Pflege durch Diener.",
+      "difficulty": "easy",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse wird oft 'Chrysanthemen-Hund' genannt."
+    },
+    {
+      "id": "easy_025",
+      "text": "Welche Hunderasse stammt aus den USA und ist bekannt für ihre Eignung als Blindenführhund?",
+      "answers": ["Deutscher Schäferhund", "Golden Retriever", "Labrador Retriever", "Malinois"],
+      "correctAnswerIndex": 2,
+      "funFact": "Labrador Retriever sind aufgrund ihrer Intelligenz, ihres freundlichen Wesens, ihrer Lernbereitschaft und ihrer Führigkeit eine der am häufigsten eingesetzten Rassen für Blindenführhunde.",
+      "difficulty": "easy",
+      "category": "Verwendung",
+      "hint": "Diese Rasse ist eine der beliebtesten Familienhunde weltweit."
+    },
+    {
+      "id": "easy_026",
+      "text": "Welche Hunderasse ist ein großer, kräftiger Hund aus Deutschland, der als 'Metzgerhund' bekannt ist?",
+      "answers": ["Deutsche Dogge", "Rottweiler", "Leonberger", "Boxer"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Rottweiler wurde in der Stadt Rottweil von Metzgern zum Treiben von Vieh und zum Schutz ihres Fleisches und Geldes auf dem Weg zu den Märkten eingesetzt.",
+      "difficulty": "easy",
+      "category": "Geschichte",
+      "hint": "Der Name dieser Rasse leitet sich von einer deutschen Stadt ab."
+    }
+  ],
+  "medium": [
+    {
+      "id": "medium_001",
+      "text": "Welche Hunderasse ist für ihre charakteristischen Falten bekannt?",
+      "answers": ["Dalmatiner", "Shar Pei", "Windhund", "Siberian Husky"],
+      "correctAnswerIndex": 1,
+      "funFact": "Die tiefen Falten des Shar Pei dienten ursprünglich dazu, ihn bei Kämpfen weniger verletzlich zu machen, da ein Angreifer nur Haut statt Muskeln zu fassen bekam.",
+      "difficulty": "medium",
+      "category": "Merkmale",
+      "hint": "Diese chinesische Rasse hat eine sehr faltige Haut."
+    },
+    {
+      "id": "medium_002",
+      "text": "Welche Hunderasse stammt ursprünglich aus Tibet und diente als Wachhund in Klöstern?",
+      "answers": ["Lhasa Apso", "Bichon Frisé", "Australian Shepherd", "Corgi"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Name 'Lhasa Apso' bedeutet übersetzt etwa 'bellender Löwenhund aus Lhasa', was auf seine Wachsamkeit und sein löwenähnliches Aussehen hinweist.",
+      "difficulty": "medium",
+      "category": "Geschichte",
+      "hint": "Der Name der Hauptstadt Tibets steckt im Namen dieser Rasse."
+    },
+    {
+      "id": "medium_003",
+      "text": "Welche Hunderasse ist bekannt für ihre blaue Zunge?",
+      "answers": ["Chow Chow", "Weimaraner", "Akita Inu", "Irish Setter"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Chow Chow ist eine der wenigen Hunderassen mit einer charakteristischen bläulich-schwarzen Zunge. Der genaue Grund dafür ist genetisch bedingt, aber nicht vollständig geklärt.",
+      "difficulty": "medium",
+      "category": "Merkmale",
+      "hint": "Diese Rasse aus China hat auch ein sehr dichtes, löwenartiges Fell."
+    },
+    {
+      "id": "medium_004",
+      "text": "Welche Hunderasse wurde ursprünglich in Deutschland zur Bekämpfung von Nagetieren in Ställen gezüchtet?",
+      "answers": ["Zwergschnauzer", "Französische Bulldogge", "Shih Tzu", "Pekingese"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Zwergschnauzer ist eine verkleinerte Version des Standardschnauzers und wurde gezüchtet, um Ratten und Mäuse auf Bauernhöfen zu jagen, war aber auch ein guter Wachhund.",
+      "difficulty": "medium",
+      "category": "Verwendung",
+      "hint": "Diese Rasse ist bekannt für ihren charakteristischen Bart."
+    },
+    {
+      "id": "medium_005",
+      "text": "Welche Hunderasse wird oft als 'sanfter Riese' bezeichnet und stammt ursprünglich aus Deutschland?",
+      "answers": ["Deutsche Dogge", "Dobermann", "Rottweiler", "Zwergspitz"],
+      "correctAnswerIndex": 0,
+      "funFact": "Trotz ihrer imposanten Größe sind Deutsche Doggen für ihr freundliches und sanftes Wesen bekannt, was ihnen den Spitznamen 'sanfter Riese' eingebracht hat.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist eine der größten der Welt."
+    },
+    {
+      "id": "medium_006",
+      "text": "Welche Hunderasse ist bekannt für ihre 'Fledermausohren'?",
+      "answers": ["Chihuahua", "Mops", "Französische Bulldogge", "Boston Terrier"],
+      "correctAnswerIndex": 2,
+      "funFact": "Die charakteristischen, aufrecht stehenden 'Fledermausohren' sind ein Markenzeichen der Französischen Bulldogge und tragen zu ihrem einzigartigen Aussehen bei.",
+      "difficulty": "medium",
+      "category": "Merkmale",
+      "hint": "Diese kleine, kompakte Rasse ist sehr beliebt in Städten."
+    },
+    {
+      "id": "medium_007",
+      "text": "Welche Hunderasse, bekannt für ihr lockiges Fell, gilt als Nationalhund Frankreichs?",
+      "answers": ["Barbet", "Bichon Frisé", "Pudel", "Briard"],
+      "correctAnswerIndex": 2,
+      "funFact": "Obwohl der Pudel oft mit Frankreich assoziiert wird und dort sehr beliebt ist, stammt er ursprünglich aus Deutschland, wo er als Wasserjagdhund eingesetzt wurde.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist bekannt für ihre Intelligenz und ihr oft kunstvoll geschorenes Fell."
+    },
+    {
+      "id": "medium_008",
+      "text": "Welche japanische Hunderasse ist für ihre Treue bekannt, symbolisiert durch die Geschichte von Hachiko?",
+      "answers": ["Shiba Inu", "Akita Inu", "Tosa Inu", "Hokkaido"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Akita Inu Hachiko wartete nach dem Tod seines Herrchens fast 10 Jahre lang täglich am Bahnhof auf dessen Rückkehr und wurde so zum Symbol für Loyalität in Japan.",
+      "difficulty": "medium",
+      "category": "Geschichte",
+      "hint": "Diese große und kräftige Rasse stammt aus dem Norden Japans."
+    },
+    {
+      "id": "medium_009",
+      "text": "Welche kleine Terrier-Rasse stammt von der Isle of Skye in Schottland?",
+      "answers": ["West Highland White Terrier", "Scottish Terrier", "Cairn Terrier", "Skye Terrier"],
+      "correctAnswerIndex": 3,
+      "funFact": "Der Skye Terrier ist bekannt für sein langes, gerades Fell, das ihm bis auf den Boden reicht, und seine charakteristischen Steh- oder Hängeohren.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name der Insel ist im Rassennamen enthalten."
+    },
+    {
+      "id": "medium_010",
+      "text": "Welche Hunderasse hat einen charakteristischen 'Ridge' (Haarkamm) auf dem Rücken?",
+      "answers": ["Rhodesian Ridgeback", "Thai Ridgeback", "Weimaraner", "Vizsla"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der 'Ridge' beim Rhodesian Ridgeback ist ein Streifen Fell, der entgegen der normalen Haarwuchsrichtung wächst und als Rassemerkmal gilt.",
+      "difficulty": "medium",
+      "category": "Merkmale",
+      "hint": "Der Name dieser afrikanischen Rasse verrät das Merkmal."
+    },
+    {
+      "id": "medium_011",
+      "text": "Welche Hunderasse, bekannt für ihr weißes, dichtes Fell, stammt aus Sibirien und lächelt oft?",
+      "answers": ["Siberian Husky", "Alaskan Malamute", "Samojede", "Chow Chow"],
+      "correctAnswerIndex": 2,
+      "funFact": "Das 'Samojedenlächeln' entsteht durch die Kombination der Augenform und der leicht nach oben gezogenen Lefzenwinkel, was der Rasse einen fröhlichen Ausdruck verleiht.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse sieht aus wie ein flauschiger, weißer Eisbär."
+    },
+    {
+      "id": "medium_012",
+      "text": "Welche Hunderasse wurde nach einem deutschen Steuerbeamten benannt, der sie züchtete?",
+      "answers": ["Rottweiler", "Dobermann", "Leonberger", "Hovawart"],
+      "correctAnswerIndex": 1,
+      "funFact": "Louis Dobermann züchtete im späten 19. Jahrhundert in Apolda (Thüringen) einen wachsamen und mutigen Hund, der ihn bei seiner Arbeit schützen sollte.",
+      "difficulty": "medium",
+      "category": "Geschichte",
+      "hint": "Diese elegante und athletische Rasse wird oft als Wachhund eingesetzt."
+    },
+    {
+      "id": "medium_013",
+      "text": "Welche englische Bulldoggen-Variante ist deutlich größer und athletischer als die Englische Bulldogge?",
+      "answers": ["Französische Bulldogge", "American Bulldog", "Olde English Bulldogge", "Continental Bulldog"],
+      "correctAnswerIndex": 1,
+      "funFact": "Die American Bulldog wurde von Einwanderern in die USA gebracht und dort weiter als Arbeitshund auf Farmen eingesetzt, was zu ihrer größeren und sportlicheren Statur führte.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Variante deutet auf ihre Herkunft auf einem anderen Kontinent hin."
+    },
+    {
+      "id": "medium_014",
+      "text": "Welche Hunderasse, oft als 'kleiner Löwe' bezeichnet, war ein Favorit am chinesischen Kaiserhof?",
+      "answers": ["Mops", "Shih Tzu", "Pekingese", "Chow Chow"],
+      "correctAnswerIndex": 1,
+      "funFact": "Shih Tzu bedeutet 'Löwenhund' auf Chinesisch. Diese Rasse wurde über Jahrhunderte im chinesischen Kaiserpalast gezüchtet und hoch geschätzt.",
+      "difficulty": "medium",
+      "category": "Geschichte",
+      "hint": "Diese Rasse ist bekannt für ihr langes, seidiges Fell, das oft hochgebunden wird."
+    },
+    {
+      "id": "medium_015",
+      "text": "Welche Hunderasse ist bekannt für ihre charakteristische 'römische Nase' (gewölbter Nasenrücken)?",
+      "answers": ["Bullterrier", "Borzoi", "Afghanischer Windhund", "Saluki"],
+      "correctAnswerIndex": 0,
+      "funFact": "Das einzigartige, eiförmige Kopfprofil ohne Stop und mit dem gewölbten Nasenrücken ist das Markenzeichen des Bullterriers.",
+      "difficulty": "medium",
+      "category": "Merkmale",
+      "hint": "Diese Rasse hat einen eiförmigen Kopf."
+    },
+    {
+      "id": "medium_016",
+      "text": "Welche irische Terrierrasse ist bekannt für ihr weiches, weizenfarbenes Fell?",
+      "answers": ["Irish Terrier", "Kerry Blue Terrier", "Soft Coated Wheaten Terrier", "Glen of Imaal Terrier"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Soft Coated Wheaten Terrier war ursprünglich ein vielseitiger Bauernhofhund in Irland, der zum Hüten, Jagen und Bewachen eingesetzt wurde.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse beschreibt die Farbe und Textur ihres Fells."
+    },
+    {
+      "id": "medium_017",
+      "text": "Welche Hunderasse wurde in Deutschland gezüchtet, um den Löwen im Wappen der Stadt Leonberg darzustellen?",
+      "answers": ["Neufundländer", "Leonberger", "Hovawart", "Großer Schweizer Sennenhund"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Leonberger wurde Mitte des 19. Jahrhunderts von Heinrich Essig in Leonberg durch Kreuzung von Bernhardiner, Neufundländer und Pyrenäenberghund gezüchtet.",
+      "difficulty": "medium",
+      "category": "Geschichte",
+      "hint": "Der Name der Stadt ist im Rassennamen enthalten."
+    },
+    {
+      "id": "medium_018",
+      "text": "Welche Hunderasse ist bekannt für ihre 'blaue Merle'-Färbung und oft blaue Augen?",
+      "answers": ["Border Collie", "Australian Shepherd", "Shetland Sheepdog", "Collie"],
+      "correctAnswerIndex": 1,
+      "funFact": "Die Blue Merle-Färbung des Australian Shepherd ist ein genetisches Muster, das zu Flecken in verschiedenen Grau-, Schwarz- und Blautönen führt. Blaue Augen sind bei Merle-Hunden ebenfalls häufig.",
+      "difficulty": "medium",
+      "category": "Merkmale",
+      "hint": "Trotz ihres Namens stammt diese Hütehundrasse aus den USA."
+    },
+    {
+      "id": "medium_019",
+      "text": "Welche italienische Rasse ist bekannt für ihren imposanten Körperbau und wurde als Wach- und Schutzhund eingesetzt?",
+      "answers": ["Mastino Napoletano", "Cane Corso Italiano", "Bernhardiner", "Rottweiler"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Cane Corso ist ein Nachkomme des alten römischen Molossers und wurde auf italienischen Bauernhöfen als Wachhund, Viehtreiber und Jäger eingesetzt.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist ein athletischer Molosser aus Italien."
+    },
+    {
+      "id": "medium_020",
+      "text": "Welche Hunderasse wird oft als 'flauschiger Eisbär' beschrieben und stammt aus der Arktis?",
+      "answers": ["Samojede", "Siberian Husky", "Alaskan Malamute", "Chow Chow"],
+      "correctAnswerIndex": 0,
+      "funFact": "Das dichte, weiße Fell des Samojeden schützt ihn vor extremen Minustemperaturen. Die Rute wird oft über den Rücken gerollt getragen, was ihm zusätzlich Wärme spendet.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist bekannt für ihr ständiges 'Lächeln'."
+    },
+    {
+      "id": "medium_021",
+      "text": "Welche Hunderasse ist bekannt für ihre extreme Geschwindigkeit auf kurzen Distanzen und ihr 'Doppel-Galopp'?",
+      "answers": ["Saluki", "Whippet", "Greyhound", "Irish Wolfhound"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Whippet, oft als 'Arme-Leute-Greyhound' bezeichnet, ist extrem wendig und kann aus dem Stand heraus explosionsartig beschleunigen.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese kleine Windhundrasse ist eine kleinere Version des Greyhounds."
+    },
+    {
+      "id": "medium_022",
+      "text": "Welche Hunderasse stammt aus Italien und ist ein Wasserhund mit lockigem oder zotteligem Fell?",
+      "answers": ["Portugiesischer Wasserhund", "Lagotto Romagnolo", "Irish Water Spaniel", "Barbet"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Lagotto Romagnolo, ursprünglich ein Wasserhund, wurde später auf seine Fähigkeit zur Trüffelsuche spezialisiert.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist der 'Trüffelhund' Italiens."
+    },
+    {
+      "id": "medium_023",
+      "text": "Welche Hunderasse ist ein vielseitiger Jagdgebrauchshund aus Deutschland mit rauhem, drahtigem Fell?",
+      "answers": ["Deutsch Kurzhaar", "Weimaraner", "Deutsch Drahthaar", "Pudelpointer"],
+      "correctAnswerIndex": 2,
+      "funFact": "Das drahtige Fell des Deutsch Drahthaar bietet hervorragenden Schutz vor Dornen, Gestrüpp und kaltem Wasser bei der Jagd.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name beschreibt das Fell dieser Rasse."
+    },
+    {
+      "id": "medium_024",
+      "text": "Welche Hunderasse ist bekannt für ihre extreme Ausdauer und Fähigkeit, lange Strecken im Trab zurückzulegen?",
+      "answers": ["Greyhound", "Alaskan Malamute", "Siberian Husky", "Dalmatiner"],
+      "correctAnswerIndex": 3,
+      "funFact": "Dalmatiner wurden früher als Kutschenbegleithunde eingesetzt, die über lange Distanzen neben oder vor den Kutschen herliefen, um sie zu schützen und den Weg freizumachen.",
+      "difficulty": "medium",
+      "category": "Merkmale",
+      "hint": "Diese gepunktete Rasse war ein Begleiter von Pferdekutschen."
+    },
+    {
+      "id": "medium_025",
+      "text": "Welche Hunderasse ist bekannt für ihre Fähigkeit, Fische von der Wasseroberfläche zu 'fangen' und den Fischern zuzutreiben?",
+      "answers": ["Neufundländer", "Portugiesischer Wasserhund", "Spanischer Wasserhund", "Labrador Retriever"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Portugiesische Wasserhund wurde nicht nur zum Einholen von Netzen, sondern auch aktiv bei der Fischjagd eingesetzt, indem er Fische ins Netz trieb oder geflohene Fische aus dem Wasser holte.",
+      "difficulty": "medium",
+      "category": "Verwendung",
+      "hint": "Der Hund der Obama-Familie, Bo, gehörte zu dieser Rasse."
+    },
+    {
+      "id": "medium_026",
+      "text": "Welche Hunderasse ist bekannt für ihre 'Katzenpfoten' (kompakt und rund)?",
+      "answers": ["Dobermann", "Deutsche Dogge", "Akita Inu", "Greyhound"],
+      "correctAnswerIndex": 0,
+      "funFact": "Die kompakten 'Katzenpfoten' des Dobermanns tragen zu seiner Agilität und seinem eleganten, federnden Gang bei.",
+      "difficulty": "medium",
+      "category": "Merkmale",
+      "hint": "Diese elegante deutsche Wachhundrasse hat einen sehr athletischen Körperbau."
+    },
+    {
+      "id": "medium_027",
+      "text": "Welche japanische Hunderasse wurde für den Kampf gezüchtet und ist sehr kräftig?",
+      "answers": ["Akita Inu", "Shiba Inu", "Tosa Inu", "Hokkaido"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Tosa Inu, auch Japanischer Mastiff genannt, wurde durch Kreuzung einheimischer japanischer Hunde mit westlichen Rassen wie Mastiffs und Bulldoggen für Hundekämpfe gezüchtet.",
+      "difficulty": "medium",
+      "category": "Geschichte",
+      "hint": "Diese Rasse wird auch 'Japanischer Mastiff' genannt."
+    },
+    {
+      "id": "medium_028",
+      "text": "Welche Hunderasse wurde nach dem Tal des Flusses Aire in England benannt?",
+      "answers": ["Airedale Terrier", "Lakeland Terrier", "Border Terrier", "Bedlington Terrier"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Airedale Terrier entstand im Aire Valley in Yorkshire durch Kreuzung von Otterhunden und verschiedenen Terrierrassen.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name des Tals ist im Rassennamen enthalten."
+    },
+    {
+      "id": "medium_029",
+      "text": "Welche Hunderasse ist ein ungarischer Hütehund mit zotteligem, schnürenartigem Fell?",
+      "answers": ["Komondor", "Puli", "Mudi", "Pumi"],
+      "correctAnswerIndex": 1,
+      "funFact": "Das charakteristische Schnürenfell des Puli bietet Schutz vor rauem Wetter und Raubtierbissen. Es bildet sich natürlich, wenn das weiche Unterfell und das gröbere Deckhaar verfilzen.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse sieht aus wie ein Wischmopp auf vier Beinen."
+    },
+    {
+      "id": "medium_030",
+      "text": "Welche Hunderasse ist bekannt für ihr 'Adel' und ihre Eleganz, oft als 'König der Terrier' bezeichnet?",
+      "answers": ["Fox Terrier", "Welsh Terrier", "Airedale Terrier", "Irish Terrier"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Airedale Terrier ist die größte Terrierrasse und wurde im Aire Valley in Yorkshire, England, gezüchtet. Er ist vielseitig und wurde u.a. als Polizei- und Militärhund eingesetzt.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist der größte aller Terrier."
+    },
+    {
+      "id": "medium_031",
+      "text": "Welche Hunderasse hat einen sehr ausgeprägten Geruchssinn und wird oft zur Personensuche eingesetzt?",
+      "answers": ["Beagle", "Basset Hound", "Bloodhound (Bluthund)", "Deutscher Schäferhund"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Geruchssinn des Bloodhounds ist legendär. Er kann Geruchsspuren über Tage und viele Kilometer verfolgen, weshalb seine Spurensuche oft als Beweismittel vor Gericht zugelassen wird.",
+      "difficulty": "medium",
+      "category": "Verwendung",
+      "hint": "Der Name dieser Rasse deutet auf ihre Fähigkeit hin, einer 'Blutspur' zu folgen."
+    },
+    {
+      "id": "medium_032",
+      "text": "Welche Hunderasse ist ein großer, kräftiger Hund, der durch Kreuzung von Mastiff und Bulldogge entstand?",
+      "answers": ["Dogue de Bordeaux", "Bullmastiff", "Cane Corso", "Tosa Inu"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Bullmastiff wurde im 19. Jahrhundert in England gezüchtet, um Wildhütern ('Gamekeepers') zu helfen, Wilderer aufzuspüren und festzuhalten, ohne sie ernsthaft zu verletzen.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name ist eine Kombination der beiden Elternrassen."
+    },
+    {
+      "id": "medium_033",
+      "text": "Welche Hunderasse ist bekannt für ihre Fähigkeit, rückwärts zu niesen' (Reverse Sneezing)?",
+      "answers": ["Mops", "Beagle", "Labrador Retriever", "Deutscher Schäferhund"],
+      "correctAnswerIndex": 0,
+      "funFact": "Rückwärtsniesen ist bei kurznasigen (brachycephalen) Rassen wie dem Mops häufiger. Es klingt oft beängstigend, ist aber meist harmlos und wird durch eine Reizung im Rachenraum ausgelöst.",
+      "difficulty": "medium",
+      "category": "Physiologie",
+      "hint": "Diese Rasse ist bekannt für ihr faltiges Gesicht und ihre Kulleraugen."
+    },
+    {
+      "id": "medium_034",
+      "text": "Welche Hunderasse ist ein kleiner, langhaariger Hund, der nach der Hauptstadt Tibets benannt ist?",
+      "answers": ["Shih Tzu", "Tibetan Spaniel", "Lhasa Apso", "Tibetan Terrier"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Lhasa Apso wurde in den Klöstern Tibets als Wachhund gehalten und galt als heilig. Sein dichtes Fell schützte ihn vor dem rauen Klima.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name der Hauptstadt ist Teil des Rassenamens."
+    },
+    {
+      "id": "medium_035",
+      "text": "Welche Hunderasse ist ein mittelgroßer Hund aus Wales mit fuchsähnlichem Kopf und langer Rute?",
+      "answers": ["Pembroke Welsh Corgi", "Welsh Springer Spaniel", "Cardigan Welsh Corgi", "Welsh Terrier"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Cardigan Welsh Corgi ist die ältere der beiden Corgi-Rassen und unterscheidet sich vom Pembroke hauptsächlich durch seine längere, fuchsähnliche Rute und die abgerundeten Ohren.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Corgi-Variante ist nach einer walisischen Grafschaft benannt."
+    },
+    {
+      "id": "medium_036",
+      "text": "Welche Hunderasse ist ein kleiner, weißer Hund mit 'Puderquasten'-Fell?",
+      "answers": ["Malteser", "Bologneser", "Bichon Frisé", "Coton de Tuléar"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Name 'Bichon Frisé' bedeutet auf Französisch 'lockiger Schoßhund'. Sein Markenzeichen ist das spirallockige, weiße Fell, das oft wie eine Puderquaste aussieht.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse ist französisch für 'lockiger Schoßhund'."
+    },
+    {
+      "id": "medium_037",
+      "text": "Welche Hunderasse ist ein großer, ungarischer Herdenschutzhund mit langem, weißem Fell?",
+      "answers": ["Komondor", "Kuvasz", "Puli", "Mudi"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Kuvasz war früher ein Hund des ungarischen Adels, der nicht nur Herden schützte, sondern auch Häuser und Familien bewachte.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse hat ein glattes, weißes Fell, im Gegensatz zum schnürenartigen Fell anderer ungarischer Hütehunde."
+    },
+    {
+      "id": "medium_038",
+      "text": "Welche Hunderasse ist ein kleiner, robuster Terrier aus Wales, der oft für die Jagd auf Füchse und Dachse eingesetzt wird?",
+      "answers": ["Airedale Terrier", "Welsh Terrier", "Irish Terrier", "Scottish Terrier"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Welsh Terrier ähnelt in Aussehen und Charakter dem Airedale Terrier, ist aber deutlich kleiner. Er ist bekannt für sein ausgeglichenes, aber lebhaftes Wesen.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse verrät ihre Herkunft."
+    },
+    {
+      "id": "medium_039",
+      "text": "Welche Hunderasse ist ein großer, sanfter Hund aus Kanada, der für seine Wasserrettungsfähigkeiten bekannt ist?",
+      "answers": ["Labrador Retriever", "Golden Retriever", "Neufundländer", "Leonberger"],
+      "correctAnswerIndex": 2,
+      "funFact": "Neufundländer haben eine natürliche Neigung zur Wasserrettung, unterstützt durch ihr wasserabweisendes Fell, Schwimmhäute und ihre große Kraft.",
+      "difficulty": "medium",
+      "category": "Verwendung",
+      "hint": "Diese Rasse ist nach einer kanadischen Provinz benannt."
+    },
+    {
+      "id": "medium_040",
+      "text": "Welche Hunderasse ist ein kleiner, deutscher Terrier mit kurzem Fell, oft als 'Rattler' bezeichnet?",
+      "answers": ["Zwergschnauzer", "Deutscher Jagdterrier", "Zwergpinscher", "Affenpinscher"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Zwergpinscher ('Miniature Pinscher') wurde in Deutschland als Stallhund gezüchtet, um Ratten und Mäuse zu jagen. Sein Name 'Rattler' bezieht sich auf diese Fähigkeit.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse sieht aus wie eine Miniaturversion des Dobermanns."
+    },
+    {
+      "id": "medium_041",
+      "text": "Welche Hunderasse ist ein großer, weißer Herdenschutzhund aus den Pyrenäen und wurde zum Schutz von Herden eingesetzt?",
+      "answers": ["Kuvasz", "Maremmen-Abruzzen-Schäferhund", "Pyrenäenberghund", "Akbash"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Pyrenäenberghund (auch 'Patou' genannt) wurde über Jahrhunderte in den Pyrenäen zwischen Frankreich und Spanien eingesetzt, um Schafherden vor Wölfen und Bären zu schützen.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name des Gebirges ist im Rassennamen enthalten."
+    },
+    {
+      "id": "medium_042",
+      "text": "Welche Hunderasse ist bekannt für ihr geschecktes ('Merle') Fell und stammt ursprünglich nicht aus Australien?",
+      "answers": ["Australian Cattle Dog", "Australian Shepherd", "Border Collie", "Koolie"],
+      "correctAnswerIndex": 1,
+      "funFact": "Trotz seines Namens wurde der Australian Shepherd hauptsächlich in den USA entwickelt, vermutlich von baskischen Schäfern, die über Australien einwanderten.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse ist irreführend bezüglich ihrer Herkunft."
+    },
+    {
+      "id": "medium_043",
+      "text": "Welche Hunderasse ist ein kleiner, affenähnlicher Hund aus Deutschland?",
+      "answers": ["Zwergschnauzer", "Griffon Bruxellois", "Affenpinscher", "Zwergpinscher"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Name 'Affenpinscher' beschreibt treffend das affenähnliche Gesicht dieser kleinen, terrierartigen Rasse.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse bedeutet 'Affen-Terrier'."
+    },
+    {
+      "id": "medium_044",
+      "text": "Welche Hunderasse ist ein großer Jagdhund aus Ungarn mit kurzem, goldrotem Fell?",
+      "answers": ["Weimaraner", "Rhodesian Ridgeback", "Vizsla (Kurzhaar)", "Redbone Coonhound"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Vizsla wird wegen seines anhänglichen Wesens oft als 'Klettverschluss-Hund' bezeichnet, da er die Nähe zu seinen Menschen sucht.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist der Nationalhund Ungarns."
+    },
+    {
+      "id": "medium_045",
+      "text": "Welche Hunderasse stammt aus der Arktis und wurde zum Ziehen schwerer Lasten gezüchtet?",
+      "answers": ["Siberian Husky", "Samojede", "Alaskan Malamute", "Grönlandhund"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Alaskan Malamute ist eine der ältesten arktischen Schlittenhunderassen und bekannt für seine enorme Kraft und Ausdauer, nicht für seine Geschwindigkeit.",
+      "difficulty": "medium",
+      "category": "Verwendung",
+      "hint": "Diese Rasse ist größer und kräftiger als der Siberian Husky."
+    },
+    {
+      "id": "medium_046",
+      "text": "Welche Hunderasse ist ein kleiner, italienischer Windhund, der kleinste seiner Art?",
+      "answers": ["Whippet", "Greyhound", "Italienisches Windspiel", "Silken Windhound"],
+      "correctAnswerIndex": 2,
+      "funFact": "Das Italienische Windspiel ist eine sehr alte Rasse, die bereits vor über 2000 Jahren im Mittelmeerraum bekannt war und oft von Adligen als Begleithund gehalten wurde.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name verrät die Herkunft und die Art des Hundes."
+    },
+    {
+      "id": "medium_047",
+      "text": "Welche Hunderasse ist ein deutscher Jagdhund mit weinrotem oder leberfarbenem Fell und blauen oder bernsteinfarbenen Augen?",
+      "answers": ["Deutsch Kurzhaar", "Weimaraner", "Deutsch Drahthaar", "Münsterländer"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Weimaraner wird wegen seines silbergrauen Fells und seiner oft hellen Augen manchmal als 'grauer Geist' bezeichnet.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist nach einer deutschen Stadt benannt."
+    },
+    {
+      "id": "medium_048",
+      "text": "Welche britische Terrierrasse ist bekannt für ihre blaue Fellfarbe und ihr seidiges Fell?",
+      "answers": ["Bedlington Terrier", "Kerry Blue Terrier", "Soft Coated Wheaten Terrier", "Irish Terrier"],
+      "correctAnswerIndex": 1,
+      "funFact": "Kerry Blue Terrier werden schwarz geboren und entwickeln ihre charakteristische blaugraue Farbe erst im Laufe von etwa 18 Monaten.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser irischen Rasse enthält die Farbe."
+    },
+    {
+      "id": "medium_049",
+      "text": "Welche Hunderasse ist ein japanischer Spitz mit langem, weißem Fell, bekannt für sein freundliches Wesen?",
+      "answers": ["Akita Inu", "Shiba Inu", "Japan Spitz", "Samojede"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Japan Spitz ist eng mit dem Deutschen Spitz verwandt und wurde in Japan nach dem Zweiten Weltkrieg populär. Er ist bekannt für seine Intelligenz und Anpassungsfähigkeit.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse ist sehr direkt."
+    },
+    {
+      "id": "medium_050",
+      "text": "Welche Hunderasse ist bekannt für ihr übermässige Haut und Falten, die ihr den Spitznamen 'Couch Potato' einbrachte?",
+      "answers": ["Shar Pei", "Neapolitan Mastiff (Mastino Napoletano)", "Bloodhound", "Basset Hound"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Mastino Napoletano, ein Nachfahre der römischen Kriegshunde, hat riesige Mengen loser Haut und Falten, die früher als Schutz bei Kämpfen dienten.",
+      "difficulty": "medium",
+      "category": "Merkmale",
+      "hint": "Diese italienische Mastiff-Rasse ist sehr massig."
+    },
+    {
+      "id": "medium_051",
+      "text": "Welche Hunderasse ist ein kleiner, englischer Terrier, der ursprünglich zur Jagd auf Füchse gezüchtet wurde?",
+      "answers": ["Jack Russell Terrier", "Fox Terrier (Drahthaar)", "Cairn Terrier", "Border Terrier"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Drahthaar-Foxterrier war im frühen 20. Jahrhundert eine der beliebtesten Rassen in den USA und Europa.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse deutet auf ihre ursprüngliche Beute hin."
+    },
+    {
+      "id": "medium_052",
+      "text": "Welche Hunderasse stammt aus dem Iran/Persien und gilt als eine der ältesten Windhundrassen der Welt?",
+      "answers": ["Afghanischer Windhund", "Saluki", "Azawakh", "Sloughi"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Saluki wurde schon im alten Ägypten hoch geschätzt und oft als 'königlicher Hund Ägyptens' bezeichnet, obwohl seine Ursprünge wahrscheinlich im Fruchtbaren Halbmond liegen.",
+      "difficulty": "medium",
+      "category": "Geschichte",
+      "hint": "Diese elegante Rasse ist für ihre Schnelligkeit und Ausdauer in der Wüste bekannt."
+    },
+    {
+      "id": "medium_053",
+      "text": "Welche Hunderasse stammt aus Kuba und ist bekannt für ihr seidenes, langes Fell?",
+      "answers": ["Malteser", "Havaneser", "Bichon Frisé", "Coton de Tuléar"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Havaneser ist die einzige Hunderasse, die ursprünglich aus Kuba stammt. Sein Fell ist sehr leicht und schützt ihn vor der tropischen Sonne.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse erinnert an die Hauptstadt Kubas."
+    },
+    {
+      "id": "medium_054",
+      "text": "Welche Hunderasse ist ein großer, dänischer Hund, der ursprünglich zur Jagd auf Großwild wie Bären und Wildschweine eingesetzt wurde?",
+      "answers": ["Deutsche Dogge", "Landseer", "Broholmer", "Grosser Schweizer Sennenhund"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Broholmer ist eine alte, dänische Wach- und Jagdhundrasse, die im 19. Jahrhundert fast ausgestorben war, aber durch engagierte Zucht gerettet wurde.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist eine dänische Mastiff-Art."
+    },
+    {
+      "id": "medium_055",
+      "text": "Welche Hunderasse stammt aus Deutschland und ist ein vielseitiger Hof- und Wachhund?",
+      "answers": ["Leonberger", "Rottweiler", "Dobermann", "Hovawart"],
+      "correctAnswerIndex": 3,
+      "funFact": "Der Name 'Hovawart' stammt aus dem Mittelhochdeutschen und bedeutet 'Hofwächter', was seine ursprüngliche Aufgabe beschreibt.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse bedeutet 'Hofwächter'."
+    },
+    {
+      "id": "medium_056",
+      "text": "Welche Hunderasse, bekannt als 'Apollo unter den Hunden', stammt aus Deutschland?",
+      "answers": ["Deutsche Dogge", "Weimaraner", "Boxer", "Riesenschnauzer"],
+      "correctAnswerIndex": 0,
+      "funFact": "Die Deutsche Dogge wird wegen ihrer edlen Erscheinung, Größe und harmonischen Proportionen oft als 'Apollo unter den Hunden' bezeichnet.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist eine der größten der Welt."
+    },
+    {
+      "id": "medium_057",
+      "text": "Welche Hunderasse ist ein kleiner, weißer Begleithund aus Italien?",
+      "answers": ["Malteser", "Bichon Frisé", "Bologneser", "Coton de Tuléar"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Bologneser ist nach der Stadt Bologna benannt und gehört zur Familie der Bichon-Rassen. Er ist bekannt für sein ruhiges, freundliches und anhängliches Wesen.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse ist eine italienische Stadt."
+    },
+    {
+      "id": "medium_058",
+      "text": "Welche Hunderasse stammt aus den Niederlanden und ist ein Hütehund mit langem, zotteligem Fell?",
+      "answers": ["Schapendoes", "Hollandse Herder", "Stabyhoun", "Wetterhoun"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Name 'Schapendoes' bedeutet wörtlich 'Schafpudel' oder 'Ziegenbart', was auf seine Funktion als Hütehund und sein Aussehen hinweist.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse bedeutet 'Schafpudel'."
+    },
+    {
+      "id": "medium_059",
+      "text": "Welche Hunderasse ist der größte Terrier der Welt?",
+      "answers": ["Airedale Terrier", "Irish Wolfhound", "Irish Terrier", "Kerry Blue Terrier"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Airedale Terrier wurde ursprünglich zum Jagen von Ratten, Ottern und Dachsen eingesetzt und diente im Ersten Weltkrieg als Bote und Wachhund.",
+      "difficulty": "medium",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse wird auch 'König der Terrier' genannt."
+    }
+  ],
+  "hard": [
+    {
+      "id": "hard_001",
+      "text": "Welche Hunderasse stammt aus Schottland und ist für ihr langes, seidiges Fell bekannt?",
+      "answers": ["Gordon Setter", "Vizsla", "Pharaonenhund", "Basenji"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Gordon Setter ist der schwerste und kräftigste der Setter-Rassen und wurde für die Jagd im anspruchsvollen schottischen Gelände gezüchtet.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist ein Jagdhund ('Setter') aus Schottland."
+    },
+    {
+      "id": "hard_002",
+      "text": "Welche Hunderasse wurde ursprünglich zur Otterjagd eingesetzt und hat Schwimmhäute zwischen den Zehen?",
+      "answers": ["Airedale Terrier", "Otterhund", "Irish Water Spaniel", "Portugiesischer Wasserhund"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Otterhund ist eine seltene britische Rasse mit einem rauen, wasserabweisenden Fell und Schwimmhäuten, perfekt angepasst an die Jagd im Wasser.",
+      "difficulty": "hard",
+      "category": "Verwendung",
+      "hint": "Der Name dieser Rasse verrät ihre ursprüngliche Beute."
+    },
+    {
+      "id": "hard_003",
+      "text": "Welche Hunderasse ist dafür bekannt, 'nicht zu bellen', sondern eher jodlerartige Laute von sich zu geben?",
+      "answers": ["Basenji", "Shiba Inu", "New Guinea Singing Dog", "Pharaonenhund"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Basenji aus Zentralafrika ist aufgrund seiner einzigartigen Kehlkopfform physiologisch nicht in der Lage zu bellen, kommuniziert aber durch eine Reihe anderer Laute.",
+      "difficulty": "hard",
+      "category": "Verhalten",
+      "hint": "Diese afrikanische Rasse ist auch für ihre katzenartigen Eigenschaften bekannt."
+    },
+    {
+      "id": "hard_004",
+      "text": "Welche Hunderasse stammt aus Ungarn und ist bekannt für ihr drahtiges Fell und ihren ausgeprägten Bart?",
+      "answers": ["Puli", "Komondor", "Drahthaar-Vizsla", "Kuvasz"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Drahthaar-Vizsla wurde im 20. Jahrhundert entwickelt, um einen Jagdhund zu schaffen, der dem raueren Klima und Gelände Ungarns besser standhält als der kurzhaarige Vizsla.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Dies ist eine rauhaarige Variante einer bekannten ungarischen Jagdhundrasse."
+    },
+    {
+      "id": "hard_005",
+      "text": "Welche Hunderasse ist bekannt für ihre Fähigkeit, Trüffel aufzuspüren?",
+      "answers": ["Lagotto Romagnolo", "Springer Spaniel", "Beagle", "Bloodhound"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Lagotto Romagnolo ist eine italienische Rasse, die ursprünglich ein Wasserhund war, heute aber aufgrund ihres ausgezeichneten Geruchssinns als der 'Trüffelhund' schlechthin gilt.",
+      "difficulty": "hard",
+      "category": "Verwendung",
+      "hint": "Diese italienische Rasse ist der Spezialist für eine teure Delikatesse."
+    },
+    {
+      "id": "hard_006",
+      "text": "Welche Hunderasse wurde nach einer Grafschaft in England benannt und ein beliebter Jagdhund?",
+      "answers": ["Cocker Spaniel", "Staffordshire Bull Terrier", "Airedale Terrier", "Norfolk Terrier"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Staffordshire Bull Terrier stammt aus der englischen Grafschaft Staffordshire und wurde ursprünglich für Hundekämpfe gezüchtet, ist heute aber ein beliebter Familienhund.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse wird oft liebevoll 'Staffie' genannt."
+    },
+    {
+      "id": "hard_007",
+      "text": "Welche Hunderasse wurde nach der Hauptstadt von Madagaskar benannt?",
+      "answers": ["Havaneser", "Bichon Frisé", "Coton de Tuléar", "Löwchen"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Name 'Coton de Tuléar' bezieht sich auf das baumwollartige (Coton) Fell der Rasse und die Hafenstadt Tuléar (heute Toliara) in Madagaskar.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse bedeutet 'Baumwolle aus Tuléar'."
+    },
+    {
+      "id": "hard_008",
+      "text": "Welche Hunderasse wurde von belgischen Binnenschiffern als Wach- und Begleithund gehalten?",
+      "answers": ["Belgischer Schäferhund", "Griffon Bruxellois", "Schipperke", "Bouvier des Flandres"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Name 'Schipperke' bedeutet im Flämischen wahrscheinlich 'kleiner Schäfer' oder 'kleiner Kapitän', was auf seine Rolle auf Schiffen und Höfen hinweist.",
+      "difficulty": "hard",
+      "category": "Geschichte",
+      "hint": "Der Name dieser kleinen, schwarzen Rasse bedeutet 'kleiner Kapitän'."
+    },
+    {
+      "id": "hard_009",
+      "text": "Welche Hunderasse stammt aus Finnland und wurde traditionell zur Elchjagd eingesetzt?",
+      "answers": ["Finnischer Lapphund", "Finnischer Spitz", "Karelischer Bärenhund", "Norwegischer Elchhund"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Karelische Bärenhund ist bekannt für seinen Mut und seine Fähigkeit, Großwild wie Bären und Elche zu stellen und zu verbellen.",
+      "difficulty": "hard",
+      "category": "Verwendung",
+      "hint": "Diese Rasse wurde auch zur Bärenjagd eingesetzt."
+    },
+    {
+      "id": "hard_010",
+      "text": "Welche Hunderasse sieht einem Lamm ähnlich und hat einen gebogenen Rücken?",
+      "answers": ["Puli", "Bedlington Terrier", "Irish Wolfhound", "Komondor"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Bedlington Terrier fällt durch sein ungewöhnliches Aussehen auf: ein birnenförmiger Kopf, ein gewölbter Rücken und ein dichtes, lockiges Fell, das oft an ein Lamm erinnert.",
+      "difficulty": "hard",
+      "category": "Merkmale",
+      "hint": "Diese Terrierrasse stammt aus einer Bergbaustadt in England."
+    },
+    {
+      "id": "hard_011",
+      "text": "Welche Hunderasse, neben dem Rhodesian Ridgeback, ist für ihren 'Ridge' (Haarkamm) auf dem Rücken bekannt und stammt aus Thailand?",
+      "answers": ["Phu Quoc Ridgeback", "Thai Ridgeback", "Kombai", "Canaan Dog"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Thai Ridgeback ist eine alte Rasse aus Thailand, die lange Zeit isoliert blieb, was zur Erhaltung ihrer ursprünglichen Merkmale, einschließlich des Rückenkamms, beitrug.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse verrät ihre Herkunft."
+    },
+    {
+      "id": "hard_012",
+      "text": "Welche Hunderasse ist bekannt für ihr errötendes Verhalten?",
+      "answers": ["Malteser", "Cirneco dell'Etna", "Pharaonenhund", "Podenco Ibicenco"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Pharaonenhund ist eine der wenigen Rassen, die sichtbar 'erröten' können: Bei Freude oder Aufregung färben sich seine Nase und die Innenseite seiner Ohren intensiv rosa.",
+      "difficulty": "hard",
+      "category": "Verhalten",
+      "hint": "Diese elegante Windhundrasse hat einen Namen, der an das alte Ägypten erinnert."
+    },
+    {
+      "id": "hard_013",
+      "text": "Welche Hunderasse hat einen einzigartigen Gang und eine besondere Hüftstruktur, die ihr erlaubt, in unwegsamem Gelände mit großer Wendigkeit und Geschwindigkeit zu jagen?",
+      "answers": ["Saluki", "Afghanischer Windhund", "Greyhound", "Whippet"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Afghanische Windhund hat einen einzigartigen Gang und eine besondere Hüftstruktur, die ihm erlaubt, in unwegsamem Gelände mit großer Wendigkeit und Geschwindigkeit zu jagen.",
+      "difficulty": "hard",
+      "category": "Physiologie",
+      "hint": "Diese Rasse ist bekannt für ihr langes, seidiges Fell."
+    },
+    {
+      "id": "hard_014",
+      "text": "Welche Hunderasse ist bekannt für ihren 'Mohawk'-ähnlichen Haarschopf auf dem Kopf?",
+      "answers": ["Chinese Crested Dog (Powderpuff)", "Chinese Crested Dog (Hairless)", "Xoloitzcuintli", "Peruanischer Nackthund"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Chinesische Schopfhund existiert in zwei Varianten: 'Hairless' (haarlos bis auf Schopf, Pfoten und Rute) und 'Powderpuff' (vollständig behaart).",
+      "difficulty": "hard",
+      "category": "Merkmale",
+      "hint": "Diese Rasse ist meist haarlos."
+    },
+    {
+      "id": "hard_015",
+      "text": "Welche Hunderasse ist bekannt für ihre 'Brille' (dunkle Abzeichen um die Augen)?",
+      "answers": ["Siberian Husky", "Alaskan Malamute", "Keeshond (Wolfspitz)", "Berner Sennenhund"],
+      "correctAnswerIndex": 2,
+      "funFact": "Die charakteristische 'Brille' des Keeshonds (deutsche Variante: Wolfspitz) entsteht durch feine, dunkle Linien, die von den äußeren Augenwinkeln zu den Ohren verlaufen.",
+      "difficulty": "hard",
+      "category": "Merkmale",
+      "hint": "Diese holländische/deutsche Spitz-Rasse war ein Begleiter auf Binnenschiffen."
+    },
+    {
+      "id": "hard_016",
+      "text": "Welche Hunderasse ist ein kleiner englischer Terrier, der in zwei Varianten (Steh- und Kippohr) vorkommt?",
+      "answers": ["Norfolk Terrier", "Norwich Terrier", "Jack Russell Terrier", "Parson Russell Terrier"],
+      "correctAnswerIndex": 1,
+      "funFact": "Ursprünglich wurden Norfolk und Norwich Terrier als eine Rasse betrachtet. 1964 wurden sie aufgrund der unterschiedlichen Ohrenhaltung (Kippohr beim Norfolk, Stehohr beim Norwich) getrennt.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist nach einer Stadt in England benannt."
+    },
+    {
+      "id": "hard_017",
+      "text": "Welche Hunderasse ist ein großer, kräftiger Hund aus Deutschland mit Falten im Gesicht?",
+      "answers": ["Pyrenäenberghund", "Briard", "Dogue de Bordeaux (Bordeauxdogge)", "Barbet"],
+      "correctAnswerIndex": 2,
+      "funFact": "Die Dogue de Bordeaux ist eine der ältesten französischen Rassen und bekannt für ihren massiven Kopf mit den charakteristischen Stirnfalten.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist nach einer französischen Stadt benannt."
+    },
+    {
+      "id": "hard_018",
+      "text": "Welche Hunderasse ist ein seltener Windhund aus Nordafrika/Sahelzone?",
+      "answers": ["Saluki", "Sloughi", "Azawakh", "Afghanischer Windhund"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Azawakh ist ein hochbeiniger, eleganter Windhund, der von den Tuareg-Nomaden in der Sahelzone als Jagd- und Wachhund gezüchtet wurde.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist extrem schlank und hochbeinig."
+    },
+    {
+      "id": "hard_019",
+      "text": "Welche Hunderasse stammt aus dem Kongo und ist eine der ältesten Rassen der Welt?",
+      "answers": ["Rhodesian Ridgeback", "Azawakh", "Basenji", "Saluki"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Basenji ist bekannt für seine katzenartigen Eigenschaften: Er putzt sich oft selbst, klettert gerne und bellt nicht.",
+      "difficulty": "hard",
+      "category": "Geschichte",
+      "hint": "Diese Rasse kann nicht bellen."
+    },
+    {
+      "id": "hard_020",
+      "text": "Welche Hunderasse ist ein seltener belgischer Schäferhund mit rauem, zotteligem Fell?",
+      "answers": ["Malinois", "Groenendael", "Tervueren", "Laekenois"],
+      "correctAnswerIndex": 3,
+      "funFact": "Der Laekenois ist die seltenste der vier Varianten des Belgischen Schäferhundes und wurde ursprünglich zum Bewachen von Wäsche auf den Bleichfeldern in Laken (Laeken) eingesetzt.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Variante ist nach einem königlichen Schloss in Brüssel benannt."
+    },
+    {
+      "id": "hard_021",
+      "text": "Welche Hunderasse stammt aus dem Kongo und ist eine der wenigen Rassen, die klettern können?",
+      "answers": ["Basenji", "Rhodesian Ridgeback", "Catahoula Leopard Dog", "Azawakh"],
+      "correctAnswerIndex": 0,
+      "funFact": "Basenjis sind bekannt für ihre katzenartigen Eigenheiten, einschließlich ihrer Fähigkeit, Bäume und Zäune zu erklimmen.",
+      "difficulty": "hard",
+      "category": "Verhalten",
+      "hint": "Diese Rasse ist auch dafür bekannt, dass sie nicht bellen kann."
+    },
+    {
+      "id": "hard_022",
+      "text": "Welche Hunderasse ist ein großer, dänischer Hund, der ursprünglich zur Jagd auf Großwild wie Bären und Wildschweine eingesetzt wurde?",
+      "answers": ["Deutsche Dogge", "Landseer", "Broholmer", "Grosser Schweizer Sennenhund"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Broholmer ist eine alte, dänische Wach- und Jagdhundrasse, die im 19. Jahrhundert fast ausgestorben war, aber durch engagierte Zucht gerettet wurde.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist eine dänische Mastiff-Art."
+    },
+    {
+      "id": "hard_023",
+      "text": "Welche Hunderasse ist bekannt für ihr gekräuseltes, wasserabweisendes Fell und stammt aus Frankreich?",
+      "answers": ["Pudel", "Barbet", "Lagotto Romagnolo", "Spanischer Wasserhund"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Barbet ist eine alte französische Wasserhunderasse, die als Vorfahre vieler moderner Rassen mit gelocktem Fell, einschließlich des Pudels, gilt.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse leitet sich vom französischen Wort für 'Bart' ab."
+    },
+    {
+      "id": "hard_024",
+      "text": "Welche Hunderasse stammt aus Ungarn und ist bekannt für ihr schwarzes Fell und ihre gelockte Rute?",
+      "answers": ["Puli", "Komondor", "Mudi", "Kuvasz"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Mudi ist ein vielseitiger ungarischer Hütehund, der auch für die Jagd auf Wildschweine und als Schädlingsbekämpfer eingesetzt wird.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist eine der selteneren ungarischen Hütehunde."
+    },
+    {
+      "id": "hard_025",
+      "text": "Welche Hunderasse wurde in Deutschland gezüchtet, um Füchse und Dachse aus ihren Bauen zu treiben, und hat einen Namen, der 'Erdhund' bedeutet?",
+      "answers": ["Jagdterrier", "Fox Terrier", "Erdélyi Kopó (Siebenbürger Bracke)", "Deutscher Jagdterrier"],
+      "correctAnswerIndex": 3,
+      "funFact": "Der Deutsche Jagdterrier ist ein kompakter, mutiger und ausdauernder Terrier, der speziell für die Arbeit unter der Erde gezüchtet wurde, was sich im Namen 'Erdterrier' widerspiegelt.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse beschreibt ihren Zweck und ihre Herkunft."
+    },
+    {
+      "id": "hard_026",
+      "text": "Welche Hunderasse stammt aus dem Norden Schwedens und wurde zum Hüten von Rentieren gezüchtet?",
+      "answers": ["Finnischer Lapphund", "Samojede", "Jämthund", "Schwedischer Lapphund"],
+      "correctAnswerIndex": 3,
+      "funFact": "Der Schwedische Lapphund ist eine der ältesten nordischen Rassen und eng mit den Sami und ihren Rentierherden verbunden.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist ein Spitz-Typ aus Schweden."
+    },
+    {
+      "id": "hard_027",
+      "text": "Welche Hunderasse ist bekannt für ihre Fähigkeit, Fische von der Wasseroberfläche zu 'fangen' und den Fischern zuzutreiben?",
+      "answers": ["Neufundländer", "Portugiesischer Wasserhund", "Spanischer Wasserhund", "Labrador Retriever"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Portugiesische Wasserhund wurde nicht nur zum Einholen von Netzen, sondern auch aktiv bei der Fischjagd eingesetzt, indem er Fische ins Netz trieb oder geflohene Fische aus dem Wasser holte.",
+      "difficulty": "hard",
+      "category": "Verwendung",
+      "hint": "Diese Rasse hat Schwimmhäute zwischen den Zehen."
+    },
+    {
+      "id": "hard_028",
+      "text": "Welche Hunderasse ist ein belgischer Hütehund mit rauem Fell, dessen Name 'Kuhhirte aus Flandern' bedeutet?",
+      "answers": ["Malinois", "Groenendael", "Tervueren", "Bouvier des Flandres"],
+      "correctAnswerIndex": 3,
+      "funFact": "Der Bouvier des Flandres wurde durch den Ersten Weltkrieg dezimiert und fast ausgelöscht. Die heute existierende Rasse geht auf wenige überlebende Exemplare zurück.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse ist französisch."
+    },
+    {
+      "id": "hard_029",
+      "text": "Welche Hunderasse stammt aus Schottland und ist bekannt für ihren langen, niedrigen Körper und ihr kurzes, borstiges Fell?",
+      "answers": ["Scottish Terrier", "Cairn Terrier", "Dandie Dinmont Terrier", "West Highland White Terrier"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Dandie Dinmont Terrier ist einzigartig unter den Terriern wegen seines 'Top-Knot' (Schopf) und seiner ungewöhnlich niedrigen, langen Silhouette.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse wurde nach einer Romanfigur benannt."
+    },
+    {
+      "id": "hard_030",
+      "text": "Welche Hunderasse ist ein kleiner, lebhafter Terrier aus England, der in zwei Varianten (Steh- und Kippohr) vorkommt?",
+      "answers": ["Norfolk Terrier", "Norwich Terrier", "Jack Russell Terrier", "Parson Russell Terrier"],
+      "correctAnswerIndex": 1,
+      "funFact": "Ursprünglich wurden Norfolk und Norwich Terrier als eine Rasse betrachtet. 1964 wurden sie aufgrund der unterschiedlichen Ohrenhaltung (Kippohr beim Norfolk, Stehohr beim Norwich) getrennt.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist nach einer englischen Stadt benannt."
+    },
+    {
+      "id": "hard_031",
+      "text": "Welche Hunderasse stammt aus Schweden und ist ein kleiner, kurzbeiniger Hütehund, der wie ein Wikingerhund aussieht?",
+      "answers": ["Swedish Lapphund", "Norwegian Buhund", "Swedish Vallhund (Västgötaspets)", "Finnischer Spitz"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Swedish Vallhund ist eine alte Rasse, die möglicherweise schon zu Zeiten der Wikinger existierte. Er ist ein 'Heeler', der Vieh durch Bisse in die Fersen treibt.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ähnelt einem Corgi."
+    },
+    {
+      "id": "hard_032",
+      "text": "Welche Hunderasse stammt aus Portugal und ist ein großer, kräftiger Herdenschutzhund aus den Bergen?",
+      "answers": ["Estrela Mountain Dog (Cão da Serra da Estrela)", "Castro Laboreiro Dog", "Portugiesischer Wasserhund", "Perdigueiro Português"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Estrela Mountain Dog ist eine der ältesten Rassen Portugals und wurde gezüchtet, um Herden in den Bergen vor Wölfen und anderen Raubtieren zu schützen.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse bezieht sich auf ein portugiesisches Gebirge."
+    },
+    {
+      "id": "hard_033",
+      "text": "Welche Hunderasse stammt aus Ungarn und ist bekannt für ihr drahtiges Fell und ihre Vielseitigkeit als Jagdhund?",
+      "answers": ["Kurzhaar-Vizsla", "Drahthaar-Vizsla", "Ungarischer Windhund (Magyar Agár)", "Pumi"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Drahthaar-Vizsla wurde erst im 20. Jahrhundert durch Kreuzung des Kurzhaar-Vizslas mit dem Deutsch Drahthaar entwickelt.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist eine rauhaarige Variante des ungarischen Nationalhundes."
+    },
+    {
+      "id": "hard_034",
+      "text": "Welche Hunderasse ist ein großer, weißer Herdenschutzhund aus den Abruzzen in Italien?",
+      "answers": ["Pyrenäenberghund", "Kuvasz", "Maremmen-Abruzzen-Schäferhund (Cane da Pastore Maremmano-Abruzzese)", "Akbash"],
+      "correctAnswerIndex": 2,
+      "funFact": "Dieser Herdenschutzhund wurde über Jahrhunderte gezüchtet, um Schafe vor Wölfen und anderen Raubtieren zu schützen, und ist für seine Unabhängigkeit und seinen Mut bekannt.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse bezieht sich auf eine italienische Region."
+    },
+    {
+      "id": "hard_035",
+      "text": "Welche Hunderasse stammt aus der Türkei und ist ein großer, weißer Herdenschutzhund, dessen Name 'weiße Hand' bedeutet?",
+      "answers": ["Kangalhunde (Kangal Çoban Köpei)", "Akbash Dog", "Anatolian Shepherd Dog", "Maremmen-Abruzzen-Schäferhund"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Akbash ist ein alter Herdenschutzhund mit starkem Schutzinstinkt, der oft in den abgelegenen Regionen der Türkei eingesetzt wird, um Vieh vor Raubtieren zu schützen.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse ist türkisch für 'weißer Kopf'."
+    },
+    {
+      "id": "hard_036",
+      "text": "Welche Hunderasse ist ein großer, ungarischer Windhund, der für seine Schnelligkeit und Ausdauer bekannt ist?",
+      "answers": ["Vizsla", "Ungarischer Windhund (Magyar Agár)", "Kuvasz", "Puli"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Magyar Agár ist etwas schwerer und robuster als der Greyhound und wurde für die Jagd auf Hasen und Hirsche über lange Distanzen eingesetzt.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse bedeutet 'Ungarischer Windhund'."
+    },
+    {
+      "id": "hard_037",
+      "text": "Welche Hunderasse stammt aus dem Tibet und ist ein kleiner Begleithund mit einem Gesicht, das oft als 'affenartig' beschrieben wird?",
+      "answers": ["Shih Tzu", "Lhasa Apso", "Tibetan Terrier", "Tibetan Spaniel"],
+      "correctAnswerIndex": 3,
+      "funFact": "Der Tibetan Spaniel ist ein sehr alter Hundetyp, der wahrscheinlich aus dem Tibet stammt und über die Seidenstraße in andere Teile Asiens gelangte.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist keine echte Spaniel-Rasse."
+    },
+    {
+      "id": "hard_038",
+      "text": "Welche Hunderasse stammt aus Deutschland und ist ein großer, eleganter Pinscher?",
+      "answers": ["Riesenschnauzer", "Dobermann", "Deutscher Pinscher", "Boxer"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Deutsche Pinscher war fast ausgestorben, bis er Mitte des 20. Jahrhunderts von Werner Jung wiederbelebt wurde. Fast alle modernen Deutschen Pinscher stammen von 5 Hunden ab.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist die ursprüngliche Form des Pinschers."
+    },
+    {
+      "id": "hard_039",
+      "text": "Welche Hunderasse stammt aus Wales und ist ein kleiner, kurzbeiniger Hütehund mit Fledermausohren und einer Rute, die als 'Posthorn' getragen wird?",
+      "answers": ["Pembroke Welsh Corgi", "Cardigan Welsh Corgi", "Welsh Terrier", "Shetland Sheepdog"],
+      "correctAnswerIndex": 1,
+      "funFact": "Die Rute des Cardigan Welsh Corgis ist lang und fuchsähnlich und wird in Bewegung oft hoch über dem Rücken in einer Kurve getragen, ähnlich einem Posthorn.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Corgi-Variante ist die ältere der beiden."
+    },
+    {
+      "id": "hard_040",
+      "text": "Welche Hunderasse stammt aus Portugal und ist ein großer, kräftiger Herdenschutzhund mit einem ausgeprägten, lauten Bellen?",
+      "answers": ["Estrela Mountain Dog", "Castro Laboreiro Dog", "Rafeiro do Alentejo", "Cão de Fila de São Miguel"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Cão de Castro Laboreiro wird oft in den Bergregionen Nordportugals eingesetzt. Sein Bellen beginnt tief und wird dann höher, fast wie ein Heulen.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist nach einer portugiesischen Gemeinde benannt."
+    },
+    {
+      "id": "hard_041",
+      "text": "Welche Hunderasse stammt aus Italien und ist ein großer, rauhaariger Jagdhund ('Spinone')?",
+      "answers": ["Bracco Italiano", "Spinone Italiano", "Lagotto Romagnolo", "Segugio Italiano"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Spinone Italiano ist eine sehr alte Rasse, die möglicherweise von Hunden abstammt, die von griechischen Händlern oder römischen Legionären nach Italien gebracht wurden.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse leitet sich vom italienischen Wort für 'Dornbusch' ab."
+    },
+    {
+      "id": "hard_042",
+      "text": "Welche Hunderasse stammt aus Frankreich und ist ein mittelgroßer Jagdhund ('Basset') mit kurzem, fauvefarbenem Fell?",
+      "answers": ["Basset Hound", "Basset Fauve de Bretagne", "Basset Bleu de Gascogne", "Basset Artésien Normand"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Basset Fauve de Bretagne (Fauve = Rehbraun) ist ein kleiner Basset aus der Bretagne, bekannt für seine Ausdauer und seinen Jagdinstinkt auf Kaninchen und Hasen.",
+      "difficulty": "hard",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse bedeutet 'rehbrauner Basset aus der Bretagne'."
+    }
+  ],
+  "expert": [
+    {
+      "id": "expert_001",
+      "text": "Welche Hunderasse ist bekannt für ihre Fähigkeit, über Zäune zu klettern?",
+      "answers": ["Catahoula Leopard Dog", "Australian Cattle Dog", "Border Collie", "Jack Russell Terrier"],
+      "correctAnswerIndex": 0,
+      "funFact": "Der Catahoula Leopard Dog, der State Dog von Louisiana, ist bekannt für seine Intelligenz, Arbeitsfreude und seine bemerkenswerte Kletterfähigkeit.",
+      "difficulty": "expert",
+      "category": "Verhalten",
+      "hint": "Diese Rasse ist der State Dog von Louisiana."
+    },
+    {
+      "id": "expert_002",
+      "text": "Welche Hunderasse ist ein kleiner, robuster Terrier, der nach einer schottischen Grafschaft benannt ist?",
+      "answers": ["West Highland White Terrier", "Scottish Terrier", "Dandie Dinmont Terrier", "Skye Terrier"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Dandie Dinmont Terrier ist die einzige Hunderasse, die nach einer Romanfigur benannt ist – aus Sir Walter Scotts Roman 'Guy Mannering'.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist nach einer Figur aus einem Roman von Sir Walter Scott benannt."
+    },
+    {
+      "id": "expert_003",
+      "text": "Welche Hunderasse ist ein mittelgroßer japanischer Hund, der für die Jagd auf Wildschweine bekannt ist?",
+      "answers": ["Shiba Inu", "Akita Inu", "Kishu Ken", "Shikoku"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Kishu Ken stammt aus der Bergregion Kishu (heute Präfektur Wakayama) und ist bekannt für seine Ausdauer und seinen Mut bei der Jagd.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist nach einer alten japanischen Provinz benannt."
+    },
+    {
+      "id": "expert_004",
+      "text": "Welche Hunderasse stammt aus den USA und ist bekannt für ihr kurzes, glattes Fell und ihr blaues oder graues Fell ('Blue Lacy')?",
+      "answers": ["Catahoula Leopard Dog", "Australian Cattle Dog", "Texas Lacy (Blue Lacy)", "American Blue Gascon Hound"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Blue Lacy ist der offizielle State Dog von Texas und wurde im 19. Jahrhundert von der Familie Lacy gezüchtet, um Rinder und Schweine auf den Ranches zu arbeiten.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist der State Dog von Texas."
+    },
+    {
+      "id": "expert_005",
+      "text": "Welche Hunderasse ist ein großer, weißer Herdenschutzhund aus der Slowakei?",
+      "answers": ["Polski Owczarek Podhalanski", "Slowakischer Cuvac (Slovenský uva)", "Kuvasz", "Tatra Shepherd Dog"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Slowakische Cuvac ist eng mit dem Kuvasz und dem Podhalaner verwandt und wurde traditionell zum Schutz von Vieh und Eigentum in den Bergregionen eingesetzt.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse ist slowakisch."
+    },
+    {
+      "id": "expert_006",
+      "text": "Welche Hunderasse stammt aus der Mongolei und ist ein alter Wachhund mit dichtem Fell?",
+      "answers": ["Tibet Terrier", "Lhasa Apso", "Mongolischer Schäferhund (Bankhar Dog)", "Chow Chow"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Bankhar ist ein traditioneller Herdenschutzhund der mongolischen Nomaden, der zum Schutz von Vieh vor Wölfen und anderen Raubtieren eingesetzt wird. Seine Herkunft wird oft als 'Hund mit den vier Augen' beschrieben (Abzeichen über den Augen).",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse ist mongolisch."
+    },
+    {
+      "id": "expert_007",
+      "text": "Welche Hunderasse ist ein seltener Windhund aus Marokko, bekannt für seine Eleganz und Jagdfähigkeit?",
+      "answers": ["Saluki", "Azawakh", "Sloughi", "Pharaonenhund"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Sloughi, auch Arabischer Windhund genannt, ist ein alter Windhund aus Nordafrika (Maghreb-Staaten), der zur Jagd auf Gazellen und andere Wüstentiere eingesetzt wurde.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist ein nordafrikanischer Windhund."
+    },
+    {
+      "id": "expert_008",
+      "text": "Welche Hunderasse stammt aus den Niederlanden und ist ein robustester Wasserhund mit lockigem Fell?",
+      "answers": ["Stabyhoun", "Kooikerhondje", "Wetterhoun (Friesischer Wasserhund)", "Schapendoes"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Wetterhoun wurde in der niederländischen Provinz Friesland zur Jagd auf Otter und anderes Wasserwild eingesetzt. Sein Fell ist besonders wasserabweisend.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Der Name dieser Rasse bedeutet 'Wasserhund' auf Friesisch."
+    },
+    {
+      "id": "expert_009",
+      "text": "Welche Hunderasse stammt aus Portugal und ist ein Herdenschutzhund mit starkem Schutzinstinkt?",
+      "answers": ["Estrela Mountain Dog", "Castro Laboreiro Dog (Cão de Castro Laboreiro)", "Rafeiro do Alentejo", "Cão de Fila de São Miguel"],
+      "correctAnswerIndex": 1,
+      "funFact": "Der Cão de Castro Laboreiro ist eine der ältesten Rassen Portugals und bekannt für seine tiefe, bellende Stimme, die in den Bergen weit zu hören ist.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist nach einer portugiesischen Gemeinde benannt."
+    },
+    {
+      "id": "expert_010",
+      "text": "Welche Hunderasse stammt aus Japan und ist ein mittelgroßer Jagdhund mit gestreiftem Fell ('Brindle')?",
+      "answers": ["Akita Inu", "Shiba Inu", "Kai Ken", "Shikoku"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Kai Ken (auch Tora Inu, 'Tigerhund') wurde in der Provinz Kai (heute Präfektur Yamanashi) gezüchtet und ist bekannt für seine Loyalität und seinen Mut bei der Jagd.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse wird auch 'Tigerhund' genannt."
+    },
+    {
+      "id": "expert_011",
+      "text": "Welche Hunderasse stammt aus den USA und ist ein Jagdhund ('Coonhound') mit einem gestromten (Brindle) Mantel?",
+      "answers": ["Bluetick Coonhound", "Black and Tan Coonhound", "Redbone Coonhound", "Plott Hound"],
+      "correctAnswerIndex": 3,
+      "funFact": "Der Plott Hound ist der einzige Coonhound, der nicht von englischen Laufhunden abstammt, sondern von deutschen Bracken, die von der Familie Plott nach Amerika gebracht wurden.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse wurde nach einer Familie benannt."
+    },
+    {
+      "id": "expert_012",
+      "text": "Welche Hunderasse stammt aus der Türkei und ist bekannt für ihre Geschwindigkeit und Jagdfähigkeit in der Wüste?",
+      "answers": ["Kangal", "Akbash", "Tazi (Anatolian Hound)", "Anatolian Shepherd Dog"],
+      "correctAnswerIndex": 2,
+      "funFact": "Der Tazi ist ein schlanker, eleganter Windhund, der traditionell zur Jagd auf Hasen, Füchse und Gazellen eingesetzt wird.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Diese Rasse ist ein türkischer Windhund."
+    },
+    {
+      "id": "expert_013",
+      "text": "Welche Hunderasse stammt aus den USA und ist eine Hybridrasse aus Cocker Spaniel und Labrador Retriever?",
+      "answers": ["Labradoodle", "Goldendoodle", "Spanieldor", "Cocker Spaniel Labrador Mix"],
+      "correctAnswerIndex": 2,
+      "funFact": "Diese Kreuzung ist weniger verbreitet als Labradoodles oder Goldendoodles und hat keinen offiziellen Rassenamen, wird aber manchmal Spanieldor genannt.",
+      "difficulty": "expert",
+      "category": "Hunderassen",
+      "hint": "Der Name ist eine Kombination aus den beiden Elternrassen."
+    }
+  ]
+}

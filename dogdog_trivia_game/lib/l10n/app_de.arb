@@ -1,0 +1,543 @@
+{
+  "@@locale": "de",
+  "@@last_modified": "2025-02-08T12:00:00.000Z",
+  
+  "appTitle": "DogDog Trivia Spiel",
+  "@appTitle": {
+    "description": "Der Titel der Anwendung"
+  },
+
+  "homeScreen_welcomeTitle": "Willkommen bei DogDog!",
+  "@homeScreen_welcomeTitle": {
+    "description": "Hauptbegrüßungstitel auf dem Startbildschirm"
+  },
+
+  "homeScreen_welcomeSubtitle": "Teste dein Wissen über Hunde in diesem lustigen Quiz!",
+  "@homeScreen_welcomeSubtitle": {
+    "description": "Begrüßungsuntertitel, der das Spiel erklärt"
+  },
+
+  "homeScreen_startButton": "Quiz starten",
+  "@homeScreen_startButton": {
+    "description": "Hauptschaltfläche zum Starten des Quiz"
+  },
+
+  "homeScreen_achievementsButton": "Erfolge",
+  "@homeScreen_achievementsButton": {
+    "description": "Schaltfläche zum Anzeigen der Erfolge"
+  },
+
+  "homeScreen_infoCard_funQuestions_title": "Lustige Fragen",
+  "@homeScreen_infoCard_funQuestions_title": {
+    "description": "Titel für die Infokarte mit lustigen Fragen"
+  },
+
+  "homeScreen_infoCard_funQuestions_description": "Lerne verschiedene Hunderassen und ihre Eigenschaften kennen",
+  "@homeScreen_infoCard_funQuestions_description": {
+    "description": "Beschreibung für die Infokarte mit lustigen Fragen"
+  },
+
+  "homeScreen_infoCard_educational_title": "Lehrreich",
+  "@homeScreen_infoCard_educational_title": {
+    "description": "Titel für die Bildungsinfokarte"
+  },
+
+  "homeScreen_infoCard_educational_description": "Für Kinder entwickelt, um beim Spielen zu lernen",
+  "@homeScreen_infoCard_educational_description": {
+    "description": "Beschreibung für die Bildungsinfokarte"
+  },
+
+  "homeScreen_infoCard_progress_title": "Fortschrittsverfolgung",
+  "@homeScreen_infoCard_progress_title": {
+    "description": "Titel für die Fortschrittsinfokarte"
+  },
+
+  "homeScreen_infoCard_progress_description": "Verfolge deinen Fortschritt und schalte Erfolge frei",
+  "@homeScreen_infoCard_progress_description": {
+    "description": "Beschreibung für die Fortschrittsinfokarte"
+  },
+
+  "homeScreen_progress_title": "Dein Fortschritt",
+  "@homeScreen_progress_title": {
+    "description": "Titel für den Fortschrittsbereich"
+  },
+
+  "homeScreen_progress_currentRank": "Aktueller Rang: {rank}",
+  "@homeScreen_progress_currentRank": {
+    "description": "Zeigt den aktuellen Spielerrang",
+    "placeholders": {
+      "rank": {
+        "type": "String",
+        "example": "Chihuahua"
+      }
+    }
+  },
+
+  "homeScreen_progress_nextRank": "Nächster: {rank}",
+  "@homeScreen_progress_nextRank": {
+    "description": "Zeigt den nächsten zu erreichenden Rang",
+    "placeholders": {
+      "rank": {
+        "type": "String",
+        "example": "Mops"
+      }
+    }
+  },
+
+  "difficultyScreen_title": "Schwierigkeit wählen",
+  "@difficultyScreen_title": {
+    "description": "Titel für den Schwierigkeitsauswahlbildschirm"
+  },
+
+  "difficultyScreen_headerTitle": "Wähle deinen Schwierigkeitsgrad",
+  "@difficultyScreen_headerTitle": {
+    "description": "Kopfzeilentext für die Schwierigkeitsauswahl"
+  },
+
+  "difficultyScreen_headerSubtitle": "Jeder Schwierigkeitsgrad bietet verschiedene Herausforderungen und Belohnungen.",
+  "@difficultyScreen_headerSubtitle": {
+    "description": "Untertitel, der die Schwierigkeitsunterschiede erklärt"
+  },
+
+  "difficultyScreen_selectButton": "Diese Kategorie wählen",
+  "@difficultyScreen_selectButton": {
+    "description": "Schaltflächentext zur Auswahl einer Schwierigkeit"
+  },
+
+  "difficulty_easy": "Leicht",
+  "@difficulty_easy": {
+    "description": "Name des leichten Schwierigkeitsgrades"
+  },
+
+  "difficulty_medium": "Mittel",
+  "@difficulty_medium": {
+    "description": "Name des mittleren Schwierigkeitsgrades"
+  },
+
+  "difficulty_hard": "Schwer",
+  "@difficulty_hard": {
+    "description": "Name des schweren Schwierigkeitsgrades"
+  },
+
+  "difficulty_expert": "Experte",
+  "@difficulty_expert": {
+    "description": "Name des Experten-Schwierigkeitsgrades"
+  },
+
+  "difficulty_easy_description": "Perfekt für Anfänger",
+  "@difficulty_easy_description": {
+    "description": "Beschreibung für leichte Schwierigkeit"
+  },
+
+  "difficulty_medium_description": "Für Hundeliebhaber",
+  "@difficulty_medium_description": {
+    "description": "Beschreibung für mittlere Schwierigkeit"
+  },
+
+  "difficulty_hard_description": "Für Hundeexperten",
+  "@difficulty_hard_description": {
+    "description": "Beschreibung für schwere Schwierigkeit"
+  },
+
+  "difficulty_expert_description": "Nur für Profis",
+  "@difficulty_expert_description": {
+    "description": "Beschreibung für Experten-Schwierigkeit"
+  },
+
+  "difficulty_points_per_question": "{points} Punkte pro Frage",
+  "@difficulty_points_per_question": {
+    "description": "Punkte für jede richtige Antwort",
+    "placeholders": {
+      "points": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
+  "gameScreen_level": "Level {level}",
+  "@gameScreen_level": {
+    "description": "Aktuelle Level-Anzeige",
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+
+  "gameScreen_loading": "Lade Fragen...",
+  "@gameScreen_loading": {
+    "description": "Lademeldung für den Spielbildschirm"
+  },
+
+  "gameScreen_score": "Punkte",
+  "@gameScreen_score": {
+    "description": "Punkte-Label"
+  },
+
+  "gameScreen_lives": "Leben",
+  "@gameScreen_lives": {
+    "description": "Leben-Label"
+  },
+
+  "gameScreen_timeRemaining": "Verbleibende Zeit",
+  "@gameScreen_timeRemaining": {
+    "description": "Timer-Label"
+  },
+
+  "gameScreen_questionCounter": "Frage {current} von {total}",
+  "@gameScreen_questionCounter": {
+    "description": "Zeigt die aktuelle Fragennummer von der Gesamtzahl",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "5"
+      },
+      "total": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
+  "powerUp_fiftyFifty": "Kau 50/50",
+  "@powerUp_fiftyFifty": {
+    "description": "50/50 Power-Up Name"
+  },
+
+  "powerUp_hint": "Hinweis",
+  "@powerUp_hint": {
+    "description": "Hinweis Power-Up Name"
+  },
+
+  "powerUp_extraTime": "Extra Zeit",
+  "@powerUp_extraTime": {
+    "description": "Extra Zeit Power-Up Name"
+  },
+
+  "powerUp_skip": "Überspringen",
+  "@powerUp_skip": {
+    "description": "Überspringen Power-Up Name"
+  },
+
+  "powerUp_secondChance": "Zweite Chance",
+  "@powerUp_secondChance": {
+    "description": "Zweite Chance Power-Up Name"
+  },
+
+  "powerUp_fiftyFifty_description": "Entfernt zwei falsche Antworten",
+  "@powerUp_fiftyFifty_description": {
+    "description": "50/50 Power-Up Beschreibung"
+  },
+
+  "powerUp_hint_description": "Zeigt einen Hinweis für die richtige Antwort",
+  "@powerUp_hint_description": {
+    "description": "Hinweis Power-Up Beschreibung"
+  },
+
+  "powerUp_extraTime_description": "Fügt 10 Sekunden zur aktuellen Frage hinzu",
+  "@powerUp_extraTime_description": {
+    "description": "Extra Zeit Power-Up Beschreibung"
+  },
+
+  "powerUp_skip_description": "Springt zur nächsten Frage ohne Strafe",
+  "@powerUp_skip_description": {
+    "description": "Überspringen Power-Up Beschreibung"
+  },
+
+  "powerUp_secondChance_description": "Stellt ein verlorenes Leben wieder her",
+  "@powerUp_secondChance_description": {
+    "description": "Zweite Chance Power-Up Beschreibung"
+  },
+
+  "rank_chihuahua": "Chihuahua",
+  "@rank_chihuahua": {
+    "description": "Chihuahua Rangname"
+  },
+
+  "rank_pug": "Mops",
+  "@rank_pug": {
+    "description": "Mops Rangname"
+  },
+
+  "rank_cockerSpaniel": "Cocker Spaniel",
+  "@rank_cockerSpaniel": {
+    "description": "Cocker Spaniel Rangname"
+  },
+
+  "rank_germanShepherd": "Deutscher Schäferhund",
+  "@rank_germanShepherd": {
+    "description": "Deutscher Schäferhund Rangname"
+  },
+
+  "rank_greatDane": "Deutsche Dogge",
+  "@rank_greatDane": {
+    "description": "Deutsche Dogge Rangname"
+  },
+
+  "rank_chihuahua_description": "Kleiner Anfang - Du hast deine ersten 10 Fragen richtig beantwortet!",
+  "@rank_chihuahua_description": {
+    "description": "Chihuahua Rangbeschreibung"
+  },
+
+  "rank_pug_description": "Guter Fortschritt - 25 richtige Antworten erreicht!",
+  "@rank_pug_description": {
+    "description": "Mops Rangbeschreibung"
+  },
+
+  "rank_cockerSpaniel_description": "Halbzeit-Held - 50 richtige Antworten gemeistert!",
+  "@rank_cockerSpaniel_description": {
+    "description": "Cocker Spaniel Rangbeschreibung"
+  },
+
+  "rank_germanShepherd_description": "Treuer Begleiter - 75 richtige Antworten erreicht!",
+  "@rank_germanShepherd_description": {
+    "description": "Deutscher Schäferhund Rangbeschreibung"
+  },
+
+  "rank_greatDane_description": "Großmeister - 100 richtige Antworten erreicht!",
+  "@rank_greatDane_description": {
+    "description": "Deutsche Dogge Rangbeschreibung"
+  },
+
+  "gameResult_win": "Gewonnen",
+  "@gameResult_win": {
+    "description": "Spielergebnis: Sieg"
+  },
+
+  "gameResult_lose": "Verloren",
+  "@gameResult_lose": {
+    "description": "Spielergebnis: Niederlage"
+  },
+
+  "gameResult_quit": "Beendet",
+  "@gameResult_quit": {
+    "description": "Spielergebnis: Aufgegeben"
+  },
+
+  "feedback_correct": "Richtig!",
+  "@feedback_correct": {
+    "description": "Positives Feedback für richtige Antwort"
+  },
+
+  "feedback_incorrect": "Falsch",
+  "@feedback_incorrect": {
+    "description": "Negatives Feedback für falsche Antwort"
+  },
+
+  "feedback_timeUp": "Zeit ist um!",
+  "@feedback_timeUp": {
+    "description": "Nachricht wenn die Zeit abläuft"
+  },
+
+  "common_ok": "OK",
+  "@common_ok": {
+    "description": "OK Schaltflächentext"
+  },
+
+  "common_cancel": "Abbrechen",
+  "@common_cancel": {
+    "description": "Abbrechen Schaltflächentext"
+  },
+
+  "common_retry": "Wiederholen",
+  "@common_retry": {
+    "description": "Wiederholen Schaltflächentext"
+  },
+
+  "common_continue": "Weiter",
+  "@common_continue": {
+    "description": "Weiter Schaltflächentext"
+  },
+
+  "common_back": "Zurück",
+  "@common_back": {
+    "description": "Zurück Schaltflächentext"
+  },
+
+  "accessibility_pauseGame": "Spiel pausieren",
+  "@accessibility_pauseGame": {
+    "description": "Barrierefreiheitslabel für Pause-Schaltfläche"
+  },
+
+  "accessibility_goBack": "Zurück zum Startbildschirm",
+  "@accessibility_goBack": {
+    "description": "Barrierefreiheitslabel für Zurück-Schaltfläche"
+  },
+
+  "accessibility_appLogo": "DogDog App-Logo",
+  "@accessibility_appLogo": {
+    "description": "Barrierefreiheitslabel für App-Logo"
+  },
+
+  "achievementsScreen_title": "Erfolge",
+  "@achievementsScreen_title": {
+    "description": "Titel für den Erfolgsbildschirm"
+  },
+
+  "achievementsScreen_tryAgain": "Erneut versuchen",
+  "@achievementsScreen_tryAgain": {
+    "description": "Schaltflächentext zum erneuten Laden der Erfolge"
+  },
+
+  "achievementsScreen_close": "Schließen",
+  "@achievementsScreen_close": {
+    "description": "Schaltflächentext zum Schließen des Erfolgsdialogs"
+  },
+
+  "gameOverScreen_title": "Spiel beendet",
+  "@gameOverScreen_title": {
+    "description": "Titel für den Spielende-Bildschirm"
+  },
+
+  "gameOverScreen_finalScore": "Endpunktzahl: {score}",
+  "@gameOverScreen_finalScore": {
+    "description": "Zeigt die erreichte Endpunktzahl",
+    "placeholders": {
+      "score": {
+        "type": "int",
+        "example": "1250"
+      }
+    }
+  },
+
+  "gameOverScreen_correctAnswers": "{correct} von {total} richtig",
+  "@gameOverScreen_correctAnswers": {
+    "description": "Zeigt richtige Antworten von der Gesamtzahl",
+    "placeholders": {
+      "correct": {
+        "type": "int",
+        "example": "8"
+      },
+      "total": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+
+  "gameOverScreen_playAgain": "Nochmal spielen",
+  "@gameOverScreen_playAgain": {
+    "description": "Schaltfläche für ein neues Spiel"
+  },
+
+  "gameOverScreen_backToHome": "Zurück zum Start",
+  "@gameOverScreen_backToHome": {
+    "description": "Schaltfläche zur Rückkehr zum Startbildschirm"
+  },
+
+  "resultScreen_funFact": "Wissenswertes:",
+  "@resultScreen_funFact": {
+    "description": "Label für den Wissenswertes-Bereich"
+  },
+
+  "resultScreen_nextQuestion": "Nächste Frage",
+  "@resultScreen_nextQuestion": {
+    "description": "Schaltfläche zur nächsten Frage"
+  },
+
+  "resultScreen_viewResults": "Ergebnisse anzeigen",
+  "@resultScreen_viewResults": {
+    "description": "Schaltfläche zur Anzeige der Endergebnisse"
+  },
+
+  "errorScreen_title": "Fehlerwiederherstellung",
+  "@errorScreen_title": {
+    "description": "Titel für den Fehlerwiederherstellungsbildschirm"
+  },
+
+  "errorScreen_servicesRestarted": "Dienste erfolgreich neu gestartet",
+  "@errorScreen_servicesRestarted": {
+    "description": "Erfolgsmeldung für Dienst-Neustart"
+  },
+
+  "errorScreen_restartFailed": "Neustart der Dienste fehlgeschlagen: {error}",
+  "@errorScreen_restartFailed": {
+    "description": "Fehlermeldung für fehlgeschlagenen Dienst-Neustart",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Verbindungstimeout"
+      }
+    }
+  },
+
+  "errorScreen_cacheCleared": "Cache erfolgreich geleert",
+  "@errorScreen_cacheCleared": {
+    "description": "Erfolgsmeldung für Cache-Leerung"
+  },
+
+  "errorScreen_cacheClearFailed": "Cache-Leerung fehlgeschlagen: {error}",
+  "@errorScreen_cacheClearFailed": {
+    "description": "Fehlermeldung für fehlgeschlagene Cache-Leerung",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Berechtigung verweigert"
+      }
+    }
+  },
+
+  "errorScreen_resetToDefaults": "Auf Standard zurücksetzen",
+  "@errorScreen_resetToDefaults": {
+    "description": "Titel für Zurücksetzungsbestätigungsdialog"
+  },
+
+  "errorScreen_resetConfirmation": "Dies setzt alle App-Einstellungen auf ihre Standardwerte zurück. Dein Fortschritt bleibt erhalten. Fortfahren?",
+  "@errorScreen_resetConfirmation": {
+    "description": "Bestätigungsnachricht für das Zurücksetzen der Einstellungen"
+  },
+
+  "errorScreen_reset": "Zurücksetzen",
+  "@errorScreen_reset": {
+    "description": "Schaltfläche zur Bestätigung des Zurücksetzens"
+  },
+
+  "errorScreen_settingsReset": "Einstellungen auf Standard zurückgesetzt",
+  "@errorScreen_settingsReset": {
+    "description": "Erfolgsmeldung für Einstellungs-Zurücksetzung"
+  },
+
+  "errorScreen_resetFailed": "Zurücksetzen der Einstellungen fehlgeschlagen: {error}",
+  "@errorScreen_resetFailed": {
+    "description": "Fehlermeldung für fehlgeschlagenes Einstellungs-Zurücksetzen",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Dateizugriffsfehler"
+      }
+    }
+  },
+
+  "errorScreen_loadingError": "Fehler beim Laden der Erfolge: {error}",
+  "@errorScreen_loadingError": {
+    "description": "Fehlermeldung für Ladefehler",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Netzwerkfehler"
+      }
+    }
+  },
+
+  "powerUp_extraTimeAdded": "Extra Zeit hinzugefügt!",
+  "@powerUp_extraTimeAdded": {
+    "description": "Benachrichtigung wenn Extra Zeit Power-Up verwendet wird"
+  },
+
+  "powerUp_questionSkipped": "Frage übersprungen!",
+  "@powerUp_questionSkipped": {
+    "description": "Benachrichtigung wenn Überspringen Power-Up verwendet wird"
+  },
+
+  "powerUp_lifeRestored": "Ein Leben wiederhergestellt!",
+  "@powerUp_lifeRestored": {
+    "description": "Benachrichtigung wenn Zweite Chance Power-Up verwendet wird"
+  },
+
+  "powerUp_use": "Verwenden",
+  "@powerUp_use": {
+    "description": "Schaltflächentext zum Verwenden eines Power-Ups"
+  }
+}
