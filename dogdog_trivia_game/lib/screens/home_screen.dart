@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/progress_service.dart';
+import '../services/audio_service.dart';
+import '../design_system/modern_colors.dart';
+import '../design_system/modern_typography.dart';
+import '../design_system/modern_spacing.dart';
+import '../design_system/modern_shadows.dart';
+import '../widgets/gradient_button.dart';
+import '../widgets/modern_card.dart';
+import '../widgets/audio_settings.dart';
+import '../utils/responsive.dart';
+import '../utils/enum_extensions.dart';
+import '../l10n/generated/app_localizations.dart';
 import 'difficulty_selection_screen.dart';
 import 'achievements_screen.dart';
-import '../services/audio_service.dart';
-import '../utils/animations.dart';
-import '../utils/responsive.dart';
-import '../utils/accessibility.dart';
-import '../utils/enum_extensions.dart';
-import '../widgets/animated_button.dart';
-import '../widgets/audio_settings.dart';
-import '../l10n/generated/app_localizations.dart';
 
-/// Home screen widget displaying the DogDog logo, welcome message, and game features
+/// Home screen with gradient background and decorative elements.
+///
+/// Features:
+/// - Gradient background with floating decorative elements
+/// - Centered dog logo image with zoom-in entrance animation
+/// - Modern typography hierarchy for welcome text
+/// - GradientButton component for start button
+/// - Floating decorative elements with subtle animations
+/// - Responsive design for different screen sizes
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -22,13 +33,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController _mainAnimationController;
-  late AnimationController _logoAnimationController;
-  late List<AnimationController> _cardAnimationControllers;
+  late AnimationController _decorationAnimationController;
 
   late Animation<double> _fadeAnimation;
-  late Animation<double> _slideAnimation;
+  late Animation<Offset> _slideAnimation;
   late Animation<double> _logoScaleAnimation;
-  late Animation<double> _logoRotationAnimation;
+  late Animation<double> _decorationAnimation;
 
   @override
   void initState() {
@@ -40,23 +50,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _setupAnimations() {
     // Main animation controller for overall entrance
     _mainAnimationController = AnimationController(
-      duration: AppAnimations.extraSlowDuration,
+      duration: const Duration(milliseconds: 1200),
       vsync: this,
     );
 
-    // Logo animation controller for continuous subtle animation
-    _logoAnimationController = AnimationController(
-      duration: const Duration(seconds: 3),
+    // Decoration animation controller for floating elements
+    _decorationAnimationController = AnimationController(
+      duration: const Duration(seconds: 25),
       vsync: this,
-    );
-
-    // Card animation controllers for staggered entrance
-    _cardAnimationControllers = List.generate(
-      3,
-      (index) => AnimationController(
-        duration: AppAnimations.slowDuration,
-        vsync: this,
-      ),
     );
 
     // Fade animation for overall entrance
@@ -68,24 +69,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
 
     // Slide animation for content
-    _slideAnimation = Tween<double>(begin: 50.0, end: 0.0).animate(
-      CurvedAnimation(
-        parent: _mainAnimationController,
-        curve: const Interval(0.2, 0.8, curve: Curves.easeOutCubic),
-      ),
-    );
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _mainAnimationController,
+            curve: const Interval(0.2, 0.8, curve: Curves.easeOutCubic),
+          ),
+        );
 
     // Logo scale animation
-    _logoScaleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _logoScaleAnimation = Tween<double>(begin: 0.0, end: 1.2).animate(
       CurvedAnimation(
         parent: _mainAnimationController,
         curve: const Interval(0.0, 0.5, curve: Curves.elasticOut),
       ),
     );
 
-    // Logo rotation animation (continuous)
-    _logoRotationAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _logoAnimationController, curve: Curves.linear),
+    // Decoration floating animation
+    _decorationAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _decorationAnimationController,
+        curve: Curves.linear,
+      ),
     );
   }
 
@@ -93,137 +98,192 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // Start main entrance animation
     _mainAnimationController.forward();
 
-    // Start continuous logo animation
-    _logoAnimationController.repeat();
-
-    // Start staggered card animations
-    for (int i = 0; i < _cardAnimationControllers.length; i++) {
-      Future.delayed(Duration(milliseconds: 600 + (i * 200)), () {
-        if (mounted) {
-          _cardAnimationControllers[i].forward();
-        }
-      });
-    }
+    // Start continuous decoration animation
+    _decorationAnimationController.repeat();
   }
 
   @override
   void dispose() {
     _mainAnimationController.dispose();
-    _logoAnimationController.dispose();
-    for (final controller in _cardAnimationControllers) {
-      controller.dispose();
-    }
+    _decorationAnimationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AccessibilityTheme(
-      child: Scaffold(
-        backgroundColor: const Color(0xFFF8FAFC), // Background Gray
-        body: SafeArea(
-          child: AnimatedBuilder(
-            animation: _fadeAnimation,
-            builder: (context, child) {
-              return Opacity(
-                opacity: _fadeAnimation.value,
-                child: Transform.translate(
-                  offset: Offset(0, _slideAnimation.value),
-                  child: ResponsiveContainer(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: ResponsiveUtils.getResponsiveSpacing(
-                              context,
-                              40,
-                            ),
-                          ),
-                          _buildLogo(),
-                          SizedBox(
-                            height: ResponsiveUtils.getResponsiveSpacing(
-                              context,
-                              30,
-                            ),
-                          ),
-                          _buildWelcomeText(),
-                          SizedBox(
-                            height: ResponsiveUtils.getResponsiveSpacing(
-                              context,
-                              40,
-                            ),
-                          ),
-                          _buildStartButton(),
-                          SizedBox(
-                            height: ResponsiveUtils.getResponsiveSpacing(
-                              context,
-                              20,
-                            ),
-                          ),
-                          _buildNavigationButtons(),
-                          SizedBox(
-                            height: ResponsiveUtils.getResponsiveSpacing(
-                              context,
-                              40,
-                            ),
-                          ),
-                          _buildInfoCards(),
-                          SizedBox(
-                            height: ResponsiveUtils.getResponsiveSpacing(
-                              context,
-                              30,
-                            ),
-                          ),
-                          _buildAchievementProgress(),
-                          SizedBox(
-                            height: ResponsiveUtils.getResponsiveSpacing(
-                              context,
-                              20,
-                            ),
-                          ),
-                        ],
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: ModernColors.createLinearGradient(
+            ModernColors.backgroundGradient,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SafeArea(
+          child: Stack(
+            children: [
+              _buildFloatingDecorations(),
+              FadeTransition(
+                opacity: _fadeAnimation,
+                child: SlideTransition(
+                  position: _slideAnimation,
+                  child: SingleChildScrollView(
+                    padding: ModernSpacing.responsivePadding(
+                      context,
+                      mobile: ModernSpacing.screenPaddingInsets,
+                      tablet: const EdgeInsets.symmetric(
+                        horizontal: 64.0,
+                        vertical: 32.0,
                       ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ModernSpacing.verticalSpaceXL,
+                        _buildLogo(),
+                        ModernSpacing.verticalSpaceLG,
+                        _buildWelcomeText(),
+                        ModernSpacing.verticalSpaceXL,
+                        _buildStartButton(),
+                        ModernSpacing.verticalSpaceLG,
+                        _buildNavigationButtons(),
+                        ModernSpacing.verticalSpaceXL,
+                        _buildAchievementProgress(),
+                        ModernSpacing.verticalSpaceMD,
+                      ],
                     ),
                   ),
                 ),
-              );
-            },
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  /// Builds the DogDog logo with animations
+  /// Builds floating decorative elements (stars, circles) with subtle animations
+  Widget _buildFloatingDecorations() {
+    return AnimatedBuilder(
+      animation: _decorationAnimation,
+      builder: (context, child) {
+        return Stack(
+          children: [
+            // Floating star 1
+            Positioned(
+              top: 100 + (20 * _decorationAnimation.value),
+              left: 50,
+              child: Transform.rotate(
+                angle: _decorationAnimation.value * 2 * 3.14159,
+                child: Icon(
+                  Icons.star,
+                  color: ModernColors.primaryYellow.withValues(alpha: 0.3),
+                  size: 24,
+                ),
+              ),
+            ),
+            // Floating circle 1
+            Positioned(
+              top: 200 + (15 * _decorationAnimation.value),
+              right: 80,
+              child: Container(
+                width: 16,
+                height: 16,
+                decoration: BoxDecoration(
+                  color: ModernColors.primaryBlue.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+            // Floating star 2
+            Positioned(
+              top: 350 + (25 * _decorationAnimation.value),
+              left: MediaQuery.of(context).size.width * 0.8,
+              child: Transform.rotate(
+                angle: -_decorationAnimation.value * 1.5 * 3.14159,
+                child: Icon(
+                  Icons.star_outline,
+                  color: ModernColors.primaryPurple.withValues(alpha: 0.25),
+                  size: 20,
+                ),
+              ),
+            ),
+            // Floating circle 2
+            Positioned(
+              top: 450 + (18 * _decorationAnimation.value),
+              left: 30,
+              child: Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: ModernColors.primaryGreen.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+            // Floating star 3
+            Positioned(
+              bottom: 200 + (22 * _decorationAnimation.value),
+              right: 40,
+              child: Transform.rotate(
+                angle: _decorationAnimation.value * 1.2 * 3.14159,
+                child: Icon(
+                  Icons.star,
+                  color: ModernColors.warning.withValues(alpha: 0.2),
+                  size: 18,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /// Builds the centered dog logo with smooth zoom-in animation
   Widget _buildLogo() {
-    final logoSize = ResponsiveUtils.getResponsiveIconSize(context, 120);
-    final iconSize = ResponsiveUtils.getResponsiveIconSize(context, 60);
+    final logoSize = ResponsiveUtils.getResponsiveIconSize(context, 160);
 
     return AnimatedBuilder(
-      animation: Listenable.merge([
-        _logoScaleAnimation,
-        _logoRotationAnimation,
-      ]),
+      animation: _logoScaleAnimation,
       builder: (context, child) {
         return Semantics(
           label: AppLocalizations.of(context).accessibility_appLogo,
           child: Transform.scale(
             scale: _logoScaleAnimation.value,
-            child: Transform.rotate(
-              angle: AccessibilityUtils.prefersReducedMotion(context)
-                  ? 0
-                  : _logoRotationAnimation.value * 0.1, // Subtle rotation
-              child: Container(
-                width: logoSize,
-                height: logoSize,
-                decoration:
-                    AccessibilityUtils.getAccessibleCircularDecoration(
-                      context,
-                    ).copyWith(
-                      color: const Color(0xFF4A90E2), // Primary Blue
-                    ),
-                child: Icon(Icons.pets, size: iconSize, color: Colors.white),
+            child: Container(
+              width: logoSize,
+              height: logoSize,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: ModernShadows.large,
+              ),
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: logoSize,
+                  height: logoSize,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    // Fallback to pets icon if image fails to load
+                    return Container(
+                      width: logoSize,
+                      height: logoSize,
+                      decoration: BoxDecoration(
+                        gradient: ModernColors.createLinearGradient(
+                          ModernColors.purpleGradient,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.pets,
+                        size: logoSize * 0.5,
+                        color: ModernColors.textOnDark,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -232,22 +292,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  /// Builds the welcome text
+  /// Builds the welcome text with modern typography hierarchy
   Widget _buildWelcomeText() {
+    final l10n = AppLocalizations.of(context);
+
     return Column(
       children: [
         Text(
-          AppLocalizations.of(context).homeScreen_welcomeTitle,
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            color: const Color(0xFF1F2937), // Text Dark
+          l10n.homeScreen_welcomeTitle,
+          style: ModernTypography.headingLarge.copyWith(
+            color: ModernColors.textPrimary,
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 10),
+        ModernSpacing.verticalSpaceSM,
         Text(
-          AppLocalizations.of(context).homeScreen_welcomeSubtitle,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: const Color(0xFF6B7280), // Text Light
+          l10n.homeScreen_welcomeSubtitle,
+          style: ModernTypography.withSecondaryColor(
+            ModernTypography.bodyLarge,
           ),
           textAlign: TextAlign.center,
         ),
@@ -255,199 +317,105 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  /// Builds the main start button with animation
+  /// Builds the main start button using GradientButton component
   Widget _buildStartButton() {
+    final l10n = AppLocalizations.of(context);
     final audioService = AudioService();
 
-    return SizedBox(
-      width: double.infinity,
-      child: PrimaryAnimatedButton(
-        onPressed: () async {
-          await audioService.playButtonSound();
-          if (mounted) {
-            Navigator.of(context).push(
-              SlidePageRoute(
-                child: const DifficultySelectionScreen(),
-                direction: SlideDirection.rightToLeft,
-              ),
-            );
-          }
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.play_arrow, size: 24),
-            const SizedBox(width: 8),
-            Text(
-              AppLocalizations.of(context).homeScreen_startButton,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
+    return GradientButton.large(
+      text: l10n.homeScreen_startButton,
+      onPressed: () async {
+        await audioService.playButtonSound();
+        if (mounted) {
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const DifficultySelectionScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                    return SlideTransition(
+                      position:
+                          Tween<Offset>(
+                            begin: const Offset(1.0, 0.0),
+                            end: Offset.zero,
+                          ).animate(
+                            CurvedAnimation(
+                              parent: animation,
+                              curve: Curves.easeInOut,
+                            ),
+                          ),
+                      child: child,
+                    );
+                  },
+              transitionDuration: const Duration(milliseconds: 300),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+      },
+      gradientColors: ModernColors.purpleGradient,
+      expandWidth: true,
+      icon: Icons.play_arrow,
+      semanticLabel: l10n.homeScreen_startButton,
     );
   }
 
-  /// Builds navigation buttons for achievements and other features
+  /// Builds navigation buttons for achievements and settings
   Widget _buildNavigationButtons() {
+    final l10n = AppLocalizations.of(context);
     final audioService = AudioService();
 
     return Row(
       children: [
         Expanded(
-          child: OutlineAnimatedButton(
+          child: GradientButton(
+            text: l10n.homeScreen_achievementsButton,
             onPressed: () async {
               await audioService.playButtonSound();
               if (mounted) {
-                Navigator.of(
-                  context,
-                ).push(FadePageRoute(child: const AchievementsScreen()));
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const AchievementsScreen(),
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                    transitionDuration: const Duration(milliseconds: 300),
+                  ),
+                );
               }
             },
-            borderColor: const Color(0xFF8B5CF6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.emoji_events, size: 20),
-                const SizedBox(width: 8),
-                Text(
-                  AppLocalizations.of(context).homeScreen_achievementsButton,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFF8B5CF6),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+            gradientColors: ModernColors.yellowGradient,
+            icon: Icons.emoji_events,
+            semanticLabel: l10n.homeScreen_achievementsButton,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 16.0,
             ),
           ),
         ),
-        const SizedBox(width: 12),
-        OutlineAnimatedButton(
+        ModernSpacing.horizontalSpaceMD,
+        GradientButton(
+          text: '',
           onPressed: () async {
             await audioService.playButtonSound();
             if (mounted) {
               await AudioSettingsDialog.show(context);
             }
           },
-          borderColor: const Color(0xFF4A90E2),
-          child: Icon(Icons.settings, size: 20, color: const Color(0xFF4A90E2)),
+          gradientColors: ModernColors.blueGradient,
+          icon: Icons.settings,
+          semanticLabel: 'Settings',
+          padding: const EdgeInsets.all(16.0),
         ),
       ],
     );
   }
 
-  /// Builds informational cards about the game with staggered animations
-  Widget _buildInfoCards() {
-    final l10n = AppLocalizations.of(context);
-
-    final cardData = [
-      {
-        'icon': Icons.quiz,
-        'title': l10n.homeScreen_infoCard_funQuestions_title,
-        'description': l10n.homeScreen_infoCard_funQuestions_description,
-        'color': const Color(0xFF10B981), // Green
-      },
-      {
-        'icon': Icons.school,
-        'title': l10n.homeScreen_infoCard_educational_title,
-        'description': l10n.homeScreen_infoCard_educational_description,
-        'color': const Color(0xFFF59E0B), // Yellow
-      },
-      {
-        'icon': Icons.trending_up,
-        'title': l10n.homeScreen_infoCard_progress_title,
-        'description': l10n.homeScreen_infoCard_progress_description,
-        'color': const Color(0xFF8B5CF6), // Purple
-      },
-    ];
-
-    return Column(
-      children: List.generate(cardData.length, (index) {
-        return Column(
-          children: [
-            if (index > 0) const SizedBox(height: 16),
-            AnimatedBuilder(
-              animation: _cardAnimationControllers[index],
-              builder: (context, child) {
-                return AppAnimations.fadeAndScale(
-                  animation: _cardAnimationControllers[index],
-                  child: _buildInfoCard(
-                    icon: cardData[index]['icon'] as IconData,
-                    title: cardData[index]['title'] as String,
-                    description: cardData[index]['description'] as String,
-                    color: cardData[index]['color'] as Color,
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      }),
-    );
-  }
-
-  /// Builds a single info card
-  Widget _buildInfoCard({
-    required IconData icon,
-    required String title,
-    required String description,
-    required Color color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF1F2937),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  description,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFF6B7280),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Builds the achievement progress section
+  /// Builds the achievement progress section with modern styling
   Widget _buildAchievementProgress() {
     return Consumer<ProgressService>(
       builder: (context, progressService, child) {
@@ -459,85 +427,75 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ? unlockedCount / totalCount
             : 0.0;
 
-        return Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF8B5CF6), Color(0xFF7C3AED)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Icon(Icons.emoji_events, color: Colors.white, size: 24),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      l10n.homeScreen_progress_title,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+        return ModernCard.gradient(
+          gradientColors: ModernColors.purpleGradient,
+          child: Padding(
+            padding: ModernSpacing.paddingLG,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.emoji_events,
+                      color: ModernColors.textOnDark,
+                      size: 28,
+                    ),
+                    ModernSpacing.horizontalSpaceSM,
+                    Expanded(
+                      child: Text(
+                        l10n.homeScreen_progress_title,
+                        style: ModernTypography.headingSmall.copyWith(
+                          color: ModernColors.textOnDark,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '$unlockedCount/$totalCount',
+                      style: ModernTypography.headingSmall.copyWith(
+                        color: ModernColors.textOnDark,
+                      ),
+                    ),
+                  ],
+                ),
+                ModernSpacing.verticalSpaceMD,
+                Container(
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: ModernColors.textOnDark.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: progressPercentage,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: ModernColors.textOnDark,
+                        borderRadius: BorderRadius.circular(4),
                       ),
                     ),
                   ),
-                  Text(
-                    '$unlockedCount/$totalCount',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Container(
-                height: 8,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(4),
                 ),
-                child: FractionallySizedBox(
-                  alignment: Alignment.centerLeft,
-                  widthFactor: progressPercentage,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                l10n.homeScreen_progress_currentRank(
-                  progress.currentRank.displayName(context),
-                ),
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white.withValues(alpha: 0.9),
-                ),
-              ),
-              if (progress.nextRank != null)
+                ModernSpacing.verticalSpaceSM,
                 Text(
-                  l10n.homeScreen_progress_nextRank(
-                    progress.nextRank!.displayName(context),
+                  l10n.homeScreen_progress_currentRank(
+                    progress.currentRank.displayName(context),
                   ),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.9),
+                  style: ModernTypography.bodyMedium.copyWith(
+                    color: ModernColors.textOnDark.withValues(alpha: 0.9),
                   ),
                 ),
-            ],
+                if (progress.nextRank != null)
+                  Text(
+                    l10n.homeScreen_progress_nextRank(
+                      progress.nextRank!.displayName(context),
+                    ),
+                    style: ModernTypography.bodyMedium.copyWith(
+                      color: ModernColors.textOnDark.withValues(alpha: 0.9),
+                    ),
+                  ),
+              ],
+            ),
           ),
         );
       },

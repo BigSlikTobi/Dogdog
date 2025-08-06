@@ -4,7 +4,7 @@
   "description": "Automatically generates comprehensive unit and integration tests for every new feature added to the DogDog trivia game",
   "version": "1",
   "when": {
-    "type": "fileEdited",
+    "type": "userTriggered",
     "patterns": [
       "dogdog_trivia_game/lib/**/*.dart"
     ]
