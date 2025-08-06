@@ -9,6 +9,7 @@ import 'package:dogdog_trivia_game/screens/home_screen.dart';
 import 'package:dogdog_trivia_game/screens/difficulty_selection_screen.dart';
 import 'package:dogdog_trivia_game/screens/game_screen.dart';
 import 'package:dogdog_trivia_game/models/enums.dart';
+import '../helpers/test_helper.dart';
 
 void main() {
   group('Accessibility Integration Tests', () {
@@ -41,10 +42,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        ChangeNotifierProvider(
-          create: (context) => ProgressService(),
-          child: const MaterialApp(home: HomeScreen()),
-        ),
+        TestHelper.createTestAppWithProgressService(const HomeScreen()),
       );
 
       // Test home screen semantics

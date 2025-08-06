@@ -1,0 +1,33 @@
+# Test configuration for DogDog Trivia Game
+# This file configures dart test runner behavior
+
+# Test timeout (30 seconds for widget tests, 10 seconds for unit tests)
+timeout: 30s
+
+# Platforms to test on
+platforms: [vm]
+
+# Test patterns
+test_on: vm
+
+# Enable coverage collection
+coverage: true
+
+# Reporter format
+reporter: expanded
+
+# Concurrency (number of tests to run in parallel)
+concurrency: 4
+
+# Paths to include/exclude
+paths:
+  - test/
+
+# Skip tests that are known to be flaky or platform-specific
+skip_tags:
+  - integration-android
+  - integration-ios
+
+# Test name patterns to skip
+skip_patterns:
+  - "should work with real device"
