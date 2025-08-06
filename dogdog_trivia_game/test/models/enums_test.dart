@@ -2,28 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dogdog_trivia_game/models/enums.dart';
 import 'package:dogdog_trivia_game/utils/enum_extensions.dart';
-import 'package:dogdog_trivia_game/l10n/generated/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import '../helpers/test_helper.dart';
 
 void main() {
-  Widget createTestWidget({required Widget child}) {
-    return MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
-      home: child,
-    );
-  }
-
   group('Difficulty', () {
     testWidgets('should have correct display names in German', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: Builder(
+        TestHelper.createTestApp(
+          Builder(
             builder: (context) {
               expect(Difficulty.easy.displayName(context), 'Leicht');
               expect(Difficulty.medium.displayName(context), 'Mittel');
@@ -32,6 +18,7 @@ void main() {
               return Container();
             },
           ),
+          locale: const Locale('de'),
         ),
       );
     });
@@ -55,8 +42,8 @@ void main() {
   group('PowerUpType', () {
     testWidgets('should have correct display names in German', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: Builder(
+        TestHelper.createTestApp(
+          Builder(
             builder: (context) {
               expect(PowerUpType.fiftyFifty.displayName(context), 'Chew 50/50');
               expect(PowerUpType.hint.displayName(context), 'Hinweis');
@@ -69,14 +56,15 @@ void main() {
               return Container();
             },
           ),
+          locale: const Locale('de'),
         ),
       );
     });
 
     testWidgets('should have descriptions in German', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: Builder(
+        TestHelper.createTestApp(
+          Builder(
             builder: (context) {
               expect(
                 PowerUpType.fiftyFifty.description(context),
@@ -101,6 +89,7 @@ void main() {
               return Container();
             },
           ),
+          locale: const Locale('de'),
         ),
       );
     });
@@ -118,8 +107,8 @@ void main() {
   group('Rank', () {
     testWidgets('should have correct display names in German', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: Builder(
+        TestHelper.createTestApp(
+          Builder(
             builder: (context) {
               expect(Rank.chihuahua.displayName(context), 'Chihuahua');
               expect(Rank.pug.displayName(context), 'Mops');
@@ -132,6 +121,7 @@ void main() {
               return Container();
             },
           ),
+          locale: const Locale('de'),
         ),
       );
     });
@@ -146,8 +136,8 @@ void main() {
 
     testWidgets('should have descriptions in German', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: Builder(
+        TestHelper.createTestApp(
+          Builder(
             builder: (context) {
               expect(
                 Rank.chihuahua.description(context),
@@ -172,6 +162,7 @@ void main() {
               return Container();
             },
           ),
+          locale: const Locale('de'),
         ),
       );
     });
@@ -199,8 +190,8 @@ void main() {
   group('GameResult', () {
     testWidgets('should have correct display names in German', (tester) async {
       await tester.pumpWidget(
-        createTestWidget(
-          child: Builder(
+        TestHelper.createTestApp(
+          Builder(
             builder: (context) {
               expect(GameResult.win.displayName(context), 'Gewonnen');
               expect(GameResult.lose.displayName(context), 'Verloren');
@@ -208,6 +199,7 @@ void main() {
               return Container();
             },
           ),
+          locale: const Locale('de'),
         ),
       );
     });

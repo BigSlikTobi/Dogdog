@@ -10,6 +10,7 @@ class TestHelper {
   static Widget createTestApp(
     Widget child, {
     List<ChangeNotifierProvider>? providers,
+    Locale locale = const Locale('en'),
   }) {
     Widget app = MaterialApp(
       localizationsDelegates: const [
@@ -19,6 +20,7 @@ class TestHelper {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+      locale: locale,
       home: child,
     );
 
@@ -33,6 +35,7 @@ class TestHelper {
   static Widget createTestAppWithProgressService(
     Widget child, {
     ProgressService? progressService,
+    Locale locale = const Locale('en'),
   }) {
     final service = progressService ?? ProgressService();
 
@@ -41,11 +44,15 @@ class TestHelper {
       providers: [
         ChangeNotifierProvider<ProgressService>.value(value: service),
       ],
+      locale: locale,
     );
   }
 
   /// Creates a basic MaterialApp wrapper for simple widget tests
-  static Widget createBasicTestApp(Widget child) {
+  static Widget createBasicTestApp(
+    Widget child, {
+    Locale locale = const Locale('en'),
+  }) {
     return MaterialApp(
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -54,6 +61,7 @@ class TestHelper {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+      locale: locale,
       home: Scaffold(body: child),
     );
   }
