@@ -1,0 +1,38 @@
+# GitHub CODEOWNERS file
+# This file defines who owns specific parts of the codebase
+# and who should be automatically requested for review
+
+# Global owners - default reviewers for everything
+* @BigSlikTobi
+
+# Flutter/Dart specific files
+*.dart @BigSlikTobi
+pubspec.yaml @BigSlikTobi
+pubspec.lock @BigSlikTobi
+
+# Test files - require extra scrutiny
+test/ @BigSlikTobi
+**/*_test.dart @BigSlikTobi
+
+# Configuration files
+.github/ @BigSlikTobi
+*.yml @BigSlikTobi
+*.yaml @BigSlikTobi
+
+# Documentation
+*.md @BigSlikTobi
+
+# Build and deployment files
+android/ @BigSlikTobi
+ios/ @BigSlikTobi
+web/ @BigSlikTobi
+windows/ @BigSlikTobi
+linux/ @BigSlikTobi
+macos/ @BigSlikTobi
+
+# Localization files
+lib/l10n/ @BigSlikTobi
+assets/data/ @BigSlikTobi
+
+# Assets
+assets/ @BigSlikTobi
