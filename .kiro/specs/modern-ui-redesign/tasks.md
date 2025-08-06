@@ -51,7 +51,7 @@
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
 
 -
-  4. [ ] Redesign difficulty selection screen
+  4. [x] Redesign difficulty selection screen
   - Update DifficultySelectionScreen to use vertical card layout
   - Replace difficulty cards with DogBreedCard components using breed images
   - Map dog breeds to difficulty levels (chihuahua=easy, cocker=medium,

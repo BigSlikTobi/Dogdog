@@ -5,6 +5,9 @@ import '../utils/responsive.dart';
 import '../utils/accessibility.dart';
 import '../services/audio_service.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../design_system/modern_colors.dart';
+import '../design_system/modern_spacing.dart';
+import '../design_system/modern_typography.dart';
 
 /// Screen for selecting game difficulty level
 class DifficultySelectionScreen extends StatelessWidget {
@@ -14,45 +17,31 @@ class DifficultySelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AccessibilityTheme(
       child: Scaffold(
-        backgroundColor: const Color(0xFFF8FAFC), // Background Gray
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: GameElementSemantics(
-            label: AppLocalizations.of(context).accessibility_goBack,
-            hint: 'Tap to return to the main menu',
-            onTap: () => Navigator.of(context).pop(),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Color(0xFF1F2937)),
-              onPressed: () => Navigator.of(context).pop(),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: ModernColors.createLinearGradient(
+              ModernColors.backgroundGradient,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
           ),
-          title: Text(
-            AppLocalizations.of(context).difficultyScreen_title,
-            style: AccessibilityUtils.getAccessibleTextStyle(
-              context,
-              const TextStyle(
-                color: Color(0xFF1F2937),
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          centerTitle: true,
-        ),
-        body: SafeArea(
-          child: ResponsiveContainer(
+          child: SafeArea(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: ResponsiveUtils.getResponsiveSpacing(context, 20),
+                _buildAppBar(context),
+                Expanded(
+                  child: ResponsiveContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ModernSpacing.verticalSpaceLG,
+                        _buildHeaderText(context),
+                        ModernSpacing.verticalSpaceXL,
+                        Expanded(child: _buildDifficultyList(context)),
+                      ],
+                    ),
+                  ),
                 ),
-                _buildHeaderText(context),
-                SizedBox(
-                  height: ResponsiveUtils.getResponsiveSpacing(context, 30),
-                ),
-                Expanded(child: _buildDifficultyGrid(context)),
               ],
             ),
           ),
@@ -61,212 +50,289 @@ class DifficultySelectionScreen extends StatelessWidget {
     );
   }
 
-  /// Builds the header text explaining difficulty selection
-  Widget _buildHeaderText(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.difficultyScreen_headerTitle,
-          style: AccessibilityUtils.getAccessibleTextStyle(
-            context,
-            const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF1F2937),
+  /// Builds the modern app bar
+  Widget _buildAppBar(BuildContext context) {
+    AppLocalizations? l10n;
+    try {
+      l10n = AppLocalizations.of(context);
+    } catch (e) {
+      l10n = null;
+    }
+    return Container(
+      padding: ModernSpacing.screenPaddingInsets.copyWith(bottom: 0),
+      child: Row(
+        children: [
+          GameElementSemantics(
+            label: l10n?.accessibility_goBack ?? 'Go back',
+            hint: 'Tap to return to the main menu',
+            onTap: () => Navigator.of(context).pop(),
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: ModernColors.textPrimary,
+                size: 24,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          l10n.difficultyScreen_headerSubtitle,
-          style: AccessibilityUtils.getAccessibleTextStyle(
-            context,
-            const TextStyle(fontSize: 16, color: Color(0xFF6B7280)),
+          Expanded(
+            child: Text(
+              l10n?.difficultyScreen_title ?? 'Select Difficulty',
+              style: AccessibilityUtils.getAccessibleTextStyle(
+                context,
+                ModernTypography.headingMedium,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
-      ],
+          const SizedBox(width: 48), // Balance the back button
+        ],
+      ),
     );
   }
 
-  /// Builds the 2x2 grid of difficulty cards
-  Widget _buildDifficultyGrid(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final crossAxisCount =
-        ResponsiveUtils.isLandscape(context) &&
-            !ResponsiveUtils.isMobile(context)
-        ? 4
-        : 2;
-    final spacing = ResponsiveUtils.getResponsiveSpacing(context, 16);
-
-    return GridView.count(
-      crossAxisCount: crossAxisCount,
-      crossAxisSpacing: spacing,
-      mainAxisSpacing: spacing,
-      childAspectRatio: ResponsiveUtils.isLandscape(context) ? 1.0 : 0.75,
-      children: [
-        _buildDifficultyCard(
-          context,
-          Difficulty.easy,
-          Icons.pets,
-          const Color(0xFF10B981), // Success Green
-          l10n.difficulty_easy_description,
-          l10n.difficulty_points_per_question(Difficulty.easy.points),
-        ),
-        _buildDifficultyCard(
-          context,
-          Difficulty.medium,
-          Icons.favorite,
-          const Color(0xFFF59E0B), // Warning Yellow
-          l10n.difficulty_medium_description,
-          l10n.difficulty_points_per_question(Difficulty.medium.points),
-        ),
-        _buildDifficultyCard(
-          context,
-          Difficulty.hard,
-          Icons.star,
-          const Color(0xFFEF4444), // Error Red
-          l10n.difficulty_hard_description,
-          l10n.difficulty_points_per_question(Difficulty.hard.points),
-        ),
-        _buildDifficultyCard(
-          context,
-          Difficulty.expert,
-          Icons.emoji_events,
-          const Color(0xFF8B5CF6), // Secondary Purple
-          l10n.difficulty_expert_description,
-          l10n.difficulty_points_per_question(Difficulty.expert.points),
-        ),
-      ],
+  /// Builds the header text explaining difficulty selection
+  Widget _buildHeaderText(BuildContext context) {
+    AppLocalizations? l10n;
+    try {
+      l10n = AppLocalizations.of(context);
+    } catch (e) {
+      l10n = null;
+    }
+    return Padding(
+      padding: ModernSpacing.paddingHorizontalLG,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l10n?.difficultyScreen_headerTitle ?? 'Choose your difficulty',
+            style: AccessibilityUtils.getAccessibleTextStyle(
+              context,
+              ModernTypography.headingLarge,
+            ),
+          ),
+          ModernSpacing.verticalSpaceSM,
+          Text(
+            l10n?.difficultyScreen_headerSubtitle ??
+                'Select the difficulty level that matches your knowledge',
+            style: AccessibilityUtils.getAccessibleTextStyle(
+              context,
+              ModernTypography.withSecondaryColor(ModernTypography.bodyLarge),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  /// Builds a single difficulty card
-  Widget _buildDifficultyCard(
+  /// Builds a 2x2 grid of difficulty cards
+  Widget _buildDifficultyList(BuildContext context) {
+    AppLocalizations? l10n;
+    try {
+      l10n = AppLocalizations.of(context);
+    } catch (e) {
+      l10n = null;
+    }
+
+    final difficulties = [
+      {
+        'difficulty': Difficulty.easy,
+        'breedName': 'Chihuahua',
+        'imagePath': 'assets/images/chihuahua.png',
+        'difficultyKey': 'easy',
+        'description':
+            l10n?.difficulty_easy_description ?? 'Perfect for beginners',
+        'pointsText':
+            l10n?.difficulty_points_per_question(Difficulty.easy.points) ??
+            '${Difficulty.easy.points} points per question',
+      },
+      {
+        'difficulty': Difficulty.medium,
+        'breedName': 'Cocker Spaniel',
+        'imagePath': 'assets/images/cocker.png',
+        'difficultyKey': 'medium',
+        'description':
+            l10n?.difficulty_medium_description ??
+            'For those with some knowledge',
+        'pointsText':
+            l10n?.difficulty_points_per_question(Difficulty.medium.points) ??
+            '${Difficulty.medium.points} points per question',
+      },
+      {
+        'difficulty': Difficulty.hard,
+        'breedName': 'German Shepherd',
+        'imagePath': 'assets/images/schaeferhund.png',
+        'difficultyKey': 'hard',
+        'description':
+            l10n?.difficulty_hard_description ?? 'Challenging questions',
+        'pointsText':
+            l10n?.difficulty_points_per_question(Difficulty.hard.points) ??
+            '${Difficulty.hard.points} points per question',
+      },
+      {
+        'difficulty': Difficulty.expert,
+        'breedName': 'Great Dane',
+        'imagePath': 'assets/images/dogge.png',
+        'difficultyKey': 'expert',
+        'description':
+            l10n?.difficulty_expert_description ?? 'For true dog experts',
+        'pointsText':
+            l10n?.difficulty_points_per_question(Difficulty.expert.points) ??
+            '${Difficulty.expert.points} points per question',
+      },
+    ];
+
+    return Padding(
+      padding: ModernSpacing.paddingHorizontalLG,
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          childAspectRatio: 0.75, // Increased height for better content fit
+        ),
+        itemCount: difficulties.length,
+        itemBuilder: (context, index) {
+          final difficultyData = difficulties[index];
+          return _buildModernDifficultyCard(
+            context,
+            difficultyData['difficulty'] as Difficulty,
+            difficultyData['breedName'] as String,
+            difficultyData['imagePath'] as String,
+            difficultyData['difficultyKey'] as String,
+            difficultyData['description'] as String,
+            difficultyData['pointsText'] as String,
+          );
+        },
+      ),
+    );
+  }
+
+  /// Builds a modern difficulty card using DogBreedCard component
+  Widget _buildModernDifficultyCard(
     BuildContext context,
     Difficulty difficulty,
-    IconData icon,
-    Color color,
+    String breedName,
+    String imagePath,
+    String difficultyKey,
     String description,
     String pointsText,
   ) {
+    final difficultyName = _getLocalizedDifficultyName(context, difficulty);
+
     return GameElementSemantics(
       label: AccessibilityUtils.createButtonLabel(
-        '${_getLocalizedDifficultyName(context, difficulty)} difficulty',
+        'Play $difficultyName difficulty',
         hint: '$description. $pointsText. Tap to select this difficulty.',
       ),
       onTap: () => _onDifficultySelected(context, difficulty),
-      child: Container(
-        decoration: AccessibilityUtils.getAccessibleCardDecoration(context)
-            .copyWith(
-              border: Border.all(color: color.withValues(alpha: 0.2), width: 2),
-            ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(16),
-            onTap: () => _onDifficultySelected(context, difficulty),
-            child: Padding(
-              padding: ResponsiveUtils.getResponsivePadding(
-                context,
-              ).copyWith(top: 12, bottom: 12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Icon with colored background
-                  Container(
-                    width: ResponsiveUtils.getResponsiveIconSize(context, 60),
-                    height: ResponsiveUtils.getResponsiveIconSize(context, 60),
-                    decoration: BoxDecoration(
-                      color: color.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Icon(
-                      icon,
-                      size: ResponsiveUtils.getResponsiveIconSize(context, 32),
-                      color: color,
-                    ),
-                  ),
-                  SizedBox(
-                    height: ResponsiveUtils.getResponsiveSpacing(context, 12),
-                  ),
-
-                  // Difficulty name
-                  Text(
-                    _getLocalizedDifficultyName(context, difficulty),
-                    style: AccessibilityUtils.getAccessibleTextStyle(
-                      context,
-                      TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: color,
-                      ),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: ResponsiveUtils.getResponsiveSpacing(context, 6),
-                  ),
-
-                  // Description
-                  Text(
-                    description,
-                    style: AccessibilityUtils.getAccessibleTextStyle(
-                      context,
-                      const TextStyle(fontSize: 13, color: Color(0xFF6B7280)),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: ResponsiveUtils.getResponsiveSpacing(context, 6),
-                  ),
-
-                  // Points text
-                  Text(
-                    pointsText,
-                    style: AccessibilityUtils.getAccessibleTextStyle(
-                      context,
-                      const TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF1F2937),
-                      ),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: ResponsiveUtils.getResponsiveSpacing(context, 12),
-                  ),
-
-                  // Selection button
-                  Container(
-                    width: double.infinity,
-                    height: 32,
-                    decoration:
-                        AccessibilityUtils.getAccessibleButtonDecoration(
-                          context,
-                          backgroundColor: color,
+      child: InkWell(
+        onTap: () => _onDifficultySelected(context, difficulty),
+        borderRadius: ModernSpacing.borderRadiusLarge,
+        child: Container(
+          padding: ModernSpacing.cardPaddingInsets,
+          decoration: BoxDecoration(
+            color: ModernColors.cardBackground,
+            borderRadius: ModernSpacing.borderRadiusLarge,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Top section: Dog image (centered)
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: ModernColors.getColorForDifficulty(
+                    difficultyKey,
+                  ).withValues(alpha: 0.1),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.asset(
+                    imagePath,
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: ModernColors.getColorForDifficulty(
+                            difficultyKey,
+                          ).withValues(alpha: 0.2),
                         ),
-                    child: Center(
-                      child: Text(
-                        AppLocalizations.of(
-                          context,
-                        ).difficultyScreen_selectButton,
-                        style: AccessibilityUtils.getAccessibleTextStyle(
-                          context,
-                          const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                        child: Icon(
+                          Icons.pets,
+                          size: 30,
+                          color: ModernColors.getColorForDifficulty(
+                            difficultyKey,
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
-                ],
+                ),
               ),
-            ),
+
+              ModernSpacing.verticalSpaceSM,
+
+              // Difficulty name (centered)
+              Text(
+                difficultyName,
+                style: AccessibilityUtils.getAccessibleTextStyle(
+                  context,
+                  ModernTypography.withColor(
+                    ModernTypography.bodyMedium,
+                    ModernColors.getColorForDifficulty(difficultyKey),
+                  ),
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+
+              ModernSpacing.verticalSpaceXS,
+
+              // Description
+              Expanded(
+                child: Text(
+                  description,
+                  style: AccessibilityUtils.getAccessibleTextStyle(
+                    context,
+                    ModernTypography.caption,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+
+              // Points
+              Text(
+                pointsText,
+                style: AccessibilityUtils.getAccessibleTextStyle(
+                  context,
+                  ModernTypography.withColor(
+                    TextStyle(fontSize: 10, fontWeight: FontWeight.w400),
+                    ModernColors.textSecondary,
+                  ),
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
         ),
       ),
@@ -278,16 +344,21 @@ class DifficultySelectionScreen extends StatelessWidget {
     BuildContext context,
     Difficulty difficulty,
   ) {
-    final l10n = AppLocalizations.of(context);
+    AppLocalizations? l10n;
+    try {
+      l10n = AppLocalizations.of(context);
+    } catch (e) {
+      l10n = null;
+    }
     switch (difficulty) {
       case Difficulty.easy:
-        return l10n.difficulty_easy;
+        return l10n?.difficulty_easy ?? 'Easy';
       case Difficulty.medium:
-        return l10n.difficulty_medium;
+        return l10n?.difficulty_medium ?? 'Medium';
       case Difficulty.hard:
-        return l10n.difficulty_hard;
+        return l10n?.difficulty_hard ?? 'Hard';
       case Difficulty.expert:
-        return l10n.difficulty_expert;
+        return l10n?.difficulty_expert ?? 'Expert';
     }
   }
 
