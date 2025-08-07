@@ -31,20 +31,35 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   late GameController _gameController;
   bool _isLoading = true;
+  bool _shouldDisposeController = false;
 
   @override
   void initState() {
     super.initState();
-    _initializeGame();
+    // Use addPostFrameCallback to avoid setState during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeGame();
+    });
   }
 
   Future<void> _initializeGame() async {
-    final progressService = Provider.of<ProgressService>(
-      context,
-      listen: false,
-    );
-    _gameController = GameController(progressService: progressService);
-    await _gameController.initializeGame(level: widget.level);
+    // Try to get existing GameController from provider first
+    try {
+      _gameController = Provider.of<GameController>(context, listen: false);
+      _shouldDisposeController = false;
+      // If we got a controller from provider, initialize it for this level
+      await _gameController.initializeGame(level: widget.level);
+    } catch (e) {
+      // Fallback: create new controller if provider doesn't have one
+      final progressService = Provider.of<ProgressService>(
+        context,
+        listen: false,
+      );
+      _gameController = GameController(progressService: progressService);
+      _shouldDisposeController = true;
+      await _gameController.initializeGame(level: widget.level);
+    }
+
     if (mounted) {
       setState(() {
         _isLoading = false;
@@ -54,7 +69,14 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   void dispose() {
-    _gameController.dispose();
+    // Only dispose if we created the controller ourselves
+    if (_shouldDisposeController) {
+      try {
+        _gameController.dispose();
+      } catch (e) {
+        // Controller already disposed, ignore
+      }
+    }
     super.dispose();
   }
 
