@@ -1,60 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:dogdog_trivia_game/l10n/generated/app_localizations.dart';
+
+import 'package:dogdog_trivia_game/main.dart';
 import 'package:dogdog_trivia_game/services/progress_service.dart';
+import 'package:dogdog_trivia_game/controllers/game_controller.dart';
+import 'package:dogdog_trivia_game/services/question_service.dart';
+import 'package:dogdog_trivia_game/services/audio_service.dart';
 
-/// Helper class for creating test widgets with proper localization and provider setup
+/// Helper class for setting up tests consistently
 class TestHelper {
-  /// Creates a MaterialApp wrapper with proper localization for testing
-  static Widget createTestApp(
-    Widget child, {
-    List<ChangeNotifierProvider>? providers,
-  }) {
-    Widget app = MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
-      home: child,
-    );
-
-    if (providers != null && providers.isNotEmpty) {
-      app = MultiProvider(providers: providers, child: app);
-    }
-
-    return app;
+  /// Sets up a clean test environment with mocked SharedPreferences
+  static void setUpTestEnvironment() {
+    SharedPreferences.setMockInitialValues({});
   }
 
-  /// Creates a MaterialApp wrapper with ProgressService provider for testing
-  static Widget createTestAppWithProgressService(
-    Widget child, {
-    ProgressService? progressService,
-  }) {
-    final service = progressService ?? ProgressService();
+  /// Creates a fully initialized app widget for testing
+  static Future<Widget> createTestApp() async {
+    final progressService = ProgressService();
+    await progressService.initialize();
 
-    return createTestApp(
-      child,
+    return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ProgressService>.value(value: service),
+        ChangeNotifierProvider(create: (_) => GameController()),
+        ChangeNotifierProvider.value(value: progressService),
+        Provider(create: (_) => QuestionService()),
+        Provider(create: (_) => AudioService()),
       ],
+      child: DogDogTriviaApp(progressService: progressService),
     );
   }
 
-  /// Creates a basic MaterialApp wrapper for simple widget tests
-  static Widget createBasicTestApp(Widget child) {
-    return MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
-      home: Scaffold(body: child),
-    );
+  /// Creates a basic widget wrapper for testing individual widgets
+  static Widget wrapWidget(Widget child) {
+    return MaterialApp(home: Scaffold(body: child));
+  }
+
+  /// Cleanup method to call in tearDown
+  static void cleanup(ProgressService? progressService) {
+    progressService?.dispose();
   }
 }

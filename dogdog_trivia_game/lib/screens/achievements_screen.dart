@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/player_progress.dart';
@@ -29,6 +30,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
 
   PlayerProgress? _playerProgress;
   bool _isLoading = true;
+  Timer? _celebrationTimer;
 
   @override
   void initState() {
@@ -84,9 +86,11 @@ class _AchievementsScreenState extends State<AchievementsScreen>
       _mainAnimationController.forward();
 
       // Play celebration animation for newly unlocked achievements
-      if (progress.unlockedAchievements.isNotEmpty) {
-        Future.delayed(const Duration(milliseconds: 500), () {
-          _celebrationController.forward();
+      if (progress.unlockedAchievements.isNotEmpty && mounted) {
+        _celebrationTimer = Timer(const Duration(milliseconds: 500), () {
+          if (mounted) {
+            _celebrationController.forward();
+          }
         });
       }
     } catch (e) {
@@ -107,6 +111,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
 
   @override
   void dispose() {
+    _celebrationTimer?.cancel();
     _mainAnimationController.dispose();
     _celebrationController.dispose();
     super.dispose();

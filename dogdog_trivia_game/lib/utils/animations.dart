@@ -306,10 +306,6 @@ class ScalePageRoute<T> extends PageRouteBuilder<T> {
             context,
             AppAnimations.bounceCurve,
           );
-          final duration = AppAnimations.getDuration(
-            context,
-            AppAnimations.slowDuration,
-          );
 
           // Simplified transition for reduced motion
           if (isReducedMotion) {

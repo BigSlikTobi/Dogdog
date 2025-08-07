@@ -538,7 +538,7 @@ class _ResultScreenState extends State<ResultScreen>
         animation: _celebrationAnimation,
         builder: (context, child) {
           return Opacity(
-            opacity: _celebrationAnimation.value * 0.9,
+            opacity: (_celebrationAnimation.value * 0.9).clamp(0.0, 1.0),
             child: Container(
               color: ModernColors.overlayBackground,
               child: Center(

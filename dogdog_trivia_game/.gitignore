@@ -13,6 +13,9 @@
 migrate_working_dir/
 .kiro/
 
+# Test backup directories
+test_backup_20250807_215358/
+
 # IntelliJ related
 *.iml
 *.ipr
