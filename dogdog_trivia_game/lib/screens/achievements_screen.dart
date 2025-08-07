@@ -7,6 +7,8 @@ import '../services/progress_service.dart';
 import '../services/audio_service.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../utils/enum_extensions.dart';
+import '../widgets/modern_card.dart';
+import '../design_system/modern_colors.dart';
 
 /// Screen displaying all achievements and player progress
 class AchievementsScreen extends StatefulWidget {
@@ -108,6 +110,22 @@ class _AchievementsScreenState extends State<AchievementsScreen>
     _mainAnimationController.dispose();
     _celebrationController.dispose();
     super.dispose();
+  }
+
+  /// Returns the dog breed image path for a given rank
+  String _getDogBreedImagePath(Rank rank) {
+    switch (rank) {
+      case Rank.chihuahua:
+        return 'assets/images/chihuahua.png';
+      case Rank.pug:
+        return 'assets/images/mops.png';
+      case Rank.cockerSpaniel:
+        return 'assets/images/cocker.png';
+      case Rank.germanShepherd:
+        return 'assets/images/schaeferhund.png';
+      case Rank.greatDane:
+        return 'assets/images/dogge.png';
+    }
   }
 
   @override
@@ -240,23 +258,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   Widget _buildOverallProgressSection() {
     final progress = _playerProgress!;
 
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF8B5CF6), Color(0xFF7C3AED)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF8B5CF6).withValues(alpha: 0.3),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
+    return ModernCard.gradient(
+      gradientColors: ModernColors.purpleGradient,
+      margin: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -362,19 +366,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
       builder: (context, child) {
         return Transform.scale(
           scale: 1.0 + (_celebrationAnimation.value * 0.1),
-          child: Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
+          child: ModernCard(
+            margin: EdgeInsets.zero,
             child: Column(
               children: [
                 Text(
@@ -388,35 +381,59 @@ class _AchievementsScreenState extends State<AchievementsScreen>
 
                 const SizedBox(height: 20),
 
-                // Rank Icon
+                // Dog Breed Image
                 Container(
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: isRankUnlocked
-                        ? const LinearGradient(
-                            colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
-                          )
-                        : const LinearGradient(
-                            colors: [Color(0xFFE5E7EB), Color(0xFF9CA3AF)],
-                          ),
                     boxShadow: [
                       BoxShadow(
                         color: isRankUnlocked
-                            ? const Color(0xFFFFD700).withValues(alpha: 0.3)
+                            ? ModernColors.primaryPurple.withValues(alpha: 0.3)
                             : Colors.black.withValues(alpha: 0.1),
                         blurRadius: 12,
                         offset: const Offset(0, 4),
                       ),
                     ],
                   ),
-                  child: Icon(
-                    _getRankIcon(currentRank),
-                    size: 50,
-                    color: isRankUnlocked
-                        ? Colors.white
-                        : const Color(0xFF6B7280),
+                  child: ClipOval(
+                    child: ColorFiltered(
+                      colorFilter: isRankUnlocked
+                          ? const ColorFilter.mode(
+                              Colors.transparent,
+                              BlendMode.multiply,
+                            )
+                          : ColorFilter.mode(
+                              Colors.grey.withValues(alpha: 0.7),
+                              BlendMode.saturation,
+                            ),
+                      child: Image.asset(
+                        _getDogBreedImagePath(currentRank),
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isRankUnlocked
+                                  ? ModernColors.primaryPurple
+                                  : ModernColors.surfaceMedium,
+                            ),
+                            child: Icon(
+                              Icons.pets,
+                              size: 50,
+                              color: isRankUnlocked
+                                  ? Colors.white
+                                  : ModernColors.textSecondary,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ),
 
@@ -485,23 +502,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
 
     if (nextRank == null) {
       // All ranks achieved
-      return Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF10B981), Color(0xFF059669)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF10B981).withValues(alpha: 0.3),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
+      return ModernCard.gradient(
+        gradientColors: ModernColors.greenGradient,
+        margin: EdgeInsets.zero,
         child: Column(
           children: [
             const Icon(Icons.emoji_events, size: 48, color: Colors.white),
@@ -531,28 +534,50 @@ class _AchievementsScreenState extends State<AchievementsScreen>
     final remainingAnswers =
         nextRank.requiredCorrectAnswers - progress.totalCorrectAnswers;
 
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
+    return ModernCard(
+      margin: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(
-                _getRankIcon(nextRank),
-                size: 32,
-                color: const Color(0xFF8B5CF6),
+              // Dog breed image for next rank
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: ModernColors.primaryPurple.withValues(alpha: 0.2),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: ClipOval(
+                  child: Image.asset(
+                    _getDogBreedImagePath(nextRank),
+                    width: 32,
+                    height: 32,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: ModernColors.primaryPurple,
+                        ),
+                        child: const Icon(
+                          Icons.pets,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -666,135 +691,155 @@ class _AchievementsScreenState extends State<AchievementsScreen>
     final isUnlocked = progress.isRankUnlocked(achievement.rank);
     final progressValue = achievement.getProgress(progress.totalCorrectAnswers);
 
-    return GestureDetector(
+    return ModernCard.interactive(
       onTap: () async {
         await _audioService.playButtonSound();
         _showAchievementDetails(achievement, progress);
       },
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: isUnlocked
-              ? Border.all(color: const Color(0xFFFFD700), width: 2)
-              : null,
-          boxShadow: [
-            BoxShadow(
-              color: isUnlocked
-                  ? const Color(0xFFFFD700).withValues(alpha: 0.2)
-                  : Colors.black.withValues(alpha: 0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+      margin: EdgeInsets.zero,
+      hasBorder: isUnlocked,
+      borderColor: ModernColors.primaryPurple,
+      borderWidth: 2.0,
+      child: Row(
+        children: [
+          // Dog Breed Image
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: isUnlocked
+                      ? ModernColors.primaryPurple.withValues(alpha: 0.3)
+                      : Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Row(
-          children: [
-            // Achievement Icon
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: isUnlocked
-                    ? const LinearGradient(
-                        colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+            child: ClipOval(
+              child: ColorFiltered(
+                colorFilter: isUnlocked
+                    ? const ColorFilter.mode(
+                        Colors.transparent,
+                        BlendMode.multiply,
                       )
-                    : const LinearGradient(
-                        colors: [Color(0xFFE5E7EB), Color(0xFF9CA3AF)],
+                    : ColorFilter.mode(
+                        Colors.grey.withValues(alpha: 0.7),
+                        BlendMode.saturation,
                       ),
-              ),
-              child: Icon(
-                _getRankIcon(achievement.rank),
-                size: 30,
-                color: isUnlocked ? Colors.white : const Color(0xFF6B7280),
+                child: Image.asset(
+                  _getDogBreedImagePath(achievement.rank),
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: isUnlocked
+                            ? ModernColors.primaryPurple
+                            : ModernColors.surfaceMedium,
+                      ),
+                      child: Icon(
+                        Icons.pets,
+                        size: 30,
+                        color: isUnlocked
+                            ? Colors.white
+                            : ModernColors.textSecondary,
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
+          ),
 
-            const SizedBox(width: 16),
+          const SizedBox(width: 16),
 
-            // Achievement Info
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          achievement.rank.displayName(context),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: isUnlocked
-                                ? const Color(0xFF1F2937)
-                                : const Color(0xFF6B7280),
-                          ),
+          // Achievement Info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        achievement.rank.displayName(context),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: isUnlocked
+                              ? const Color(0xFF1F2937)
+                              : const Color(0xFF6B7280),
                         ),
                       ),
-                      if (isUnlocked)
-                        const Icon(
-                          Icons.check_circle,
-                          color: Color(0xFF10B981),
-                          size: 20,
+                    ),
+                    if (isUnlocked)
+                      const Icon(
+                        Icons.check_circle,
+                        color: Color(0xFF10B981),
+                        size: 20,
+                      ),
+                  ],
+                ),
+
+                const SizedBox(height: 4),
+
+                Text(
+                  AppLocalizations.of(
+                    context,
+                  ).achievementsScreen_correctAnswersRequired(
+                    achievement.requiredCorrectAnswers,
+                  ),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF6B7280),
+                  ),
+                ),
+
+                if (!isUnlocked) ...[
+                  const SizedBox(height: 8),
+
+                  // Progress Bar
+                  Container(
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF3F4F6),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    child: FractionallySizedBox(
+                      alignment: Alignment.centerLeft,
+                      widthFactor: progressValue,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF8B5CF6),
+                          borderRadius: BorderRadius.circular(2),
                         ),
-                    ],
+                      ),
+                    ),
                   ),
 
                   const SizedBox(height: 4),
 
                   Text(
-                    AppLocalizations.of(
-                      context,
-                    ).achievementsScreen_correctAnswersRequired(
-                      achievement.requiredCorrectAnswers,
-                    ),
+                    '${progress.totalCorrectAnswers}/${achievement.requiredCorrectAnswers}',
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: Color(0xFF6B7280),
                     ),
                   ),
-
-                  if (!isUnlocked) ...[
-                    const SizedBox(height: 8),
-
-                    // Progress Bar
-                    Container(
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF3F4F6),
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                      child: FractionallySizedBox(
-                        alignment: Alignment.centerLeft,
-                        widthFactor: progressValue,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF8B5CF6),
-                            borderRadius: BorderRadius.circular(2),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 4),
-
-                    Text(
-                      '${progress.totalCorrectAnswers}/${achievement.requiredCorrectAnswers}',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF6B7280),
-                      ),
-                    ),
-                  ],
                 ],
-              ),
+              ],
             ),
+          ),
 
-            const Icon(Icons.chevron_right, color: Color(0xFF9CA3AF)),
-          ],
-        ),
+          const Icon(Icons.chevron_right, color: Color(0xFF9CA3AF)),
+        ],
       ),
     );
   }
@@ -815,24 +860,59 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Achievement Icon
+              // Dog Breed Image
               Container(
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: isUnlocked
-                      ? const LinearGradient(
-                          colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
-                        )
-                      : const LinearGradient(
-                          colors: [Color(0xFFE5E7EB), Color(0xFF9CA3AF)],
-                        ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: isUnlocked
+                          ? ModernColors.primaryPurple.withValues(alpha: 0.3)
+                          : Colors.black.withValues(alpha: 0.1),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
-                child: Icon(
-                  _getRankIcon(achievement.rank),
-                  size: 40,
-                  color: isUnlocked ? Colors.white : const Color(0xFF6B7280),
+                child: ClipOval(
+                  child: ColorFiltered(
+                    colorFilter: isUnlocked
+                        ? const ColorFilter.mode(
+                            Colors.transparent,
+                            BlendMode.multiply,
+                          )
+                        : ColorFilter.mode(
+                            Colors.grey.withValues(alpha: 0.7),
+                            BlendMode.saturation,
+                          ),
+                    child: Image.asset(
+                      _getDogBreedImagePath(achievement.rank),
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isUnlocked
+                                ? ModernColors.primaryPurple
+                                : ModernColors.surfaceMedium,
+                          ),
+                          child: Icon(
+                            Icons.pets,
+                            size: 40,
+                            color: isUnlocked
+                                ? Colors.white
+                                : ModernColors.textSecondary,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
 
@@ -972,21 +1052,5 @@ class _AchievementsScreenState extends State<AchievementsScreen>
         ),
       ),
     );
-  }
-
-  /// Gets the appropriate icon for a rank
-  IconData _getRankIcon(Rank rank) {
-    switch (rank) {
-      case Rank.chihuahua:
-        return Icons.pets;
-      case Rank.pug:
-        return Icons.favorite;
-      case Rank.cockerSpaniel:
-        return Icons.star;
-      case Rank.germanShepherd:
-        return Icons.military_tech;
-      case Rank.greatDane:
-        return Icons.diamond;
-    }
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/enums.dart';
 import 'game_screen.dart';
 import '../utils/responsive.dart';
+import '../utils/animations.dart';
 import '../utils/accessibility.dart';
 import '../services/audio_service.dart';
 import '../l10n/generated/app_localizations.dart';
@@ -380,11 +381,12 @@ class DifficultySelectionScreen extends StatelessWidget {
 
     if (context.mounted) {
       Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => GameScreen(
+        ModernPageRoute(
+          child: GameScreen(
             difficulty: difficulty,
             level: 1, // Start at level 1
           ),
+          direction: SlideDirection.rightToLeft,
         ),
       );
     }

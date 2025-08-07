@@ -71,6 +71,14 @@ class GameController extends ChangeNotifier {
   /// List of disabled answer indices (from 50/50 power-up)
   List<int> get disabledAnswerIndices => _gameState.disabledAnswerIndices;
 
+  /// Whether success animation should be triggered
+  bool get shouldTriggerSuccessAnimation =>
+      _gameState.lastAnswerWasCorrect == true && _gameState.isShowingFeedback;
+
+  /// Whether incorrect feedback animation should be triggered
+  bool get shouldTriggerIncorrectAnimation =>
+      _gameState.lastAnswerWasCorrect == false && _gameState.isShowingFeedback;
+
   /// Power-up controller for managing power-ups
   PowerUpController get powerUpController => _powerUpController;
 

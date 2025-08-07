@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:async';
 import '../controllers/game_controller.dart';
 import '../models/question.dart';
 import '../models/achievement.dart';
 import '../services/progress_service.dart';
 import 'game_over_screen.dart';
 import '../widgets/animated_button.dart';
+import '../widgets/success_animation_widget.dart';
+import '../design_system/modern_colors.dart';
+import '../design_system/modern_typography.dart';
+import '../design_system/modern_spacing.dart';
+import '../design_system/modern_shadows.dart';
+import '../utils/animations.dart';
 import '../l10n/generated/app_localizations.dart';
 
 /// Result screen widget for displaying answer feedback and fun facts
@@ -40,10 +47,15 @@ class _ResultScreenState extends State<ResultScreen>
 
   int _displayedScore = 0;
   int _targetScore = 0;
+  bool _showSuccessOverlay = false;
+  bool _showIncorrectOverlay = false;
+  Timer? _incorrectOverlayTimer;
 
   @override
   void initState() {
     super.initState();
+    _showSuccessOverlay = widget.isCorrect;
+    _showIncorrectOverlay = !widget.isCorrect;
     _setupAnimations();
     _startAnimations();
   }
@@ -117,6 +129,15 @@ class _ResultScreenState extends State<ResultScreen>
           _celebrationController.forward();
         }
       });
+    } else {
+      // Start auto-dismiss timer for incorrect answers (1 second delay)
+      _incorrectOverlayTimer = Timer(const Duration(seconds: 1), () {
+        if (mounted) {
+          setState(() {
+            _showIncorrectOverlay = false;
+          });
+        }
+      });
     }
 
     // Start score animation
@@ -129,6 +150,7 @@ class _ResultScreenState extends State<ResultScreen>
 
   @override
   void dispose() {
+    _incorrectOverlayTimer?.cancel();
     _mainAnimationController.dispose();
     _celebrationController.dispose();
     _scoreAnimationController.dispose();
@@ -138,62 +160,81 @@ class _ResultScreenState extends State<ResultScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC), // Background Gray
-      body: SafeArea(
-        child: Consumer<GameController>(
-          builder: (context, gameController, child) {
-            return AnimatedBuilder(
-              animation: _fadeInAnimation,
-              builder: (context, child) {
-                return Opacity(
-                  opacity: _fadeInAnimation.value,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        // Top bar with lives and score
-                        _buildTopBar(gameController),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: ModernColors.backgroundGradient,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SafeArea(
+          child: Consumer<GameController>(
+            builder: (context, gameController, child) {
+              return Stack(
+                children: [
+                  // Main content
+                  AnimatedBuilder(
+                    animation: _fadeInAnimation,
+                    builder: (context, child) {
+                      return Opacity(
+                        opacity: _fadeInAnimation.value,
+                        child: Padding(
+                          padding: ModernSpacing.paddingLG,
+                          child: Column(
+                            children: [
+                              // Top bar with lives and score
+                              _buildTopBar(gameController),
 
-                        const SizedBox(height: 40),
+                              ModernSpacing.verticalSpaceXL,
 
-                        // Main feedback area
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const SizedBox(height: 20),
+                              // Main feedback area
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ModernSpacing.verticalSpaceLG,
 
-                                // Feedback message with animation
-                                _buildFeedbackMessage(),
+                                      // Feedback message with animation
+                                      _buildFeedbackMessage(),
 
-                                const SizedBox(height: 20),
+                                      ModernSpacing.verticalSpaceLG,
 
-                                // Fun fact card
-                                _buildFunFactCard(),
+                                      // Fun fact card
+                                      _buildFunFactCard(),
 
-                                const SizedBox(height: 20),
+                                      ModernSpacing.verticalSpaceLG,
 
-                                // Score update display
-                                _buildScoreUpdate(),
+                                      // Score update display
+                                      _buildScoreUpdate(),
 
-                                const SizedBox(height: 20),
-                              ],
-                            ),
+                                      ModernSpacing.verticalSpaceLG,
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              // Next question button
+                              _buildNextQuestionButton(gameController),
+
+                              ModernSpacing.verticalSpaceLG,
+                            ],
                           ),
                         ),
-
-                        // Next question button
-                        _buildNextQuestionButton(gameController),
-
-                        const SizedBox(height: 20),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            );
-          },
+
+                  // Success animation overlay for correct answers
+                  if (_showSuccessOverlay) _buildSuccessAnimationOverlay(),
+
+                  // Gentle feedback animation for incorrect answers
+                  if (_showIncorrectOverlay) _buildIncorrectFeedbackOverlay(),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -492,6 +533,101 @@ class _ResultScreenState extends State<ResultScreen>
     Navigator.of(context).pop();
   }
 
+  /// Builds the success animation overlay for correct answers
+  Widget _buildSuccessAnimationOverlay() {
+    return Positioned.fill(
+      child: AnimatedBuilder(
+        animation: _celebrationAnimation,
+        builder: (context, child) {
+          return Opacity(
+            opacity: _celebrationAnimation.value * 0.9,
+            child: Container(
+              color: ModernColors.overlayBackground,
+              child: Center(
+                child: SuccessAnimationVariants.correctAnswer(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: MediaQuery.of(context).size.width * 0.4,
+                  onAnimationComplete: () {
+                    // Animation completed, but overlay still needs to be dismissed
+                  },
+                  onDismissComplete: () {
+                    // Hide the overlay completely when animation is fully dismissed
+                    if (mounted) {
+                      setState(() {
+                        _showSuccessOverlay = false;
+                      });
+                    }
+                  },
+                  semanticLabel: 'Correct answer celebration animation',
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  /// Builds the gentle feedback animation overlay for incorrect answers
+  Widget _buildIncorrectFeedbackOverlay() {
+    return Positioned.fill(
+      child: AnimatedBuilder(
+        animation: _scaleAnimation,
+        builder: (context, child) {
+          // Create a gentle shake effect for incorrect answers
+          final shakeOffset = _scaleAnimation.value < 0.5
+              ? (1.0 - _scaleAnimation.value * 2) * 5.0
+              : 0.0;
+
+          return Transform.translate(
+            offset: Offset(shakeOffset, 0),
+            child: Container(
+              color: Colors.transparent,
+              child: Center(
+                child: AnimatedBuilder(
+                  animation: _scaleAnimation,
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: 0.8 + (_scaleAnimation.value * 0.2),
+                      child: Image.asset(
+                        'assets/images/fail.png',
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: MediaQuery.of(context).size.width * 0.4,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          // Fallback to the original icon if image fails to load
+                          return Container(
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            height: MediaQuery.of(context).size.width * 0.3,
+                            decoration: BoxDecoration(
+                              color: ModernColors.error.withValues(alpha: 0.1),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: ModernColors.error.withValues(
+                                  alpha: 0.3,
+                                ),
+                                width: 2,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.close_rounded,
+                              size: MediaQuery.of(context).size.width * 0.15,
+                              color: ModernColors.error.withValues(alpha: 0.7),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   /// Navigates to the game over screen with proper data
   Future<void> _navigateToGameOver(GameController gameController) async {
     // Get progress service to record game completion and check for achievements
@@ -521,8 +657,8 @@ class _ResultScreenState extends State<ResultScreen>
     // Navigate to game over screen
     if (mounted) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => ChangeNotifierProvider.value(
+        ModernPageRoute(
+          child: ChangeNotifierProvider.value(
             value: gameController,
             child: GameOverScreen(
               finalScore: gameController.score,
@@ -532,6 +668,7 @@ class _ResultScreenState extends State<ResultScreen>
               newlyUnlockedAchievements: newlyUnlocked,
             ),
           ),
+          direction: SlideDirection.rightToLeft,
         ),
       );
     }

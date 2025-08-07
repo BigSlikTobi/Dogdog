@@ -589,7 +589,7 @@ class _GameOverScreenState extends State<GameOverScreen>
 
     // Navigate to difficulty selection screen with animation
     Navigator.of(context).pushAndRemoveUntil(
-      SlidePageRoute(
+      ModernPageRoute(
         child: const DifficultySelectionScreen(),
         direction: SlideDirection.rightToLeft,
       ),
@@ -608,7 +608,10 @@ class _GameOverScreenState extends State<GameOverScreen>
 
     // Navigate to home screen with animation
     Navigator.of(context).pushAndRemoveUntil(
-      FadePageRoute(child: const HomeScreen()),
+      ModernPageRoute(
+        child: const HomeScreen(),
+        direction: SlideDirection.leftToRight,
+      ),
       (route) => false,
     );
   }

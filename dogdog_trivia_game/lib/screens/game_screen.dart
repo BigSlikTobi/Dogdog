@@ -6,9 +6,16 @@ import '../services/audio_service.dart';
 import '../services/progress_service.dart';
 import 'result_screen.dart';
 import '../utils/responsive.dart';
+import '../utils/animations.dart';
 import '../utils/accessibility.dart';
 import '../utils/enum_extensions.dart';
 import '../widgets/loading_animation.dart';
+import '../widgets/modern_card.dart';
+import '../widgets/gradient_button.dart';
+import '../design_system/modern_colors.dart';
+import '../design_system/modern_typography.dart';
+import '../design_system/modern_spacing.dart';
+import '../design_system/modern_shadows.dart';
 import '../l10n/generated/app_localizations.dart';
 
 /// Main game screen widget displaying questions, answers, and game UI elements
@@ -69,81 +76,87 @@ class _GameScreenState extends State<GameScreen> {
     return ChangeNotifierProvider.value(
       value: _gameController,
       child: AccessibilityTheme(
-        child: Scaffold(
-          backgroundColor: const Color(0xFFF8FAFC), // Background Gray
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: Semantics(
-              label: AppLocalizations.of(context).accessibility_pauseGame,
-              hint: 'Tap to pause the current game',
-              child: IconButton(
-                icon: const Icon(Icons.pause, color: Color(0xFF1F2937)),
-                onPressed: () => _showPauseDialog(),
-              ),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: ModernColors.backgroundGradient,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
-            title: Semantics(
-              label: 'Current level: ${widget.level}',
-              child: Text(
-                AppLocalizations.of(context).gameScreen_level(widget.level),
-                style: AccessibilityUtils.getAccessibleTextStyle(
-                  context,
-                  const TextStyle(
-                    color: Color(0xFF1F2937),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+          ),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: Semantics(
+                label: AppLocalizations.of(context).accessibility_pauseGame,
+                hint: 'Tap to pause the current game',
+                child: IconButton(
+                  icon: Icon(
+                    Icons.pause_rounded,
+                    color: ModernColors.textPrimary,
+                    size: 24,
                   ),
+                  onPressed: () => _showPauseDialog(),
                 ),
               ),
+              title: Semantics(
+                label: 'Current level: ${widget.level}',
+                child: Text(
+                  AppLocalizations.of(context).gameScreen_level(widget.level),
+                  style: ModernTypography.headingSmall.copyWith(fontSize: 18),
+                ),
+              ),
+              centerTitle: true,
             ),
-            centerTitle: true,
-          ),
-          body: SafeArea(
-            child: Consumer<GameController>(
-              builder: (context, gameController, child) {
-                return ResponsiveContainer(
-                  child: Column(
-                    children: [
-                      // Top bar with lives and score
-                      _buildTopBar(gameController),
+            body: SafeArea(
+              child: Consumer<GameController>(
+                builder: (context, gameController, child) {
+                  return ResponsiveContainer(
+                    child: Column(
+                      children: [
+                        // Top bar with lives and score
+                        _buildTopBar(gameController),
 
-                      // Timer bar (if applicable)
-                      if (gameController.isTimerActive)
-                        _buildTimerBar(gameController),
+                        // Timer bar (if applicable)
+                        if (gameController.isTimerActive)
+                          _buildTimerBar(gameController),
 
-                      // Question area
-                      Expanded(
-                        child: Column(
-                          children: [
-                            // Question display
-                            _buildQuestionArea(gameController),
+                        // Question area
+                        Expanded(
+                          child: Column(
+                            children: [
+                              // Question display
+                              _buildQuestionArea(gameController),
 
-                            SizedBox(
-                              height: ResponsiveUtils.getResponsiveSpacing(
-                                context,
-                                30,
+                              SizedBox(
+                                height: ResponsiveUtils.getResponsiveSpacing(
+                                  context,
+                                  30,
+                                ),
                               ),
-                            ),
 
-                            // Answer choices in responsive grid
-                            Expanded(child: _buildAnswerGrid(gameController)),
+                              // Answer choices in responsive grid
+                              Expanded(child: _buildAnswerGrid(gameController)),
 
-                            SizedBox(
-                              height: ResponsiveUtils.getResponsiveSpacing(
-                                context,
-                                20,
+                              SizedBox(
+                                height: ResponsiveUtils.getResponsiveSpacing(
+                                  context,
+                                  20,
+                                ),
                               ),
-                            ),
 
-                            // Power-up buttons
-                            _buildPowerUpBar(gameController),
-                          ],
+                              // Power-up buttons
+                              _buildPowerUpBar(gameController),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -154,7 +167,9 @@ class _GameScreenState extends State<GameScreen> {
   /// Builds the top bar with lives and score display
   Widget _buildTopBar(GameController gameController) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: ModernSpacing.paddingHorizontalLG.add(
+        ModernSpacing.paddingVerticalMD,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -179,27 +194,42 @@ class _GameScreenState extends State<GameScreen> {
         value: '$lives out of 3',
         context: 'Hearts represent your remaining chances',
       ),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.favorite,
-            color: Color(0xFFEF4444), // Error Red
-            size: 20,
+      child: Container(
+        padding: ModernSpacing.paddingVerticalXS.add(
+          ModernSpacing.paddingHorizontalSM,
+        ),
+        decoration: BoxDecoration(
+          color: ModernColors.error.withValues(alpha: 0.1),
+          borderRadius: ModernSpacing.borderRadiusMedium,
+          border: Border.all(
+            color: ModernColors.error.withValues(alpha: 0.3),
+            width: 1,
           ),
-          const SizedBox(width: 8),
-          Row(
-            children: List.generate(3, (index) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 4),
-                child: Icon(
-                  index < lives ? Icons.favorite : Icons.favorite_border,
-                  color: const Color(0xFFEF4444), // Error Red
-                  size: 24,
-                ),
-              );
-            }),
-          ),
-        ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.favorite_rounded, color: ModernColors.error, size: 20),
+            ModernSpacing.horizontalSpaceXS,
+            Row(
+              children: List.generate(3, (index) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 2),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    child: Icon(
+                      index < lives
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
+                      color: ModernColors.error,
+                      size: 18,
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -214,43 +244,58 @@ class _GameScreenState extends State<GameScreen> {
             ? 'Score multiplier ${multiplier}x active'
             : null,
       ),
-      child: Row(
-        children: [
-          if (multiplier > 1) ...[
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF59E0B), // Warning Yellow
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                '${multiplier}x',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
+      child: Container(
+        padding: ModernSpacing.paddingVerticalXS.add(
+          ModernSpacing.paddingHorizontalSM,
+        ),
+        decoration: BoxDecoration(
+          color: ModernColors.primaryBlue.withValues(alpha: 0.1),
+          borderRadius: ModernSpacing.borderRadiusMedium,
+          border: Border.all(
+            color: ModernColors.primaryBlue.withValues(alpha: 0.3),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (multiplier > 1) ...[
+              Container(
+                padding: ModernSpacing.paddingVerticalXS.add(
+                  ModernSpacing.paddingHorizontalXS,
+                ),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: ModernColors.yellowGradient),
+                  borderRadius: ModernSpacing.borderRadiusSmall,
+                  boxShadow: ModernShadows.small,
+                ),
+                child: Text(
+                  '${multiplier}x',
+                  style: ModernTypography.caption.copyWith(
+                    color: ModernColors.textOnDark,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+              ModernSpacing.horizontalSpaceXS,
+            ],
+            Text(
+              '$score',
+              style: ModernTypography.scoreText.copyWith(
+                fontSize: 20,
+                color: ModernColors.primaryBlue,
+              ),
             ),
-            const SizedBox(width: 8),
+            ModernSpacing.horizontalSpaceXS,
+            Text(
+              AppLocalizations.of(context).gameScreen_score,
+              style: ModernTypography.bodySmall.copyWith(
+                color: ModernColors.primaryBlue,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ],
-          Text(
-            '$score',
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF1F2937), // Text Dark
-            ),
-          ),
-          const SizedBox(width: 4),
-          Text(
-            AppLocalizations.of(context).gameScreen_score,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xFF6B7280), // Text Light
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -261,17 +306,21 @@ class _GameScreenState extends State<GameScreen> {
     final totalTime = gameController.gameState.timeLimitForLevel;
     final progress = totalTime > 0 ? timeRemaining / totalTime : 0.0;
 
-    // Determine color based on remaining time
+    // Determine color based on remaining time using modern colors
     Color timerColor;
+    List<Color> timerGradient;
     String urgencyContext;
     if (progress > 0.5) {
-      timerColor = const Color(0xFF10B981); // Success Green
+      timerColor = ModernColors.success;
+      timerGradient = ModernColors.greenGradient;
       urgencyContext = 'plenty of time remaining';
     } else if (progress > 0.3) {
-      timerColor = const Color(0xFFF59E0B); // Warning Yellow
+      timerColor = ModernColors.warning;
+      timerGradient = ModernColors.yellowGradient;
       urgencyContext = 'time running low';
     } else {
-      timerColor = const Color(0xFFEF4444); // Error Red
+      timerColor = ModernColors.error;
+      timerGradient = ModernColors.redGradient;
       urgencyContext = 'time almost up';
     }
 
@@ -282,54 +331,43 @@ class _GameScreenState extends State<GameScreen> {
         context: urgencyContext,
       ),
       child: Container(
-        height: 12,
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        height: 16,
+        margin: ModernSpacing.paddingHorizontalLG.add(
+          ModernSpacing.paddingVerticalXS,
+        ),
         decoration: BoxDecoration(
-          color: const Color(0xFFF3F4F6),
-          borderRadius: BorderRadius.circular(6),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 2,
-              offset: const Offset(0, 1),
-            ),
-          ],
+          color: ModernColors.surfaceLight,
+          borderRadius: ModernSpacing.borderRadiusSmall,
+          boxShadow: ModernShadows.subtle,
         ),
         child: Stack(
           children: [
-            // Animated progress bar
+            // Animated progress bar with gradient
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               width:
                   MediaQuery.of(context).size.width * progress.clamp(0.0, 1.0) -
-                  40,
-              height: 12,
+                  (ModernSpacing.lg * 2),
+              height: 16,
               decoration: BoxDecoration(
-                color: timerColor,
-                borderRadius: BorderRadius.circular(6),
-                boxShadow: [
-                  BoxShadow(
-                    color: timerColor.withValues(alpha: 0.3),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+                gradient: LinearGradient(colors: timerGradient),
+                borderRadius: ModernSpacing.borderRadiusSmall,
+                boxShadow: ModernShadows.colored(timerColor, opacity: 0.4),
               ),
             ),
 
-            // Timer text overlay
+            // Timer text overlay with modern typography
             if (timeRemaining > 0)
               Positioned.fill(
                 child: Center(
                   child: Text(
                     '${timeRemaining}s',
-                    style: TextStyle(
-                      fontSize: 10,
+                    style: ModernTypography.caption.copyWith(
                       fontWeight: FontWeight.bold,
                       color: progress > 0.5
-                          ? const Color(0xFF1F2937)
-                          : Colors.white,
+                          ? ModernColors.textPrimary
+                          : ModernColors.textOnDark,
                     ),
                   ),
                 ),
@@ -347,58 +385,48 @@ class _GameScreenState extends State<GameScreen> {
       return Center(
         child: Text(
           'No question available', // This should not normally happen
-          style: const TextStyle(fontSize: 18, color: Color(0xFF6B7280)),
+          style: ModernTypography.bodyLarge.copyWith(
+            color: ModernColors.textSecondary,
+          ),
         ),
       );
     }
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
+    return ModernCard(
+      margin: ModernSpacing.paddingHorizontalLG,
+      padding: ModernSpacing.paddingLG,
+      shadows: ModernShadows.medium,
+      semanticLabel:
+          'Question ${gameController.gameState.currentQuestionIndex + 1} of ${gameController.gameState.questions.length}',
       child: Column(
         children: [
           // Question number indicator
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: ModernSpacing.paddingVerticalXS.add(
+              ModernSpacing.paddingHorizontalSM,
+            ),
             decoration: BoxDecoration(
-              color: const Color(0xFF4A90E2).withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(20),
+              color: ModernColors.primaryBlue.withValues(alpha: 0.1),
+              borderRadius: ModernSpacing.borderRadiusXLarge,
             ),
             child: Text(
               AppLocalizations.of(context).gameScreen_questionCounter(
                 gameController.gameState.currentQuestionIndex + 1,
                 gameController.gameState.questions.length,
               ),
-              style: const TextStyle(
-                fontSize: 12,
+              style: ModernTypography.label.copyWith(
+                color: ModernColors.primaryBlue,
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF4A90E2),
               ),
             ),
           ),
 
-          const SizedBox(height: 16),
+          ModernSpacing.verticalSpaceMD,
 
-          // Question text
+          // Question text with modern typography
           Text(
             question.text,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF1F2937),
-              height: 1.4,
-            ),
+            style: ModernTypography.questionText,
             textAlign: TextAlign.center,
           ),
         ],
@@ -451,49 +479,54 @@ class _GameScreenState extends State<GameScreen> {
     final isDisabled = gameController.disabledAnswerIndices.contains(index);
     final lastAnswerWasCorrect = gameController.lastAnswerWasCorrect;
 
-    // Determine button state and colors
-    Color backgroundColor = Colors.white;
-    Color borderColor = const Color(0xFFE5E7EB);
-    Color letterBackgroundColor = const Color(
-      0xFF8B5CF6,
-    ).withValues(alpha: 0.1);
-    Color letterTextColor = const Color(0xFF8B5CF6);
-    Color answerTextColor = const Color(0xFF1F2937);
+    // Determine button state and colors using modern design system
+    Color backgroundColor = ModernColors.cardBackground;
+    Color borderColor = ModernColors.surfaceDark;
+    Color letterBackgroundColor = ModernColors.primaryPurple.withValues(
+      alpha: 0.1,
+    );
+    Color letterTextColor = ModernColors.primaryPurple;
+    Color answerTextColor = ModernColors.textPrimary;
+    List<BoxShadow> shadows = ModernShadows.small;
     double opacity = 1.0;
 
     if (isDisabled) {
       // Disabled by 50/50 power-up
       opacity = 0.3;
-      backgroundColor = const Color(0xFFF3F4F6);
-      borderColor = const Color(0xFFE5E7EB);
-      letterBackgroundColor = const Color(0xFF9CA3AF).withValues(alpha: 0.1);
-      letterTextColor = const Color(0xFF9CA3AF);
-      answerTextColor = const Color(0xFF9CA3AF);
+      backgroundColor = ModernColors.surfaceLight;
+      borderColor = ModernColors.surfaceDark;
+      letterBackgroundColor = ModernColors.textLight.withValues(alpha: 0.1);
+      letterTextColor = ModernColors.textLight;
+      answerTextColor = ModernColors.textLight;
+      shadows = ModernShadows.none;
     } else if (isShowingFeedback) {
       if (isSelected) {
         // Selected answer feedback
         if (lastAnswerWasCorrect == true) {
           // Correct answer - green
-          backgroundColor = const Color(0xFF10B981).withValues(alpha: 0.1);
-          borderColor = const Color(0xFF10B981);
-          letterBackgroundColor = const Color(0xFF10B981);
-          letterTextColor = Colors.white;
-          answerTextColor = const Color(0xFF10B981);
+          backgroundColor = ModernColors.success.withValues(alpha: 0.1);
+          borderColor = ModernColors.success;
+          letterBackgroundColor = ModernColors.success;
+          letterTextColor = ModernColors.textOnDark;
+          answerTextColor = ModernColors.success;
+          shadows = ModernShadows.colored(ModernColors.success);
         } else {
           // Incorrect answer - red
-          backgroundColor = const Color(0xFFEF4444).withValues(alpha: 0.1);
-          borderColor = const Color(0xFFEF4444);
-          letterBackgroundColor = const Color(0xFFEF4444);
-          letterTextColor = Colors.white;
-          answerTextColor = const Color(0xFFEF4444);
+          backgroundColor = ModernColors.error.withValues(alpha: 0.1);
+          borderColor = ModernColors.error;
+          letterBackgroundColor = ModernColors.error;
+          letterTextColor = ModernColors.textOnDark;
+          answerTextColor = ModernColors.error;
+          shadows = ModernShadows.colored(ModernColors.error);
         }
       } else if (isCorrectAnswer && lastAnswerWasCorrect == false) {
         // Show correct answer when user selected wrong
-        backgroundColor = const Color(0xFF10B981).withValues(alpha: 0.1);
-        borderColor = const Color(0xFF10B981);
-        letterBackgroundColor = const Color(0xFF10B981);
-        letterTextColor = Colors.white;
-        answerTextColor = const Color(0xFF10B981);
+        backgroundColor = ModernColors.success.withValues(alpha: 0.1);
+        borderColor = ModernColors.success;
+        letterBackgroundColor = ModernColors.success;
+        letterTextColor = ModernColors.textOnDark;
+        answerTextColor = ModernColors.success;
+        shadows = ModernShadows.colored(ModernColors.success);
       }
     }
 
@@ -525,96 +558,85 @@ class _GameScreenState extends State<GameScreen> {
       child: AnimatedOpacity(
         opacity: opacity,
         duration: const Duration(milliseconds: 300),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          decoration: AccessibilityUtils.getAccessibleButtonDecoration(
-            context,
-            backgroundColor: backgroundColor,
-          ).copyWith(border: Border.all(color: borderColor, width: 2)),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(12),
-              onTap:
-                  (gameController.isGameActive &&
-                      !isShowingFeedback &&
-                      !isDisabled)
-                  ? () => _onAnswerSelected(index, gameController)
-                  : null,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Answer letter (A, B, C, D) with feedback icon
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: letterBackgroundColor,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Center(
-                        child: isShowingFeedback && isSelected
-                            ? Icon(
-                                lastAnswerWasCorrect == true
-                                    ? Icons.check
-                                    : Icons.close,
-                                color: letterTextColor,
-                                size: 18,
-                              )
-                            : isShowingFeedback &&
-                                  isCorrectAnswer &&
-                                  lastAnswerWasCorrect == false
-                            ? Icon(
-                                Icons.check,
-                                color: letterTextColor,
-                                size: 18,
-                              )
-                            : Text(
-                                answerLetter,
-                                style:
-                                    AccessibilityUtils.getAccessibleTextStyle(
-                                      context,
-                                      TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: letterTextColor,
-                                      ),
-                                    ),
-                              ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 12),
-
-                    // Answer text
-                    Expanded(
-                      child: AnimatedDefaultTextStyle(
-                        duration: const Duration(milliseconds: 300),
-                        style: AccessibilityUtils.getAccessibleTextStyle(
-                          context,
-                          TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: answerTextColor,
-                            height: 1.3,
+        child: ModernCard.interactive(
+          onTap:
+              (gameController.isGameActive && !isShowingFeedback && !isDisabled)
+              ? () => _onAnswerSelected(index, gameController)
+              : null,
+          backgroundColor: backgroundColor,
+          borderRadius: ModernSpacing.borderRadiusMedium,
+          shadows: shadows,
+          hasBorder: true,
+          borderColor: borderColor,
+          borderWidth: 2.0,
+          margin: EdgeInsets.zero,
+          padding: ModernSpacing.paddingMD,
+          semanticLabel: semanticLabel,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Answer letter (A, B, C, D) with feedback icon
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: letterBackgroundColor,
+                  borderRadius: BorderRadius.circular(18),
+                  boxShadow:
+                      isShowingFeedback &&
+                          (isSelected ||
+                              (isCorrectAnswer &&
+                                  lastAnswerWasCorrect == false))
+                      ? ModernShadows.small
+                      : null,
+                ),
+                child: Center(
+                  child: isShowingFeedback && isSelected
+                      ? Icon(
+                          lastAnswerWasCorrect == true
+                              ? Icons.check_rounded
+                              : Icons.close_rounded,
+                          color: letterTextColor,
+                          size: 20,
+                        )
+                      : isShowingFeedback &&
+                            isCorrectAnswer &&
+                            lastAnswerWasCorrect == false
+                      ? Icon(
+                          Icons.check_rounded,
+                          color: letterTextColor,
+                          size: 20,
+                        )
+                      : Text(
+                          answerLetter,
+                          style: ModernTypography.bodyMedium.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: letterTextColor,
                           ),
                         ),
-                        child: Text(
-                          answer,
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ),
-            ),
+
+              ModernSpacing.verticalSpaceSM,
+
+              // Answer text with modern typography
+              Expanded(
+                child: AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 300),
+                  style: ModernTypography.answerText.copyWith(
+                    color: answerTextColor,
+                    fontSize: 14,
+                  ),
+                  child: Text(
+                    answer,
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -623,45 +645,37 @@ class _GameScreenState extends State<GameScreen> {
 
   /// Builds the power-up bar at the bottom
   Widget _buildPowerUpBar(GameController gameController) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    return ModernCard(
+      margin: ModernSpacing.paddingHorizontalLG,
+      padding: ModernSpacing.paddingMD,
+      shadows: ModernShadows.small,
+      semanticLabel: 'Power-up controls',
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildPowerUpButton(
             PowerUpType.fiftyFifty,
-            Icons.remove_circle_outline,
+            Icons.remove_circle_outline_rounded,
             gameController,
           ),
           _buildPowerUpButton(
             PowerUpType.hint,
-            Icons.lightbulb_outline,
+            Icons.lightbulb_outline_rounded,
             gameController,
           ),
           _buildPowerUpButton(
             PowerUpType.extraTime,
-            Icons.access_time,
+            Icons.access_time_rounded,
             gameController,
           ),
           _buildPowerUpButton(
             PowerUpType.skip,
-            Icons.skip_next,
+            Icons.skip_next_rounded,
             gameController,
           ),
           _buildPowerUpButton(
             PowerUpType.secondChance,
-            Icons.favorite_border,
+            Icons.favorite_border_rounded,
             gameController,
           ),
         ],
@@ -692,52 +706,70 @@ class _GameScreenState extends State<GameScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration:
-                AccessibilityUtils.getAccessibleButtonDecoration(
-                  context,
-                  backgroundColor: canUse
-                      ? const Color(0xFF8B5CF6).withValues(alpha: 0.1)
-                      : const Color(0xFFF3F4F6),
-                ).copyWith(
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(
-                    color: canUse
-                        ? const Color(0xFF8B5CF6)
-                        : const Color(0xFFE5E7EB),
-                    width: 2,
-                  ),
-                ),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: canUse
+                  ? ModernColors.primaryPurple.withValues(alpha: 0.1)
+                  : ModernColors.surfaceLight,
+              borderRadius: BorderRadius.circular(26),
+              border: Border.all(
+                color: canUse
+                    ? ModernColors.primaryPurple
+                    : ModernColors.surfaceDark,
+                width: 2,
+              ),
+              boxShadow: canUse ? ModernShadows.small : ModernShadows.none,
+            ),
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(26),
                 onTap: canUse
                     ? () => _usePowerUp(powerUpType, gameController)
                     : null,
-                child: Icon(
-                  icon,
-                  color: canUse
-                      ? const Color(0xFF8B5CF6)
-                      : const Color(0xFF9CA3AF),
-                  size: 24,
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Icon(
+                        icon,
+                        color: canUse
+                            ? ModernColors.primaryPurple
+                            : ModernColors.textLight,
+                        size: 26,
+                      ),
+                    ),
+                    // Count badge
+                    if (count > 0)
+                      Positioned(
+                        top: 2,
+                        right: 2,
+                        child: Container(
+                          width: 18,
+                          height: 18,
+                          decoration: BoxDecoration(
+                            color: canUse
+                                ? ModernColors.primaryPurple
+                                : ModernColors.textLight,
+                            borderRadius: BorderRadius.circular(9),
+                            boxShadow: ModernShadows.small,
+                          ),
+                          child: Center(
+                            child: Text(
+                              '$count',
+                              style: ModernTypography.caption.copyWith(
+                                color: ModernColors.textOnDark,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '$count',
-            style: AccessibilityUtils.getAccessibleTextStyle(
-              context,
-              TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: canUse
-                    ? const Color(0xFF1F2937)
-                    : const Color(0xFF9CA3AF),
               ),
             ),
           ),
@@ -773,8 +805,8 @@ class _GameScreenState extends State<GameScreen> {
     // Navigate to result screen
     if (mounted) {
       await Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => ChangeNotifierProvider.value(
+        ModernPageRoute(
+          child: ChangeNotifierProvider.value(
             value: gameController,
             child: ResultScreen(
               isCorrect: isCorrect,
@@ -783,6 +815,7 @@ class _GameScreenState extends State<GameScreen> {
               livesLost: livesLost,
             ),
           ),
+          direction: SlideDirection.bottomToTop,
         ),
       );
     }

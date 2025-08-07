@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:dogdog_trivia_game/screens/achievements_screen.dart';
 import 'package:dogdog_trivia_game/services/progress_service.dart';
 import 'package:dogdog_trivia_game/l10n/generated/app_localizations.dart';
+import 'package:dogdog_trivia_game/widgets/modern_card.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
@@ -17,6 +18,13 @@ void main() {
     testWidgets('should display loading indicator initially', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
           home: ChangeNotifierProvider<ProgressService>.value(
             value: mockProgressService,
             child: const AchievementsScreen(),
@@ -32,6 +40,13 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
           home: ChangeNotifierProvider<ProgressService>.value(
             value: mockProgressService,
             child: const AchievementsScreen(),
@@ -60,6 +75,13 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
           home: ChangeNotifierProvider<ProgressService>.value(
             value: mockProgressService,
             child: const AchievementsScreen(),
@@ -104,6 +126,13 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
           home: ChangeNotifierProvider<ProgressService>.value(
             value: mockProgressService,
             child: const AchievementsScreen(),
@@ -113,8 +142,8 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // Tap on first achievement card
-      await tester.tap(find.byType(GestureDetector).first);
+      // Tap on first achievement card (now using ModernCard.interactive)
+      await tester.tap(find.byType(ModernCard).first);
       await tester.pumpAndSettle();
 
       // Should show dialog
@@ -127,6 +156,13 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
           home: ChangeNotifierProvider<ProgressService>.value(
             value: mockProgressService,
             child: const AchievementsScreen(),
@@ -151,6 +187,13 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
           home: ChangeNotifierProvider<ProgressService>.value(
             value: mockProgressService,
             child: const AchievementsScreen(),
@@ -178,6 +221,13 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
           home: ChangeNotifierProvider<ProgressService>.value(
             value: mockProgressService,
             child: const AchievementsScreen(),
@@ -188,6 +238,142 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('All Ranks Achieved!'), findsOneWidget);
+    });
+
+    testWidgets('should use ModernCard components for layout', (tester) async {
+      await mockProgressService.initialize();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+          home: ChangeNotifierProvider<ProgressService>.value(
+            value: mockProgressService,
+            child: const AchievementsScreen(),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Should use ModernCard components for the main sections
+      expect(find.byType(ModernCard), findsWidgets);
+    });
+
+    testWidgets('should display dog breed images for achievements', (
+      tester,
+    ) async {
+      await mockProgressService.initialize();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+          home: ChangeNotifierProvider<ProgressService>.value(
+            value: mockProgressService,
+            child: const AchievementsScreen(),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Should display dog breed images instead of icons
+      expect(find.byType(Image), findsWidgets);
+
+      // Should have ClipOval widgets for circular dog images
+      expect(find.byType(ClipOval), findsWidgets);
+    });
+
+    testWidgets('should apply grayscale filter to locked achievements', (
+      tester,
+    ) async {
+      await mockProgressService.initialize();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+          home: ChangeNotifierProvider<ProgressService>.value(
+            value: mockProgressService,
+            child: const AchievementsScreen(),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Should have ColorFiltered widgets for locked achievements
+      expect(find.byType(ColorFiltered), findsWidgets);
+    });
+
+    testWidgets('should show progress bars for locked achievements', (
+      tester,
+    ) async {
+      await mockProgressService.initialize();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+          home: ChangeNotifierProvider<ProgressService>.value(
+            value: mockProgressService,
+            child: const AchievementsScreen(),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Should display progress indicators for locked achievements
+      expect(find.byType(FractionallySizedBox), findsWidgets);
+    });
+
+    testWidgets('should handle image loading errors gracefully', (
+      tester,
+    ) async {
+      await mockProgressService.initialize();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+          home: ChangeNotifierProvider<ProgressService>.value(
+            value: mockProgressService,
+            child: const AchievementsScreen(),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Should have fallback icons (pets icon) for error cases
+      expect(find.byIcon(Icons.pets), findsWidgets);
     });
   });
 }
