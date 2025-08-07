@@ -4,7 +4,6 @@ import 'package:dogdog_trivia_game/models/enums.dart';
 import 'package:dogdog_trivia_game/utils/enum_extensions.dart';
 import 'package:dogdog_trivia_game/l10n/generated/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import '../helpers/localization_test_helper.dart';
 
 void main() {
   Widget createTestWidget({required Widget child}) {
