@@ -274,7 +274,9 @@ void main() {
       test('should end game when all lives are lost', () {
         // Act - Lose all 3 lives
         gameController.processAnswer(1); // Wrong answer, 2 lives left
+        gameController.clearFeedback();
         gameController.processAnswer(1); // Wrong answer, 1 life left
+        gameController.clearFeedback();
         gameController.processAnswer(1); // Wrong answer, 0 lives left
 
         // Assert
@@ -406,7 +408,9 @@ void main() {
       test('should not resume game when game is over', () {
         // Arrange - End the game
         gameController.processAnswer(1); // Wrong answer, 2 lives left
+        gameController.clearFeedback();
         gameController.processAnswer(1); // Wrong answer, 1 life left
+        gameController.clearFeedback();
         gameController.processAnswer(1); // Wrong answer, 0 lives left
 
         // Act
@@ -533,6 +537,7 @@ void main() {
       test('should calculate accuracy correctly', () {
         // Arrange
         gameController.processAnswer(0); // Correct
+        gameController.clearFeedback();
         gameController.processAnswer(1); // Incorrect
 
         // Act
