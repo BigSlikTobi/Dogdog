@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dogdog_trivia_game/widgets/success_animation_widget.dart';
 import 'package:dogdog_trivia_game/controllers/game_controller.dart';
-import 'package:dogdog_trivia_game/models/enums.dart';
 import 'package:dogdog_trivia_game/l10n/generated/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

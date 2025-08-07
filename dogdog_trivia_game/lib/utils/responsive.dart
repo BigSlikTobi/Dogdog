@@ -49,10 +49,11 @@ class ResponsiveUtils {
     }
   }
 
-  /// Get responsive font size multiplier
+  /// Get responsive font size multiplier with accessibility considerations
   static double getFontSizeMultiplier(BuildContext context) {
     final screenType = getScreenType(context);
     final textScaler = MediaQuery.of(context).textScaler;
+    final highContrast = MediaQuery.of(context).highContrast;
 
     double baseMultiplier;
     switch (screenType) {
@@ -70,7 +71,13 @@ class ResponsiveUtils {
     // Respect user's text scaling preferences
     final scaleFactor =
         textScaler.scale(16.0) / 16.0; // Get scale factor relative to 16px
-    return baseMultiplier * scaleFactor.clamp(0.8, 2.0);
+
+    // Increase font size slightly for high contrast mode
+    if (highContrast) {
+      baseMultiplier *= 1.1;
+    }
+
+    return baseMultiplier * scaleFactor.clamp(0.8, 2.5);
   }
 
   /// Get responsive button size
@@ -141,6 +148,78 @@ class ResponsiveUtils {
   static double getResponsiveIconSize(BuildContext context, double baseSize) {
     final fontSizeMultiplier = getFontSizeMultiplier(context);
     return baseSize * fontSizeMultiplier;
+  }
+
+  /// Get responsive button size with accessibility considerations
+  static Size getAccessibleButtonSize(BuildContext context, {Size? minSize}) {
+    final baseSize = getResponsiveButtonSize(context);
+    final minimumSize =
+        minSize ?? const Size(44.0, 44.0); // WCAG minimum touch target
+
+    return Size(
+      baseSize.width == double.infinity
+          ? double.infinity
+          : baseSize.width.clamp(minimumSize.width, double.infinity),
+      baseSize.height.clamp(minimumSize.height, double.infinity),
+    );
+  }
+
+  /// Get responsive card aspect ratio based on screen size and content
+  static double getCardAspectRatio(
+    BuildContext context, {
+    double? defaultRatio,
+  }) {
+    final screenType = getScreenType(context);
+    final orientation = MediaQuery.of(context).orientation;
+
+    // Adjust aspect ratio based on screen size and orientation
+    switch (screenType) {
+      case ScreenType.mobile:
+        return orientation == Orientation.landscape
+            ? 1.8
+            : (defaultRatio ?? 1.2);
+      case ScreenType.tablet:
+        return orientation == Orientation.landscape
+            ? 2.0
+            : (defaultRatio ?? 1.4);
+      case ScreenType.desktop:
+        return defaultRatio ?? 1.6;
+    }
+  }
+
+  /// Get responsive grid spacing with accessibility considerations
+  static double getAccessibleGridSpacing(
+    BuildContext context,
+    double baseSpacing,
+  ) {
+    final spacing = getResponsiveSpacing(context, baseSpacing);
+    // Ensure minimum spacing for touch targets
+    return spacing.clamp(8.0, double.infinity);
+  }
+
+  /// Check if reduced motion is preferred and adjust animations accordingly
+  static Duration getAccessibleAnimationDuration(
+    BuildContext context,
+    Duration baseDuration,
+  ) {
+    final disableAnimations = MediaQuery.of(context).disableAnimations;
+    return disableAnimations ? Duration.zero : baseDuration;
+  }
+
+  /// Get responsive text style with accessibility considerations
+  static TextStyle getAccessibleTextStyle(
+    BuildContext context,
+    TextStyle baseStyle,
+  ) {
+    final fontSizeMultiplier = getFontSizeMultiplier(context);
+    final highContrast = MediaQuery.of(context).highContrast;
+
+    return baseStyle.copyWith(
+      fontSize: (baseStyle.fontSize ?? 16) * fontSizeMultiplier,
+      fontWeight: highContrast && baseStyle.fontWeight != FontWeight.bold
+          ? FontWeight.w600
+          : baseStyle.fontWeight,
+    );
   }
 }
 

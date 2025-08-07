@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../design_system/modern_colors.dart';
 import '../design_system/modern_spacing.dart';
 import '../design_system/modern_shadows.dart';
+import '../utils/accessibility.dart';
+import '../utils/responsive.dart';
 
 /// A modern card widget with customizable styling, gradients, and accessibility features.
 ///
@@ -183,14 +185,35 @@ class _ModernCardState extends State<ModernCard>
 
   @override
   Widget build(BuildContext context) {
-    final effectivePadding = widget.padding ?? ModernSpacing.cardPaddingInsets;
+    // Use responsive and accessible spacing
+    final effectivePadding =
+        widget.padding ??
+        EdgeInsets.all(
+          ResponsiveUtils.getResponsiveSpacing(context, ModernSpacing.md),
+        );
     final effectiveMargin =
-        widget.margin ?? EdgeInsets.all(ModernSpacing.cardMargin);
+        widget.margin ??
+        EdgeInsets.all(
+          ResponsiveUtils.getResponsiveSpacing(
+            context,
+            ModernSpacing.cardMargin,
+          ),
+        );
     final effectiveBorderRadius =
         widget.borderRadius ?? ModernSpacing.borderRadiusMedium;
-    final effectiveShadows =
-        widget.shadows ??
-        (_isPressed ? ModernShadows.buttonPressed : ModernShadows.card);
+
+    // Adjust shadows for high contrast mode
+    final effectiveShadows = AccessibilityUtils.isHighContrastEnabled(context)
+        ? ModernShadows.none
+        : (widget.shadows ??
+              (_isPressed ? ModernShadows.buttonPressed : ModernShadows.card));
+
+    // Respect reduced motion preferences
+    final animationDuration = ResponsiveUtils.getAccessibleAnimationDuration(
+      context,
+      const Duration(milliseconds: 150),
+    );
+    _animationController.duration = animationDuration;
 
     // Determine background decoration
     Decoration decoration;

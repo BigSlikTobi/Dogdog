@@ -9,9 +9,7 @@ import 'game_over_screen.dart';
 import '../widgets/animated_button.dart';
 import '../widgets/success_animation_widget.dart';
 import '../design_system/modern_colors.dart';
-import '../design_system/modern_typography.dart';
 import '../design_system/modern_spacing.dart';
-import '../design_system/modern_shadows.dart';
 import '../utils/animations.dart';
 import '../l10n/generated/app_localizations.dart';
 

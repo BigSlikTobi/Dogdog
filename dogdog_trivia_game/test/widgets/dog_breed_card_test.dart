@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dogdog_trivia_game/widgets/dog_breed_card.dart';
 import 'package:dogdog_trivia_game/design_system/modern_colors.dart';
-import 'package:dogdog_trivia_game/design_system/modern_spacing.dart';
 
 void main() {
   group('DogBreedCard', () {

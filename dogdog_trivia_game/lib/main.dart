@@ -8,6 +8,7 @@ import 'services/progress_service.dart';
 import 'services/audio_service.dart';
 import 'services/error_service.dart';
 import 'widgets/error_boundary.dart';
+import 'widgets/app_initializer.dart';
 import 'models/enums.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'dart:async';
@@ -142,7 +143,7 @@ class DogDogTriviaApp extends StatelessWidget {
             // Restart the app
             _initializeApp();
           },
-          child: const HomeScreen(),
+          child: const AppInitializer(child: HomeScreen()),
         ),
         debugShowCheckedModeBanner: false,
       ),

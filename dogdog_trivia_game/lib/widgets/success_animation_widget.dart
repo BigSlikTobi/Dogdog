@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import '../services/image_service.dart';
 
 /// A widget that displays success animations by alternating between success images.
 ///
@@ -359,23 +360,12 @@ class _SuccessAnimationWidgetState extends State<SuccessAnimationWidget>
   }
 
   Widget _buildImageWidget() {
-    final imagePath = _showFirstImage
-        ? 'assets/images/success1.png'
-        : 'assets/images/success2.png';
-
-    return Image.asset(
-      imagePath,
+    return ImageService.getSuccessImage(
+      isFirstImage: _showFirstImage,
       width: widget.width,
       height: widget.height,
       fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) {
-        // Fallback to a simple success icon if images are not found
-        return Icon(
-          Icons.check_circle,
-          size: widget.width ?? widget.height ?? 100,
-          color: Colors.green,
-        );
-      },
+      semanticLabel: widget.semanticLabel ?? 'Success celebration animation',
     );
   }
 }

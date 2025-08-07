@@ -3,6 +3,9 @@ import '../design_system/modern_colors.dart';
 import '../design_system/modern_spacing.dart';
 import '../design_system/modern_shadows.dart';
 import '../design_system/modern_typography.dart';
+import '../services/image_service.dart';
+import '../utils/accessibility.dart';
+import '../utils/responsive.dart';
 
 /// A card widget featuring dog breed images with modern styling.
 ///
@@ -143,7 +146,6 @@ class _DogBreedCardState extends State<DogBreedCard>
   late Animation<double> _scaleAnimation;
   late Animation<double> _elevationAnimation;
   bool _isPressed = false;
-  bool _imageLoadError = false;
 
   @override
   void initState() {
@@ -197,9 +199,20 @@ class _DogBreedCardState extends State<DogBreedCard>
 
   @override
   Widget build(BuildContext context) {
-    final effectivePadding = widget.padding ?? ModernSpacing.cardPaddingInsets;
+    // Use responsive and accessible spacing
+    final effectivePadding =
+        widget.padding ??
+        EdgeInsets.all(
+          ResponsiveUtils.getResponsiveSpacing(context, ModernSpacing.md),
+        );
     final effectiveMargin =
-        widget.margin ?? EdgeInsets.all(ModernSpacing.cardMargin);
+        widget.margin ??
+        EdgeInsets.all(
+          ResponsiveUtils.getAccessibleGridSpacing(
+            context,
+            ModernSpacing.cardMargin,
+          ),
+        );
     final effectiveBorderRadius =
         widget.borderRadius ?? ModernSpacing.borderRadiusLarge;
     final gradientColors = ModernColors.getGradientForDifficulty(
@@ -207,9 +220,17 @@ class _DogBreedCardState extends State<DogBreedCard>
     );
     final isInteractive = widget.isEnabled && widget.onTap != null;
 
-    // Calculate shadows based on state
+    // Respect reduced motion preferences
+    final animationDuration = ResponsiveUtils.getAccessibleAnimationDuration(
+      context,
+      const Duration(milliseconds: 200),
+    );
+    _animationController.duration = animationDuration;
+
+    // Calculate shadows based on state and accessibility preferences
     List<BoxShadow> effectiveShadows;
-    if (!widget.isEnabled) {
+    if (!widget.isEnabled ||
+        AccessibilityUtils.isHighContrastEnabled(context)) {
       effectiveShadows = ModernShadows.none;
     } else if (widget.isSelected) {
       effectiveShadows = ModernShadows.colored(
@@ -305,22 +326,12 @@ class _DogBreedCardState extends State<DogBreedCard>
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(8.0),
-      child: _imageLoadError
-          ? _buildFallbackIcon()
-          : Image.asset(
-              widget.imagePath,
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  if (mounted) {
-                    setState(() {
-                      _imageLoadError = true;
-                    });
-                  }
-                });
-                return _buildFallbackIcon();
-              },
-            ),
+      child: ImageService.getDogBreedImage(
+        breedName: widget.breedName,
+        fit: BoxFit.contain,
+        errorWidget: _buildFallbackIcon(),
+        semanticLabel: '${widget.breedName} dog breed image',
+      ),
     );
   }
 
@@ -328,7 +339,7 @@ class _DogBreedCardState extends State<DogBreedCard>
     return Icon(
       Icons.pets,
       size: 80,
-      color: ModernColors.textOnDark.withOpacity(0.8),
+      color: ModernColors.textOnDark.withValues(alpha: 0.8),
     );
   }
 
