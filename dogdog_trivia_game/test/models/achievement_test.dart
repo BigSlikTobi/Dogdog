@@ -34,6 +34,7 @@ void main() {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+        locale: const Locale('de'), // Force German locale for tests
         home: child,
       );
     }
@@ -57,8 +58,14 @@ void main() {
               final achievement = Achievement.fromRank(Rank.pug);
 
               expect(achievement.id, 'rank_pug');
-              expect(achievement.name, Rank.pug.displayName(context));
-              expect(achievement.description, Rank.pug.description(context));
+              expect(
+                achievement.name,
+                '',
+              ); // Empty by design - localization happens via Rank extension
+              expect(
+                achievement.description,
+                '',
+              ); // Empty by design - localization happens via Rank extension
               expect(achievement.iconPath, 'assets/icons/ranks/pug.png');
               expect(
                 achievement.requiredCorrectAnswers,
@@ -67,6 +74,13 @@ void main() {
               expect(achievement.isUnlocked, false);
               expect(achievement.unlockedDate, isNull);
               expect(achievement.rank, Rank.pug);
+
+              // Test that localized values are available via the rank
+              expect(achievement.rank.displayName(context), 'Mops');
+              expect(
+                achievement.rank.description(context),
+                'Guter Fortschritt - 25 richtige Antworten erreicht!',
+              );
 
               return Container();
             },

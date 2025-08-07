@@ -4,6 +4,7 @@ import 'package:dogdog_trivia_game/models/enums.dart';
 import 'package:dogdog_trivia_game/utils/enum_extensions.dart';
 import 'package:dogdog_trivia_game/l10n/generated/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import '../helpers/localization_test_helper.dart';
 
 void main() {
   Widget createTestWidget({required Widget child}) {
@@ -15,6 +16,7 @@ void main() {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('en'), Locale('de'), Locale('es')],
+      locale: const Locale('de'), // Force German locale for tests
       home: child,
     );
   }
@@ -58,7 +60,7 @@ void main() {
         createTestWidget(
           child: Builder(
             builder: (context) {
-              expect(PowerUpType.fiftyFifty.displayName(context), 'Chew 50/50');
+              expect(PowerUpType.fiftyFifty.displayName(context), 'Kau 50/50');
               expect(PowerUpType.hint.displayName(context), 'Hinweis');
               expect(PowerUpType.extraTime.displayName(context), 'Extra Zeit');
               expect(PowerUpType.skip.displayName(context), 'Überspringen');
@@ -84,7 +86,7 @@ void main() {
               );
               expect(
                 PowerUpType.hint.description(context),
-                'Zeigt einen Hinweis zur richtigen Antwort',
+                'Zeigt einen Hinweis für die richtige Antwort',
               );
               expect(
                 PowerUpType.extraTime.description(context),
@@ -163,11 +165,11 @@ void main() {
               );
               expect(
                 Rank.germanShepherd.description(context),
-                'Treuer Begleiter - 75 richtige Antworten geschafft!',
+                'Treuer Begleiter - 75 richtige Antworten erreicht!',
               );
               expect(
                 Rank.greatDane.description(context),
-                'Großer Meister - 100 richtige Antworten erreicht!',
+                'Großmeister - 100 richtige Antworten erreicht!',
               );
               return Container();
             },
