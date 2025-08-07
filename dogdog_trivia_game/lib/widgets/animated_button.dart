@@ -207,28 +207,121 @@ class _AnimatedButtonState extends State<AnimatedButton>
   }
 }
 
-/// A specialized animated button for primary actions
-class PrimaryAnimatedButton extends StatelessWidget {
+/// A specialized animated button for primary actions with enhanced animations
+class PrimaryAnimatedButton extends StatefulWidget {
   final Widget child;
   final VoidCallback? onPressed;
   final bool enabled;
+  final bool isLoading;
 
   const PrimaryAnimatedButton({
     super.key,
     required this.child,
     this.onPressed,
     this.enabled = true,
+    this.isLoading = false,
   });
+
+  @override
+  State<PrimaryAnimatedButton> createState() => _PrimaryAnimatedButtonState();
+}
+
+class _PrimaryAnimatedButtonState extends State<PrimaryAnimatedButton>
+    with TickerProviderStateMixin {
+  late AnimationController _rippleController;
+  late AnimationController _loadingController;
+  late Animation<double> _rippleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _rippleController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    _loadingController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+    _rippleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _rippleController, curve: Curves.easeOut),
+    );
+
+    if (widget.isLoading) {
+      _loadingController.repeat();
+    }
+  }
+
+  @override
+  void didUpdateWidget(PrimaryAnimatedButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isLoading != oldWidget.isLoading) {
+      if (widget.isLoading) {
+        _loadingController.repeat();
+      } else {
+        _loadingController.stop();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _rippleController.dispose();
+    _loadingController.dispose();
+    super.dispose();
+  }
+
+  void _handleTap() {
+    if (widget.enabled && !widget.isLoading) {
+      _rippleController.forward().then((_) {
+        _rippleController.reset();
+      });
+      widget.onPressed?.call();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedButton(
-      onPressed: onPressed,
-      enabled: enabled,
+      onPressed: _handleTap,
+      enabled: widget.enabled && !widget.isLoading,
       backgroundColor: const Color(0xFF4A90E2), // Primary Blue
       foregroundColor: Colors.white,
       elevation: 6,
-      child: child,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Ripple effect
+          AnimatedBuilder(
+            animation: _rippleAnimation,
+            builder: (context, child) {
+              return Container(
+                width: 100 * _rippleAnimation.value,
+                height: 100 * _rippleAnimation.value,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(
+                    alpha: 0.3 * (1 - _rippleAnimation.value),
+                  ),
+                ),
+              );
+            },
+          ),
+          // Button content
+          widget.isLoading
+              ? SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.white.withValues(alpha: 0.8),
+                    ),
+                  ),
+                )
+              : widget.child,
+        ],
+      ),
     );
   }
 }

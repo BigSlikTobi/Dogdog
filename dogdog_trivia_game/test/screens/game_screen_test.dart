@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:dogdog_trivia_game/screens/game_screen.dart';
 import 'package:dogdog_trivia_game/models/enums.dart';
 import 'package:dogdog_trivia_game/services/audio_service.dart';
+import 'package:dogdog_trivia_game/widgets/modern_card.dart';
+import 'package:dogdog_trivia_game/design_system/modern_colors.dart';
 
 /// Helper function to create a testable GameScreen widget
 Widget createTestableWidget({
@@ -98,11 +100,74 @@ void main() {
       await tester.pumpWidget(createTestableWidget());
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
-      // Should show power-up icons
-      expect(find.byIcon(Icons.remove_circle_outline), findsOneWidget); // 50/50
-      expect(find.byIcon(Icons.lightbulb_outline), findsOneWidget); // Hint
-      expect(find.byIcon(Icons.access_time), findsOneWidget); // Extra time
-      expect(find.byIcon(Icons.skip_next), findsOneWidget); // Skip
+      // Should show modern power-up icons with rounded variants
+      expect(
+        find.byIcon(Icons.remove_circle_outline_rounded),
+        findsOneWidget,
+      ); // 50/50
+      expect(
+        find.byIcon(Icons.lightbulb_outline_rounded),
+        findsOneWidget,
+      ); // Hint
+      expect(
+        find.byIcon(Icons.access_time_rounded),
+        findsOneWidget,
+      ); // Extra time
+      expect(find.byIcon(Icons.skip_next_rounded), findsOneWidget); // Skip
+    });
+
+    testWidgets('should use ModernCard components for UI elements', (
+      tester,
+    ) async {
+      await tester.pumpWidget(createTestableWidget());
+      await tester.pumpAndSettle(const Duration(seconds: 3));
+
+      // Should show ModernCard components for question area and power-up bar
+      expect(find.byType(ModernCard), findsWidgets);
+    });
+
+    testWidgets('should display modern gradient background', (tester) async {
+      await tester.pumpWidget(createTestableWidget());
+      await tester.pumpAndSettle(const Duration(seconds: 3));
+
+      // Should show Container with gradient decoration
+      final containers = find.byType(Container);
+      expect(containers, findsWidgets);
+
+      // Check that at least one container has a gradient decoration
+      bool hasGradientBackground = false;
+      for (final container in tester.widgetList<Container>(containers)) {
+        if (container.decoration is BoxDecoration) {
+          final decoration = container.decoration as BoxDecoration;
+          if (decoration.gradient != null) {
+            hasGradientBackground = true;
+            break;
+          }
+        }
+      }
+      expect(hasGradientBackground, isTrue);
+    });
+
+    testWidgets('should display modern styled lives and score displays', (
+      tester,
+    ) async {
+      await tester.pumpWidget(createTestableWidget());
+      await tester.pumpAndSettle(const Duration(seconds: 3));
+
+      // Should show modern heart icons with rounded variants
+      expect(find.byIcon(Icons.favorite_rounded), findsWidgets);
+      expect(find.byIcon(Icons.favorite_border_rounded), findsWidgets);
+
+      // Should show score text
+      expect(find.text('Punkte'), findsOneWidget);
+    });
+
+    testWidgets('should display modern pause button', (tester) async {
+      await tester.pumpWidget(createTestableWidget());
+      await tester.pumpAndSettle(const Duration(seconds: 3));
+
+      // Should show modern pause icon with rounded variant
+      expect(find.byIcon(Icons.pause_rounded), findsOneWidget);
     });
 
     testWidgets('should show pause dialog when pause button is pressed', (

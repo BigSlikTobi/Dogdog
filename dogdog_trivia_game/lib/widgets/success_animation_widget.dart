@@ -30,6 +30,9 @@ class SuccessAnimationWidget extends StatefulWidget {
   /// Callback when the animation completes
   final VoidCallback? onAnimationComplete;
 
+  /// Callback when the widget is fully dismissed and should be removed
+  final VoidCallback? onDismissComplete;
+
   /// Whether to start the animation automatically
   final bool autoStart;
 
@@ -42,6 +45,18 @@ class SuccessAnimationWidget extends StatefulWidget {
   /// Whether to loop the animation continuously
   final bool loop;
 
+  /// Duration to wait before auto-dismissing the widget
+  final Duration autoDismissDelay;
+
+  /// Whether to automatically dismiss the widget after animation
+  final bool autoDismiss;
+
+  /// Whether to move the widget to bottom during dismissal
+  final bool moveToBottom;
+
+  /// Duration for the dismissal animation
+  final Duration dismissAnimationDuration;
+
   /// Creates a success animation widget
   const SuccessAnimationWidget({
     super.key,
@@ -52,10 +67,15 @@ class SuccessAnimationWidget extends StatefulWidget {
     this.width,
     this.height,
     this.onAnimationComplete,
+    this.onDismissComplete,
     this.autoStart = true,
     this.semanticLabel,
     this.animationCurve = Curves.elasticOut,
     this.loop = false,
+    this.autoDismissDelay = const Duration(seconds: 1),
+    this.autoDismiss = true,
+    this.moveToBottom = true,
+    this.dismissAnimationDuration = const Duration(milliseconds: 500),
   });
 
   /// Creates a quick success animation
@@ -64,9 +84,14 @@ class SuccessAnimationWidget extends StatefulWidget {
     this.width,
     this.height,
     this.onAnimationComplete,
+    this.onDismissComplete,
     this.autoStart = true,
     this.semanticLabel,
     this.loop = false,
+    this.autoDismissDelay = const Duration(seconds: 1),
+    this.autoDismiss = true,
+    this.moveToBottom = true,
+    this.dismissAnimationDuration = const Duration(milliseconds: 500),
   }) : imageDuration = const Duration(milliseconds: 200),
        animationDuration = const Duration(milliseconds: 150),
        alternationCount = 2,
@@ -79,9 +104,14 @@ class SuccessAnimationWidget extends StatefulWidget {
     this.width,
     this.height,
     this.onAnimationComplete,
+    this.onDismissComplete,
     this.autoStart = true,
     this.semanticLabel,
     this.loop = false,
+    this.autoDismissDelay = const Duration(seconds: 1),
+    this.autoDismiss = true,
+    this.moveToBottom = true,
+    this.dismissAnimationDuration = const Duration(milliseconds: 500),
   }) : imageDuration = const Duration(milliseconds: 400),
        animationDuration = const Duration(milliseconds: 300),
        alternationCount = 5,
@@ -97,10 +127,17 @@ class _SuccessAnimationWidgetState extends State<SuccessAnimationWidget>
   late AnimationController _scaleController;
   late Animation<double> _scaleAnimation;
 
+  late AnimationController _dismissController;
+  late Animation<double> _opacityAnimation;
+  late Animation<Offset> _positionAnimation;
+
   Timer? _imageTimer;
+  Timer? _dismissTimer;
   bool _showFirstImage = true;
   int _currentAlternation = 0;
   bool _isAnimating = false;
+  bool _isDismissing = false;
+  bool _isCompletelyDismissed = false;
   bool _isDisposed = false;
 
   @override
@@ -120,6 +157,23 @@ class _SuccessAnimationWidgetState extends State<SuccessAnimationWidget>
           ),
         );
 
+    _dismissController = AnimationController(
+      duration: widget.dismissAnimationDuration,
+      vsync: this,
+    );
+
+    _opacityAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(parent: _dismissController, curve: Curves.easeOut),
+    );
+
+    _positionAnimation =
+        Tween<Offset>(
+          begin: Offset.zero,
+          end: const Offset(0.0, 1.0), // Move to bottom
+        ).animate(
+          CurvedAnimation(parent: _dismissController, curve: Curves.easeInOut),
+        );
+
     if (widget.autoStart) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         startAnimation();
@@ -131,7 +185,9 @@ class _SuccessAnimationWidgetState extends State<SuccessAnimationWidget>
   void dispose() {
     _isDisposed = true;
     _imageTimer?.cancel();
+    _dismissTimer?.cancel();
     _scaleController.dispose();
+    _dismissController.dispose();
     super.dispose();
   }
 
@@ -153,11 +209,15 @@ class _SuccessAnimationWidgetState extends State<SuccessAnimationWidget>
     if (_isDisposed) return;
 
     _imageTimer?.cancel();
+    _dismissTimer?.cancel();
     _scaleController.reset();
+    _dismissController.reset();
 
     if (mounted) {
       setState(() {
         _isAnimating = false;
+        _isDismissing = false;
+        _isCompletelyDismissed = false;
         _currentAlternation = 0;
         _showFirstImage = true;
       });
@@ -210,11 +270,45 @@ class _SuccessAnimationWidgetState extends State<SuccessAnimationWidget>
       }
 
       widget.onAnimationComplete?.call();
+
+      // Start auto-dismiss if enabled
+      if (widget.autoDismiss) {
+        _startAutoDismiss();
+      }
     }
+  }
+
+  void _startAutoDismiss() {
+    if (_isDisposed || _isDismissing) return;
+
+    _dismissTimer = Timer(widget.autoDismissDelay, () {
+      if (_isDisposed || !mounted) return;
+
+      setState(() {
+        _isDismissing = true;
+      });
+
+      _dismissController.forward().then((_) {
+        // Animation is now completely finished and invisible
+        if (mounted) {
+          setState(() {
+            _isCompletelyDismissed = true;
+          });
+
+          // Call the dismiss complete callback to let parent remove the overlay
+          widget.onDismissComplete?.call();
+        }
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    // Return empty widget if completely dismissed
+    if (_isCompletelyDismissed) {
+      return const SizedBox.shrink();
+    }
+
     Widget animationWidget = AnimatedBuilder(
       animation: _scaleAnimation,
       builder: (context, child) {
@@ -230,6 +324,29 @@ class _SuccessAnimationWidgetState extends State<SuccessAnimationWidget>
     if (widget.semanticLabel != null) {
       animationWidget = Semantics(
         label: widget.semanticLabel,
+        child: animationWidget,
+      );
+    }
+
+    // Wrap with dismiss animations if dismissing
+    if (_isDismissing) {
+      animationWidget = AnimatedBuilder(
+        animation: Listenable.merge([_opacityAnimation, _positionAnimation]),
+        builder: (context, child) {
+          Widget result = Opacity(
+            opacity: _opacityAnimation.value,
+            child: child,
+          );
+
+          if (widget.moveToBottom) {
+            result = SlideTransition(
+              position: _positionAnimation,
+              child: result,
+            );
+          }
+
+          return result;
+        },
         child: animationWidget,
       );
     }
@@ -292,6 +409,7 @@ extension SuccessAnimationVariants on SuccessAnimationWidget {
     double? width,
     double? height,
     VoidCallback? onAnimationComplete,
+    VoidCallback? onDismissComplete,
     bool autoStart = true,
     String? semanticLabel,
   }) {
@@ -304,6 +422,7 @@ extension SuccessAnimationVariants on SuccessAnimationWidget {
       width: width,
       height: height,
       onAnimationComplete: onAnimationComplete,
+      onDismissComplete: onDismissComplete,
       autoStart: autoStart,
       semanticLabel: semanticLabel ?? 'Correct answer celebration',
       animationCurve: Curves.easeOutBack,
@@ -316,6 +435,7 @@ extension SuccessAnimationVariants on SuccessAnimationWidget {
     double? width,
     double? height,
     VoidCallback? onAnimationComplete,
+    VoidCallback? onDismissComplete,
     bool autoStart = true,
     String? semanticLabel,
   }) {
@@ -324,6 +444,7 @@ extension SuccessAnimationVariants on SuccessAnimationWidget {
       width: width,
       height: height,
       onAnimationComplete: onAnimationComplete,
+      onDismissComplete: onDismissComplete,
       autoStart: autoStart,
       semanticLabel: semanticLabel ?? 'Level completed celebration',
     );
@@ -335,6 +456,7 @@ extension SuccessAnimationVariants on SuccessAnimationWidget {
     double? width,
     double? height,
     VoidCallback? onAnimationComplete,
+    VoidCallback? onDismissComplete,
     bool autoStart = true,
     String? semanticLabel,
   }) {
@@ -347,6 +469,7 @@ extension SuccessAnimationVariants on SuccessAnimationWidget {
       width: width,
       height: height,
       onAnimationComplete: onAnimationComplete,
+      onDismissComplete: onDismissComplete,
       autoStart: autoStart,
       semanticLabel: semanticLabel ?? 'Achievement unlocked celebration',
       animationCurve: Curves.elasticOut,
@@ -359,6 +482,7 @@ extension SuccessAnimationVariants on SuccessAnimationWidget {
     double? width,
     double? height,
     VoidCallback? onAnimationComplete,
+    VoidCallback? onDismissComplete,
     bool autoStart = true,
     String? semanticLabel,
   }) {
@@ -371,6 +495,7 @@ extension SuccessAnimationVariants on SuccessAnimationWidget {
       width: width,
       height: height,
       onAnimationComplete: onAnimationComplete,
+      onDismissComplete: onDismissComplete,
       autoStart: autoStart,
       semanticLabel: semanticLabel ?? 'Success',
       animationCurve: Curves.easeOut,

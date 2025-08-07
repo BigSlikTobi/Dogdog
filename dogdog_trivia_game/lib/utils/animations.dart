@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Utility class for common animations used throughout the app
 class AppAnimations {
@@ -9,10 +10,39 @@ class AppAnimations {
   static const Duration slowDuration = Duration(milliseconds: 500);
   static const Duration extraSlowDuration = Duration(milliseconds: 800);
 
+  // Reduced motion durations (for accessibility)
+  static const Duration reducedFastDuration = Duration(milliseconds: 50);
+  static const Duration reducedNormalDuration = Duration(milliseconds: 100);
+  static const Duration reducedSlowDuration = Duration(milliseconds: 150);
+
   // Animation curves
   static const Curve defaultCurve = Curves.easeInOut;
   static const Curve bounceCurve = Curves.elasticOut;
   static const Curve smoothCurve = Curves.easeOutCubic;
+  static const Curve reducedMotionCurve = Curves.linear;
+
+  /// Check if reduced motion is preferred for accessibility
+  static bool isReducedMotionPreferred(BuildContext context) {
+    return MediaQuery.of(context).disableAnimations;
+  }
+
+  /// Get appropriate duration based on accessibility preferences
+  static Duration getDuration(BuildContext context, Duration normalDuration) {
+    if (isReducedMotionPreferred(context)) {
+      if (normalDuration == fastDuration) return reducedFastDuration;
+      if (normalDuration == normalDuration) return reducedNormalDuration;
+      if (normalDuration == slowDuration) return reducedSlowDuration;
+      return Duration(
+        milliseconds: (normalDuration.inMilliseconds * 0.3).round(),
+      );
+    }
+    return normalDuration;
+  }
+
+  /// Get appropriate curve based on accessibility preferences
+  static Curve getCurve(BuildContext context, Curve normalCurve) {
+    return isReducedMotionPreferred(context) ? reducedMotionCurve : normalCurve;
+  }
 
   /// Creates a slide transition from bottom to top
   static Widget slideFromBottom({
@@ -232,6 +262,7 @@ class SlidePageRoute<T> extends PageRouteBuilder<T> {
                break;
            }
 
+           // Add fade effect to slide transition
            return SlideTransition(
              position: Tween<Offset>(begin: begin, end: Offset.zero).animate(
                CurvedAnimation(
@@ -239,7 +270,7 @@ class SlidePageRoute<T> extends PageRouteBuilder<T> {
                  curve: AppAnimations.smoothCurve,
                ),
              ),
-             child: child,
+             child: FadeTransition(opacity: animation, child: child),
            );
          },
          transitionDuration: AppAnimations.normalDuration,
@@ -268,18 +299,253 @@ class ScalePageRoute<T> extends PageRouteBuilder<T> {
     : super(
         pageBuilder: (context, animation, secondaryAnimation) => child,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final isReducedMotion = AppAnimations.isReducedMotionPreferred(
+            context,
+          );
+          final curve = AppAnimations.getCurve(
+            context,
+            AppAnimations.bounceCurve,
+          );
+          final duration = AppAnimations.getDuration(
+            context,
+            AppAnimations.slowDuration,
+          );
+
+          // Simplified transition for reduced motion
+          if (isReducedMotion) {
+            return FadeTransition(opacity: animation, child: child);
+          }
+
           return ScaleTransition(
-            scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-              CurvedAnimation(
-                parent: animation,
-                curve: AppAnimations.bounceCurve,
-              ),
-            ),
+            scale: Tween<double>(
+              begin: 0.8,
+              end: 1.0,
+            ).animate(CurvedAnimation(parent: animation, curve: curve)),
             child: FadeTransition(opacity: animation, child: child),
           );
         },
         transitionDuration: AppAnimations.slowDuration,
       );
+}
+
+/// Modern page route with combined slide and scale transition
+class ModernPageRoute<T> extends PageRouteBuilder<T> {
+  final Widget child;
+  final SlideDirection direction;
+
+  ModernPageRoute({
+    required this.child,
+    this.direction = SlideDirection.rightToLeft,
+    super.settings,
+  }) : super(
+         pageBuilder: (context, animation, secondaryAnimation) => child,
+         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+           final isReducedMotion = AppAnimations.isReducedMotionPreferred(
+             context,
+           );
+           final curve = AppAnimations.getCurve(
+             context,
+             AppAnimations.smoothCurve,
+           );
+
+           Offset begin;
+           switch (direction) {
+             case SlideDirection.rightToLeft:
+               begin = const Offset(1.0, 0.0);
+               break;
+             case SlideDirection.leftToRight:
+               begin = const Offset(-1.0, 0.0);
+               break;
+             case SlideDirection.topToBottom:
+               begin = const Offset(0.0, -1.0);
+               break;
+             case SlideDirection.bottomToTop:
+               begin = const Offset(0.0, 1.0);
+               break;
+           }
+
+           // Simplified transition for reduced motion
+           if (isReducedMotion) {
+             return FadeTransition(opacity: animation, child: child);
+           }
+
+           // Combined slide, scale, and fade transition
+           return SlideTransition(
+             position: Tween<Offset>(
+               begin: begin,
+               end: Offset.zero,
+             ).animate(CurvedAnimation(parent: animation, curve: curve)),
+             child: ScaleTransition(
+               scale: Tween<double>(
+                 begin: 0.9,
+                 end: 1.0,
+               ).animate(CurvedAnimation(parent: animation, curve: curve)),
+               child: FadeTransition(opacity: animation, child: child),
+             ),
+           );
+         },
+         transitionDuration: AppAnimations.normalDuration,
+       );
+}
+
+/// Hero page route for smooth element transitions
+class HeroPageRoute<T> extends PageRouteBuilder<T> {
+  final Widget child;
+  final String heroTag;
+
+  HeroPageRoute({required this.child, required this.heroTag, super.settings})
+    : super(
+        pageBuilder: (context, animation, secondaryAnimation) => child,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: ScaleTransition(
+              scale: Tween<double>(begin: 0.8, end: 1.0).animate(
+                CurvedAnimation(
+                  parent: animation,
+                  curve: AppAnimations.bounceCurve,
+                ),
+              ),
+              child: child,
+            ),
+          );
+        },
+        transitionDuration: AppAnimations.slowDuration,
+      );
+}
+
+/// Skeleton loading widget for content placeholders
+class SkeletonLoader extends StatefulWidget {
+  final double width;
+  final double height;
+  final BorderRadius? borderRadius;
+
+  const SkeletonLoader({
+    super.key,
+    required this.width,
+    required this.height,
+    this.borderRadius,
+  });
+
+  @override
+  State<SkeletonLoader> createState() => _SkeletonLoaderState();
+}
+
+class _SkeletonLoaderState extends State<SkeletonLoader>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    )..repeat();
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      decoration: BoxDecoration(
+        borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
+        color: Colors.grey[300],
+      ),
+      child: AppAnimations.shimmer(
+        animation: _animation,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: widget.borderRadius ?? BorderRadius.circular(8),
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Staggered animation helper for lists
+class StaggeredAnimationHelper {
+  static List<Widget> createStaggeredList({
+    required List<Widget> children,
+    required AnimationController controller,
+    Duration staggerDelay = const Duration(milliseconds: 100),
+  }) {
+    return children.asMap().entries.map((entry) {
+      final index = entry.key;
+      final child = entry.value;
+
+      final delay = staggerDelay.inMilliseconds * index;
+      final totalDuration = controller.duration!.inMilliseconds;
+      final animationStart = delay / totalDuration;
+      final animationEnd =
+          (delay + AppAnimations.normalDuration.inMilliseconds) / totalDuration;
+
+      final animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: Interval(
+            animationStart.clamp(0.0, 1.0),
+            animationEnd.clamp(0.0, 1.0),
+            curve: AppAnimations.smoothCurve,
+          ),
+        ),
+      );
+
+      return AppAnimations.fadeAndScale(animation: animation, child: child);
+    }).toList();
+  }
+}
+
+/// Button press animation mixin
+mixin ButtonPressAnimationMixin<T extends StatefulWidget>
+    on State<T>, TickerProviderStateMixin<T> {
+  late AnimationController pressController;
+  late Animation<double> pressAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    pressController = AnimationController(
+      duration: AppAnimations.fastDuration,
+      vsync: this,
+    );
+    pressAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: pressController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    pressController.dispose();
+    super.dispose();
+  }
+
+  void animatePress() {
+    pressController.forward().then((_) {
+      pressController.reverse();
+    });
+  }
+
+  Widget buildPressableWidget(Widget child) {
+    return AnimatedBuilder(
+      animation: pressAnimation,
+      builder: (context, child) {
+        return Transform.scale(scale: pressAnimation.value, child: child);
+      },
+      child: child,
+    );
+  }
 }
 
 enum SlideDirection { rightToLeft, leftToRight, topToBottom, bottomToTop }

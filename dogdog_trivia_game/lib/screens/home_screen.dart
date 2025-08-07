@@ -10,6 +10,7 @@ import '../widgets/gradient_button.dart';
 import '../widgets/modern_card.dart';
 import '../widgets/audio_settings.dart';
 import '../utils/responsive.dart';
+import '../utils/animations.dart';
 import '../utils/enum_extensions.dart';
 import '../l10n/generated/app_localizations.dart';
 import 'difficulty_selection_screen.dart';
@@ -328,26 +329,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         await audioService.playButtonSound();
         if (mounted) {
           Navigator.of(context).push(
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  const DifficultySelectionScreen(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                    return SlideTransition(
-                      position:
-                          Tween<Offset>(
-                            begin: const Offset(1.0, 0.0),
-                            end: Offset.zero,
-                          ).animate(
-                            CurvedAnimation(
-                              parent: animation,
-                              curve: Curves.easeInOut,
-                            ),
-                          ),
-                      child: child,
-                    );
-                  },
-              transitionDuration: const Duration(milliseconds: 300),
+            ModernPageRoute(
+              child: const DifficultySelectionScreen(),
+              direction: SlideDirection.rightToLeft,
             ),
           );
         }
@@ -372,20 +356,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             onPressed: () async {
               await audioService.playButtonSound();
               if (mounted) {
-                Navigator.of(context).push(
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        const AchievementsScreen(),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        },
-                    transitionDuration: const Duration(milliseconds: 300),
-                  ),
-                );
+                Navigator.of(
+                  context,
+                ).push(ScalePageRoute(child: const AchievementsScreen()));
               }
             },
             gradientColors: ModernColors.yellowGradient,

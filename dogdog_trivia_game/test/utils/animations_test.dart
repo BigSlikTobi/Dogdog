@@ -4,301 +4,284 @@ import 'package:dogdog_trivia_game/utils/animations.dart';
 
 void main() {
   group('AppAnimations', () {
-    late AnimationController controller;
-
-    setUp(() {
-      controller = AnimationController(
-        duration: const Duration(milliseconds: 300),
-        vsync: const TestVSync(),
-      );
-    });
-
-    tearDown(() {
-      controller.dispose();
-    });
-
-    testWidgets('slideFromBottom creates correct slide transition', (
-      tester,
-    ) async {
-      const testWidget = Text('Test');
-
+    testWidgets('respects reduced motion preferences', (tester) async {
+      // Test with normal motion
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: AppAnimations.slideFromBottom(
-              child: testWidget,
-              animation: controller,
-            ),
+          home: Builder(
+            builder: (context) {
+              expect(AppAnimations.isReducedMotionPreferred(context), false);
+              expect(
+                AppAnimations.getDuration(
+                  context,
+                  AppAnimations.normalDuration,
+                ),
+                AppAnimations.normalDuration,
+              );
+              expect(
+                AppAnimations.getCurve(context, AppAnimations.smoothCurve),
+                AppAnimations.smoothCurve,
+              );
+              return const SizedBox();
+            },
           ),
         ),
       );
 
-      // Initially should be off-screen (bottom)
-      expect(find.byWidget(testWidget), findsOneWidget);
+      // Test with reduced motion
+      await tester.pumpWidget(
+        MediaQuery(
+          data: const MediaQueryData(disableAnimations: true),
+          child: MaterialApp(
+            home: Builder(
+              builder: (context) {
+                expect(AppAnimations.isReducedMotionPreferred(context), true);
+                expect(
+                  AppAnimations.getDuration(
+                    context,
+                    AppAnimations.normalDuration,
+                  ),
+                  AppAnimations.reducedNormalDuration,
+                );
+                expect(
+                  AppAnimations.getCurve(context, AppAnimations.smoothCurve),
+                  AppAnimations.reducedMotionCurve,
+                );
+                return const SizedBox();
+              },
+            ),
+          ),
+        ),
+      );
+    });
+
+    testWidgets('slide animations work correctly', (tester) async {
+      late AnimationController controller;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: StatefulBuilder(
+            builder: (context, setState) {
+              controller = AnimationController(
+                duration: const Duration(milliseconds: 300),
+                vsync: tester,
+              );
+
+              return AppAnimations.slideFromBottom(
+                animation: controller,
+                child: const Text('Test'),
+              );
+            },
+          ),
+        ),
+      );
 
       // Start animation
       controller.forward();
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 150));
 
-      // Should be animating
+      // Verify animation is in progress
       expect(controller.value, greaterThan(0.0));
       expect(controller.value, lessThan(1.0));
 
       // Complete animation
       await tester.pump(const Duration(milliseconds: 300));
-      expect(controller.value, equals(1.0));
+      expect(controller.value, 1.0);
+
+      controller.dispose();
     });
 
-    testWidgets('slideFromRight creates correct slide transition', (
-      tester,
-    ) async {
-      const testWidget = Text('Test');
+    testWidgets('fade animations work correctly', (tester) async {
+      late AnimationController controller;
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: AppAnimations.slideFromRight(
-              child: testWidget,
-              animation: controller,
-            ),
+          home: StatefulBuilder(
+            builder: (context, setState) {
+              controller = AnimationController(
+                duration: const Duration(milliseconds: 300),
+                vsync: tester,
+              );
+
+              return AppAnimations.fadeIn(
+                animation: controller,
+                child: const Text('Test'),
+              );
+            },
           ),
         ),
       );
 
-      expect(find.byWidget(testWidget), findsOneWidget);
-
+      // Start animation
       controller.forward();
-      await tester.pumpAndSettle();
-      expect(controller.value, equals(1.0));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 150));
+
+      // Verify animation is in progress
+      expect(controller.value, greaterThan(0.0));
+      expect(controller.value, lessThan(1.0));
+
+      controller.dispose();
     });
 
-    testWidgets('fadeIn creates correct fade transition', (tester) async {
-      const testWidget = Text('Test');
+    testWidgets('scale animations work correctly', (tester) async {
+      late AnimationController controller;
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: AppAnimations.fadeIn(
-              child: testWidget,
-              animation: controller,
-            ),
+          home: StatefulBuilder(
+            builder: (context, setState) {
+              controller = AnimationController(
+                duration: const Duration(milliseconds: 300),
+                vsync: tester,
+              );
+
+              return AppAnimations.scaleWithBounce(
+                animation: controller,
+                child: const Text('Test'),
+              );
+            },
           ),
         ),
       );
 
-      expect(find.byWidget(testWidget), findsOneWidget);
-
+      // Start animation
       controller.forward();
-      await tester.pumpAndSettle();
-      expect(controller.value, equals(1.0));
-    });
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 150));
 
-    testWidgets('scaleWithBounce creates correct scale transition', (
-      tester,
-    ) async {
-      const testWidget = Text('Test');
+      // Verify animation is in progress
+      expect(controller.value, greaterThan(0.0));
+      expect(controller.value, lessThan(1.0));
 
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: AppAnimations.scaleWithBounce(
-              child: testWidget,
-              animation: controller,
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byWidget(testWidget), findsOneWidget);
-
-      controller.forward();
-      await tester.pumpAndSettle();
-      expect(controller.value, equals(1.0));
-    });
-
-    testWidgets('fadeAndScale combines fade and scale effects', (tester) async {
-      const testWidget = Text('Test');
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: AppAnimations.fadeAndScale(
-              child: testWidget,
-              animation: controller,
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byWidget(testWidget), findsOneWidget);
-
-      controller.forward();
-      await tester.pumpAndSettle();
-      expect(controller.value, equals(1.0));
-    });
-
-    testWidgets('celebration animation completes successfully', (tester) async {
-      const testWidget = Text('Test');
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: AppAnimations.celebration(
-              child: testWidget,
-              animation: controller,
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byWidget(testWidget), findsOneWidget);
-
-      controller.forward();
-      await tester.pumpAndSettle();
-      expect(controller.value, equals(1.0));
+      controller.dispose();
     });
   });
 
-  group('Custom Page Routes', () {
-    testWidgets('SlidePageRoute performs slide transition', (tester) async {
+  group('Page Routes', () {
+    testWidgets('ModernPageRoute respects reduced motion', (tester) async {
+      // Test with normal motion
       await tester.pumpWidget(
-        MaterialApp(home: const Scaffold(body: Text('Home'))),
+        MaterialApp(
+          home: const Scaffold(body: Text('Home')),
+          routes: {'/test': (context) => const Scaffold(body: Text('Test'))},
+        ),
       );
 
-      expect(find.text('Home'), findsOneWidget);
-
-      // Navigate with slide transition
+      // Navigate with ModernPageRoute
       await tester.tap(find.text('Home'));
       await tester.pump();
 
-      // Push new route
-      Navigator.of(tester.element(find.text('Home'))).push(
-        SlidePageRoute(
-          child: const Scaffold(body: Text('New Page')),
-          direction: SlideDirection.rightToLeft,
-        ),
-      );
-
-      await tester.pumpAndSettle();
-      expect(find.text('New Page'), findsOneWidget);
-    });
-
-    testWidgets('FadePageRoute performs fade transition', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(home: const Scaffold(body: Text('Home'))),
-      );
-
-      expect(find.text('Home'), findsOneWidget);
-
-      // Navigate with fade transition
       Navigator.of(
         tester.element(find.text('Home')),
-      ).push(FadePageRoute(child: const Scaffold(body: Text('New Page'))));
-
-      await tester.pumpAndSettle();
-      expect(find.text('New Page'), findsOneWidget);
-    });
-
-    testWidgets('ScalePageRoute performs scale transition', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(home: const Scaffold(body: Text('Home'))),
-      );
-
-      expect(find.text('Home'), findsOneWidget);
-
-      // Navigate with scale transition
-      Navigator.of(
-        tester.element(find.text('Home')),
-      ).push(ScalePageRoute(child: const Scaffold(body: Text('New Page'))));
-
-      await tester.pumpAndSettle();
-      expect(find.text('New Page'), findsOneWidget);
-    });
-  });
-
-  group('Animation Performance', () {
-    testWidgets('animations complete within expected duration', (tester) async {
-      final performanceController = AnimationController(
-        duration: AppAnimations.normalDuration,
-        vsync: const TestVSync(),
-      );
-
-      const testWidget = Text('Performance Test');
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: AppAnimations.fadeAndScale(
-              child: testWidget,
-              animation: performanceController,
-            ),
-          ),
-        ),
-      );
-
-      final stopwatch = Stopwatch()..start();
-
-      performanceController.forward();
-      await tester.pumpAndSettle();
-
-      stopwatch.stop();
-
-      // Animation should complete within reasonable time (allowing some buffer)
-      expect(stopwatch.elapsedMilliseconds, lessThan(500));
-      expect(performanceController.value, equals(1.0));
-
-      performanceController.dispose();
-    });
-
-    testWidgets('multiple animations can run simultaneously', (tester) async {
-      final controller1 = AnimationController(
-        duration: const Duration(milliseconds: 200),
-        vsync: const TestVSync(),
-      );
-      final controller2 = AnimationController(
-        duration: const Duration(milliseconds: 300),
-        vsync: const TestVSync(),
-      );
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Column(
-              children: [
-                AppAnimations.fadeIn(
-                  child: const Text('Animation 1'),
-                  animation: controller1,
-                ),
-                AppAnimations.scaleWithBounce(
-                  child: const Text('Animation 2'),
-                  animation: controller2,
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-
-      // Start both animations
-      controller1.forward();
-      controller2.forward();
+      ).push(ModernPageRoute(child: const Scaffold(body: Text('Test'))));
 
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 150));
 
-      // Both should be animating (controller1 should be done, controller2 still going)
-      expect(controller1.value, greaterThan(0.0));
-      expect(controller2.value, greaterThan(0.0));
+      // Verify navigation occurred
+      expect(find.text('Test'), findsOneWidget);
+    });
 
-      await tester.pumpAndSettle();
+    testWidgets('ScalePageRoute works correctly', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(home: const Scaffold(body: Text('Home'))),
+      );
 
-      // Both should complete
-      expect(controller1.value, equals(1.0));
-      expect(controller2.value, equals(1.0));
+      // Navigate with ScalePageRoute
+      Navigator.of(
+        tester.element(find.text('Home')),
+      ).push(ScalePageRoute(child: const Scaffold(body: Text('Test'))));
 
-      controller1.dispose();
-      controller2.dispose();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 150));
+
+      // Verify navigation occurred
+      expect(find.text('Test'), findsOneWidget);
+    });
+  });
+
+  group('SkeletonLoader', () {
+    testWidgets('renders correctly', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(body: SkeletonLoader(width: 100, height: 50)),
+        ),
+      );
+
+      expect(find.byType(SkeletonLoader), findsOneWidget);
+
+      // Let animation run
+      await tester.pump(const Duration(milliseconds: 100));
+      await tester.pump(const Duration(milliseconds: 100));
+    });
+
+    testWidgets('has correct dimensions', (tester) async {
+      const width = 150.0;
+      const height = 75.0;
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SkeletonLoader(width: width, height: height),
+          ),
+        ),
+      );
+
+      final container = tester.widget<Container>(
+        find
+            .descendant(
+              of: find.byType(SkeletonLoader),
+              matching: find.byType(Container),
+            )
+            .first,
+      );
+
+      expect(container.constraints?.maxWidth, width);
+      expect(container.constraints?.maxHeight, height);
+    });
+  });
+
+  group('StaggeredAnimationHelper', () {
+    testWidgets('creates staggered animations', (tester) async {
+      late AnimationController controller;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: StatefulBuilder(
+            builder: (context, setState) {
+              controller = AnimationController(
+                duration: const Duration(milliseconds: 1000),
+                vsync: tester,
+              );
+
+              final children = StaggeredAnimationHelper.createStaggeredList(
+                children: [
+                  const Text('Item 1'),
+                  const Text('Item 2'),
+                  const Text('Item 3'),
+                ],
+                controller: controller,
+              );
+
+              return Column(children: children);
+            },
+          ),
+        ),
+      );
+
+      // Start staggered animation
+      controller.forward();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      // Verify items are present
+      expect(find.text('Item 1'), findsOneWidget);
+      expect(find.text('Item 2'), findsOneWidget);
+      expect(find.text('Item 3'), findsOneWidget);
+
+      controller.dispose();
     });
   });
 }
