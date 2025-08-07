@@ -13,7 +13,7 @@ void main() {
     ) async {
       // Reset to a known state
       await tester.binding.setSurfaceSize(const Size(300, 600));
-      
+
       // Test mobile screen - using smaller size to ensure mobile classification
       tester.view.physicalSize = const Size(300, 600);
       tester.view.devicePixelRatio = 1.0;
@@ -283,7 +283,10 @@ void main() {
         mobileLandscapeColumns,
         equals(2),
       ); // Still 2x2 for mobile landscape
-      expect(tabletPortraitColumns, equals(2)); // 2x2 grid for tablet portrait (same as mobile)
+      expect(
+        tabletPortraitColumns,
+        equals(2),
+      ); // 2x2 grid for tablet portrait (same as mobile)
       expect(
         tabletLandscapeColumns,
         equals(4),
@@ -320,7 +323,10 @@ void main() {
       final containerSize = tester.getSize(find.byType(Container).last);
       expect(containerSize.width, lessThan(1400)); // Should be constrained
       // Desktop max content width is 800, minus padding (32*2) = 736
-      expect(containerSize.width, equals(736)); // Desktop max width minus padding
+      expect(
+        containerSize.width,
+        equals(736),
+      ); // Desktop max width minus padding
 
       // Test on mobile (should not constrain width)
       await tester.binding.setSurfaceSize(const Size(400, 800));

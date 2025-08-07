@@ -65,7 +65,9 @@ void main() {
       await tester.pumpWidget(
         MediaQuery(
           data: const MediaQueryData(accessibleNavigation: true),
-          child: TestHelper.createTestAppWithProgressService(const HomeScreen()),
+          child: TestHelper.createTestAppWithProgressService(
+            const HomeScreen(),
+          ),
         ),
       );
 

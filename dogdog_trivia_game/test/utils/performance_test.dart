@@ -26,10 +26,9 @@ void main() {
       home: child,
     );
   }
+
   group('Performance Tests for Responsive Design and Accessibility', () {
-    testWidgets('should render responsive layouts efficiently', (
-      tester,
-    ) async {
+    testWidgets('should render responsive layouts efficiently', (tester) async {
       // Test basic responsive rendering without timing animations
       await tester.pumpWidget(
         createTestWidget(
@@ -70,7 +69,8 @@ void main() {
       );
 
       // Test accessibility settings changes - focus on successful rendering
-      for (int i = 0; i < 3; i++) { // Reduced iterations to avoid timing issues
+      for (int i = 0; i < 3; i++) {
+        // Reduced iterations to avoid timing issues
         await tester.pumpWidget(
           createTestWidget(
             child: MediaQuery(
@@ -116,9 +116,7 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('should render game screen without errors', (
-      tester,
-    ) async {
+    testWidgets('should render game screen without errors', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           child: ChangeNotifierProvider(
@@ -130,7 +128,8 @@ void main() {
 
       await tester.pump(); // Single pump instead of pumpAndSettle
       // Test basic screen size changes
-      for (int i = 0; i < 3; i++) { // Reduced iterations
+      for (int i = 0; i < 3; i++) {
+        // Reduced iterations
         // Test responsive grid changes
         await tester.binding.setSurfaceSize(Size(400 + i * 100, 800));
         await tester.pump();
@@ -206,7 +205,8 @@ void main() {
           child: MediaQuery(
             data: const MediaQueryData(highContrast: true),
             child: Scaffold(
-              body: SingleChildScrollView( // Add scroll to prevent overflow
+              body: SingleChildScrollView(
+                // Add scroll to prevent overflow
                 child: Column(
                   children: List.generate(
                     5, // Reduced from 20 to avoid overflow
@@ -235,9 +235,7 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('should handle focus changes efficiently', (
-      tester,
-    ) async {
+    testWidgets('should handle focus changes efficiently', (tester) async {
       await tester.pumpWidget(
         createTestWidget(
           child: Scaffold(
@@ -262,7 +260,8 @@ void main() {
       await tester.pump();
 
       // Test focus changes - focus on successful execution, not timing
-      for (int i = 0; i < 3; i++) { // Reduced iterations
+      for (int i = 0; i < 3; i++) {
+        // Reduced iterations
         await tester.sendKeyEvent(LogicalKeyboardKey.tab);
         await tester.pump();
       }
@@ -277,7 +276,8 @@ void main() {
       tester,
     ) async {
       // Simplified memory test focusing on successful transitions
-      for (int i = 0; i < 3; i++) { // Reduced iterations
+      for (int i = 0; i < 3; i++) {
+        // Reduced iterations
         await tester.pumpWidget(
           createTestWidget(
             child: ChangeNotifierProvider(
@@ -320,9 +320,7 @@ void main() {
 
       // Navigate away (this should trigger dispose)
       await tester.pumpWidget(
-        createTestWidget(
-          child: const Scaffold(body: Text('Different Screen')),
-        ),
+        createTestWidget(child: const Scaffold(body: Text('Different Screen'))),
       );
 
       await tester.pump();
