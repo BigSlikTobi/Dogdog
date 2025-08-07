@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'lib/utils/responsive.dart';
+import 'package:dogdog_trivia_game/utils/responsive.dart';
 
 void main() {
   testWidgets('Debug padding values', (WidgetTester tester) async {
