@@ -65,17 +65,14 @@ void main() {
       await tester.pumpWidget(
         MediaQuery(
           data: const MediaQueryData(accessibleNavigation: true),
-          child: ChangeNotifierProvider(
-            create: (context) => ProgressService(),
-            child: const MaterialApp(home: HomeScreen()),
-          ),
+          child: TestHelper.createTestAppWithProgressService(const HomeScreen()),
         ),
       );
 
       // Verify screen reader detection
       await tester.pumpWidget(
-        MaterialApp(
-          home: Builder(
+        TestHelper.createTestApp(
+          Builder(
             builder: (context) {
               expect(AccessibilityUtils.isScreenReaderEnabled(context), true);
               return Container();

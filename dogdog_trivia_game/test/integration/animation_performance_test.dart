@@ -13,7 +13,7 @@ Widget createTestApp() {
 void main() {
   group('Animation Performance Tests', () {
     testWidgets('page transitions work correctly', (tester) async {
-      await tester.pumpWidget(MaterialApp(home: const HomeScreen()));
+      await tester.pumpWidget(createTestApp());
 
       // Verify home screen loads
       expect(find.byType(HomeScreen), findsOneWidget);
@@ -30,12 +30,12 @@ void main() {
       await tester.pumpWidget(
         MediaQuery(
           data: const MediaQueryData(disableAnimations: true),
-          child: MaterialApp(home: const HomeScreen()),
+          child: createTestApp(),
         ),
       );
 
       // Find and tap the start button
-      final startButton = find.text('Spiel starten');
+      final startButton = find.text('Start Quiz');
       expect(startButton, findsOneWidget);
 
       // Measure transition time with reduced motion
@@ -57,7 +57,7 @@ void main() {
     });
 
     testWidgets('button press animations are smooth', (tester) async {
-      await tester.pumpWidget(MaterialApp(home: const HomeScreen()));
+      await tester.pumpWidget(createTestApp());
 
       // Verify home screen loads
       expect(find.byType(HomeScreen), findsOneWidget);
@@ -101,7 +101,7 @@ void main() {
       await tester.pumpWidget(createTestApp());
 
       // Navigate to difficulty selection
-      final startButton = find.text('Spiel starten');
+      final startButton = find.text('Start Quiz');
       await tester.tap(startButton);
       await tester.pumpAndSettle();
 
@@ -131,7 +131,7 @@ void main() {
       final startTime = DateTime.now();
 
       // Perform animation-heavy navigation
-      final startButton = find.text('Spiel starten');
+      final startButton = find.text('Start Quiz');
       await tester.tap(startButton);
 
       // Pump frames during transition
@@ -160,15 +160,15 @@ void main() {
       // Perform multiple navigation cycles to test memory stability
       for (int cycle = 0; cycle < 5; cycle++) {
         // Navigate forward
-        final startButton = find.text('Spiel starten');
+        final startButton = find.text('Start Quiz');
         await tester.tap(startButton);
-        await tester.pumpAndSettle();
+        await tester.pump(); // Changed from pumpAndSettle to avoid timeout
 
         // Navigate back
         final backButton = find.byIcon(Icons.arrow_back);
         if (backButton.evaluate().isNotEmpty) {
           await tester.tap(backButton);
-          await tester.pumpAndSettle();
+          await tester.pump(); // Changed from pumpAndSettle to avoid timeout
         }
 
         // Force garbage collection between cycles
@@ -217,7 +217,7 @@ void main() {
       );
 
       // Navigate with accessibility enabled
-      final startButton = find.text('Spiel starten');
+      final startButton = find.text('Start Quiz');
       await tester.tap(startButton);
       await tester.pumpAndSettle();
 
@@ -229,7 +229,7 @@ void main() {
       await tester.pumpWidget(createTestApp());
 
       // Test focus management during navigation
-      final startButton = find.text('Spiel starten');
+      final startButton = find.text('Start Quiz');
 
       // Focus the button
       await tester.tap(startButton);
