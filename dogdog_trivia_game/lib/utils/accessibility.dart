@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
+import 'dart:math' as math;
+
+/// Data class for accessible color pairs
+class ColorPair {
+  final Color foreground;
+  final Color background;
+
+  const ColorPair({required this.foreground, required this.background});
+
+  /// Get contrast ratio between foreground and background
+  double get contrastRatio =>
+      AccessibilityUtils.calculateContrastRatio(foreground, background);
+
+  /// Check if this color pair meets WCAG AA standards
+  bool get meetsWCAGAA => contrastRatio >= 4.5;
+
+  /// Check if this color pair meets WCAG AAA standards
+  bool get meetsWCAGAAA => contrastRatio >= 7.0;
+}
 
 /// Utility class for accessibility features and helpers
 class AccessibilityUtils {
   /// Check if high contrast mode is enabled
-  static bool isHighContrastEnabled(BuildContext context) {
+  static bool isHighContrastEnabled(BuildContext? context) {
+    if (context == null) return false;
     return MediaQuery.of(context).highContrast;
   }
 
@@ -91,9 +111,129 @@ class AccessibilityUtils {
     }
   }
 
+  /// Calculate color contrast ratio between two colors
+  static double calculateContrastRatio(Color color1, Color color2) {
+    final luminance1 = _calculateLuminance(color1);
+    final luminance2 = _calculateLuminance(color2);
+
+    final lighter = math.max(luminance1, luminance2);
+    final darker = math.min(luminance1, luminance2);
+
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+
+  /// Calculate relative luminance of a color
+  static double _calculateLuminance(Color color) {
+    final r = _linearizeColorComponent(color.red / 255.0);
+    final g = _linearizeColorComponent(color.green / 255.0);
+    final b = _linearizeColorComponent(color.blue / 255.0);
+
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+
+  /// Linearize color component for luminance calculation
+  static double _linearizeColorComponent(double component) {
+    if (component <= 0.03928) {
+      return component / 12.92;
+    } else {
+      return math.pow((component + 0.055) / 1.055, 2.4).toDouble();
+    }
+  }
+
+  /// Check if color combination meets WCAG AA standards (4.5:1 ratio)
+  static bool meetsWCAGAA(Color foreground, Color background) {
+    return calculateContrastRatio(foreground, background) >= 4.5;
+  }
+
+  /// Check if color combination meets WCAG AAA standards (7:1 ratio)
+  static bool meetsWCAGAAA(Color foreground, Color background) {
+    return calculateContrastRatio(foreground, background) >= 7.0;
+  }
+
+  /// Get accessible color pair that meets WCAG standards
+  static ColorPair getAccessibleColorPair(
+    Color foreground,
+    Color background, {
+    bool requireAAA = false,
+  }) {
+    final requiredRatio = requireAAA ? 7.0 : 4.5;
+    final currentRatio = calculateContrastRatio(foreground, background);
+
+    if (currentRatio >= requiredRatio) {
+      return ColorPair(foreground: foreground, background: background);
+    }
+
+    // If contrast is insufficient, use high contrast alternatives
+    if (isHighContrastEnabled(null)) {
+      return const ColorPair(
+        foreground: Colors.black,
+        background: Colors.white,
+      );
+    }
+
+    // Adjust colors to meet contrast requirements
+    final adjustedForeground = _adjustColorForContrast(
+      foreground,
+      background,
+      requiredRatio,
+    );
+    return ColorPair(foreground: adjustedForeground, background: background);
+  }
+
+  /// Adjust color to meet contrast requirements
+  static Color _adjustColorForContrast(
+    Color foreground,
+    Color background,
+    double targetRatio,
+  ) {
+    final backgroundLuminance = _calculateLuminance(background);
+
+    // Determine if we need a lighter or darker foreground
+    final shouldBeLighter = backgroundLuminance < 0.5;
+
+    if (shouldBeLighter) {
+      // Make foreground lighter
+      return Color.lerp(foreground, Colors.white, 0.3) ?? Colors.white;
+    } else {
+      // Make foreground darker
+      return Color.lerp(foreground, Colors.black, 0.3) ?? Colors.black;
+    }
+  }
+
+  /// Get minimum touch target size based on platform guidelines
+  static Size getMinimumTouchTargetSize() {
+    return const Size(44.0, 44.0); // iOS and Android minimum
+  }
+
+  /// Check if widget meets minimum touch target size
+  static bool meetsTouchTargetSize(Size widgetSize) {
+    final minSize = getMinimumTouchTargetSize();
+    return widgetSize.width >= minSize.width &&
+        widgetSize.height >= minSize.height;
+  }
+
   /// Create focus node with proper disposal
   static FocusNode createManagedFocusNode() {
     return FocusNode(debugLabel: 'ManagedFocusNode');
+  }
+
+  /// Create semantic label for screen reader announcements
+  static String createScreenReaderAnnouncement({
+    required String action,
+    String? result,
+    String? context,
+  }) {
+    final buffer = StringBuffer(action);
+
+    if (result != null) {
+      buffer.write('. $result');
+    }
+
+    if (context != null) {
+      buffer.write('. $context');
+    }
+
+    return buffer.toString();
   }
 
   /// Get high contrast colors

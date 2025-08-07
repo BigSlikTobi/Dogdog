@@ -11,6 +11,7 @@ import '../widgets/modern_card.dart';
 import '../widgets/audio_settings.dart';
 import '../utils/responsive.dart';
 import '../utils/animations.dart';
+import '../utils/accessibility.dart';
 import '../utils/enum_extensions.dart';
 import '../l10n/generated/app_localizations.dart';
 import 'difficulty_selection_screen.dart';
@@ -112,52 +113,62 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: ModernColors.createLinearGradient(
-            ModernColors.backgroundGradient,
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+    // Respect reduced motion preferences for animations
+    final animationDuration = ResponsiveUtils.getAccessibleAnimationDuration(
+      context,
+      const Duration(milliseconds: 1200),
+    );
+    _mainAnimationController.duration = animationDuration;
+
+    final decorationDuration = ResponsiveUtils.getAccessibleAnimationDuration(
+      context,
+      const Duration(seconds: 25),
+    );
+    _decorationAnimationController.duration = decorationDuration;
+
+    return AccessibilityTheme(
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: ModernColors.createLinearGradient(
+              ModernColors.backgroundGradient,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Stack(
-            children: [
-              _buildFloatingDecorations(),
-              FadeTransition(
-                opacity: _fadeAnimation,
-                child: SlideTransition(
-                  position: _slideAnimation,
-                  child: SingleChildScrollView(
-                    padding: ModernSpacing.responsivePadding(
-                      context,
-                      mobile: ModernSpacing.screenPaddingInsets,
-                      tablet: const EdgeInsets.symmetric(
-                        horizontal: 64.0,
-                        vertical: 32.0,
+          child: SafeArea(
+            child: Stack(
+              children: [
+                _buildFloatingDecorations(),
+                FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: ResponsiveContainer(
+                      padding: ResponsiveUtils.getResponsivePadding(context),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ModernSpacing.verticalSpaceXL,
+                            _buildLogo(),
+                            ModernSpacing.verticalSpaceLG,
+                            _buildWelcomeText(),
+                            ModernSpacing.verticalSpaceXL,
+                            _buildStartButton(),
+                            ModernSpacing.verticalSpaceLG,
+                            _buildNavigationButtons(),
+                            ModernSpacing.verticalSpaceXL,
+                            _buildAchievementProgress(),
+                            ModernSpacing.verticalSpaceMD,
+                          ],
+                        ),
                       ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ModernSpacing.verticalSpaceXL,
-                        _buildLogo(),
-                        ModernSpacing.verticalSpaceLG,
-                        _buildWelcomeText(),
-                        ModernSpacing.verticalSpaceXL,
-                        _buildStartButton(),
-                        ModernSpacing.verticalSpaceLG,
-                        _buildNavigationButtons(),
-                        ModernSpacing.verticalSpaceXL,
-                        _buildAchievementProgress(),
-                        ModernSpacing.verticalSpaceMD,
-                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -301,18 +312,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       children: [
         Text(
           l10n.homeScreen_welcomeTitle,
-          style: ModernTypography.headingLarge.copyWith(
-            color: ModernColors.textPrimary,
+          style: ResponsiveUtils.getAccessibleTextStyle(
+            context,
+            ModernTypography.headingLarge.copyWith(
+              color: ModernColors.textPrimary,
+            ),
           ),
           textAlign: TextAlign.center,
+          semanticsLabel: l10n.homeScreen_welcomeTitle,
         ),
         ModernSpacing.verticalSpaceSM,
         Text(
           l10n.homeScreen_welcomeSubtitle,
-          style: ModernTypography.withSecondaryColor(
-            ModernTypography.bodyLarge,
+          style: ResponsiveUtils.getAccessibleTextStyle(
+            context,
+            ModernTypography.withSecondaryColor(ModernTypography.bodyLarge),
           ),
           textAlign: TextAlign.center,
+          semanticsLabel: l10n.homeScreen_welcomeSubtitle,
         ),
       ],
     );

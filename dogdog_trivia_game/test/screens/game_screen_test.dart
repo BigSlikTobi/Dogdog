@@ -4,7 +4,6 @@ import 'package:dogdog_trivia_game/screens/game_screen.dart';
 import 'package:dogdog_trivia_game/models/enums.dart';
 import 'package:dogdog_trivia_game/services/audio_service.dart';
 import 'package:dogdog_trivia_game/widgets/modern_card.dart';
-import 'package:dogdog_trivia_game/design_system/modern_colors.dart';
 
 /// Helper function to create a testable GameScreen widget
 Widget createTestableWidget({

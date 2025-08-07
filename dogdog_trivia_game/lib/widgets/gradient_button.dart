@@ -3,6 +3,8 @@ import '../design_system/modern_colors.dart';
 import '../design_system/modern_spacing.dart';
 import '../design_system/modern_shadows.dart';
 import '../design_system/modern_typography.dart';
+import '../utils/accessibility.dart';
+import '../utils/responsive.dart';
 
 /// A modern gradient button widget with animations and accessibility features.
 ///
@@ -225,17 +227,44 @@ class _GradientButtonState extends State<GradientButton>
 
   @override
   Widget build(BuildContext context) {
+    // Use responsive and accessible spacing
     final effectivePadding =
-        widget.padding ?? ModernSpacing.buttonPaddingInsets;
+        widget.padding ??
+        EdgeInsets.symmetric(
+          horizontal: ResponsiveUtils.getResponsiveSpacing(context, 24.0),
+          vertical: ResponsiveUtils.getResponsiveSpacing(context, 16.0),
+        );
     final effectiveMargin = widget.margin ?? EdgeInsets.zero;
     final effectiveBorderRadius =
         widget.borderRadius ?? ModernSpacing.borderRadiusMedium;
-    final effectiveTextStyle =
-        widget.textStyle ?? ModernTypography.buttonMedium;
-    final effectiveShadows =
-        widget.shadows ??
-        (_isPressed ? ModernShadows.buttonPressed : ModernShadows.button);
+
+    // Use accessible text style
+    final baseTextStyle = widget.textStyle ?? ModernTypography.buttonMedium;
+    final effectiveTextStyle = ResponsiveUtils.getAccessibleTextStyle(
+      context,
+      baseTextStyle,
+    );
+
+    // Adjust shadows for high contrast mode
+    final effectiveShadows = AccessibilityUtils.isHighContrastEnabled(context)
+        ? ModernShadows.none
+        : (widget.shadows ??
+              (_isPressed
+                  ? ModernShadows.buttonPressed
+                  : ModernShadows.button));
+
     final isEnabled = widget.onPressed != null && !widget.isLoading;
+
+    // Respect reduced motion preferences
+    final animationDuration = ResponsiveUtils.getAccessibleAnimationDuration(
+      context,
+      const Duration(milliseconds: 150),
+    );
+    _animationController.duration = animationDuration;
+
+    // Ensure minimum touch target size
+    final minTouchSize = AccessibilityUtils.getMinimumTouchTargetSize();
+    final buttonHeight = widget.height ?? minTouchSize.height;
 
     Widget buttonContent;
 
@@ -281,7 +310,7 @@ class _GradientButtonState extends State<GradientButton>
             opacity: isEnabled ? _opacityAnimation.value : 0.6,
             child: Container(
               width: widget.expandWidth ? double.infinity : widget.width,
-              height: widget.height,
+              height: buttonHeight,
               margin: effectiveMargin,
               decoration: BoxDecoration(
                 gradient: widget.gradientColors.length >= 2
