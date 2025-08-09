@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dogdog_trivia_game/controllers/game_controller.dart';
+import 'package:dogdog_trivia_game/controllers/persistent_timer_controller.dart';
 import 'package:dogdog_trivia_game/services/question_service.dart';
 import 'package:dogdog_trivia_game/models/enums.dart';
 
@@ -11,7 +12,11 @@ void main() {
     setUp(() async {
       questionService = QuestionService();
       await questionService.initialize();
-      gameController = GameController(questionService: questionService);
+      final timerController = PersistentTimerController();
+      gameController = GameController(
+        questionService: questionService,
+        timerController: timerController,
+      );
     });
 
     tearDown(() {

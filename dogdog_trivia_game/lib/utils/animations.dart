@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 /// Utility class for common animations used throughout the app
 class AppAnimations {

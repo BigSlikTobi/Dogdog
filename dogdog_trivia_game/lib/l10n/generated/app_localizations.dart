@@ -764,6 +764,318 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unlocked:'**
   String get achievementsScreen_unlocked;
+
+  /// Main title for checkpoint celebration screen
+  ///
+  /// In en, this message translates to:
+  /// **'Checkpoint Reached!'**
+  String get checkpointCelebration_title;
+
+  /// Section title for performance statistics
+  ///
+  /// In en, this message translates to:
+  /// **'Your Performance'**
+  String get checkpointCelebration_performance;
+
+  /// Label for questions answered stat
+  ///
+  /// In en, this message translates to:
+  /// **'Questions'**
+  String get checkpointCelebration_questionsAnswered;
+
+  /// Label for correct answers stat
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get checkpointCelebration_correctAnswers;
+
+  /// Label for accuracy statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get checkpointCelebration_accuracy;
+
+  /// Label for points earned stat
+  ///
+  /// In en, this message translates to:
+  /// **'Points'**
+  String get checkpointCelebration_pointsEarned;
+
+  /// Section title for earned power-ups
+  ///
+  /// In en, this message translates to:
+  /// **'Power-ups Earned'**
+  String get checkpointCelebration_powerUpsEarned;
+
+  /// Button text to return to treasure map
+  ///
+  /// In en, this message translates to:
+  /// **'Return to Map'**
+  String get checkpointCelebration_returnToMap;
+
+  /// Button text to continue to next questions
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get checkpointCelebration_continue;
+
+  /// Title when entire path is completed
+  ///
+  /// In en, this message translates to:
+  /// **'Path Completed!'**
+  String get checkpointCelebration_pathCompleted;
+
+  /// Title when checkpoint is reached
+  ///
+  /// In en, this message translates to:
+  /// **'Checkpoint Reached!'**
+  String get checkpointCelebration_checkpointReached;
+
+  /// Section title for performance statistics
+  ///
+  /// In en, this message translates to:
+  /// **'Performance Summary'**
+  String get checkpointCelebration_performanceSummary;
+
+  /// Label for questions answered statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Questions'**
+  String get checkpointCelebration_questions;
+
+  /// Label for points earned statistic
+  ///
+  /// In en, this message translates to:
+  /// **'Points'**
+  String get checkpointCelebration_points;
+
+  /// Section title for earned power-ups
+  ///
+  /// In en, this message translates to:
+  /// **'Power-Up Rewards'**
+  String get checkpointCelebration_powerUpRewards;
+
+  /// Message when no power-ups were earned
+  ///
+  /// In en, this message translates to:
+  /// **'No power-ups earned this time'**
+  String get checkpointCelebration_noPowerUps;
+
+  /// Button text when path is completed
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Path'**
+  String get checkpointCelebration_completePath;
+
+  /// Button text to continue the journey
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Journey'**
+  String get checkpointCelebration_continueJourney;
+
+  /// Short name for 50/50 power-up
+  ///
+  /// In en, this message translates to:
+  /// **'50/50'**
+  String get powerUp_fiftyFifty_short;
+
+  /// Short name for hint power-up
+  ///
+  /// In en, this message translates to:
+  /// **'Hint'**
+  String get powerUp_hint_short;
+
+  /// Short name for extra time power-up
+  ///
+  /// In en, this message translates to:
+  /// **'Extra Time'**
+  String get powerUp_extraTime_short;
+
+  /// Short name for skip power-up
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get powerUp_skip_short;
+
+  /// Short name for second chance power-up
+  ///
+  /// In en, this message translates to:
+  /// **'2nd Chance'**
+  String get powerUp_secondChance_short;
+
+  /// Accessibility label for checkpoint celebration animation
+  ///
+  /// In en, this message translates to:
+  /// **'Checkpoint achievement celebration'**
+  String get accessibility_checkpointCelebration;
+
+  /// Text when the learning path is completed
+  ///
+  /// In en, this message translates to:
+  /// **'Path Completed!'**
+  String get treasureMap_pathCompleted;
+
+  /// Button text to start the adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Start Adventure'**
+  String get treasureMap_startAdventure;
+
+  /// Button text to continue the adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Adventure'**
+  String get treasureMap_continueAdventure;
+
+  /// Congratulations title in completion dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations!'**
+  String get treasureMap_congratulations;
+
+  /// Message shown when path is completed
+  ///
+  /// In en, this message translates to:
+  /// **'You have completed this learning path! All checkpoints have been unlocked.'**
+  String get treasureMap_completionMessage;
+
+  /// Button text to continue exploring after completion
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Exploring'**
+  String get treasureMap_continueExploring;
+
+  /// Title for path selection screen
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Your Learning Path'**
+  String get pathSelection_title;
+
+  /// Subtitle for path selection screen
+  ///
+  /// In en, this message translates to:
+  /// **'Select a themed adventure to begin your journey'**
+  String get pathSelection_subtitle;
+
+  /// Label for current path selection
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get pathSelection_current;
+
+  /// Button text to start a path
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get pathSelection_start;
+
+  /// Display name for dog breeds path
+  ///
+  /// In en, this message translates to:
+  /// **'Dog Breeds'**
+  String get pathType_dogBreeds_name;
+
+  /// Description for dog breeds path
+  ///
+  /// In en, this message translates to:
+  /// **'Learn about different dog breeds, their characteristics, and origins'**
+  String get pathType_dogBreeds_description;
+
+  /// Display name for dog training path
+  ///
+  /// In en, this message translates to:
+  /// **'Dog Training'**
+  String get pathType_dogTraining_name;
+
+  /// Description for dog training path
+  ///
+  /// In en, this message translates to:
+  /// **'Master dog training techniques, commands, and behavioral guidance'**
+  String get pathType_dogTraining_description;
+
+  /// Display name for health care path
+  ///
+  /// In en, this message translates to:
+  /// **'Health & Care'**
+  String get pathType_healthCare_name;
+
+  /// Description for health care path
+  ///
+  /// In en, this message translates to:
+  /// **'Understand dog health, nutrition, and medical care'**
+  String get pathType_healthCare_description;
+
+  /// Display name for dog behavior path
+  ///
+  /// In en, this message translates to:
+  /// **'Dog Behavior'**
+  String get pathType_dogBehavior_name;
+
+  /// Description for dog behavior path
+  ///
+  /// In en, this message translates to:
+  /// **'Explore dog psychology, instincts, and behavioral patterns'**
+  String get pathType_dogBehavior_description;
+
+  /// Display name for dog history path
+  ///
+  /// In en, this message translates to:
+  /// **'Dog History'**
+  String get pathType_dogHistory_name;
+
+  /// Description for dog history path
+  ///
+  /// In en, this message translates to:
+  /// **'Discover the history of dogs, genetics, and evolution'**
+  String get pathType_dogHistory_description;
+
+  /// Suffix for path title in treasure map
+  ///
+  /// In en, this message translates to:
+  /// **'Adventure'**
+  String get treasureMap_adventure;
+
+  /// Format for questions remaining to checkpoint
+  ///
+  /// In en, this message translates to:
+  /// **'{current}/{total} questions to {checkpoint}'**
+  String treasureMap_questionsTo(int current, int total, String checkpoint);
+
+  /// Label for questions
+  ///
+  /// In en, this message translates to:
+  /// **'questions'**
+  String get treasureMap_questions;
+
+  /// Label for current rank
+  ///
+  /// In en, this message translates to:
+  /// **'Current Rank'**
+  String get treasureMap_currentRank;
+
+  /// Message when all checkpoints are completed
+  ///
+  /// In en, this message translates to:
+  /// **'All Completed!'**
+  String get treasureMap_allCompleted;
+
+  /// Status text when path is completed
+  ///
+  /// In en, this message translates to:
+  /// **'Path Completed!'**
+  String get treasureMap_pathCompletedStatus;
+
+  /// Progress text showing total questions answered
+  ///
+  /// In en, this message translates to:
+  /// **'Progress: {current}/{total} questions'**
+  String treasureMap_progressQuestions(int current, int total);
+
+  /// Text showing checkpoints completed
+  ///
+  /// In en, this message translates to:
+  /// **'{current}/{total} checkpoints completed'**
+  String treasureMap_checkpointsCompleted(int current, int total);
 }
 
 class _AppLocalizationsDelegate

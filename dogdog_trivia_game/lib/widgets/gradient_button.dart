@@ -264,7 +264,7 @@ class _GradientButtonState extends State<GradientButton>
 
     // Ensure minimum touch target size
     final minTouchSize = AccessibilityUtils.getMinimumTouchTargetSize();
-    final buttonHeight = widget.height ?? minTouchSize.height;
+    final buttonHeight = widget.height; // Remove fixed height constraint
 
     Widget buttonContent;
 
@@ -290,7 +290,14 @@ class _GradientButtonState extends State<GradientButton>
             color: effectiveTextStyle.color,
           ),
           SizedBox(width: widget.iconSpacing),
-          Text(widget.text, style: effectiveTextStyle),
+          Flexible(
+            child: Text(
+              widget.text,
+              style: effectiveTextStyle,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ),
         ],
       );
     } else {
@@ -311,6 +318,9 @@ class _GradientButtonState extends State<GradientButton>
             child: Container(
               width: widget.expandWidth ? double.infinity : widget.width,
               height: buttonHeight,
+              constraints: BoxConstraints(
+                minHeight: minTouchSize.height, // Ensure minimum touch target
+              ),
               margin: effectiveMargin,
               decoration: BoxDecoration(
                 gradient: widget.gradientColors.length >= 2

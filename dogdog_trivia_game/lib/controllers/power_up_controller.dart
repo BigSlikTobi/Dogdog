@@ -104,13 +104,23 @@ class PowerUpController extends ChangeNotifier {
   /// Applies skip power-up
   /// Returns true if skip was successful
   bool applySkip() {
-    return canUsePowerUp(PowerUpType.skip);
+    if (!canUsePowerUp(PowerUpType.skip)) {
+      return false;
+    }
+
+    // Skip power-up allows moving to next question without penalty
+    return true;
   }
 
   /// Applies second chance power-up
   /// Returns true if second chance was successful
   bool applySecondChance() {
-    return canUsePowerUp(PowerUpType.secondChance);
+    if (!canUsePowerUp(PowerUpType.secondChance)) {
+      return false;
+    }
+
+    // Second chance power-up restores one life
+    return true;
   }
 
   /// Sets the power-up inventory (used for loading saved state)

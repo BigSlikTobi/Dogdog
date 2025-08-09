@@ -22,6 +22,13 @@ class AudioService {
   static const String _buttonClickSound = 'audio/playful_bark.mp3';
   static const String _powerUpSound = 'audio/power_up.mp3';
   static const String _achievementSound = 'audio/achievement_unlock.mp3';
+  static const String _timerWarningSound =
+      'audio/sad_whimper.mp3'; // Use sad whimper for timer warning
+  static const String _checkpointCompleteSound = 'audio/achievement_unlock.mp3';
+  static const String _pathCompleteSound = 'audio/happy_bark.mp3';
+  static const String _streakBonusSound = 'audio/playful_bark.mp3';
+  static const String _powerUpActivateSound = 'audio/power_up.mp3';
+  static const String _milestoneSound = 'audio/achievement_unlock.mp3';
 
   /// Initialize the audio service
   Future<void> initialize() async {
@@ -169,5 +176,54 @@ class AudioService {
   /// Plays a celebration sound for achievements
   Future<void> playAchievementSound() async {
     await _playSound(_achievementSound);
+  }
+
+  /// Plays a warning sound for timer alerts
+  Future<void> playTimerWarningSound() async {
+    await _playSound(_timerWarningSound);
+  }
+
+  /// Plays a celebration sound for checkpoint completion
+  Future<void> playCheckpointCompleteSound() async {
+    await _playSound(_checkpointCompleteSound);
+  }
+
+  /// Plays a triumph sound for path completion
+  Future<void> playPathCompleteSound() async {
+    await _playSound(_pathCompleteSound);
+  }
+
+  /// Plays a bonus sound for streak achievements
+  Future<void> playStreakBonusSound() async {
+    await _playSound(_streakBonusSound);
+  }
+
+  /// Plays a sound when activating a power-up
+  Future<void> playPowerUpActivateSound() async {
+    await _playSound(_powerUpActivateSound);
+  }
+
+  /// Plays a sound for milestone achievements
+  Future<void> playMilestoneSound() async {
+    await _playSound(_milestoneSound);
+  }
+
+  /// Plays sound based on power-up type for enhanced feedback
+  Future<void> playPowerUpSpecificSound(PowerUpType powerUpType) async {
+    switch (powerUpType) {
+      case PowerUpType.extraTime:
+        await _playSound(_powerUpSound);
+        break;
+      case PowerUpType.fiftyFifty:
+      case PowerUpType.hint:
+        await _playSound(_powerUpActivateSound);
+        break;
+      case PowerUpType.skip:
+        await _playSound(_streakBonusSound);
+        break;
+      case PowerUpType.secondChance:
+        await _playSound(_achievementSound);
+        break;
+    }
   }
 }

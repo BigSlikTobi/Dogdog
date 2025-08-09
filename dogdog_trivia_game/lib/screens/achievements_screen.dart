@@ -73,10 +73,13 @@ class _AchievementsScreenState extends State<AchievementsScreen>
 
   /// Load player progress from the progress service
   Future<void> _loadPlayerProgress() async {
+    // Capture messenger to avoid using context after async gap
+    final messenger = ScaffoldMessenger.of(context);
     try {
       final progressService = context.read<ProgressService>();
       final progress = await progressService.getPlayerProgress();
 
+      if (!mounted) return;
       setState(() {
         _playerProgress = progress;
         _isLoading = false;
@@ -94,18 +97,16 @@ class _AchievementsScreenState extends State<AchievementsScreen>
         });
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _isLoading = false;
       });
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error loading achievements: $e'),
-            backgroundColor: const Color(0xFFEF4444),
-          ),
-        );
-      }
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text('Error loading achievements: $e'),
+          backgroundColor: const Color(0xFFEF4444),
+        ),
+      );
     }
   }
 
@@ -151,10 +152,11 @@ class _AchievementsScreenState extends State<AchievementsScreen>
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () async {
+            // Capture navigator to avoid BuildContext across async gap
+            final navigator = Navigator.of(context);
             await _audioService.playButtonSound();
-            if (mounted) {
-              Navigator.pop(context);
-            }
+            if (!mounted) return;
+            navigator.pop();
           },
         ),
       ),
@@ -858,7 +860,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
 
     showDialog(
       context: context,
-      builder: (context) => Dialog(
+      builder: (dialogContext) => Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -1033,9 +1035,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               ElevatedButton(
                 onPressed: () async {
                   await _audioService.playButtonSound();
-                  if (mounted) {
-                    Navigator.of(context).pop();
-                  }
+                  if (!dialogContext.mounted) return;
+                  Navigator.of(dialogContext).pop();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF8B5CF6),

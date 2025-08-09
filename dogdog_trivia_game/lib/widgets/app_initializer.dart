@@ -34,9 +34,11 @@ class _AppInitializerState extends State<AppInitializer> {
 
       // Add a small delay to ensure the loading screen is visible
       await Future.delayed(const Duration(milliseconds: 100));
+      if (!mounted) return;
 
       // Preload critical images
       await ImageService.preloadCriticalImages(context);
+      if (!mounted) return;
 
       setState(() {
         _initializationStatus = 'Ready!';
@@ -44,18 +46,23 @@ class _AppInitializerState extends State<AppInitializer> {
 
       // Add another small delay before showing the child
       await Future.delayed(const Duration(milliseconds: 100));
+      if (!mounted) return;
 
       setState(() {
         _isInitialized = true;
       });
 
-      widget.onInitializationComplete?.call();
+      if (mounted) {
+        widget.onInitializationComplete?.call();
+      }
     } catch (error) {
       debugPrint('App initialization error: $error');
       // Continue anyway - images will load on demand
-      setState(() {
-        _isInitialized = true;
-      });
+      if (mounted) {
+        setState(() {
+          _isInitialized = true;
+        });
+      }
     }
   }
 

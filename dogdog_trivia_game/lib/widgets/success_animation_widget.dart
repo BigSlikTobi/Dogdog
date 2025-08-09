@@ -120,10 +120,10 @@ class SuccessAnimationWidget extends StatefulWidget {
        animationCurve = Curves.bounceOut;
 
   @override
-  State<SuccessAnimationWidget> createState() => _SuccessAnimationWidgetState();
+  State<SuccessAnimationWidget> createState() => SuccessAnimationWidgetState();
 }
 
-class _SuccessAnimationWidgetState extends State<SuccessAnimationWidget>
+class SuccessAnimationWidgetState extends State<SuccessAnimationWidget>
     with TickerProviderStateMixin {
   late AnimationController _scaleController;
   late Animation<double> _scaleAnimation;
@@ -372,10 +372,11 @@ class _SuccessAnimationWidgetState extends State<SuccessAnimationWidget>
 
 /// Controller for managing success animation state
 class SuccessAnimationController {
-  final GlobalKey<_SuccessAnimationWidgetState> _key = GlobalKey();
+  final GlobalKey<SuccessAnimationWidgetState> _key =
+      GlobalKey<SuccessAnimationWidgetState>();
 
   /// Gets the widget key for the animation
-  GlobalKey<_SuccessAnimationWidgetState> get key => _key;
+  GlobalKey<SuccessAnimationWidgetState> get key => _key;
 
   /// Starts the animation
   void start() {
@@ -489,6 +490,33 @@ extension SuccessAnimationVariants on SuccessAnimationWidget {
       autoStart: autoStart,
       semanticLabel: semanticLabel ?? 'Success',
       animationCurve: Curves.easeOut,
+    );
+  }
+
+  /// Creates a success animation for checkpoint achievements
+  static SuccessAnimationWidget checkpointAchievement({
+    Key? key,
+    double? width,
+    double? height,
+    VoidCallback? onAnimationComplete,
+    VoidCallback? onDismissComplete,
+    bool autoStart = true,
+    String? semanticLabel,
+  }) {
+    return SuccessAnimationWidget(
+      key: key,
+      imageDuration: const Duration(milliseconds: 400),
+      animationDuration: const Duration(milliseconds: 300),
+      alternationCount: 5,
+      scaleFactor: 1.4,
+      width: width,
+      height: height,
+      onAnimationComplete: onAnimationComplete,
+      onDismissComplete: onDismissComplete,
+      autoStart: autoStart,
+      semanticLabel: semanticLabel ?? 'Checkpoint achievement celebration',
+      animationCurve: Curves.elasticOut,
+      autoDismissDelay: const Duration(seconds: 2),
     );
   }
 }

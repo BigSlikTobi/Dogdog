@@ -12,6 +12,7 @@ import '../design_system/modern_colors.dart';
 import '../design_system/modern_spacing.dart';
 import '../utils/animations.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../widgets/lives_indicator.dart';
 
 /// Result screen widget for displaying answer feedback and fun facts
 class ResultScreen extends StatefulWidget {
@@ -257,30 +258,10 @@ class _ResultScreenState extends State<ResultScreen>
 
   /// Builds the lives display using heart icons
   Widget _buildLivesDisplay(int lives) {
-    return Row(
-      children: [
-        const Icon(
-          Icons.favorite,
-          color: Color(0xFFEF4444), // Error Red
-          size: 20,
-        ),
-        const SizedBox(width: 8),
-        Row(
-          children: List.generate(3, (index) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 4),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                child: Icon(
-                  index < lives ? Icons.favorite : Icons.favorite_border,
-                  color: const Color(0xFFEF4444), // Error Red
-                  size: 24,
-                ),
-              ),
-            );
-          }),
-        ),
-      ],
+    return LivesIndicator(
+      lives: lives,
+      size: 24,
+      color: const Color(0xFFEF4444),
     );
   }
 

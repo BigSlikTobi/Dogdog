@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:dogdog_trivia_game/main.dart';
 import 'package:dogdog_trivia_game/services/progress_service.dart';
 import 'package:dogdog_trivia_game/controllers/game_controller.dart';
+import 'package:dogdog_trivia_game/controllers/persistent_timer_controller.dart';
 import 'package:dogdog_trivia_game/services/question_service.dart';
 import 'package:dogdog_trivia_game/services/audio_service.dart';
 
@@ -23,7 +24,10 @@ class TestHelper {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => GameController()),
+        ChangeNotifierProvider(
+          create: (_) =>
+              GameController(timerController: PersistentTimerController()),
+        ),
         ChangeNotifierProvider.value(value: progressService),
         Provider(create: (_) => QuestionService()),
         Provider(create: (_) => AudioService()),
