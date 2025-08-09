@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dogdog_trivia_game/services/progress_service.dart';
 import 'package:dogdog_trivia_game/services/question_service.dart';
 import 'package:dogdog_trivia_game/controllers/game_controller.dart';
+import 'package:dogdog_trivia_game/controllers/persistent_timer_controller.dart';
 
 void main() {
   group('Service Integration Tests', () {
@@ -22,6 +23,7 @@ void main() {
       final gameController = GameController(
         questionService: questionService,
         progressService: progressService,
+        timerController: PersistentTimerController(),
       );
 
       // Basic integration test

@@ -390,4 +390,174 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get achievementsScreen_unlocked => 'Freigeschaltet:';
+
+  @override
+  String get checkpointCelebration_title => 'Checkpoint erreicht!';
+
+  @override
+  String get checkpointCelebration_performance => 'Deine Leistung';
+
+  @override
+  String get checkpointCelebration_questionsAnswered => 'Fragen';
+
+  @override
+  String get checkpointCelebration_correctAnswers => 'Richtig';
+
+  @override
+  String get checkpointCelebration_accuracy => 'Genauigkeit';
+
+  @override
+  String get checkpointCelebration_pointsEarned => 'Punkte';
+
+  @override
+  String get checkpointCelebration_powerUpsEarned => 'Verdiente Power-Ups';
+
+  @override
+  String get checkpointCelebration_returnToMap => 'Zur Karte zurück';
+
+  @override
+  String get checkpointCelebration_continue => 'Weiter';
+
+  @override
+  String get checkpointCelebration_pathCompleted => 'Pfad abgeschlossen!';
+
+  @override
+  String get checkpointCelebration_checkpointReached => 'Checkpoint erreicht!';
+
+  @override
+  String get checkpointCelebration_performanceSummary => 'Leistungsübersicht';
+
+  @override
+  String get checkpointCelebration_questions => 'Fragen';
+
+  @override
+  String get checkpointCelebration_points => 'Punkte';
+
+  @override
+  String get checkpointCelebration_powerUpRewards => 'Power-Up Belohnungen';
+
+  @override
+  String get checkpointCelebration_noPowerUps =>
+      'Diesmal keine Power-Ups verdient';
+
+  @override
+  String get checkpointCelebration_completePath => 'Pfad Abschließen';
+
+  @override
+  String get checkpointCelebration_continueJourney => 'Reise Fortsetzen';
+
+  @override
+  String get powerUp_fiftyFifty_short => '50/50';
+
+  @override
+  String get powerUp_hint_short => 'Hinweis';
+
+  @override
+  String get powerUp_extraTime_short => 'Extra Zeit';
+
+  @override
+  String get powerUp_skip_short => 'Überspringen';
+
+  @override
+  String get powerUp_secondChance_short => '2. Chance';
+
+  @override
+  String get accessibility_checkpointCelebration => 'Checkpoint-Erfolg Feier';
+
+  @override
+  String get treasureMap_pathCompleted => 'Pfad Abgeschlossen!';
+
+  @override
+  String get treasureMap_startAdventure => 'Abenteuer Starten';
+
+  @override
+  String get treasureMap_continueAdventure => 'Abenteuer Fortsetzen';
+
+  @override
+  String get treasureMap_congratulations => 'Herzlichen Glückwunsch!';
+
+  @override
+  String get treasureMap_completionMessage =>
+      'Du hast diesen Lernpfad abgeschlossen! Alle Checkpoints wurden freigeschaltet.';
+
+  @override
+  String get treasureMap_continueExploring => 'Weiter Erkunden';
+
+  @override
+  String get pathSelection_title => 'Wähle Deinen Lernpfad';
+
+  @override
+  String get pathSelection_subtitle =>
+      'Wähle ein thematisches Abenteuer um deine Reise zu beginnen';
+
+  @override
+  String get pathSelection_current => 'Aktuell';
+
+  @override
+  String get pathSelection_start => 'Starten';
+
+  @override
+  String get pathType_dogBreeds_name => 'Hunderassen';
+
+  @override
+  String get pathType_dogBreeds_description =>
+      'Lerne verschiedene Hunderassen, ihre Eigenschaften und Ursprünge kennen';
+
+  @override
+  String get pathType_dogTraining_name => 'Hundetraining';
+
+  @override
+  String get pathType_dogTraining_description =>
+      'Meistere Hundetrainingstechniken, Kommandos und Verhaltensführung';
+
+  @override
+  String get pathType_healthCare_name => 'Gesundheit & Pflege';
+
+  @override
+  String get pathType_healthCare_description =>
+      'Verstehe Hundegesundheit, Ernährung und medizinische Versorgung';
+
+  @override
+  String get pathType_dogBehavior_name => 'Hundeverhalten';
+
+  @override
+  String get pathType_dogBehavior_description =>
+      'Erkunde Hundepsychologie, Instinkte und Verhaltensmuster';
+
+  @override
+  String get pathType_dogHistory_name => 'Hundegeschichte';
+
+  @override
+  String get pathType_dogHistory_description =>
+      'Entdecke die Geschichte der Hunde, Genetik und Evolution';
+
+  @override
+  String get treasureMap_adventure => 'Abenteuer';
+
+  @override
+  String treasureMap_questionsTo(int current, int total, String checkpoint) {
+    return '$current/$total Fragen bis $checkpoint';
+  }
+
+  @override
+  String get treasureMap_questions => 'questions';
+
+  @override
+  String get treasureMap_currentRank => 'Current Rank';
+
+  @override
+  String get treasureMap_allCompleted => 'All Completed!';
+
+  @override
+  String get treasureMap_pathCompletedStatus => 'Pfad Abgeschlossen!';
+
+  @override
+  String treasureMap_progressQuestions(int current, int total) {
+    return 'Fortschritt: $current/$total Fragen';
+  }
+
+  @override
+  String treasureMap_checkpointsCompleted(int current, int total) {
+    return '$current/$total Checkpoints abgeschlossen';
+  }
 }

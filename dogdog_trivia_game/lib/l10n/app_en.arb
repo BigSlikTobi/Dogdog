@@ -642,5 +642,339 @@
   "achievementsScreen_unlocked": "Unlocked:",
   "@achievementsScreen_unlocked": {
     "description": "Label for unlock date in achievement dialog"
+  },
+
+  "checkpointCelebration_title": "Checkpoint Reached!",
+  "@checkpointCelebration_title": {
+    "description": "Main title for checkpoint celebration screen"
+  },
+
+  "checkpointCelebration_performance": "Your Performance",
+  "@checkpointCelebration_performance": {
+    "description": "Section title for performance statistics"
+  },
+
+  "checkpointCelebration_questionsAnswered": "Questions",
+  "@checkpointCelebration_questionsAnswered": {
+    "description": "Label for questions answered stat"
+  },
+
+  "checkpointCelebration_correctAnswers": "Correct",
+  "@checkpointCelebration_correctAnswers": {
+    "description": "Label for correct answers stat"
+  },
+
+  "checkpointCelebration_accuracy": "Accuracy",
+  "@checkpointCelebration_accuracy": {
+    "description": "Label for accuracy percentage stat"
+  },
+
+  "checkpointCelebration_pointsEarned": "Points",
+  "@checkpointCelebration_pointsEarned": {
+    "description": "Label for points earned stat"
+  },
+
+  "checkpointCelebration_powerUpsEarned": "Power-ups Earned",
+  "@checkpointCelebration_powerUpsEarned": {
+    "description": "Section title for earned power-ups"
+  },
+
+  "checkpointCelebration_returnToMap": "Return to Map",
+  "@checkpointCelebration_returnToMap": {
+    "description": "Button text to return to treasure map"
+  },
+
+  "checkpointCelebration_continue": "Continue",
+  "@checkpointCelebration_continue": {
+    "description": "Button text to continue to next questions"
+  },
+
+  "checkpointCelebration_pathCompleted": "Path Completed!",
+  "@checkpointCelebration_pathCompleted": {
+    "description": "Title when entire path is completed"
+  },
+
+  "checkpointCelebration_checkpointReached": "Checkpoint Reached!",
+  "@checkpointCelebration_checkpointReached": {
+    "description": "Title when checkpoint is reached"
+  },
+
+  "checkpointCelebration_performanceSummary": "Performance Summary",
+  "@checkpointCelebration_performanceSummary": {
+    "description": "Section title for performance statistics"
+  },
+
+  "checkpointCelebration_questions": "Questions",
+  "@checkpointCelebration_questions": {
+    "description": "Label for questions answered statistic"
+  },
+
+  "checkpointCelebration_points": "Points",
+  "@checkpointCelebration_points": {
+    "description": "Label for points earned statistic"
+  },
+
+  "checkpointCelebration_powerUpRewards": "Power-Up Rewards",
+  "@checkpointCelebration_powerUpRewards": {
+    "description": "Section title for earned power-ups"
+  },
+
+  "checkpointCelebration_noPowerUps": "No power-ups earned this time",
+  "@checkpointCelebration_noPowerUps": {
+    "description": "Message when no power-ups were earned"
+  },
+
+  "checkpointCelebration_completePath": "Complete Path",
+  "@checkpointCelebration_completePath": {
+    "description": "Button text when path is completed"
+  },
+
+  "checkpointCelebration_continueJourney": "Continue Journey",
+  "@checkpointCelebration_continueJourney": {
+    "description": "Button text to continue the journey"
+  },
+
+  "powerUp_fiftyFifty_short": "50/50",
+  "@powerUp_fiftyFifty_short": {
+    "description": "Short name for 50/50 power-up"
+  },
+
+  "powerUp_hint_short": "Hint",
+  "@powerUp_hint_short": {
+    "description": "Short name for hint power-up"
+  },
+
+  "powerUp_extraTime_short": "Extra Time",
+  "@powerUp_extraTime_short": {
+    "description": "Short name for extra time power-up"
+  },
+
+  "powerUp_skip_short": "Skip",
+  "@powerUp_skip_short": {
+    "description": "Short name for skip power-up"
+  },
+
+  "powerUp_secondChance_short": "2nd Chance",
+  "@powerUp_secondChance_short": {
+    "description": "Short name for second chance power-up"
+  },
+
+  "accessibility_checkpointCelebration": "Checkpoint achievement celebration",
+  "@accessibility_checkpointCelebration": {
+    "description": "Accessibility label for checkpoint celebration animation"
+  },
+
+  "treasureMap_pathCompleted": "Path Completed!",
+  "@treasureMap_pathCompleted": {
+    "description": "Text when the learning path is completed"
+  },
+
+  "treasureMap_startAdventure": "Start Adventure",
+  "@treasureMap_startAdventure": {
+    "description": "Button text to start the adventure"
+  },
+
+  "treasureMap_continueAdventure": "Continue Adventure",
+  "@treasureMap_continueAdventure": {
+    "description": "Button text to continue the adventure"
+  },
+
+  "treasureMap_congratulations": "Congratulations!",
+  "@treasureMap_congratulations": {
+    "description": "Congratulations title in completion dialog"
+  },
+
+  "treasureMap_completionMessage": "You have completed this learning path! All checkpoints have been unlocked.",
+  "@treasureMap_completionMessage": {
+    "description": "Message shown when path is completed"
+  },
+
+  "treasureMap_continueExploring": "Continue Exploring",
+  "@treasureMap_continueExploring": {
+    "description": "Button text to continue exploring after completion"
+  },
+
+  "checkpointCelebration_performanceSummary": "Performance Summary",
+  "@checkpointCelebration_performanceSummary": {
+    "description": "Section title for performance statistics"
+  },
+
+  "checkpointCelebration_questions": "Questions",
+  "@checkpointCelebration_questions": {
+    "description": "Label for questions answered statistic"
+  },
+
+  "checkpointCelebration_accuracy": "Accuracy",
+  "@checkpointCelebration_accuracy": {
+    "description": "Label for accuracy statistic"
+  },
+
+  "checkpointCelebration_points": "Points",
+  "@checkpointCelebration_points": {
+    "description": "Label for points earned statistic"
+  },
+
+  "checkpointCelebration_powerUpRewards": "Power-Up Rewards",
+  "@checkpointCelebration_powerUpRewards": {
+    "description": "Section title for earned power-ups"
+  },
+
+  "checkpointCelebration_noPowerUps": "No power-ups earned this time",
+  "@checkpointCelebration_noPowerUps": {
+    "description": "Message when no power-ups were earned"
+  },
+
+  "checkpointCelebration_completePath": "Complete Path",
+  "@checkpointCelebration_completePath": {
+    "description": "Button text when path is completed"
+  },
+
+  "checkpointCelebration_continueJourney": "Continue Journey",
+  "@checkpointCelebration_continueJourney": {
+    "description": "Button text to continue the journey"
+  },
+
+  "pathSelection_title": "Choose Your Learning Path",
+  "@pathSelection_title": {
+    "description": "Title for path selection screen"
+  },
+
+  "pathSelection_subtitle": "Select a themed adventure to begin your journey",
+  "@pathSelection_subtitle": {
+    "description": "Subtitle for path selection screen"
+  },
+
+  "pathSelection_current": "Current",
+  "@pathSelection_current": {
+    "description": "Label for current path selection"
+  },
+
+  "pathSelection_start": "Start",
+  "@pathSelection_start": {
+    "description": "Button text to start a path"
+  },
+
+  "pathType_dogBreeds_name": "Dog Breeds",
+  "@pathType_dogBreeds_name": {
+    "description": "Display name for dog breeds path"
+  },
+
+  "pathType_dogBreeds_description": "Learn about different dog breeds, their characteristics, and origins",
+  "@pathType_dogBreeds_description": {
+    "description": "Description for dog breeds path"
+  },
+
+  "pathType_dogTraining_name": "Dog Training",
+  "@pathType_dogTraining_name": {
+    "description": "Display name for dog training path"
+  },
+
+  "pathType_dogTraining_description": "Master dog training techniques, commands, and behavioral guidance",
+  "@pathType_dogTraining_description": {
+    "description": "Description for dog training path"
+  },
+
+  "pathType_healthCare_name": "Health & Care",
+  "@pathType_healthCare_name": {
+    "description": "Display name for health care path"
+  },
+
+  "pathType_healthCare_description": "Understand dog health, nutrition, and medical care",
+  "@pathType_healthCare_description": {
+    "description": "Description for health care path"
+  },
+
+  "pathType_dogBehavior_name": "Dog Behavior",
+  "@pathType_dogBehavior_name": {
+    "description": "Display name for dog behavior path"
+  },
+
+  "pathType_dogBehavior_description": "Explore dog psychology, instincts, and behavioral patterns",
+  "@pathType_dogBehavior_description": {
+    "description": "Description for dog behavior path"
+  },
+
+  "pathType_dogHistory_name": "Dog History",
+  "@pathType_dogHistory_name": {
+    "description": "Display name for dog history path"
+  },
+
+  "pathType_dogHistory_description": "Discover the history of dogs, genetics, and evolution",
+  "@pathType_dogHistory_description": {
+    "description": "Description for dog history path"
+  },
+
+  "treasureMap_adventure": "Adventure",
+  "@treasureMap_adventure": {
+    "description": "Suffix for path title in treasure map"
+  },
+
+  "treasureMap_questionsTo": "{current}/{total} questions to {checkpoint}",
+  "@treasureMap_questionsTo": {
+    "description": "Format for questions remaining to checkpoint",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "3"
+      },
+      "total": {
+        "type": "int", 
+        "example": "10"
+      },
+      "checkpoint": {
+        "type": "String",
+        "example": "Chihuahua"
+      }
+    }
+  },
+
+  "treasureMap_questions": "questions",
+  "@treasureMap_questions": {
+    "description": "Label for questions"
+  },
+
+  "treasureMap_currentRank": "Current Rank",
+  "@treasureMap_currentRank": {
+    "description": "Label for current rank"
+  },
+
+  "treasureMap_allCompleted": "All Completed!",
+  "@treasureMap_allCompleted": {
+    "description": "Message when all checkpoints are completed"
+  },
+
+  "treasureMap_pathCompletedStatus": "Path Completed!",
+  "@treasureMap_pathCompletedStatus": {
+    "description": "Status text when path is completed"
+  },
+
+  "treasureMap_progressQuestions": "Progress: {current}/{total} questions",
+  "@treasureMap_progressQuestions": {
+    "description": "Progress text showing total questions answered",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "15"
+      },
+      "total": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+
+  "treasureMap_checkpointsCompleted": "{current}/{total} checkpoints completed",
+  "@treasureMap_checkpointsCompleted": {
+    "description": "Text showing checkpoints completed",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "2"
+      },
+      "total": {
+        "type": "int",
+        "example": "5"
+      }
+    }
   }
 }

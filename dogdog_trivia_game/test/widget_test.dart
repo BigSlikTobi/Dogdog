@@ -8,9 +8,7 @@ void main() {
     SharedPreferences.setMockInitialValues({});
 
     // Create a simple test widget that doesn't trigger timers
-    await tester.pumpWidget(
-      MaterialApp(home: Container(child: const Text('Test App'))),
-    );
+    await tester.pumpWidget(MaterialApp(home: const Text('Test App')));
 
     // Verify that MaterialApp is created
     expect(find.byType(MaterialApp), findsOneWidget);

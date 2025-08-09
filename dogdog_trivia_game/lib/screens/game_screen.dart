@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controllers/game_controller.dart';
+import '../controllers/persistent_timer_controller.dart';
+import '../controllers/treasure_map_controller.dart';
+import '../controllers/feedback_controller.dart';
 import '../models/enums.dart';
 import '../services/audio_service.dart';
 import '../services/progress_service.dart';
 import 'result_screen.dart';
+import 'checkpoint_celebration_screen.dart';
 import '../utils/responsive.dart';
 import '../utils/animations.dart';
 import '../utils/accessibility.dart';
 import '../utils/enum_extensions.dart';
 import '../widgets/loading_animation.dart';
 import '../widgets/modern_card.dart';
+import '../widgets/lives_indicator.dart';
+import '../widgets/streak_celebration_widget.dart';
+import '../widgets/animated_score_display.dart';
+import '../widgets/milestone_progress_widget.dart';
+import '../widgets/power_up_feedback_widget.dart';
+import '../widgets/personal_best_widget.dart';
 import '../design_system/modern_colors.dart';
 import '../design_system/modern_typography.dart';
 import '../design_system/modern_spacing.dart';
@@ -30,52 +40,70 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   late GameController _gameController;
+  late FeedbackController _feedbackController;
   bool _isLoading = true;
   bool _shouldDisposeController = false;
 
   @override
   void initState() {
     super.initState();
-    // Use addPostFrameCallback to avoid setState during build
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initializeGame();
-    });
+    _feedbackController = FeedbackController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _initializeGame());
   }
 
   Future<void> _initializeGame() async {
-    // Try to get existing GameController from provider first
     try {
       _gameController = Provider.of<GameController>(context, listen: false);
       _shouldDisposeController = false;
-      // If we got a controller from provider, initialize it for this level
       await _gameController.initializeGame(level: widget.level);
-    } catch (e) {
-      // Fallback: create new controller if provider doesn't have one
+    } on Exception {
+      if (!mounted) return;
       final progressService = Provider.of<ProgressService>(
         context,
         listen: false,
       );
-      _gameController = GameController(progressService: progressService);
+      final timerController = PersistentTimerController();
+      _gameController = GameController(
+        progressService: progressService,
+        timerController: timerController,
+      );
       _shouldDisposeController = true;
       await _gameController.initializeGame(level: widget.level);
     }
+    _gameController.setCheckpointReachedCallback(_handleCheckpointReached);
+    if (mounted) setState(() => _isLoading = false);
+  }
 
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
-    }
+  void _handleCheckpointReached(
+    Checkpoint checkpoint,
+    Map<PowerUpType, int> earnedPowerUps,
+    int questionsAnswered,
+    double accuracy,
+    int pointsEarned,
+    bool isPathCompleted,
+  ) {
+    Navigator.of(context).push(
+      ModernPageRoute(
+        child: CheckpointCelebrationScreen(
+          completedCheckpoint: checkpoint,
+          earnedPowerUps: earnedPowerUps,
+          questionsAnswered: questionsAnswered,
+          accuracy: accuracy,
+          pointsEarned: pointsEarned,
+          isPathCompleted: isPathCompleted,
+        ),
+        direction: SlideDirection.bottomToTop,
+      ),
+    );
   }
 
   @override
   void dispose() {
-    // Only dispose if we created the controller ourselves
+    _feedbackController.dispose();
     if (_shouldDisposeController) {
       try {
         _gameController.dispose();
-      } catch (e) {
-        // Controller already disposed, ignore
-      }
+      } catch (_) {}
     }
     super.dispose();
   }
@@ -119,64 +147,124 @@ class _GameScreenState extends State<GameScreen> {
                     color: ModernColors.textPrimary,
                     size: 24,
                   ),
-                  onPressed: () => _showPauseDialog(),
+                  onPressed: _showPauseDialog,
                 ),
               ),
-              title: Semantics(
-                label: 'Current level: ${widget.level}',
-                child: Text(
-                  AppLocalizations.of(context).gameScreen_level(widget.level),
-                  style: ModernTypography.headingSmall.copyWith(fontSize: 18),
-                ),
+              title: Consumer<TreasureMapController>(
+                builder: (context, tmc, _) => _buildAppBarTitle(tmc),
               ),
               centerTitle: true,
             ),
             body: SafeArea(
-              child: Consumer<GameController>(
-                builder: (context, gameController, child) {
-                  return ResponsiveContainer(
-                    child: Column(
-                      children: [
-                        // Top bar with lives and score
-                        _buildTopBar(gameController),
-
-                        // Timer bar (if applicable)
-                        if (gameController.isTimerActive)
-                          _buildTimerBar(gameController),
-
-                        // Question area
-                        Expanded(
-                          child: Column(
-                            children: [
-                              // Question display
-                              _buildQuestionArea(gameController),
-
-                              SizedBox(
-                                height: ResponsiveUtils.getResponsiveSpacing(
-                                  context,
-                                  30,
-                                ),
+              child: ChangeNotifierProvider.value(
+                value: _feedbackController,
+                child:
+                    Consumer3<
+                      GameController,
+                      TreasureMapController,
+                      FeedbackController
+                    >(
+                      builder:
+                          (
+                            context,
+                            gameController,
+                            treasureMapController,
+                            feedbackController,
+                            _,
+                          ) {
+                            return ResponsiveContainer(
+                              child: Stack(
+                                children: [
+                                  Column(
+                                    children: [
+                                      _buildTopBar(gameController),
+                                      if (gameController.isTimerActive)
+                                        _buildTimerBar(gameController),
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            _buildQuestionArea(gameController),
+                                            SizedBox(
+                                              height:
+                                                  ResponsiveUtils.getResponsiveSpacing(
+                                                    context,
+                                                    12,
+                                                  ),
+                                            ),
+                                            Expanded(
+                                              child: _buildAnswerGrid(
+                                                gameController,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                                  ResponsiveUtils.getResponsiveSpacing(
+                                                    context,
+                                                    8,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  if (feedbackController.showStreakCelebration)
+                                    StreakCelebrationWidget(
+                                      streakCount:
+                                          feedbackController.currentStreak,
+                                      multiplier:
+                                          feedbackController.currentMultiplier,
+                                      onAnimationComplete: feedbackController
+                                          .hideStreakCelebration,
+                                    ),
+                                  if (feedbackController.showMilestoneProgress)
+                                    Positioned(
+                                      top: 100,
+                                      left: 0,
+                                      right: 0,
+                                      child: Consumer<TreasureMapController>(
+                                        builder: (context, tmc, _) =>
+                                            MilestoneProgressWidget(
+                                              progress: feedbackController
+                                                  .milestoneProgress,
+                                              questionsRemaining:
+                                                  feedbackController
+                                                      .questionsToMilestone,
+                                              nextCheckpoint:
+                                                  tmc.nextCheckpoint ??
+                                                  Checkpoint.chihuahua,
+                                              onAnimationComplete:
+                                                  feedbackController
+                                                      .hideMilestoneProgress,
+                                            ),
+                                      ),
+                                    ),
+                                  if (feedbackController.showPowerUpFeedback &&
+                                      feedbackController.powerUpType != null)
+                                    Positioned(
+                                      top: 200,
+                                      left: 20,
+                                      right: 20,
+                                      child: PowerUpFeedbackWidget(
+                                        powerUpType:
+                                            feedbackController.powerUpType!,
+                                        onAnimationComplete: feedbackController
+                                            .hidePowerUpFeedback,
+                                      ),
+                                    ),
+                                  if (feedbackController.showPersonalBest)
+                                    PersonalBestWidget(
+                                      newScore: feedbackController.newBestScore,
+                                      previousBest:
+                                          feedbackController.previousBestScore,
+                                      onAnimationComplete:
+                                          feedbackController.hidePersonalBest,
+                                    ),
+                                ],
                               ),
-
-                              // Answer choices in responsive grid
-                              Expanded(child: _buildAnswerGrid(gameController)),
-
-                              SizedBox(
-                                height: ResponsiveUtils.getResponsiveSpacing(
-                                  context,
-                                  20,
-                                ),
-                              ),
-
-                              // Power-up buttons
-                              _buildPowerUpBar(gameController),
-                            ],
-                          ),
-                        ),
-                      ],
+                            );
+                          },
                     ),
-                  );
-                },
               ),
             ),
           ),
@@ -185,152 +273,156 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  /// Builds the top bar with lives and score display
+  // HEADER ------------------------------------------------------------------
   Widget _buildTopBar(GameController gameController) {
     return Container(
       padding: ModernSpacing.paddingHorizontalLG.add(
-        ModernSpacing.paddingVerticalMD,
+        ModernSpacing.paddingVerticalSM,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Lives display with heart icons
-          _buildLivesDisplay(gameController.lives),
-
-          // Score display
-          _buildScoreDisplay(
-            gameController.score,
-            gameController.scoreMultiplier,
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  _buildCompactPowerUpButton(
+                    PowerUpType.fiftyFifty,
+                    Icons.remove_circle_outline_rounded,
+                    gameController,
+                  ),
+                  _buildCompactPowerUpButton(
+                    PowerUpType.hint,
+                    Icons.lightbulb_outline_rounded,
+                    gameController,
+                  ),
+                  _buildCompactPowerUpButton(
+                    PowerUpType.extraTime,
+                    Icons.access_time_rounded,
+                    gameController,
+                  ),
+                  _buildCompactPowerUpButton(
+                    PowerUpType.skip,
+                    Icons.skip_next_rounded,
+                    gameController,
+                  ),
+                  _buildCompactPowerUpButton(
+                    PowerUpType.secondChance,
+                    Icons.favorite_border_rounded,
+                    gameController,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(width: ModernSpacing.md),
+          Consumer<FeedbackController>(
+            builder: (context, fc, _) => AnimatedScoreDisplay(
+              score: gameController.score,
+              multiplier: gameController.scoreMultiplier,
+              bonusPoints: fc.scoreGained,
+              showBonusAnimation: fc.isScoreAnimating,
+              onBonusAnimationComplete: fc.completeScoreAnimation,
+            ),
           ),
         ],
       ),
     );
   }
 
-  /// Builds the lives display using heart icons
-  Widget _buildLivesDisplay(int lives) {
-    return GameElementSemantics(
-      label: AccessibilityUtils.createGameElementLabel(
-        element: 'Lives remaining',
-        value: '$lives out of 3',
-        context: 'Hearts represent your remaining chances',
-      ),
-      child: Container(
-        padding: ModernSpacing.paddingVerticalXS.add(
-          ModernSpacing.paddingHorizontalSM,
-        ),
-        decoration: BoxDecoration(
-          color: ModernColors.error.withValues(alpha: 0.1),
-          borderRadius: ModernSpacing.borderRadiusMedium,
-          border: Border.all(
-            color: ModernColors.error.withValues(alpha: 0.3),
-            width: 1,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.favorite_rounded, color: ModernColors.error, size: 20),
-            ModernSpacing.horizontalSpaceXS,
-            Row(
-              children: List.generate(3, (index) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 2),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    child: Icon(
-                      index < lives
-                          ? Icons.favorite_rounded
-                          : Icons.favorite_border_rounded,
-                      color: ModernColors.error,
-                      size: 18,
+  Widget _buildCompactPowerUpButton(
+    PowerUpType type,
+    IconData icon,
+    GameController controller,
+  ) {
+    final count = controller.getPowerUpCount(type);
+    final canUse = controller.canUsePowerUp(type) && count > 0;
+    final semantic = AccessibilityUtils.createButtonLabel(
+      '${type.displayName(context)} power-up',
+      hint: canUse
+          ? 'Tap to use. $count left.'
+          : (count > 0 ? 'Unavailable now' : 'None left'),
+      isEnabled: canUse,
+    );
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: GameElementSemantics(
+        label: semantic,
+        enabled: canUse,
+        onTap: canUse ? () => _usePowerUp(type, controller) : null,
+        child: GestureDetector(
+          onTap: canUse ? () => _usePowerUp(type, controller) : null,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: canUse
+                  ? ModernColors.primaryPurple.withValues(alpha: 0.12)
+                  : ModernColors.surfaceLight,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(
+                color: canUse
+                    ? ModernColors.primaryPurple
+                    : ModernColors.surfaceDark,
+                width: 1.5,
+              ),
+              boxShadow: canUse ? ModernShadows.small : ModernShadows.none,
+            ),
+            child: Stack(
+              children: [
+                Center(
+                  child: Icon(
+                    icon,
+                    size: 22,
+                    color: canUse
+                        ? ModernColors.primaryPurple
+                        : ModernColors.textLight,
+                  ),
+                ),
+                if (count > 0)
+                  Positioned(
+                    top: 2,
+                    right: 2,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 1,
+                      ),
+                      decoration: BoxDecoration(
+                        color: canUse
+                            ? ModernColors.primaryPurple
+                            : ModernColors.textLight,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '$count',
+                        style: ModernTypography.caption.copyWith(
+                          color: ModernColors.textOnDark,
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                );
-              }),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Builds the score display in top-right corner
-  Widget _buildScoreDisplay(int score, int multiplier) {
-    return GameElementSemantics(
-      label: AccessibilityUtils.createGameElementLabel(
-        element: 'Current score',
-        value: '$score points',
-        context: multiplier > 1
-            ? 'Score multiplier ${multiplier}x active'
-            : null,
-      ),
-      child: Container(
-        padding: ModernSpacing.paddingVerticalXS.add(
-          ModernSpacing.paddingHorizontalSM,
-        ),
-        decoration: BoxDecoration(
-          color: ModernColors.primaryBlue.withValues(alpha: 0.1),
-          borderRadius: ModernSpacing.borderRadiusMedium,
-          border: Border.all(
-            color: ModernColors.primaryBlue.withValues(alpha: 0.3),
-            width: 1,
           ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (multiplier > 1) ...[
-              Container(
-                padding: ModernSpacing.paddingVerticalXS.add(
-                  ModernSpacing.paddingHorizontalXS,
-                ),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: ModernColors.yellowGradient),
-                  borderRadius: ModernSpacing.borderRadiusSmall,
-                  boxShadow: ModernShadows.small,
-                ),
-                child: Text(
-                  '${multiplier}x',
-                  style: ModernTypography.caption.copyWith(
-                    color: ModernColors.textOnDark,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              ModernSpacing.horizontalSpaceXS,
-            ],
-            Text(
-              '$score',
-              style: ModernTypography.scoreText.copyWith(
-                fontSize: 20,
-                color: ModernColors.primaryBlue,
-              ),
-            ),
-            ModernSpacing.horizontalSpaceXS,
-            Text(
-              AppLocalizations.of(context).gameScreen_score,
-              style: ModernTypography.bodySmall.copyWith(
-                color: ModernColors.primaryBlue,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
 
-  /// Builds the timer bar for timed questions (levels 2-5)
+  // TIMER -------------------------------------------------------------------
   Widget _buildTimerBar(GameController gameController) {
     final timeRemaining = gameController.timeRemaining;
     final totalTime = gameController.gameState.timeLimitForLevel;
     final progress = totalTime > 0 ? timeRemaining / totalTime : 0.0;
-
-    // Determine color based on remaining time using modern colors
     Color timerColor;
     List<Color> timerGradient;
     String urgencyContext;
+
     if (progress > 0.5) {
       timerColor = ModernColors.success;
       timerGradient = ModernColors.greenGradient;
@@ -363,33 +455,27 @@ class _GameScreenState extends State<GameScreen> {
         ),
         child: Stack(
           children: [
-            // Animated progress bar with gradient
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               width:
-                  MediaQuery.of(context).size.width * progress.clamp(0.0, 1.0) -
-                  (ModernSpacing.lg * 2),
-              height: 16,
+                  (MediaQuery.of(context).size.width - (ModernSpacing.lg * 2)) *
+                  progress.clamp(0.0, 1.0),
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: timerGradient),
                 borderRadius: ModernSpacing.borderRadiusSmall,
                 boxShadow: ModernShadows.colored(timerColor, opacity: 0.4),
               ),
             ),
-
-            // Timer text overlay with modern typography
             if (timeRemaining > 0)
-              Positioned.fill(
-                child: Center(
-                  child: Text(
-                    '${timeRemaining}s',
-                    style: ModernTypography.caption.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: progress > 0.5
-                          ? ModernColors.textPrimary
-                          : ModernColors.textOnDark,
-                    ),
+              Center(
+                child: Text(
+                  '${timeRemaining}s',
+                  style: ModernTypography.caption.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: progress > 0.5
+                        ? ModernColors.textPrimary
+                        : ModernColors.textOnDark,
                   ),
                 ),
               ),
@@ -399,72 +485,114 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  /// Builds the question display area
-  Widget _buildQuestionArea(GameController gameController) {
-    final question = gameController.currentQuestion;
-    if (question == null) {
-      return Center(
-        child: Text(
-          'No question available', // This should not normally happen
-          style: ModernTypography.bodyLarge.copyWith(
-            color: ModernColors.textSecondary,
-          ),
-        ),
-      );
-    }
-
-    return ModernCard(
-      margin: ModernSpacing.paddingHorizontalLG,
-      padding: ModernSpacing.paddingLG,
-      shadows: ModernShadows.medium,
-      semanticLabel:
-          'Question ${gameController.gameState.currentQuestionIndex + 1} of ${gameController.gameState.questions.length}',
+  // APP BAR TITLE -----------------------------------------------------------
+  Widget _buildAppBarTitle(TreasureMapController treasureMapController) {
+    final currentPath = treasureMapController.currentPath;
+    return Semantics(
+      label: 'Current path: ${currentPath.displayName}',
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Question number indicator
-          Container(
-            padding: ModernSpacing.paddingVerticalXS.add(
-              ModernSpacing.paddingHorizontalSM,
-            ),
-            decoration: BoxDecoration(
-              color: ModernColors.primaryBlue.withValues(alpha: 0.1),
-              borderRadius: ModernSpacing.borderRadiusXLarge,
-            ),
-            child: Text(
-              AppLocalizations.of(context).gameScreen_questionCounter(
-                gameController.gameState.currentQuestionIndex + 1,
-                gameController.gameState.questions.length,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                currentPath.displayName,
+                style: ModernTypography.headingSmall.copyWith(fontSize: 18),
               ),
-              style: ModernTypography.label.copyWith(
-                color: ModernColors.primaryBlue,
-                fontWeight: FontWeight.w600,
+              SizedBox(width: 8),
+              Consumer<GameController>(
+                builder: (context, gameController, _) => LivesIndicator(
+                  lives: gameController.lives,
+                  size: 16,
+                  color: ModernColors.error,
+                ),
               ),
-            ),
+            ],
           ),
-
-          ModernSpacing.verticalSpaceMD,
-
-          // Question text with modern typography
           Text(
-            question.text,
-            style: ModernTypography.questionText,
-            textAlign: TextAlign.center,
+            'Treasure Hunt',
+            style: ModernTypography.caption.copyWith(
+              color: ModernColors.textSecondary,
+              fontSize: 12,
+            ),
           ),
         ],
       ),
     );
   }
 
-  /// Builds the responsive grid layout for four answer choices
-  Widget _buildAnswerGrid(GameController gameController) {
+  // QUESTION ----------------------------------------------------------------
+  Widget _buildQuestionArea(GameController gameController) {
     final question = gameController.currentQuestion;
     if (question == null) {
-      return const SizedBox.shrink();
+      return Center(
+        child: Text(
+          'No question available',
+          style: ModernTypography.bodyLarge.copyWith(
+            color: ModernColors.textSecondary,
+          ),
+        ),
+      );
     }
+    final maxHeight = MediaQuery.of(context).size.height * 0.26;
+    return ModernCard(
+      margin: ModernSpacing.paddingHorizontalLG,
+      padding: EdgeInsets.symmetric(
+        horizontal: ModernSpacing.md,
+        vertical: ModernSpacing.md,
+      ),
+      shadows: ModernShadows.medium,
+      semanticLabel:
+          'Question ${gameController.gameState.currentQuestionIndex + 1} of ${gameController.gameState.questions.length}',
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: 140,
+          maxHeight: maxHeight.clamp(140, 240),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              decoration: BoxDecoration(
+                color: ModernColors.primaryBlue.withValues(alpha: 0.12),
+                borderRadius: ModernSpacing.borderRadiusXLarge,
+              ),
+              child: Text(
+                AppLocalizations.of(context).gameScreen_questionCounter(
+                  gameController.gameState.currentQuestionIndex + 1,
+                  gameController.gameState.questions.length,
+                ),
+                style: ModernTypography.label.copyWith(
+                  color: ModernColors.primaryBlue,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            SizedBox(height: 12),
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Text(
+                  question.text,
+                  style: ModernTypography.questionText.copyWith(fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
+  // ANSWERS -----------------------------------------------------------------
+  Widget _buildAnswerGrid(GameController gameController) {
+    final question = gameController.currentQuestion;
+    if (question == null) return const SizedBox.shrink();
     final crossAxisCount = ResponsiveUtils.getAnswerGridColumns(context);
     final spacing = ResponsiveUtils.getResponsiveSpacing(context, 16);
-
     return GridView.count(
       crossAxisCount: crossAxisCount,
       crossAxisSpacing: spacing,
@@ -473,180 +601,142 @@ class _GameScreenState extends State<GameScreen> {
           ResponsiveUtils.isLandscape(context) && crossAxisCount == 4
           ? 2.0
           : 1.2,
-      children: List.generate(4, (index) {
-        if (index >= question.answers.length) {
-          return const SizedBox.shrink();
-        }
-
-        return _buildAnswerButton(
-          question.answers[index],
-          index,
-          gameController,
-        );
+      children: List.generate(4, (i) {
+        if (i >= question.answers.length) return const SizedBox.shrink();
+        return _buildAnswerButton(question.answers[i], i, gameController);
       }),
     );
   }
 
-  /// Builds a single answer button with feedback states
-  Widget _buildAnswerButton(
-    String answer,
-    int index,
-    GameController gameController,
-  ) {
-    final isSelected = gameController.selectedAnswerIndex == index;
-    final isCorrectAnswer =
-        gameController.currentQuestion?.correctAnswerIndex == index;
-    final isShowingFeedback = gameController.isShowingFeedback;
-    final isDisabled = gameController.disabledAnswerIndices.contains(index);
-    final lastAnswerWasCorrect = gameController.lastAnswerWasCorrect;
+  Widget _buildAnswerButton(String answer, int index, GameController gc) {
+    final isSelected = gc.selectedAnswerIndex == index;
+    final isCorrect = gc.currentQuestion?.correctAnswerIndex == index;
+    final isFeedback = gc.isShowingFeedback;
+    final isDisabled = gc.disabledAnswerIndices.contains(index);
+    final lastCorrect = gc.lastAnswerWasCorrect;
 
-    // Determine button state and colors using modern design system
     Color backgroundColor = ModernColors.cardBackground;
     Color borderColor = ModernColors.surfaceDark;
-    Color letterBackgroundColor = ModernColors.primaryPurple.withValues(
-      alpha: 0.1,
-    );
-    Color letterTextColor = ModernColors.primaryPurple;
-    Color answerTextColor = ModernColors.textPrimary;
+    Color letterBg = ModernColors.primaryPurple.withValues(alpha: 0.1);
+    Color letterColor = ModernColors.primaryPurple;
+    Color answerColor = ModernColors.textPrimary;
     List<BoxShadow> shadows = ModernShadows.small;
     double opacity = 1.0;
 
     if (isDisabled) {
-      // Disabled by 50/50 power-up
       opacity = 0.3;
       backgroundColor = ModernColors.surfaceLight;
       borderColor = ModernColors.surfaceDark;
-      letterBackgroundColor = ModernColors.textLight.withValues(alpha: 0.1);
-      letterTextColor = ModernColors.textLight;
-      answerTextColor = ModernColors.textLight;
+      letterBg = ModernColors.textLight.withValues(alpha: 0.1);
+      letterColor = ModernColors.textLight;
+      answerColor = ModernColors.textLight;
       shadows = ModernShadows.none;
-    } else if (isShowingFeedback) {
+    } else if (isFeedback) {
       if (isSelected) {
-        // Selected answer feedback
-        if (lastAnswerWasCorrect == true) {
-          // Correct answer - green
+        if (lastCorrect == true) {
           backgroundColor = ModernColors.success.withValues(alpha: 0.1);
           borderColor = ModernColors.success;
-          letterBackgroundColor = ModernColors.success;
-          letterTextColor = ModernColors.textOnDark;
-          answerTextColor = ModernColors.success;
+          letterBg = ModernColors.success;
+          letterColor = ModernColors.textOnDark;
+          answerColor = ModernColors.success;
           shadows = ModernShadows.colored(ModernColors.success);
         } else {
-          // Incorrect answer - red
           backgroundColor = ModernColors.error.withValues(alpha: 0.1);
           borderColor = ModernColors.error;
-          letterBackgroundColor = ModernColors.error;
-          letterTextColor = ModernColors.textOnDark;
-          answerTextColor = ModernColors.error;
+          letterBg = ModernColors.error;
+          letterColor = ModernColors.textOnDark;
+          answerColor = ModernColors.error;
           shadows = ModernShadows.colored(ModernColors.error);
         }
-      } else if (isCorrectAnswer && lastAnswerWasCorrect == false) {
-        // Show correct answer when user selected wrong
+      } else if (isCorrect && lastCorrect == false) {
         backgroundColor = ModernColors.success.withValues(alpha: 0.1);
         borderColor = ModernColors.success;
-        letterBackgroundColor = ModernColors.success;
-        letterTextColor = ModernColors.textOnDark;
-        answerTextColor = ModernColors.success;
+        letterBg = ModernColors.success;
+        letterColor = ModernColors.textOnDark;
+        answerColor = ModernColors.success;
         shadows = ModernShadows.colored(ModernColors.success);
       }
     }
 
-    // Create semantic label for the answer button
-    final answerLetter = String.fromCharCode(65 + index);
-    String semanticLabel = 'Answer $answerLetter: $answer';
-
+    final letter = String.fromCharCode(65 + index);
+    String semantic = 'Answer $letter: $answer';
     if (isDisabled) {
-      semanticLabel += ', disabled';
-    } else if (isShowingFeedback) {
+      semantic += ', disabled';
+    } else if (isFeedback) {
       if (isSelected) {
-        semanticLabel += lastAnswerWasCorrect == true
-            ? ', correct'
-            : ', incorrect';
-      } else if (isCorrectAnswer && lastAnswerWasCorrect == false) {
-        semanticLabel += ', correct answer';
-      }
+        semantic += lastCorrect == true ? ', correct' : ', incorrect';
+      } else if (isCorrect && lastCorrect == false)
+        // ignore: curly_braces_in_flow_control_structures
+        semantic += ', correct answer';
     }
 
     return GameElementSemantics(
-      label: semanticLabel,
+      label: semantic,
       hint: isDisabled
           ? 'This answer has been eliminated'
           : 'Tap to select this answer',
-      enabled: gameController.isGameActive && !isShowingFeedback && !isDisabled,
-      onTap: (gameController.isGameActive && !isShowingFeedback && !isDisabled)
-          ? () => _onAnswerSelected(index, gameController)
+      enabled: gc.isGameActive && !isFeedback && !isDisabled,
+      onTap: (gc.isGameActive && !isFeedback && !isDisabled)
+          ? () => _onAnswerSelected(index, gc)
           : null,
       child: AnimatedOpacity(
         opacity: opacity,
         duration: const Duration(milliseconds: 300),
         child: ModernCard.interactive(
-          onTap:
-              (gameController.isGameActive && !isShowingFeedback && !isDisabled)
-              ? () => _onAnswerSelected(index, gameController)
+          onTap: (gc.isGameActive && !isFeedback && !isDisabled)
+              ? () => _onAnswerSelected(index, gc)
               : null,
           backgroundColor: backgroundColor,
           borderRadius: ModernSpacing.borderRadiusMedium,
           shadows: shadows,
           hasBorder: true,
           borderColor: borderColor,
-          borderWidth: 2.0,
+          borderWidth: 2,
           margin: EdgeInsets.zero,
           padding: ModernSpacing.paddingMD,
-          semanticLabel: semanticLabel,
+          semanticLabel: semantic,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Answer letter (A, B, C, D) with feedback icon
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: letterBackgroundColor,
+                  color: letterBg,
                   borderRadius: BorderRadius.circular(18),
                   boxShadow:
-                      isShowingFeedback &&
-                          (isSelected ||
-                              (isCorrectAnswer &&
-                                  lastAnswerWasCorrect == false))
+                      isFeedback &&
+                          (isSelected || (isCorrect && lastCorrect == false))
                       ? ModernShadows.small
                       : null,
                 ),
                 child: Center(
-                  child: isShowingFeedback && isSelected
+                  child: isFeedback && isSelected
                       ? Icon(
-                          lastAnswerWasCorrect == true
+                          lastCorrect == true
                               ? Icons.check_rounded
                               : Icons.close_rounded,
-                          color: letterTextColor,
+                          color: letterColor,
                           size: 20,
                         )
-                      : isShowingFeedback &&
-                            isCorrectAnswer &&
-                            lastAnswerWasCorrect == false
-                      ? Icon(
-                          Icons.check_rounded,
-                          color: letterTextColor,
-                          size: 20,
-                        )
+                      : (isFeedback && isCorrect && lastCorrect == false)
+                      ? Icon(Icons.check_rounded, color: letterColor, size: 20)
                       : Text(
-                          answerLetter,
+                          letter,
                           style: ModernTypography.bodyMedium.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: letterTextColor,
+                            color: letterColor,
                           ),
                         ),
                 ),
               ),
-
               ModernSpacing.verticalSpaceSM,
-
-              // Answer text with modern typography
               Expanded(
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 300),
                   style: ModernTypography.answerText.copyWith(
-                    color: answerTextColor,
+                    color: answerColor,
                     fontSize: 14,
                   ),
                   child: Text(
@@ -664,200 +754,69 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  /// Builds the power-up bar at the bottom
-  Widget _buildPowerUpBar(GameController gameController) {
-    return ModernCard(
-      margin: ModernSpacing.paddingHorizontalLG,
-      padding: ModernSpacing.paddingMD,
-      shadows: ModernShadows.small,
-      semanticLabel: 'Power-up controls',
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildPowerUpButton(
-            PowerUpType.fiftyFifty,
-            Icons.remove_circle_outline_rounded,
-            gameController,
-          ),
-          _buildPowerUpButton(
-            PowerUpType.hint,
-            Icons.lightbulb_outline_rounded,
-            gameController,
-          ),
-          _buildPowerUpButton(
-            PowerUpType.extraTime,
-            Icons.access_time_rounded,
-            gameController,
-          ),
-          _buildPowerUpButton(
-            PowerUpType.skip,
-            Icons.skip_next_rounded,
-            gameController,
-          ),
-          _buildPowerUpButton(
-            PowerUpType.secondChance,
-            Icons.favorite_border_rounded,
-            gameController,
-          ),
-        ],
-      ),
-    );
-  }
+  // ANSWER HANDLING ---------------------------------------------------------
+  void _onAnswerSelected(int index, GameController gc) async {
+    final q = gc.currentQuestion;
+    if (q == null) return;
+    final scoreBefore = gc.score;
+    final livesBefore = gc.lives;
+    final correct = gc.processAnswer(index);
+    final pointsEarned = gc.score - scoreBefore;
+    final livesLost = livesBefore - gc.lives;
 
-  /// Builds a single power-up button
-  Widget _buildPowerUpButton(
-    PowerUpType powerUpType,
-    IconData icon,
-    GameController gameController,
-  ) {
-    final count = gameController.getPowerUpCount(powerUpType);
-    final canUse = gameController.canUsePowerUp(powerUpType) && count > 0;
-
-    return GameElementSemantics(
-      label: AccessibilityUtils.createButtonLabel(
-        '${powerUpType.displayName(context)} power-up',
-        hint: canUse
-            ? 'Tap to use this power-up. You have $count remaining.'
-            : count > 0
-            ? 'Power-up not available in current state'
-            : 'No power-ups remaining',
-        isEnabled: canUse,
-      ),
-      onTap: canUse ? () => _usePowerUp(powerUpType, gameController) : null,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              color: canUse
-                  ? ModernColors.primaryPurple.withValues(alpha: 0.1)
-                  : ModernColors.surfaceLight,
-              borderRadius: BorderRadius.circular(26),
-              border: Border.all(
-                color: canUse
-                    ? ModernColors.primaryPurple
-                    : ModernColors.surfaceDark,
-                width: 2,
-              ),
-              boxShadow: canUse ? ModernShadows.small : ModernShadows.none,
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(26),
-                onTap: canUse
-                    ? () => _usePowerUp(powerUpType, gameController)
-                    : null,
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Icon(
-                        icon,
-                        color: canUse
-                            ? ModernColors.primaryPurple
-                            : ModernColors.textLight,
-                        size: 26,
-                      ),
-                    ),
-                    // Count badge
-                    if (count > 0)
-                      Positioned(
-                        top: 2,
-                        right: 2,
-                        child: Container(
-                          width: 18,
-                          height: 18,
-                          decoration: BoxDecoration(
-                            color: canUse
-                                ? ModernColors.primaryPurple
-                                : ModernColors.textLight,
-                            borderRadius: BorderRadius.circular(9),
-                            boxShadow: ModernShadows.small,
-                          ),
-                          child: Center(
-                            child: Text(
-                              '$count',
-                              style: ModernTypography.caption.copyWith(
-                                color: ModernColors.textOnDark,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Handles answer selection and navigation to result screen
-  void _onAnswerSelected(int answerIndex, GameController gameController) async {
-    final currentQuestion = gameController.currentQuestion;
-    if (currentQuestion == null) return;
-
-    // Store score before processing answer to calculate points earned
-    final scoreBefore = gameController.score;
-    final livesBefore = gameController.lives;
-
-    // Process the answer
-    final isCorrect = gameController.processAnswer(answerIndex);
-
-    // Calculate points earned and lives lost
-    final pointsEarned = gameController.score - scoreBefore;
-    final livesLost = livesBefore - gameController.lives;
-
-    // Play sound effect based on answer correctness
-    final audioService = AudioService();
-    if (isCorrect) {
-      await audioService.playCorrectAnswerSound();
-    } else {
-      await audioService.playIncorrectAnswerSound();
-    }
-
-    // Navigate to result screen
-    if (mounted) {
-      await Navigator.of(context).push(
-        ModernPageRoute(
-          child: ChangeNotifierProvider.value(
-            value: gameController,
-            child: ResultScreen(
-              isCorrect: isCorrect,
-              question: currentQuestion,
-              pointsEarned: pointsEarned,
-              livesLost: livesLost,
-            ),
-          ),
-          direction: SlideDirection.bottomToTop,
-        ),
+    if (correct && pointsEarned > 0) {
+      _feedbackController.triggerScoreAnimation(
+        pointsEarned,
+        gc.scoreMultiplier,
+        gc.streak,
       );
+      final previousScore = gc.score - pointsEarned;
+      if (gc.score > previousScore + 100) {
+        _feedbackController.triggerPersonalBest(gc.score, previousScore);
+      }
+      if (gc.streak % 5 == 0 && gc.streak > 0) {
+        final progress = (gc.streak % 10) / 10.0;
+        final remaining = 10 - (gc.streak % 10);
+        _feedbackController.triggerMilestoneProgress(progress, remaining);
+      }
     }
+
+    final audio = AudioService();
+    if (correct) {
+      await audio.playCorrectAnswerSound();
+    } else {
+      await audio.playIncorrectAnswerSound();
+    }
+
+    if (!mounted) return;
+    await Navigator.of(context).push(
+      ModernPageRoute(
+        child: ChangeNotifierProvider.value(
+          value: gc,
+          child: ResultScreen(
+            isCorrect: correct,
+            question: q,
+            pointsEarned: pointsEarned,
+            livesLost: livesLost,
+          ),
+        ),
+        direction: SlideDirection.bottomToTop,
+      ),
+    );
   }
 
-  /// Handles power-up usage with confirmation dialog
-  void _usePowerUp(
-    PowerUpType powerUpType,
-    GameController gameController,
-  ) async {
-    // Show confirmation dialog first
-    final confirmed = await _showPowerUpConfirmationDialog(powerUpType);
+  // POWER-UPS ---------------------------------------------------------------
+  void _usePowerUp(PowerUpType type, GameController gc) async {
+    final confirmed = await _showPowerUpConfirmationDialog(type);
     if (!confirmed) return;
+    final audio = AudioService();
 
-    final audioService = AudioService();
-
-    switch (powerUpType) {
+    switch (type) {
       case PowerUpType.fiftyFifty:
-        final removedIndices = gameController.useFiftyFifty();
-        if (removedIndices.isNotEmpty) {
-          await audioService.playPowerUpSound();
+        final removed = gc.useFiftyFifty();
+        if (removed.isNotEmpty) {
+          await audio.playPowerUpSound();
+          _feedbackController.triggerPowerUpAnimation(type);
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -871,18 +830,24 @@ class _GameScreenState extends State<GameScreen> {
         }
         break;
       case PowerUpType.hint:
-        final hint = gameController.useHint();
+        final hint = gc.useHint();
         if (hint != null) {
-          await audioService.playPowerUpSound();
-          if (mounted) {
-            _showHintDialog(hint);
-          }
+          await audio.playPowerUpSound();
+          _feedbackController.triggerPowerUpAnimation(type);
+          if (mounted) _showHintDialog(hint);
         }
         break;
       case PowerUpType.extraTime:
-        final success = gameController.useExtraTime();
+        final before = gc.timeRemaining;
+        final success = gc.useExtraTime();
         if (success) {
-          await audioService.playPowerUpSound();
+          final after = gc.timeRemaining;
+          await audio.playPowerUpSound();
+          _feedbackController.triggerPowerUpAnimation(
+            type,
+            beforeValue: before,
+            afterValue: after,
+          );
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -896,9 +861,10 @@ class _GameScreenState extends State<GameScreen> {
         }
         break;
       case PowerUpType.skip:
-        final success = gameController.useSkip();
+        final success = gc.useSkip();
         if (success) {
-          await audioService.playPowerUpSound();
+          await audio.playPowerUpSound();
+          _feedbackController.triggerPowerUpAnimation(type);
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -912,9 +878,9 @@ class _GameScreenState extends State<GameScreen> {
         }
         break;
       case PowerUpType.secondChance:
-        final success = gameController.useSecondChance();
+        final success = gc.useSecondChance();
         if (success) {
-          await audioService.playPowerUpSound();
+          await audio.playPowerUpSound();
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -930,13 +896,12 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
-  /// Shows a power-up confirmation dialog
-  Future<bool> _showPowerUpConfirmationDialog(PowerUpType powerUpType) async {
+  Future<bool> _showPowerUpConfirmationDialog(PowerUpType type) async {
     return await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
             title: Text(
-              powerUpType.displayName(context),
+              type.displayName(context),
               style: const TextStyle(
                 color: Color(0xFF1F2937),
                 fontWeight: FontWeight.bold,
@@ -947,7 +912,7 @@ class _GameScreenState extends State<GameScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  powerUpType.description(context),
+                  type.description(context),
                   style: const TextStyle(
                     color: Color(0xFF6B7280),
                     fontSize: 16,
@@ -961,14 +926,14 @@ class _GameScreenState extends State<GameScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
-                    children: [
-                      const Icon(
+                    children: const [
+                      Icon(
                         Icons.info_outline,
                         color: Color(0xFF8B5CF6),
                         size: 20,
                       ),
-                      const SizedBox(width: 8),
-                      const Expanded(
+                      SizedBox(width: 8),
+                      Expanded(
                         child: Text(
                           'Möchtest du dieses Power-Up verwenden?',
                           style: TextStyle(
@@ -1005,7 +970,6 @@ class _GameScreenState extends State<GameScreen> {
         false;
   }
 
-  /// Shows a hint dialog
   void _showHintDialog(String hint) {
     showDialog(
       context: context,
@@ -1031,10 +995,8 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  /// Shows the pause dialog
   void _showPauseDialog() {
     _gameController.pauseGame();
-
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -1053,8 +1015,8 @@ class _GameScreenState extends State<GameScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Close dialog
-              Navigator.of(context).pop(); // Return to previous screen
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
             },
             child: const Text(
               'Hauptmenü',

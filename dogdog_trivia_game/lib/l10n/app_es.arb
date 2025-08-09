@@ -642,5 +642,324 @@
   "achievementsScreen_unlocked": "Desbloqueado:",
   "@achievementsScreen_unlocked": {
     "description": "Etiqueta para la fecha de desbloqueo en el diálogo de logros"
+  },
+
+  "checkpointCelebration_title": "¡Checkpoint Alcanzado!",
+  "@checkpointCelebration_title": {
+    "description": "Título principal para la pantalla de celebración de checkpoint"
+  },
+
+  "checkpointCelebration_performance": "Tu Rendimiento",
+  "@checkpointCelebration_performance": {
+    "description": "Título de sección para estadísticas de rendimiento"
+  },
+
+  "checkpointCelebration_questionsAnswered": "Preguntas",
+  "@checkpointCelebration_questionsAnswered": {
+    "description": "Etiqueta para estadística de preguntas respondidas"
+  },
+
+  "checkpointCelebration_correctAnswers": "Correctas",
+  "@checkpointCelebration_correctAnswers": {
+    "description": "Etiqueta para estadística de respuestas correctas"
+  },
+
+  "checkpointCelebration_accuracy": "Precisión",
+  "@checkpointCelebration_accuracy": {
+    "description": "Etiqueta para estadística de porcentaje de precisión"
+  },
+
+  "checkpointCelebration_pointsEarned": "Puntos",
+  "@checkpointCelebration_pointsEarned": {
+    "description": "Etiqueta para estadística de puntos obtenidos"
+  },
+
+  "checkpointCelebration_powerUpsEarned": "Power-ups Obtenidos",
+  "@checkpointCelebration_powerUpsEarned": {
+    "description": "Título de sección para power-ups obtenidos"
+  },
+
+  "checkpointCelebration_returnToMap": "Volver al Mapa",
+  "@checkpointCelebration_returnToMap": {
+    "description": "Texto del botón para volver al mapa del tesoro"
+  },
+
+  "checkpointCelebration_continue": "Continuar",
+  "@checkpointCelebration_continue": {
+    "description": "Texto del botón para continuar a las siguientes preguntas"
+  },
+
+  "checkpointCelebration_pathCompleted": "¡Camino Completado!",
+  "@checkpointCelebration_pathCompleted": {
+    "description": "Título cuando todo el camino está completado"
+  },
+
+  "checkpointCelebration_checkpointReached": "¡Checkpoint Alcanzado!",
+  "@checkpointCelebration_checkpointReached": {
+    "description": "Título cuando se alcanza un checkpoint"
+  },
+
+  "checkpointCelebration_performanceSummary": "Resumen de Rendimiento",
+  "@checkpointCelebration_performanceSummary": {
+    "description": "Título de sección para estadísticas de rendimiento"
+  },
+
+  "checkpointCelebration_questions": "Preguntas",
+  "@checkpointCelebration_questions": {
+    "description": "Etiqueta para estadística de preguntas respondidas"
+  },
+
+  "checkpointCelebration_points": "Puntos",
+  "@checkpointCelebration_points": {
+    "description": "Etiqueta para estadística de puntos obtenidos"
+  },
+
+  "checkpointCelebration_powerUpRewards": "Recompensas de Power-ups",
+  "@checkpointCelebration_powerUpRewards": {
+    "description": "Título de sección para power-ups obtenidos"
+  },
+
+  "checkpointCelebration_noPowerUps": "No se obtuvieron power-ups esta vez",
+  "@checkpointCelebration_noPowerUps": {
+    "description": "Mensaje cuando no se obtuvieron power-ups"
+  },
+
+  "checkpointCelebration_completePath": "Completar Camino",
+  "@checkpointCelebration_completePath": {
+    "description": "Texto del botón cuando el camino está completado"
+  },
+
+  "checkpointCelebration_continueJourney": "Continuar Viaje",
+  "@checkpointCelebration_continueJourney": {
+    "description": "Texto del botón para continuar el viaje"
+  },
+
+  "powerUp_fiftyFifty_short": "50/50",
+  "@powerUp_fiftyFifty_short": {
+    "description": "Nombre corto para power-up 50/50"
+  },
+
+  "powerUp_hint_short": "Pista",
+  "@powerUp_hint_short": {
+    "description": "Nombre corto para power-up de pista"
+  },
+
+  "powerUp_extraTime_short": "Tiempo Extra",
+  "@powerUp_extraTime_short": {
+    "description": "Nombre corto para power-up de tiempo extra"
+  },
+
+  "powerUp_skip_short": "Saltar",
+  "@powerUp_skip_short": {
+    "description": "Nombre corto para power-up de saltar"
+  },
+
+  "powerUp_secondChance_short": "2ª Oportunidad",
+  "@powerUp_secondChance_short": {
+    "description": "Nombre corto para power-up de segunda oportunidad"
+  },
+
+  "accessibility_checkpointCelebration": "Celebración de logro de checkpoint",
+  "@accessibility_checkpointCelebration": {
+    "description": "Etiqueta de accesibilidad para animación de celebración de checkpoint"
+  },
+
+  "treasureMap_pathCompleted": "¡Camino Completado!",
+  "@treasureMap_pathCompleted": {
+    "description": "Texto cuando el camino de aprendizaje está completado"
+  },
+
+  "treasureMap_startAdventure": "Comenzar Aventura",
+  "@treasureMap_startAdventure": {
+    "description": "Texto del botón para comenzar la aventura"
+  },
+
+  "treasureMap_continueAdventure": "Continuar Aventura",
+  "@treasureMap_continueAdventure": {
+    "description": "Texto del botón para continuar la aventura"
+  },
+
+  "treasureMap_congratulations": "¡Felicidades!",
+  "@treasureMap_congratulations": {
+    "description": "Título de felicitaciones en el diálogo de finalización"
+  },
+
+  "treasureMap_completionMessage": "¡Has completado este camino de aprendizaje! Todos los checkpoints han sido desbloqueados.",
+  "@treasureMap_completionMessage": {
+    "description": "Mensaje mostrado cuando el camino está completado"
+  },
+
+  "treasureMap_continueExploring": "Continuar Explorando",
+  "@treasureMap_continueExploring": {
+    "description": "Texto del botón para continuar explorando después de completar"
+  },
+
+  "checkpointCelebration_performanceSummary": "Resumen de Rendimiento",
+  "@checkpointCelebration_performanceSummary": {
+    "description": "Título de sección para estadísticas de rendimiento"
+  },
+
+  "checkpointCelebration_questions": "Preguntas",
+  "@checkpointCelebration_questions": {
+    "description": "Etiqueta para estadística de preguntas respondidas"
+  },
+
+  "checkpointCelebration_accuracy": "Precisión",
+  "@checkpointCelebration_accuracy": {
+    "description": "Etiqueta para estadística de precisión"
+  },
+
+  "checkpointCelebration_points": "Puntos",
+  "@checkpointCelebration_points": {
+    "description": "Etiqueta para estadística de puntos ganados"
+  },
+
+  "checkpointCelebration_powerUpRewards": "Recompensas de Power-Up",
+  "@checkpointCelebration_powerUpRewards": {
+    "description": "Título de sección para power-ups ganados"
+  },
+
+  "checkpointCelebration_noPowerUps": "No se ganaron power-ups esta vez",
+  "@checkpointCelebration_noPowerUps": {
+    "description": "Mensaje cuando no se ganaron power-ups"
+  },
+
+  "checkpointCelebration_completePath": "Completar Camino",
+  "@checkpointCelebration_completePath": {
+    "description": "Texto del botón cuando el camino está completado"
+  },
+
+  "checkpointCelebration_continueJourney": "Continuar Viaje",
+  "@checkpointCelebration_continueJourney": {
+    "description": "Texto del botón para continuar el viaje"
+  },
+
+  "pathSelection_title": "Elige Tu Camino de Aprendizaje",
+  "@pathSelection_title": {
+    "description": "Título para pantalla de selección de camino"
+  },
+
+  "pathSelection_subtitle": "Selecciona una aventura temática para comenzar tu viaje",
+  "@pathSelection_subtitle": {
+    "description": "Subtítulo para pantalla de selección de camino"
+  },
+
+  "pathSelection_current": "Actual",
+  "@pathSelection_current": {
+    "description": "Etiqueta para selección de camino actual"
+  },
+
+  "pathSelection_start": "Iniciar",
+  "@pathSelection_start": {
+    "description": "Texto del botón para iniciar un camino"
+  },
+
+  "pathType_dogBreeds_name": "Razas de Perros",
+  "@pathType_dogBreeds_name": {
+    "description": "Nombre para el camino de razas de perros"
+  },
+
+  "pathType_dogBreeds_description": "Aprende sobre diferentes razas de perros, sus características y orígenes",
+  "@pathType_dogBreeds_description": {
+    "description": "Descripción para el camino de razas de perros"
+  },
+
+  "pathType_dogTraining_name": "Entrenamiento Canino",
+  "@pathType_dogTraining_name": {
+    "description": "Nombre para el camino de entrenamiento canino"
+  },
+
+  "pathType_dogTraining_description": "Domina técnicas de entrenamiento canino, comandos y orientación conductual",
+  "@pathType_dogTraining_description": {
+    "description": "Descripción para el camino de entrenamiento canino"
+  },
+
+  "pathType_healthCare_name": "Salud y Cuidado",
+  "@pathType_healthCare_name": {
+    "description": "Nombre para el camino de salud y cuidado"
+  },
+
+  "pathType_healthCare_description": "Comprende la salud canina, nutrición y atención médica",
+  "@pathType_healthCare_description": {
+    "description": "Descripción para el camino de salud y cuidado"
+  },
+
+  "pathType_dogBehavior_name": "Comportamiento Canino",
+  "@pathType_dogBehavior_name": {
+    "description": "Nombre para el camino de comportamiento canino"
+  },
+
+  "pathType_dogBehavior_description": "Explora la psicología canina, instintos y patrones de comportamiento",
+  "@pathType_dogBehavior_description": {
+    "description": "Descripción para el camino de comportamiento canino"
+  },
+
+  "pathType_dogHistory_name": "Historia Canina",
+  "@pathType_dogHistory_name": {
+    "description": "Nombre para el camino de historia canina"
+  },
+
+  "pathType_dogHistory_description": "Descubre la historia de los perros, genética y evolución",
+  "@pathType_dogHistory_description": {
+    "description": "Descripción para el camino de historia canina"
+  },
+
+  "treasureMap_adventure": "Aventura",
+  "@treasureMap_adventure": {
+    "description": "Sufijo para título del camino en mapa del tesoro"
+  },
+
+  "treasureMap_questionsTo": "{current}/{total} preguntas hasta {checkpoint}",
+  "@treasureMap_questionsTo": {
+    "description": "Formato para preguntas restantes hasta checkpoint",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "3"
+      },
+      "total": {
+        "type": "int", 
+        "example": "10"
+      },
+      "checkpoint": {
+        "type": "String",
+        "example": "Chihuahua"
+      }
+    }
+  },
+
+  "treasureMap_pathCompletedStatus": "¡Camino Completado!",
+  "@treasureMap_pathCompletedStatus": {
+    "description": "Texto de estado cuando el camino está completado"
+  },
+
+  "treasureMap_progressQuestions": "Progreso: {current}/{total} preguntas",
+  "@treasureMap_progressQuestions": {
+    "description": "Texto de progreso que muestra total de preguntas respondidas",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "15"
+      },
+      "total": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+
+  "treasureMap_checkpointsCompleted": "{current}/{total} checkpoints completados",
+  "@treasureMap_checkpointsCompleted": {
+    "description": "Texto que muestra checkpoints completados",
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "2"
+      },
+      "total": {
+        "type": "int",
+        "example": "5"
+      }
+    }
   }
 }

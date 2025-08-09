@@ -302,7 +302,6 @@ extension ModernCardVariants on ModernCard {
 
     return ModernCard.gradient(
       key: key,
-      child: child,
       gradientColors: gradientColors,
       padding: padding,
       margin: margin,
@@ -313,6 +312,7 @@ extension ModernCardVariants on ModernCard {
       interactive: interactive,
       onTap: onTap,
       semanticLabel: semanticLabel,
+      child: child,
     );
   }
 
@@ -332,7 +332,6 @@ extension ModernCardVariants on ModernCard {
   }) {
     return ModernCard(
       key: key,
-      child: child,
       padding: padding,
       margin: margin,
       backgroundColor: backgroundColor,
@@ -343,6 +342,7 @@ extension ModernCardVariants on ModernCard {
       interactive: interactive,
       onTap: onTap,
       semanticLabel: semanticLabel,
+      child: child,
     );
   }
 
@@ -362,7 +362,6 @@ extension ModernCardVariants on ModernCard {
   }) {
     return ModernCard(
       key: key,
-      child: child,
       padding: padding,
       margin: margin,
       backgroundColor: backgroundColor ?? ModernColors.surfaceLight,
@@ -373,6 +372,7 @@ extension ModernCardVariants on ModernCard {
       interactive: interactive,
       onTap: onTap,
       semanticLabel: semanticLabel,
+      child: child,
     );
   }
 }

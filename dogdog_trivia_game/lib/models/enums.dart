@@ -100,3 +100,65 @@ enum ErrorSeverity {
     }
   }
 }
+
+/// Enum representing different themed learning paths in the treasure map system
+enum PathType {
+  dogBreeds,
+  dogTraining,
+  healthCare,
+  dogBehavior,
+  dogHistory;
+
+  /// Returns the display name for the path
+  String get displayName {
+    switch (this) {
+      case PathType.dogBreeds:
+        return 'Dog Breeds';
+      case PathType.dogTraining:
+        return 'Dog Training';
+      case PathType.healthCare:
+        return 'Health & Care';
+      case PathType.dogBehavior:
+        return 'Dog Behavior';
+      case PathType.dogHistory:
+        return 'Dog History';
+    }
+  }
+
+  /// Returns the description for the path
+  String get description {
+    switch (this) {
+      case PathType.dogBreeds:
+        return 'Learn about different dog breeds, their characteristics, and origins';
+      case PathType.dogTraining:
+        return 'Master dog training techniques, commands, and behavioral guidance';
+      case PathType.healthCare:
+        return 'Understand dog health, nutrition, and medical care';
+      case PathType.dogBehavior:
+        return 'Explore dog psychology, instincts, and behavioral patterns';
+      case PathType.dogHistory:
+        return 'Discover the history of dogs, genetics, and evolution';
+    }
+  }
+}
+
+/// Enum representing checkpoints in the treasure map progression
+enum Checkpoint {
+  chihuahua(10, 'Chihuahua', 'assets/images/chihuahua.png'),
+  pug(15, 'Pug', 'assets/images/mops.png'),
+  cockerSpaniel(25, 'Cocker Spaniel', 'assets/images/cocker.png'),
+  germanShepherd(35, 'German Shepherd', 'assets/images/schaeferhund.png'),
+  greatDane(45, 'Great Dane', 'assets/images/dogge.png'),
+  deutscheDogge(60, 'Deutsche Dogge', 'assets/images/dogge.png');
+
+  const Checkpoint(this.questionsRequired, this.displayName, this.imagePath);
+
+  /// Number of questions required to reach this checkpoint
+  final int questionsRequired;
+
+  /// Display name for the checkpoint
+  final String displayName;
+
+  /// Path to the image asset for this checkpoint
+  final String imagePath;
+}
