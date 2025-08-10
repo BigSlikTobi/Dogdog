@@ -15,7 +15,6 @@ import '../controllers/treasure_map_controller.dart';
 import '../models/enums.dart';
 import '../utils/path_localization.dart';
 import 'treasure_map_screen.dart';
-import 'achievements_screen.dart';
 
 /// Home screen with gradient background and decorative elements.
 ///
@@ -148,6 +147,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Stack(
               children: [
                 _buildFloatingDecorations(),
+                _buildSettingsButton(),
                 FadeTransition(
                   opacity: _fadeAnimation,
                   child: SlideTransition(
@@ -160,14 +160,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           children: [
                             ModernSpacing.verticalSpaceXL,
                             _buildLogo(),
-                            ModernSpacing.verticalSpaceMD,
+                            ModernSpacing.verticalSpaceLG,
                             _buildWelcomeText(),
-                            ModernSpacing.verticalSpaceLG,
-                            _buildPathSelectionSection(),
-                            ModernSpacing.verticalSpaceLG,
-                            _buildNavigationButtons(),
                             ModernSpacing.verticalSpaceXL,
-                            ModernSpacing.verticalSpaceMD,
+                            _buildPathSelectionSection(),
+                            ModernSpacing.verticalSpaceXL,
                           ],
                         ),
                       ),
@@ -315,99 +312,69 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildWelcomeText() {
     final l10n = AppLocalizations.of(context);
 
-    return Column(
-      children: [
-        Text(
-          l10n.homeScreen_welcomeTitle,
-          style: ResponsiveUtils.getAccessibleTextStyle(
-            context,
-            ModernTypography.headingLarge.copyWith(
-              color: ModernColors.textPrimary,
-            ),
-          ),
-          textAlign: TextAlign.center,
-          semanticsLabel: l10n.homeScreen_welcomeTitle,
-        ),
-        ModernSpacing.verticalSpaceSM,
-        Text(
-          l10n.homeScreen_welcomeSubtitle,
-          style: ResponsiveUtils.getAccessibleTextStyle(
-            context,
-            ModernTypography.withSecondaryColor(ModernTypography.bodyLarge),
-          ),
-          textAlign: TextAlign.center,
-          semanticsLabel: l10n.homeScreen_welcomeSubtitle,
-        ),
-      ],
+    return Text(
+      l10n.homeScreen_welcomeTitle,
+      style: ResponsiveUtils.getAccessibleTextStyle(
+        context,
+        ModernTypography.headingLarge.copyWith(color: ModernColors.textPrimary),
+      ),
+      textAlign: TextAlign.center,
+      semanticsLabel: l10n.homeScreen_welcomeTitle,
     );
   }
 
-  /// Builds navigation buttons for achievements and settings
-  Widget _buildNavigationButtons() {
-    final l10n = AppLocalizations.of(context);
+  /// Builds a small settings button positioned in the upper right corner
+  Widget _buildSettingsButton() {
     final audioService = AudioService();
 
-    return Row(
-      children: [
-        Expanded(
-          child: GradientButton(
-            text: l10n.homeScreen_achievementsButton,
-            onPressed: () async {
+    return Positioned(
+      top: 16,
+      right: 16,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.9),
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(24),
+            onTap: () async {
               await audioService.playButtonSound();
               if (mounted) {
-                Navigator.of(
-                  context,
-                ).push(ScalePageRoute(child: const AchievementsScreen()));
+                await AudioSettingsDialog.show(context);
               }
             },
-            gradientColors: ModernColors.yellowGradient,
-            icon: Icons.emoji_events,
-            semanticLabel: l10n.homeScreen_achievementsButton,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20.0,
-              vertical: 16.0,
+            child: Semantics(
+              label: 'Settings',
+              button: true,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Icon(
+                  Icons.settings,
+                  size: 20,
+                  color: ModernColors.textSecondary,
+                ),
+              ),
             ),
           ),
         ),
-        ModernSpacing.horizontalSpaceMD,
-        GradientButton(
-          text: '',
-          onPressed: () async {
-            await audioService.playButtonSound();
-            if (mounted) {
-              await AudioSettingsDialog.show(context);
-            }
-          },
-          gradientColors: ModernColors.blueGradient,
-          icon: Icons.settings,
-          semanticLabel: 'Settings',
-          padding: const EdgeInsets.all(16.0),
-        ),
-      ],
+      ),
     );
   }
 
   /// Path selection section integrated into home screen
   Widget _buildPathSelectionSection() {
-    final l10n = AppLocalizations.of(context);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          l10n.pathSelection_title,
-          style: ModernTypography.headingMedium.copyWith(
-            color: ModernColors.textPrimary,
-            fontSize: 20,
-          ),
-        ),
-        ModernSpacing.verticalSpaceXS,
-        Text(
-          l10n.pathSelection_subtitle,
-          style: ModernTypography.bodySmall.copyWith(
-            color: ModernColors.textSecondary,
-          ),
-        ),
-        ModernSpacing.verticalSpaceLG,
         _buildPathCarousel(),
         ModernSpacing.verticalSpaceSM,
         _buildCarouselIndicators(),
@@ -417,7 +384,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // 3D Carousel implementation
   Widget _buildPathCarousel() {
-    final height = 230.0;
+    final height = 280.0; // Increased height from 230.0 to 280.0
     return SizedBox(
       height: height,
       child: PageView.builder(

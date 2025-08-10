@@ -117,12 +117,6 @@ abstract class AppLocalizations {
   /// **'Welcome to DogDog!'**
   String get homeScreen_welcomeTitle;
 
-  /// Welcome subtitle explaining the game
-  ///
-  /// In en, this message translates to:
-  /// **'Test your knowledge about dogs in this fun quiz!'**
-  String get homeScreen_welcomeSubtitle;
-
   /// Main button to start the quiz
   ///
   /// In en, this message translates to:
@@ -944,18 +938,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue Exploring'**
   String get treasureMap_continueExploring;
-
-  /// Title for path selection screen
-  ///
-  /// In en, this message translates to:
-  /// **'Choose Your Learning Path'**
-  String get pathSelection_title;
-
-  /// Subtitle for path selection screen
-  ///
-  /// In en, this message translates to:
-  /// **'Select a themed adventure to begin your journey'**
-  String get pathSelection_subtitle;
 
   /// Label for current path selection
   ///

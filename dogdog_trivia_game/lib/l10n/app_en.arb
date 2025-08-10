@@ -12,11 +12,6 @@
     "description": "Main welcome title on the home screen"
   },
 
-  "homeScreen_welcomeSubtitle": "Test your knowledge about dogs in this fun quiz!",
-  "@homeScreen_welcomeSubtitle": {
-    "description": "Welcome subtitle explaining the game"
-  },
-
   "homeScreen_startButton": "Start Quiz",
   "@homeScreen_startButton": {
     "description": "Main button to start the quiz"
@@ -832,16 +827,6 @@
   "checkpointCelebration_continueJourney": "Continue Journey",
   "@checkpointCelebration_continueJourney": {
     "description": "Button text to continue the journey"
-  },
-
-  "pathSelection_title": "Choose Your Learning Path",
-  "@pathSelection_title": {
-    "description": "Title for path selection screen"
-  },
-
-  "pathSelection_subtitle": "Select a themed adventure to begin your journey",
-  "@pathSelection_subtitle": {
-    "description": "Subtitle for path selection screen"
   },
 
   "pathSelection_current": "Current",
