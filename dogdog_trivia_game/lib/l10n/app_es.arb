@@ -12,11 +12,6 @@
     "description": "Título principal de bienvenida en la pantalla de inicio"
   },
 
-  "homeScreen_welcomeSubtitle": "¡Pon a prueba tu conocimiento sobre perros en este divertido quiz!",
-  "@homeScreen_welcomeSubtitle": {
-    "description": "Subtítulo de bienvenida que explica el juego"
-  },
-
   "homeScreen_startButton": "Comenzar Quiz",
   "@homeScreen_startButton": {
     "description": "Botón principal para comenzar el quiz"
@@ -832,16 +827,6 @@
   "checkpointCelebration_continueJourney": "Continuar Viaje",
   "@checkpointCelebration_continueJourney": {
     "description": "Texto del botón para continuar el viaje"
-  },
-
-  "pathSelection_title": "Elige Tu Camino de Aprendizaje",
-  "@pathSelection_title": {
-    "description": "Título para pantalla de selección de camino"
-  },
-
-  "pathSelection_subtitle": "Selecciona una aventura temática para comenzar tu viaje",
-  "@pathSelection_subtitle": {
-    "description": "Subtítulo para pantalla de selección de camino"
   },
 
   "pathSelection_current": "Actual",

@@ -20,10 +20,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeScreen_welcomeTitle => 'Welcome to DogDog!';
 
   @override
-  String get homeScreen_welcomeSubtitle =>
-      'Test your knowledge about dogs in this fun quiz!';
-
-  @override
   String get homeScreen_startButton => 'Start Quiz';
 
   @override
@@ -477,13 +473,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get treasureMap_continueExploring => 'Continue Exploring';
-
-  @override
-  String get pathSelection_title => 'Choose Your Learning Path';
-
-  @override
-  String get pathSelection_subtitle =>
-      'Select a themed adventure to begin your journey';
 
   @override
   String get pathSelection_current => 'Current';

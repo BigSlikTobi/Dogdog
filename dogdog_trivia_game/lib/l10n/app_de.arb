@@ -12,11 +12,6 @@
     "description": "Hauptbegrüßungstitel auf dem Startbildschirm"
   },
 
-  "homeScreen_welcomeSubtitle": "Teste dein Wissen über Hunde in diesem lustigen Quiz!",
-  "@homeScreen_welcomeSubtitle": {
-    "description": "Begrüßungsuntertitel, der das Spiel erklärt"
-  },
-
   "homeScreen_startButton": "Quiz starten",
   "@homeScreen_startButton": {
     "description": "Hauptschaltfläche zum Starten des Quiz"
@@ -832,16 +827,6 @@
   "checkpointCelebration_continueJourney": "Reise Fortsetzen",
   "@checkpointCelebration_continueJourney": {
     "description": "Schaltflächentext zum Fortsetzen der Reise"
-  },
-
-  "pathSelection_title": "Wähle Deinen Lernpfad",
-  "@pathSelection_title": {
-    "description": "Titel für Pfadauswahl-Bildschirm"
-  },
-
-  "pathSelection_subtitle": "Wähle ein thematisches Abenteuer um deine Reise zu beginnen",
-  "@pathSelection_subtitle": {
-    "description": "Untertitel für Pfadauswahl-Bildschirm"
   },
 
   "pathSelection_current": "Aktuell",
