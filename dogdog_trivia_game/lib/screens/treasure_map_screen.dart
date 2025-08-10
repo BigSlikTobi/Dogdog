@@ -12,6 +12,7 @@ import '../utils/responsive.dart';
 import '../utils/path_localization.dart';
 import '../l10n/generated/app_localizations.dart';
 import 'game_screen.dart';
+import 'dog_breeds_adventure_screen.dart';
 
 /// Screen displaying the treasure map with checkpoint progress visualization
 class TreasureMapScreen extends StatefulWidget {
@@ -226,26 +227,55 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
   }
 
   void _navigateToGameScreen() {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => GameScreen(
-          difficulty: Difficulty.medium, // Default difficulty for treasure map mode
-          level: 1,
-        ),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return SlideTransition(
-            position: animation.drive(
-              Tween(
-                begin: const Offset(1.0, 0.0),
-                end: Offset.zero,
-              ).chain(CurveTween(curve: Curves.easeInOut)),
-            ),
-            child: child,
-          );
-        },
-        transitionDuration: const Duration(milliseconds: 300),
-      ),
+    final controller = Provider.of<TreasureMapController>(
+      context,
+      listen: false,
     );
+
+    if (controller.currentPath == PathType.breedAdventure) {
+      // Navigate to breed adventure screen
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const DogBreedsAdventureScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: animation.drive(
+                Tween(
+                  begin: const Offset(1.0, 0.0),
+                  end: Offset.zero,
+                ).chain(CurveTween(curve: Curves.easeInOut)),
+              ),
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 300),
+        ),
+      );
+    } else {
+      // Navigate to regular game screen for other paths
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => GameScreen(
+            difficulty:
+                Difficulty.medium, // Default difficulty for treasure map mode
+            level: 1,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: animation.drive(
+                Tween(
+                  begin: const Offset(1.0, 0.0),
+                  end: Offset.zero,
+                ).chain(CurveTween(curve: Curves.easeInOut)),
+              ),
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 300),
+        ),
+      );
+    }
   }
 
   /// Get localized segment display text

@@ -549,4 +549,155 @@ class AppLocalizationsDe extends AppLocalizations {
   String treasureMap_checkpointsCompleted(int current, int total) {
     return '$current/$total Checkpoints abgeschlossen';
   }
+
+  @override
+  String get breedAdventure_title => 'Hunderassen-Abenteuer';
+
+  @override
+  String get breedAdventure_description =>
+      'Teste dein Wissen, indem du Hunderassen anhand von Fotos identifizierst';
+
+  @override
+  String get breedAdventure_whichImageShows => 'Welches Bild zeigt einen';
+
+  @override
+  String get breedAdventure_gameInitializing =>
+      'Bereite dein Hunderassen-Abenteuer vor...';
+
+  @override
+  String get breedAdventure_loadingImages => 'Lade Hunderassen-Bilder...';
+
+  @override
+  String get breedAdventure_gamePaused => 'Spiel Pausiert';
+
+  @override
+  String get breedAdventure_pauseMessage =>
+      'Das Spiel ist pausiert. Tippe auf Fortsetzen, um weiterzumachen.';
+
+  @override
+  String get breedAdventure_resume => 'Fortsetzen';
+
+  @override
+  String get breedAdventure_exitGame => 'Spiel Beenden';
+
+  @override
+  String get breedAdventure_adventureComplete => 'Abenteuer Abgeschlossen!';
+
+  @override
+  String get breedAdventure_finalScore => 'Endpunktzahl';
+
+  @override
+  String get breedAdventure_correct => 'Richtig';
+
+  @override
+  String get breedAdventure_accuracy => 'Genauigkeit';
+
+  @override
+  String get breedAdventure_phase => 'Phase';
+
+  @override
+  String get breedAdventure_playAgain => 'Nochmal Spielen';
+
+  @override
+  String get breedAdventure_home => 'Start';
+
+  @override
+  String get breedAdventure_powerUps => 'Power-Ups';
+
+  @override
+  String get breedAdventure_lives => 'Leben';
+
+  @override
+  String get breedAdventure_progress => 'Fortschritt';
+
+  @override
+  String get breedAdventure_timeRemaining => 'Verbleibende Zeit';
+
+  @override
+  String get breedAdventure_hintTitle => 'Rassen-Hinweis';
+
+  @override
+  String get breedAdventure_powerUpEarned => 'Power-Up Verdient!';
+
+  @override
+  String get breedAdventure_connectionProblem => 'Verbindungsproblem';
+
+  @override
+  String get breedAdventure_connectionMessage =>
+      'Bilder können nicht geladen werden. Bitte überprüfe deine Internetverbindung und versuche es erneut.';
+
+  @override
+  String get breedAdventure_imageLoadFailed => 'Bild-Laden Fehlgeschlagen';
+
+  @override
+  String get breedAdventure_imageLoadMessage =>
+      'Die Hunderassen-Bilder konnten nicht geladen werden. Dies könnte ein vorübergehendes Problem sein.';
+
+  @override
+  String get breedAdventure_phaseComplete => 'Phase Abgeschlossen!';
+
+  @override
+  String breedAdventure_phaseCompleteMessage(String phase) {
+    return 'Du hast alle Rassen in der $phase-Phase abgeschlossen. Großartige Arbeit!';
+  }
+
+  @override
+  String get breedAdventure_nextPhase => 'Nächste Phase';
+
+  @override
+  String get breedAdventure_restartGame => 'Spiel Neustarten';
+
+  @override
+  String get breedAdventure_skip => 'Überspringen';
+
+  @override
+  String get breedAdventure_sec => 'Sek';
+
+  @override
+  String get breedAdventure_powerUpHint_celebration =>
+      'Rassen-Wissen enthüllt! 🧠';
+
+  @override
+  String get breedAdventure_powerUpExtraTime_celebration =>
+      'Extra Zeit gewährt! ⏰';
+
+  @override
+  String get breedAdventure_powerUpSkip_celebration =>
+      'Frage erfolgreich übersprungen! ⏭️';
+
+  @override
+  String get breedAdventure_powerUpSecondChance_celebration =>
+      'Leben wiederhergestellt! ❤️';
+
+  @override
+  String get breedAdventure_powerUpHint_description =>
+      'Enthüllt hilfreiche Informationen über die Eigenschaften und Geschichte der Rasse.';
+
+  @override
+  String get breedAdventure_powerUpExtraTime_description =>
+      'Fügt 5 zusätzliche Sekunden zum aktuellen Fragen-Timer hinzu.';
+
+  @override
+  String get breedAdventure_powerUpSkip_description =>
+      'Überspringe die aktuelle Frage ohne ein Leben zu verlieren.';
+
+  @override
+  String get breedAdventure_powerUpSecondChance_description =>
+      'Stellt ein Leben wieder her, wenn du eine falsche Antwort gibst.';
+
+  @override
+  String get difficultyPhase_beginner => 'Anfänger';
+
+  @override
+  String get difficultyPhase_intermediate => 'Fortgeschritten';
+
+  @override
+  String get difficultyPhase_expert => 'Experte';
+
+  @override
+  String get pathType_breedAdventure_name => 'Rassen-Abenteuer';
+
+  @override
+  String get pathType_breedAdventure_description =>
+      'Identifiziere Hunderassen anhand von Fotos in dieser aufregenden visuellen Herausforderung';
 }

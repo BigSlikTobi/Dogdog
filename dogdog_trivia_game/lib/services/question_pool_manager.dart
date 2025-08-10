@@ -151,6 +151,10 @@ class QuestionPoolManager {
             text.contains('kynologie') ||
             // Fallback: include all questions if no specific matches
             true;
+
+      case PathType.breedAdventure:
+        // Breed Adventure uses its own breed data, not questions
+        return false;
     }
   }
 

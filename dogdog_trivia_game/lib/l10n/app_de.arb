@@ -946,5 +946,236 @@
         "example": "5"
       }
     }
+  },
+
+  "breedAdventure_title": "Hunderassen-Abenteuer",
+  "@breedAdventure_title": {
+    "description": "Titel für den Hunderassen-Abenteuer Spielmodus"
+  },
+
+  "breedAdventure_description": "Teste dein Wissen, indem du Hunderassen anhand von Fotos identifizierst",
+  "@breedAdventure_description": {
+    "description": "Beschreibung für den Hunderassen-Abenteuer Spielmodus"
+  },
+
+  "breedAdventure_whichImageShows": "Welches Bild zeigt einen",
+  "@breedAdventure_whichImageShows": {
+    "description": "Frageaufforderung für Rassenidentifikation"
+  },
+
+  "breedAdventure_gameInitializing": "Bereite dein Hunderassen-Abenteuer vor...",
+  "@breedAdventure_gameInitializing": {
+    "description": "Lademeldung beim Initialisieren des Spiels"
+  },
+
+  "breedAdventure_loadingImages": "Lade Hunderassen-Bilder...",
+  "@breedAdventure_loadingImages": {
+    "description": "Lademeldung beim Vorladen von Bildern"
+  },
+
+  "breedAdventure_gamePaused": "Spiel Pausiert",
+  "@breedAdventure_gamePaused": {
+    "description": "Titel für Pause-Dialog"
+  },
+
+  "breedAdventure_pauseMessage": "Das Spiel ist pausiert. Tippe auf Fortsetzen, um weiterzumachen.",
+  "@breedAdventure_pauseMessage": {
+    "description": "Nachricht im Pause-Dialog"
+  },
+
+  "breedAdventure_resume": "Fortsetzen",
+  "@breedAdventure_resume": {
+    "description": "Schaltfläche zum Fortsetzen des Spiels"
+  },
+
+  "breedAdventure_exitGame": "Spiel Beenden",
+  "@breedAdventure_exitGame": {
+    "description": "Schaltfläche zum Beenden des Spiels"
+  },
+
+  "breedAdventure_adventureComplete": "Abenteuer Abgeschlossen!",
+  "@breedAdventure_adventureComplete": {
+    "description": "Titel für Spielende-Bildschirm"
+  },
+
+  "breedAdventure_finalScore": "Endpunktzahl",
+  "@breedAdventure_finalScore": {
+    "description": "Label für Endpunktzahl-Anzeige"
+  },
+
+  "breedAdventure_correct": "Richtig",
+  "@breedAdventure_correct": {
+    "description": "Label für Anzahl richtiger Antworten"
+  },
+
+  "breedAdventure_accuracy": "Genauigkeit",
+  "@breedAdventure_accuracy": {
+    "description": "Label für Genauigkeitsprozent"
+  },
+
+  "breedAdventure_phase": "Phase",
+  "@breedAdventure_phase": {
+    "description": "Label für Schwierigkeitsphase"
+  },
+
+  "breedAdventure_playAgain": "Nochmal Spielen",
+  "@breedAdventure_playAgain": {
+    "description": "Schaltfläche für ein neues Spiel"
+  },
+
+  "breedAdventure_home": "Start",
+  "@breedAdventure_home": {
+    "description": "Schaltfläche zur Rückkehr zum Startbildschirm"
+  },
+
+  "breedAdventure_powerUps": "Power-Ups",
+  "@breedAdventure_powerUps": {
+    "description": "Label für Power-Ups-Bereich"
+  },
+
+  "breedAdventure_lives": "Leben",
+  "@breedAdventure_lives": {
+    "description": "Label für verbleibende Leben"
+  },
+
+  "breedAdventure_progress": "Fortschritt",
+  "@breedAdventure_progress": {
+    "description": "Label für Fortschritts-Bereich"
+  },
+
+  "breedAdventure_timeRemaining": "Verbleibende Zeit",
+  "@breedAdventure_timeRemaining": {
+    "description": "Label für Countdown-Timer"
+  },
+
+  "breedAdventure_hintTitle": "Rassen-Hinweis",
+  "@breedAdventure_hintTitle": {
+    "description": "Titel für Hinweis-Anzeige"
+  },
+
+  "breedAdventure_powerUpEarned": "Power-Up Verdient!",
+  "@breedAdventure_powerUpEarned": {
+    "description": "Benachrichtigung wenn Power-Up verdient wird"
+  },
+
+  "breedAdventure_connectionProblem": "Verbindungsproblem",
+  "@breedAdventure_connectionProblem": {
+    "description": "Titel für Netzwerkfehler"
+  },
+
+  "breedAdventure_connectionMessage": "Bilder können nicht geladen werden. Bitte überprüfe deine Internetverbindung und versuche es erneut.",
+  "@breedAdventure_connectionMessage": {
+    "description": "Nachricht für Netzwerkverbindungsprobleme"
+  },
+
+  "breedAdventure_imageLoadFailed": "Bild-Laden Fehlgeschlagen",
+  "@breedAdventure_imageLoadFailed": {
+    "description": "Titel für Bild-Ladefehler"
+  },
+
+  "breedAdventure_imageLoadMessage": "Die Hunderassen-Bilder konnten nicht geladen werden. Dies könnte ein vorübergehendes Problem sein.",
+  "@breedAdventure_imageLoadMessage": {
+    "description": "Nachricht für Bild-Ladefehler"
+  },
+
+  "breedAdventure_phaseComplete": "Phase Abgeschlossen!",
+  "@breedAdventure_phaseComplete": {
+    "description": "Titel wenn Schwierigkeitsphase abgeschlossen ist"
+  },
+
+  "breedAdventure_phaseCompleteMessage": "Du hast alle Rassen in der {phase}-Phase abgeschlossen. Großartige Arbeit!",
+  "@breedAdventure_phaseCompleteMessage": {
+    "description": "Nachricht wenn Phase abgeschlossen ist",
+    "placeholders": {
+      "phase": {
+        "type": "String",
+        "example": "Anfänger"
+      }
+    }
+  },
+
+  "breedAdventure_nextPhase": "Nächste Phase",
+  "@breedAdventure_nextPhase": {
+    "description": "Schaltfläche zur nächsten Schwierigkeitsphase"
+  },
+
+  "breedAdventure_restartGame": "Spiel Neustarten",
+  "@breedAdventure_restartGame": {
+    "description": "Schaltfläche zum Neustarten des Spiels"
+  },
+
+  "breedAdventure_skip": "Überspringen",
+  "@breedAdventure_skip": {
+    "description": "Schaltfläche zum Überspringen der aktuellen Frage"
+  },
+
+  "breedAdventure_sec": "Sek",
+  "@breedAdventure_sec": {
+    "description": "Abkürzung für Sekunden"
+  },
+
+  "breedAdventure_powerUpHint_celebration": "Rassen-Wissen enthüllt! 🧠",
+  "@breedAdventure_powerUpHint_celebration": {
+    "description": "Feiernachricht für Hinweis Power-Up"
+  },
+
+  "breedAdventure_powerUpExtraTime_celebration": "Extra Zeit gewährt! ⏰",
+  "@breedAdventure_powerUpExtraTime_celebration": {
+    "description": "Feiernachricht für Extra Zeit Power-Up"
+  },
+
+  "breedAdventure_powerUpSkip_celebration": "Frage erfolgreich übersprungen! ⏭️",
+  "@breedAdventure_powerUpSkip_celebration": {
+    "description": "Feiernachricht für Überspringen Power-Up"
+  },
+
+  "breedAdventure_powerUpSecondChance_celebration": "Leben wiederhergestellt! ❤️",
+  "@breedAdventure_powerUpSecondChance_celebration": {
+    "description": "Feiernachricht für Zweite Chance Power-Up"
+  },
+
+  "breedAdventure_powerUpHint_description": "Enthüllt hilfreiche Informationen über die Eigenschaften und Geschichte der Rasse.",
+  "@breedAdventure_powerUpHint_description": {
+    "description": "Beschreibung für Hinweis Power-Up im Hunderassen-Abenteuer"
+  },
+
+  "breedAdventure_powerUpExtraTime_description": "Fügt 5 zusätzliche Sekunden zum aktuellen Fragen-Timer hinzu.",
+  "@breedAdventure_powerUpExtraTime_description": {
+    "description": "Beschreibung für Extra Zeit Power-Up im Hunderassen-Abenteuer"
+  },
+
+  "breedAdventure_powerUpSkip_description": "Überspringe die aktuelle Frage ohne ein Leben zu verlieren.",
+  "@breedAdventure_powerUpSkip_description": {
+    "description": "Beschreibung für Überspringen Power-Up im Hunderassen-Abenteuer"
+  },
+
+  "breedAdventure_powerUpSecondChance_description": "Stellt ein Leben wieder her, wenn du eine falsche Antwort gibst.",
+  "@breedAdventure_powerUpSecondChance_description": {
+    "description": "Beschreibung für Zweite Chance Power-Up im Hunderassen-Abenteuer"
+  },
+
+  "difficultyPhase_beginner": "Anfänger",
+  "@difficultyPhase_beginner": {
+    "description": "Name für Anfänger-Schwierigkeitsphase"
+  },
+
+  "difficultyPhase_intermediate": "Fortgeschritten",
+  "@difficultyPhase_intermediate": {
+    "description": "Name für Fortgeschrittenen-Schwierigkeitsphase"
+  },
+
+  "difficultyPhase_expert": "Experte",
+  "@difficultyPhase_expert": {
+    "description": "Name für Experten-Schwierigkeitsphase"
+  },
+
+  "pathType_breedAdventure_name": "Rassen-Abenteuer",
+  "@pathType_breedAdventure_name": {
+    "description": "Anzeigename für Rassen-Abenteuer-Pfad"
+  },
+
+  "pathType_breedAdventure_description": "Identifiziere Hunderassen anhand von Fotos in dieser aufregenden visuellen Herausforderung",
+  "@pathType_breedAdventure_description": {
+    "description": "Beschreibung für Rassen-Abenteuer-Pfad"
   }
 }

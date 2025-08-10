@@ -8,13 +8,14 @@ import '../design_system/modern_shadows.dart';
 import '../widgets/gradient_button.dart';
 import '../widgets/audio_settings.dart';
 import '../utils/responsive.dart';
-import '../utils/animations.dart';
 import '../utils/accessibility.dart';
+import '../utils/game_state_animations.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../controllers/treasure_map_controller.dart';
 import '../models/enums.dart';
 import '../utils/path_localization.dart';
 import 'treasure_map_screen.dart';
+import 'dog_breeds_adventure_screen.dart';
 
 /// Home screen with gradient background and decorative elements.
 ///
@@ -330,37 +331,45 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Positioned(
       top: 16,
       right: 16,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.9),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(24),
-            onTap: () async {
-              await audioService.playButtonSound();
-              if (mounted) {
-                await AudioSettingsDialog.show(context);
-              }
-            },
-            child: Semantics(
-              label: 'Settings',
-              button: true,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Icon(
-                  Icons.settings,
-                  size: 20,
-                  color: ModernColors.textSecondary,
+      child: GameStateAnimations.buildBouncingButton(
+        onPressed: () async {
+          await audioService.playButtonSound();
+          if (mounted) {
+            await AudioSettingsDialog.show(context);
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.9),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(24),
+              onTap: () async {
+                await audioService.playButtonSound();
+                if (mounted) {
+                  await AudioSettingsDialog.show(context);
+                }
+              },
+              child: Semantics(
+                label: 'Settings',
+                button: true,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Icon(
+                    Icons.settings,
+                    size: 20,
+                    color: ModernColors.textSecondary,
+                  ),
                 ),
               ),
             ),
@@ -431,13 +440,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         button: true,
         child: GestureDetector(
           onTap: () {
-            treasureMapController.initializePath(pathType);
-            Navigator.of(context).push(
-              ModernPageRoute(
-                child: const TreasureMapScreen(),
-                direction: SlideDirection.rightToLeft,
-              ),
-            );
+            _navigateToPath(pathType);
           },
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -520,20 +523,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   ModernSpacing.verticalSpaceSM,
-                  GradientButton.small(
-                    text: AppLocalizations.of(context).pathSelection_start,
-                    gradientColors: _getGradientForPath(pathType),
-                    icon: Icons.play_arrow,
-                    onPressed: () {
-                      treasureMapController.initializePath(pathType);
-                      Navigator.of(context).push(
-                        ModernPageRoute(
-                          child: const TreasureMapScreen(),
-                          direction: SlideDirection.rightToLeft,
-                        ),
-                      );
-                    },
-                    expandWidth: true,
+                  GameStateAnimations.buildBouncingButton(
+                    onPressed: () => _navigateToPath(pathType),
+                    child: GradientButton.small(
+                      text: AppLocalizations.of(context).pathSelection_start,
+                      gradientColors: _getGradientForPath(pathType),
+                      icon: Icons.play_arrow,
+                      onPressed: () {
+                        _navigateToPath(pathType);
+                      },
+                      expandWidth: true,
+                    ),
                   ),
                 ],
               ),
@@ -584,6 +584,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       case PathType.dogHistory:
         iconData = Icons.history_edu;
         break;
+      case PathType.breedAdventure:
+        iconData = Icons.camera_alt;
+        break;
     }
     return Container(
       padding: const EdgeInsets.all(14),
@@ -602,6 +605,38 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  /// Navigates to the appropriate screen based on path type with smooth animations
+  void _navigateToPath(PathType pathType) async {
+    final audioService = AudioService();
+    await audioService.playButtonSound();
+    if (!mounted) return;
+    final navigator = Navigator.of(context);
+
+    if (pathType == PathType.breedAdventure) {
+      navigator.push(
+        GameStateAnimations.createScaleTransition(
+          child: const DogBreedsAdventureScreen(),
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.elasticOut,
+        ),
+      );
+    } else {
+      final treasureMapController = Provider.of<TreasureMapController>(
+        context,
+        listen: false,
+      );
+      treasureMapController.initializePath(pathType);
+      navigator.push(
+        GameStateAnimations.createSlideTransition(
+          child: const TreasureMapScreen(),
+          begin: const Offset(1.0, 0.0),
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeOutCubic,
+        ),
+      );
+    }
+  }
+
   // Get gradient colors for the specified path type
   List<Color> _getGradientForPath(PathType pathType) {
     switch (pathType) {
@@ -615,6 +650,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         return ModernColors.purpleGradient;
       case PathType.dogHistory:
         return ModernColors.yellowGradient;
+      case PathType.breedAdventure:
+        return ModernColors.orangeGradient;
     }
   }
 }
