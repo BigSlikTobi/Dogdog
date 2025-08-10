@@ -1058,6 +1058,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{current}/{total} checkpoints completed'**
   String treasureMap_checkpointsCompleted(int current, int total);
+
+  /// Title for the breed adventure game mode
+  ///
+  /// In en, this message translates to:
+  /// **'Dog Breeds Adventure'**
+  String get breedAdventure_title;
+
+  /// Description for the breed adventure game mode
+  ///
+  /// In en, this message translates to:
+  /// **'Test your knowledge by identifying dog breeds from photos'**
+  String get breedAdventure_description;
+
+  /// Question prompt for breed identification
+  ///
+  /// In en, this message translates to:
+  /// **'Which image shows a'**
+  String get breedAdventure_whichImageShows;
+
+  /// Loading message when initializing the game
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing your breed adventure...'**
+  String get breedAdventure_gameInitializing;
+
+  /// Loading message when preloading images
+  ///
+  /// In en, this message translates to:
+  /// **'Loading breed images...'**
+  String get breedAdventure_loadingImages;
+
+  /// Title for pause dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Game Paused'**
+  String get breedAdventure_gamePaused;
+
+  /// Message shown in pause dialog
+  ///
+  /// In en, this message translates to:
+  /// **'The game is paused. Tap Resume to continue.'**
+  String get breedAdventure_pauseMessage;
+
+  /// Button to resume the game
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get breedAdventure_resume;
+
+  /// Button to exit the game
+  ///
+  /// In en, this message translates to:
+  /// **'Exit Game'**
+  String get breedAdventure_exitGame;
+
+  /// Title for game over screen
+  ///
+  /// In en, this message translates to:
+  /// **'Adventure Complete!'**
+  String get breedAdventure_adventureComplete;
+
+  /// Label for final score display
+  ///
+  /// In en, this message translates to:
+  /// **'Final Score'**
+  String get breedAdventure_finalScore;
+
+  /// Label for correct answers count
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get breedAdventure_correct;
+
+  /// Label for accuracy percentage
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get breedAdventure_accuracy;
+
+  /// Label for difficulty phase
+  ///
+  /// In en, this message translates to:
+  /// **'Phase'**
+  String get breedAdventure_phase;
+
+  /// Button to start a new game
+  ///
+  /// In en, this message translates to:
+  /// **'Play Again'**
+  String get breedAdventure_playAgain;
+
+  /// Button to return to home screen
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get breedAdventure_home;
+
+  /// Label for power-ups section
+  ///
+  /// In en, this message translates to:
+  /// **'Power-ups'**
+  String get breedAdventure_powerUps;
+
+  /// Label for lives remaining
+  ///
+  /// In en, this message translates to:
+  /// **'Lives'**
+  String get breedAdventure_lives;
+
+  /// Label for progress section
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get breedAdventure_progress;
+
+  /// Label for countdown timer
+  ///
+  /// In en, this message translates to:
+  /// **'Time Remaining'**
+  String get breedAdventure_timeRemaining;
+
+  /// Title for hint display
+  ///
+  /// In en, this message translates to:
+  /// **'Breed Hint'**
+  String get breedAdventure_hintTitle;
+
+  /// Notification when power-up is earned
+  ///
+  /// In en, this message translates to:
+  /// **'Power-up Earned!'**
+  String get breedAdventure_powerUpEarned;
+
+  /// Title for network error
+  ///
+  /// In en, this message translates to:
+  /// **'Connection Problem'**
+  String get breedAdventure_connectionProblem;
+
+  /// Message for network connectivity issues
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load images. Please check your internet connection and try again.'**
+  String get breedAdventure_connectionMessage;
+
+  /// Title for image loading error
+  ///
+  /// In en, this message translates to:
+  /// **'Image Load Failed'**
+  String get breedAdventure_imageLoadFailed;
+
+  /// Message for image loading failures
+  ///
+  /// In en, this message translates to:
+  /// **'The breed images could not be loaded. This might be a temporary issue.'**
+  String get breedAdventure_imageLoadMessage;
+
+  /// Title when difficulty phase is completed
+  ///
+  /// In en, this message translates to:
+  /// **'Phase Complete!'**
+  String get breedAdventure_phaseComplete;
+
+  /// Message when phase is completed
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve completed all breeds in the {phase} phase. Great job!'**
+  String breedAdventure_phaseCompleteMessage(String phase);
+
+  /// Button to proceed to next difficulty phase
+  ///
+  /// In en, this message translates to:
+  /// **'Next Phase'**
+  String get breedAdventure_nextPhase;
+
+  /// Button to restart the game
+  ///
+  /// In en, this message translates to:
+  /// **'Restart Game'**
+  String get breedAdventure_restartGame;
+
+  /// Button to skip current question
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get breedAdventure_skip;
+
+  /// Abbreviation for seconds
+  ///
+  /// In en, this message translates to:
+  /// **'sec'**
+  String get breedAdventure_sec;
+
+  /// Celebration message for hint power-up
+  ///
+  /// In en, this message translates to:
+  /// **'Breed knowledge revealed! 🧠'**
+  String get breedAdventure_powerUpHint_celebration;
+
+  /// Celebration message for extra time power-up
+  ///
+  /// In en, this message translates to:
+  /// **'Extra time granted! ⏰'**
+  String get breedAdventure_powerUpExtraTime_celebration;
+
+  /// Celebration message for skip power-up
+  ///
+  /// In en, this message translates to:
+  /// **'Question skipped successfully! ⏭️'**
+  String get breedAdventure_powerUpSkip_celebration;
+
+  /// Celebration message for second chance power-up
+  ///
+  /// In en, this message translates to:
+  /// **'Life restored! ❤️'**
+  String get breedAdventure_powerUpSecondChance_celebration;
+
+  /// Description for hint power-up in breed adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Reveals helpful information about the breed\'s characteristics and history.'**
+  String get breedAdventure_powerUpHint_description;
+
+  /// Description for extra time power-up in breed adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Adds 5 extra seconds to the current question timer.'**
+  String get breedAdventure_powerUpExtraTime_description;
+
+  /// Description for skip power-up in breed adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Skip the current question without losing a life.'**
+  String get breedAdventure_powerUpSkip_description;
+
+  /// Description for second chance power-up in breed adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Restores one life when you make an incorrect answer.'**
+  String get breedAdventure_powerUpSecondChance_description;
+
+  /// Name for beginner difficulty phase
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner'**
+  String get difficultyPhase_beginner;
+
+  /// Name for intermediate difficulty phase
+  ///
+  /// In en, this message translates to:
+  /// **'Intermediate'**
+  String get difficultyPhase_intermediate;
+
+  /// Name for expert difficulty phase
+  ///
+  /// In en, this message translates to:
+  /// **'Expert'**
+  String get difficultyPhase_expert;
+
+  /// Display name for breed adventure path
+  ///
+  /// In en, this message translates to:
+  /// **'Breed Adventure'**
+  String get pathType_breedAdventure_name;
+
+  /// Description for breed adventure path
+  ///
+  /// In en, this message translates to:
+  /// **'Identify dog breeds from photos in this exciting visual challenge'**
+  String get pathType_breedAdventure_description;
 }
 
 class _AppLocalizationsDelegate

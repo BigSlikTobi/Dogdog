@@ -961,5 +961,236 @@
         "example": "5"
       }
     }
+  },
+
+  "breedAdventure_title": "Dog Breeds Adventure",
+  "@breedAdventure_title": {
+    "description": "Title for the breed adventure game mode"
+  },
+
+  "breedAdventure_description": "Test your knowledge by identifying dog breeds from photos",
+  "@breedAdventure_description": {
+    "description": "Description for the breed adventure game mode"
+  },
+
+  "breedAdventure_whichImageShows": "Which image shows a",
+  "@breedAdventure_whichImageShows": {
+    "description": "Question prompt for breed identification"
+  },
+
+  "breedAdventure_gameInitializing": "Preparing your breed adventure...",
+  "@breedAdventure_gameInitializing": {
+    "description": "Loading message when initializing the game"
+  },
+
+  "breedAdventure_loadingImages": "Loading breed images...",
+  "@breedAdventure_loadingImages": {
+    "description": "Loading message when preloading images"
+  },
+
+  "breedAdventure_gamePaused": "Game Paused",
+  "@breedAdventure_gamePaused": {
+    "description": "Title for pause dialog"
+  },
+
+  "breedAdventure_pauseMessage": "The game is paused. Tap Resume to continue.",
+  "@breedAdventure_pauseMessage": {
+    "description": "Message shown in pause dialog"
+  },
+
+  "breedAdventure_resume": "Resume",
+  "@breedAdventure_resume": {
+    "description": "Button to resume the game"
+  },
+
+  "breedAdventure_exitGame": "Exit Game",
+  "@breedAdventure_exitGame": {
+    "description": "Button to exit the game"
+  },
+
+  "breedAdventure_adventureComplete": "Adventure Complete!",
+  "@breedAdventure_adventureComplete": {
+    "description": "Title for game over screen"
+  },
+
+  "breedAdventure_finalScore": "Final Score",
+  "@breedAdventure_finalScore": {
+    "description": "Label for final score display"
+  },
+
+  "breedAdventure_correct": "Correct",
+  "@breedAdventure_correct": {
+    "description": "Label for correct answers count"
+  },
+
+  "breedAdventure_accuracy": "Accuracy",
+  "@breedAdventure_accuracy": {
+    "description": "Label for accuracy percentage"
+  },
+
+  "breedAdventure_phase": "Phase",
+  "@breedAdventure_phase": {
+    "description": "Label for difficulty phase"
+  },
+
+  "breedAdventure_playAgain": "Play Again",
+  "@breedAdventure_playAgain": {
+    "description": "Button to start a new game"
+  },
+
+  "breedAdventure_home": "Home",
+  "@breedAdventure_home": {
+    "description": "Button to return to home screen"
+  },
+
+  "breedAdventure_powerUps": "Power-ups",
+  "@breedAdventure_powerUps": {
+    "description": "Label for power-ups section"
+  },
+
+  "breedAdventure_lives": "Lives",
+  "@breedAdventure_lives": {
+    "description": "Label for lives remaining"
+  },
+
+  "breedAdventure_progress": "Progress",
+  "@breedAdventure_progress": {
+    "description": "Label for progress section"
+  },
+
+  "breedAdventure_timeRemaining": "Time Remaining",
+  "@breedAdventure_timeRemaining": {
+    "description": "Label for countdown timer"
+  },
+
+  "breedAdventure_hintTitle": "Breed Hint",
+  "@breedAdventure_hintTitle": {
+    "description": "Title for hint display"
+  },
+
+  "breedAdventure_powerUpEarned": "Power-up Earned!",
+  "@breedAdventure_powerUpEarned": {
+    "description": "Notification when power-up is earned"
+  },
+
+  "breedAdventure_connectionProblem": "Connection Problem",
+  "@breedAdventure_connectionProblem": {
+    "description": "Title for network error"
+  },
+
+  "breedAdventure_connectionMessage": "Unable to load images. Please check your internet connection and try again.",
+  "@breedAdventure_connectionMessage": {
+    "description": "Message for network connectivity issues"
+  },
+
+  "breedAdventure_imageLoadFailed": "Image Load Failed",
+  "@breedAdventure_imageLoadFailed": {
+    "description": "Title for image loading error"
+  },
+
+  "breedAdventure_imageLoadMessage": "The breed images could not be loaded. This might be a temporary issue.",
+  "@breedAdventure_imageLoadMessage": {
+    "description": "Message for image loading failures"
+  },
+
+  "breedAdventure_phaseComplete": "Phase Complete!",
+  "@breedAdventure_phaseComplete": {
+    "description": "Title when difficulty phase is completed"
+  },
+
+  "breedAdventure_phaseCompleteMessage": "You've completed all breeds in the {phase} phase. Great job!",
+  "@breedAdventure_phaseCompleteMessage": {
+    "description": "Message when phase is completed",
+    "placeholders": {
+      "phase": {
+        "type": "String",
+        "example": "Beginner"
+      }
+    }
+  },
+
+  "breedAdventure_nextPhase": "Next Phase",
+  "@breedAdventure_nextPhase": {
+    "description": "Button to proceed to next difficulty phase"
+  },
+
+  "breedAdventure_restartGame": "Restart Game",
+  "@breedAdventure_restartGame": {
+    "description": "Button to restart the game"
+  },
+
+  "breedAdventure_skip": "Skip",
+  "@breedAdventure_skip": {
+    "description": "Button to skip current question"
+  },
+
+  "breedAdventure_sec": "sec",
+  "@breedAdventure_sec": {
+    "description": "Abbreviation for seconds"
+  },
+
+  "breedAdventure_powerUpHint_celebration": "Breed knowledge revealed! 🧠",
+  "@breedAdventure_powerUpHint_celebration": {
+    "description": "Celebration message for hint power-up"
+  },
+
+  "breedAdventure_powerUpExtraTime_celebration": "Extra time granted! ⏰",
+  "@breedAdventure_powerUpExtraTime_celebration": {
+    "description": "Celebration message for extra time power-up"
+  },
+
+  "breedAdventure_powerUpSkip_celebration": "Question skipped successfully! ⏭️",
+  "@breedAdventure_powerUpSkip_celebration": {
+    "description": "Celebration message for skip power-up"
+  },
+
+  "breedAdventure_powerUpSecondChance_celebration": "Life restored! ❤️",
+  "@breedAdventure_powerUpSecondChance_celebration": {
+    "description": "Celebration message for second chance power-up"
+  },
+
+  "breedAdventure_powerUpHint_description": "Reveals helpful information about the breed's characteristics and history.",
+  "@breedAdventure_powerUpHint_description": {
+    "description": "Description for hint power-up in breed adventure"
+  },
+
+  "breedAdventure_powerUpExtraTime_description": "Adds 5 extra seconds to the current question timer.",
+  "@breedAdventure_powerUpExtraTime_description": {
+    "description": "Description for extra time power-up in breed adventure"
+  },
+
+  "breedAdventure_powerUpSkip_description": "Skip the current question without losing a life.",
+  "@breedAdventure_powerUpSkip_description": {
+    "description": "Description for skip power-up in breed adventure"
+  },
+
+  "breedAdventure_powerUpSecondChance_description": "Restores one life when you make an incorrect answer.",
+  "@breedAdventure_powerUpSecondChance_description": {
+    "description": "Description for second chance power-up in breed adventure"
+  },
+
+  "difficultyPhase_beginner": "Beginner",
+  "@difficultyPhase_beginner": {
+    "description": "Name for beginner difficulty phase"
+  },
+
+  "difficultyPhase_intermediate": "Intermediate",
+  "@difficultyPhase_intermediate": {
+    "description": "Name for intermediate difficulty phase"
+  },
+
+  "difficultyPhase_expert": "Expert",
+  "@difficultyPhase_expert": {
+    "description": "Name for expert difficulty phase"
+  },
+
+  "pathType_breedAdventure_name": "Breed Adventure",
+  "@pathType_breedAdventure_name": {
+    "description": "Display name for breed adventure path"
+  },
+
+  "pathType_breedAdventure_description": "Identify dog breeds from photos in this exciting visual challenge",
+  "@pathType_breedAdventure_description": {
+    "description": "Description for breed adventure path"
   }
 }

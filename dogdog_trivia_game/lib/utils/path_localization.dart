@@ -18,6 +18,8 @@ extension PathTypeLocalization on PathType {
         return l10n.pathType_dogBehavior_name;
       case PathType.dogHistory:
         return l10n.pathType_dogHistory_name;
+      case PathType.breedAdventure:
+        return l10n.pathType_breedAdventure_name;
     }
   }
 
@@ -35,6 +37,8 @@ extension PathTypeLocalization on PathType {
         return l10n.pathType_dogBehavior_description;
       case PathType.dogHistory:
         return l10n.pathType_dogHistory_description;
+      case PathType.breedAdventure:
+        return l10n.pathType_breedAdventure_description;
     }
   }
 }

@@ -544,4 +544,155 @@ class AppLocalizationsEn extends AppLocalizations {
   String treasureMap_checkpointsCompleted(int current, int total) {
     return '$current/$total checkpoints completed';
   }
+
+  @override
+  String get breedAdventure_title => 'Dog Breeds Adventure';
+
+  @override
+  String get breedAdventure_description =>
+      'Test your knowledge by identifying dog breeds from photos';
+
+  @override
+  String get breedAdventure_whichImageShows => 'Which image shows a';
+
+  @override
+  String get breedAdventure_gameInitializing =>
+      'Preparing your breed adventure...';
+
+  @override
+  String get breedAdventure_loadingImages => 'Loading breed images...';
+
+  @override
+  String get breedAdventure_gamePaused => 'Game Paused';
+
+  @override
+  String get breedAdventure_pauseMessage =>
+      'The game is paused. Tap Resume to continue.';
+
+  @override
+  String get breedAdventure_resume => 'Resume';
+
+  @override
+  String get breedAdventure_exitGame => 'Exit Game';
+
+  @override
+  String get breedAdventure_adventureComplete => 'Adventure Complete!';
+
+  @override
+  String get breedAdventure_finalScore => 'Final Score';
+
+  @override
+  String get breedAdventure_correct => 'Correct';
+
+  @override
+  String get breedAdventure_accuracy => 'Accuracy';
+
+  @override
+  String get breedAdventure_phase => 'Phase';
+
+  @override
+  String get breedAdventure_playAgain => 'Play Again';
+
+  @override
+  String get breedAdventure_home => 'Home';
+
+  @override
+  String get breedAdventure_powerUps => 'Power-ups';
+
+  @override
+  String get breedAdventure_lives => 'Lives';
+
+  @override
+  String get breedAdventure_progress => 'Progress';
+
+  @override
+  String get breedAdventure_timeRemaining => 'Time Remaining';
+
+  @override
+  String get breedAdventure_hintTitle => 'Breed Hint';
+
+  @override
+  String get breedAdventure_powerUpEarned => 'Power-up Earned!';
+
+  @override
+  String get breedAdventure_connectionProblem => 'Connection Problem';
+
+  @override
+  String get breedAdventure_connectionMessage =>
+      'Unable to load images. Please check your internet connection and try again.';
+
+  @override
+  String get breedAdventure_imageLoadFailed => 'Image Load Failed';
+
+  @override
+  String get breedAdventure_imageLoadMessage =>
+      'The breed images could not be loaded. This might be a temporary issue.';
+
+  @override
+  String get breedAdventure_phaseComplete => 'Phase Complete!';
+
+  @override
+  String breedAdventure_phaseCompleteMessage(String phase) {
+    return 'You\'ve completed all breeds in the $phase phase. Great job!';
+  }
+
+  @override
+  String get breedAdventure_nextPhase => 'Next Phase';
+
+  @override
+  String get breedAdventure_restartGame => 'Restart Game';
+
+  @override
+  String get breedAdventure_skip => 'Skip';
+
+  @override
+  String get breedAdventure_sec => 'sec';
+
+  @override
+  String get breedAdventure_powerUpHint_celebration =>
+      'Breed knowledge revealed! 🧠';
+
+  @override
+  String get breedAdventure_powerUpExtraTime_celebration =>
+      'Extra time granted! ⏰';
+
+  @override
+  String get breedAdventure_powerUpSkip_celebration =>
+      'Question skipped successfully! ⏭️';
+
+  @override
+  String get breedAdventure_powerUpSecondChance_celebration =>
+      'Life restored! ❤️';
+
+  @override
+  String get breedAdventure_powerUpHint_description =>
+      'Reveals helpful information about the breed\'s characteristics and history.';
+
+  @override
+  String get breedAdventure_powerUpExtraTime_description =>
+      'Adds 5 extra seconds to the current question timer.';
+
+  @override
+  String get breedAdventure_powerUpSkip_description =>
+      'Skip the current question without losing a life.';
+
+  @override
+  String get breedAdventure_powerUpSecondChance_description =>
+      'Restores one life when you make an incorrect answer.';
+
+  @override
+  String get difficultyPhase_beginner => 'Beginner';
+
+  @override
+  String get difficultyPhase_intermediate => 'Intermediate';
+
+  @override
+  String get difficultyPhase_expert => 'Expert';
+
+  @override
+  String get pathType_breedAdventure_name => 'Breed Adventure';
+
+  @override
+  String get pathType_breedAdventure_description =>
+      'Identify dog breeds from photos in this exciting visual challenge';
 }

@@ -107,7 +107,8 @@ enum PathType {
   dogTraining,
   healthCare,
   dogBehavior,
-  dogHistory;
+  dogHistory,
+  breedAdventure;
 
   /// Returns the display name for the path
   String get displayName {
@@ -122,6 +123,8 @@ enum PathType {
         return 'Dog Behavior';
       case PathType.dogHistory:
         return 'Dog History';
+      case PathType.breedAdventure:
+        return 'Breed Adventure';
     }
   }
 
@@ -138,6 +141,8 @@ enum PathType {
         return 'Explore dog psychology, instincts, and behavioral patterns';
       case PathType.dogHistory:
         return 'Discover the history of dogs, genetics, and evolution';
+      case PathType.breedAdventure:
+        return 'Test your breed identification skills with timed picture challenges';
     }
   }
 }
