@@ -321,7 +321,7 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
                     ),
                   ),
                   Text(
-                    '${(widget.accuracy * 100).toStringAsFixed(0)}% accuracy',
+                    '${widget.accuracy.toStringAsFixed(0)}% accuracy',
                     style: ModernTypography.bodySmall.copyWith(
                       color: ModernColors.textSecondary,
                     ),

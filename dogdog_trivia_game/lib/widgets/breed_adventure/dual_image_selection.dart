@@ -50,7 +50,9 @@ class _DualImageSelectionState extends State<DualImageSelection>
     );
 
     _feedbackController = AnimationController(
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(
+        milliseconds: 500,
+      ), // Shortened for better timing
       vsync: this,
     );
 
@@ -74,17 +76,22 @@ class _DualImageSelectionState extends State<DualImageSelection>
   void didUpdateWidget(DualImageSelection oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    // Start animation when feedback becomes true
     if (widget.showFeedback && !oldWidget.showFeedback) {
-      _feedbackController.forward().then((_) {
-        _feedbackController.reverse();
-      });
+      _feedbackController.forward();
     }
 
-    // Reset animations when images change
+    // Reset animations when images change - indicates new challenge
     if (widget.imageUrl1 != oldWidget.imageUrl1 ||
         widget.imageUrl2 != oldWidget.imageUrl2) {
       _entryController.reset();
       _entryController.forward();
+      _feedbackController.reset();
+    }
+
+    // Reset feedback when showFeedback becomes false
+    if (!widget.showFeedback && oldWidget.showFeedback) {
+      _feedbackController.reset();
     }
   }
 
@@ -201,8 +208,8 @@ class _DualImageSelectionState extends State<DualImageSelection>
                           },
                         ),
 
-                        // Selection overlay
-                        if (isSelected && showFeedback)
+                        // Selection overlay - controlled directly by showFeedback state
+                        if (isSelected && widget.showFeedback)
                           Container(
                             decoration: BoxDecoration(
                               color: widget.isCorrect == true
@@ -210,23 +217,36 @@ class _DualImageSelectionState extends State<DualImageSelection>
                                   : ModernColors.error.withValues(alpha: 0.2),
                             ),
                             child: Center(
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color: widget.isCorrect == true
-                                      ? ModernColors.success
-                                      : ModernColors.error,
-                                  shape: BoxShape.circle,
-                                  boxShadow: ModernShadows.large,
-                                ),
-                                child: Icon(
-                                  widget.isCorrect == true
-                                      ? Icons.check_rounded
-                                      : Icons.close_rounded,
-                                  color: ModernColors.textOnDark,
-                                  size: 32,
-                                ),
+                              child: AnimatedBuilder(
+                                animation: _feedbackController,
+                                builder: (context, child) {
+                                  // Use animation for the icon scale/appearance
+                                  final scale = widget.showFeedback
+                                      ? (_feedbackController.value * 0.3 + 0.7)
+                                      : 0.0;
+
+                                  return Transform.scale(
+                                    scale: scale,
+                                    child: Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: widget.isCorrect == true
+                                            ? ModernColors.success
+                                            : ModernColors.error,
+                                        shape: BoxShape.circle,
+                                        boxShadow: ModernShadows.large,
+                                      ),
+                                      child: Icon(
+                                        widget.isCorrect == true
+                                            ? Icons.check_rounded
+                                            : Icons.close_rounded,
+                                        color: ModernColors.textOnDark,
+                                        size: 32,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ),
@@ -275,19 +295,16 @@ class _DualImageSelectionState extends State<DualImageSelection>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: ModernSpacing.paddingHorizontalLG,
-      child: Row(
-        children: [
-          // First image
-          Expanded(child: _buildImageContainer(widget.imageUrl1, 0)),
+    return Row(
+      children: [
+        // First image
+        Expanded(child: _buildImageContainer(widget.imageUrl1, 0)),
 
-          ModernSpacing.horizontalSpaceLG,
+        ModernSpacing.horizontalSpaceLG,
 
-          // Second image
-          Expanded(child: _buildImageContainer(widget.imageUrl2, 1)),
-        ],
-      ),
+        // Second image
+        Expanded(child: _buildImageContainer(widget.imageUrl2, 1)),
+      ],
     );
   }
 }
@@ -298,49 +315,40 @@ class DualImageSelectionLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: ModernSpacing.paddingHorizontalLG,
-      child: Row(
-        children: [
-          // First placeholder
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1.0,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: ModernColors.surfaceLight,
-                  borderRadius: ModernSpacing.borderRadiusLarge,
-                  border: Border.all(
-                    color: ModernColors.surfaceDark,
-                    width: 2.0,
-                  ),
-                ),
-                child: const ShimmerLoading(child: SizedBox.expand()),
+    return Row(
+      children: [
+        // First placeholder
+        Expanded(
+          child: AspectRatio(
+            aspectRatio: 1.0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: ModernColors.surfaceLight,
+                borderRadius: ModernSpacing.borderRadiusLarge,
+                border: Border.all(color: ModernColors.surfaceDark, width: 2.0),
               ),
+              child: const ShimmerLoading(child: SizedBox.expand()),
             ),
           ),
+        ),
 
-          ModernSpacing.horizontalSpaceLG,
+        ModernSpacing.horizontalSpaceLG,
 
-          // Second placeholder
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1.0,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: ModernColors.surfaceLight,
-                  borderRadius: ModernSpacing.borderRadiusLarge,
-                  border: Border.all(
-                    color: ModernColors.surfaceDark,
-                    width: 2.0,
-                  ),
-                ),
-                child: const ShimmerLoading(child: SizedBox.expand()),
+        // Second placeholder
+        Expanded(
+          child: AspectRatio(
+            aspectRatio: 1.0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: ModernColors.surfaceLight,
+                borderRadius: ModernSpacing.borderRadiusLarge,
+                border: Border.all(color: ModernColors.surfaceDark, width: 2.0),
               ),
+              child: const ShimmerLoading(child: SizedBox.expand()),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
