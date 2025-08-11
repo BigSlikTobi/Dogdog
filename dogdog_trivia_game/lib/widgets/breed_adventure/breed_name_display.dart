@@ -170,25 +170,34 @@ class CompactBreedNameDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: ModernSpacing.paddingMD,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
-        color: ModernColors.surfaceLight,
-        borderRadius: ModernSpacing.borderRadiusMedium,
+        gradient: LinearGradient(
+          colors: [
+            ModernColors.cardBackground,
+            ModernColors.cardBackground.withValues(alpha: 0.95),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: ModernColors.primaryPurple.withValues(alpha: 0.2),
           width: 1,
         ),
+        boxShadow: ModernShadows.small,
       ),
       child: Text(
         breedName,
         style:
             textStyle ??
-            ModernTypography.headingSmall.copyWith(
+            ModernTypography.headingMedium.copyWith(
               color: textColor ?? ModernColors.primaryPurple,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.bold,
             ),
         textAlign: TextAlign.center,
-        maxLines: 1,
+        maxLines: 2,
         overflow: TextOverflow.ellipsis,
       ),
     );

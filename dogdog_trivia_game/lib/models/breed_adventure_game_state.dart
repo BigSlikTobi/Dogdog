@@ -37,12 +37,7 @@ class BreedAdventureGameState {
       totalQuestions: 0,
       currentPhase: DifficultyPhase.beginner,
       usedBreeds: <String>{},
-      powerUps: {
-        PowerUpType.hint: 2,
-        PowerUpType.extraTime: 2,
-        PowerUpType.skip: 1,
-        PowerUpType.secondChance: 1,
-      },
+      powerUps: {PowerUpType.extraTime: 2, PowerUpType.skip: 1},
       isGameActive: false,
       gameStartTime: null,
       consecutiveCorrect: 0,

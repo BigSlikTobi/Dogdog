@@ -7,7 +7,6 @@ import '../utils/animations.dart';
 import '../widgets/breed_adventure/breed_name_display.dart';
 import '../widgets/breed_adventure/dual_image_selection.dart';
 import '../widgets/breed_adventure/countdown_timer_display.dart';
-import '../widgets/breed_adventure/power_up_button_row.dart';
 import '../widgets/breed_adventure/score_progress_display.dart';
 import '../widgets/breed_adventure/loading_error_states.dart';
 import '../widgets/animated_button.dart';
@@ -130,12 +129,15 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     await _controller.selectImage(imageIndex);
 
     // Wait for feedback display
-    await Future.delayed(const Duration(milliseconds: 1500));
+    await Future.delayed(
+      const Duration(milliseconds: 1100),
+    ); // 500ms forward + 600ms pause
 
-    // Reset feedback state
+    // Reset feedback state when moving to next challenge
     setState(() {
       _showFeedback = false;
       _selectedImageIndex = null;
+      _isCorrect = false; // Reset the correct state for next challenge
     });
   }
 
@@ -156,6 +158,135 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
 
       // Play power-up sound
       AudioService().playPowerUpSound();
+    }
+  }
+
+  Widget _buildHeaderPowerUpButton(PowerUpType powerUpType) {
+    final count = _controller.powerUpInventory[powerUpType] ?? 0;
+    final canUse = _controller.isGameActive && !_showFeedback && count > 0;
+
+    return GestureDetector(
+      onTap: canUse ? () => _handlePowerUpUsage(powerUpType) : null,
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          gradient: canUse
+              ? LinearGradient(
+                  colors: _getPowerUpGradient(powerUpType),
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : null,
+          color: canUse ? null : ModernColors.surfaceLight,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: canUse
+                ? _getPowerUpColor(powerUpType).withValues(alpha: 0.3)
+                : ModernColors.surfaceDark,
+            width: 1,
+          ),
+          boxShadow: canUse ? ModernShadows.small : null,
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Power-up icon
+            Icon(
+              _getPowerUpIcon(powerUpType),
+              color: canUse ? ModernColors.textOnDark : ModernColors.textLight,
+              size: 20,
+            ),
+
+            // Count badge
+            if (count > 0)
+              Positioned(
+                top: 2,
+                right: 2,
+                child: Container(
+                  width: 16,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: canUse
+                        ? ModernColors.textOnDark
+                        : ModernColors.textLight,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: _getPowerUpColor(powerUpType),
+                      width: 1,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '$count',
+                      style: ModernTypography.caption.copyWith(
+                        color: canUse
+                            ? _getPowerUpColor(powerUpType)
+                            : ModernColors.textOnDark,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 8,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+            // Disabled overlay
+            if (!canUse)
+              Container(
+                decoration: BoxDecoration(
+                  color: ModernColors.overlayBackground.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  IconData _getPowerUpIcon(PowerUpType powerUpType) {
+    switch (powerUpType) {
+      case PowerUpType.fiftyFifty:
+        return Icons.remove_circle_outline_rounded;
+      case PowerUpType.hint:
+        return Icons.lightbulb_outline_rounded;
+      case PowerUpType.extraTime:
+        return Icons.access_time_rounded;
+      case PowerUpType.skip:
+        return Icons.skip_next_rounded;
+      case PowerUpType.secondChance:
+        return Icons.favorite_rounded;
+    }
+  }
+
+  Color _getPowerUpColor(PowerUpType powerUpType) {
+    switch (powerUpType) {
+      case PowerUpType.fiftyFifty:
+        return ModernColors.primaryRed;
+      case PowerUpType.hint:
+        return ModernColors.primaryYellow;
+      case PowerUpType.extraTime:
+        return ModernColors.primaryBlue;
+      case PowerUpType.skip:
+        return ModernColors.primaryGreen;
+      case PowerUpType.secondChance:
+        return ModernColors.primaryPurple;
+    }
+  }
+
+  List<Color> _getPowerUpGradient(PowerUpType powerUpType) {
+    switch (powerUpType) {
+      case PowerUpType.fiftyFifty:
+        return ModernColors.redGradient;
+      case PowerUpType.hint:
+        return ModernColors.yellowGradient;
+      case PowerUpType.extraTime:
+        return ModernColors.blueGradient;
+      case PowerUpType.skip:
+        return ModernColors.greenGradient;
+      case PowerUpType.secondChance:
+        return ModernColors.purpleGradient;
     }
   }
 
@@ -219,7 +350,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
 
     return Column(
       children: [
-        // Top section: Timer and score
+        // Top section: Timer, power-ups, and pause button
         Padding(
           padding: ModernSpacing.paddingHorizontalLG,
           child: Row(
@@ -237,6 +368,16 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                 },
               ),
 
+              // Power-ups (only extra time and skip)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildHeaderPowerUpButton(PowerUpType.extraTime),
+                  ModernSpacing.horizontalSpaceSM,
+                  _buildHeaderPowerUpButton(PowerUpType.skip),
+                ],
+              ),
+
               // Pause button
               IconButton(
                 onPressed: _handlePauseGame,
@@ -252,40 +393,96 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
 
         ModernSpacing.verticalSpaceLG,
 
-        // Breed name display
-        BreedNameDisplay(
-          breedName: challenge.correctBreedName,
-          isVisible: !_showFeedback,
-        ),
-
-        ModernSpacing.verticalSpaceXL,
-
-        // Image selection
+        // Image selection - made more prominent and larger with frame
         Expanded(
-          child: Center(
-            child: DualImageSelection(
-              imageUrl1: challenge.correctImageIndex == 0
-                  ? challenge.correctImageUrl
-                  : challenge.incorrectImageUrl,
-              imageUrl2: challenge.correctImageIndex == 1
-                  ? challenge.correctImageUrl
-                  : challenge.incorrectImageUrl,
-              onImageSelected: _handleImageSelection,
-              isEnabled: _controller.isGameActive && !_showFeedback,
-              selectedIndex: _selectedImageIndex,
-              isCorrect: _isCorrect,
-              showFeedback: _showFeedback,
+          flex: 3,
+          child: Container(
+            margin: ModernSpacing.paddingHorizontalLG,
+            padding: ModernSpacing.paddingLG,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  ModernColors.cardBackground,
+                  ModernColors.cardBackground.withValues(alpha: 0.95),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 20,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 8),
+                ),
+                BoxShadow(
+                  color: ModernColors.primaryPurple.withValues(alpha: 0.05),
+                  blurRadius: 30,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 15),
+                ),
+              ],
+              border: Border.all(
+                color: ModernColors.primaryPurple.withValues(alpha: 0.1),
+                width: 1,
+              ),
+            ),
+            child: Column(
+              children: [
+                // Game arena title
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        ModernColors.primaryPurple.withValues(alpha: 0.1),
+                        ModernColors.primaryBlue.withValues(alpha: 0.1),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    'Choose the Correct Image',
+                    style: ModernTypography.bodyMedium.copyWith(
+                      color: ModernColors.primaryPurple,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+
+                ModernSpacing.verticalSpaceLG,
+
+                // Images container
+                Expanded(
+                  child: DualImageSelection(
+                    imageUrl1: challenge.correctImageIndex == 0
+                        ? challenge.correctImageUrl
+                        : challenge.incorrectImageUrl,
+                    imageUrl2: challenge.correctImageIndex == 1
+                        ? challenge.correctImageUrl
+                        : challenge.incorrectImageUrl,
+                    onImageSelected: _handleImageSelection,
+                    isEnabled: _controller.isGameActive && !_showFeedback,
+                    selectedIndex: _selectedImageIndex,
+                    isCorrect: _isCorrect,
+                    showFeedback: _showFeedback,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
 
-        ModernSpacing.verticalSpaceXL,
+        ModernSpacing.verticalSpaceMD,
 
-        // Power-ups
-        PowerUpButtonRow(
-          powerUps: _controller.powerUpInventory,
-          onPowerUpPressed: _handlePowerUpUsage,
-          isEnabled: _controller.isGameActive && !_showFeedback,
+        // Compact breed name display - smaller and simpler
+        Padding(
+          padding: ModernSpacing.paddingHorizontalLG,
+          child: CompactBreedNameDisplay(breedName: challenge.correctBreedName),
         ),
 
         ModernSpacing.verticalSpaceLG,
@@ -329,7 +526,20 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                       opacity: _fadeAnimation,
                       child: SlideTransition(
                         position: _slideAnimation,
-                        child: _buildGameContent(),
+                        child: ListenableBuilder(
+                          listenable: _controller,
+                          builder: (context, child) {
+                            // Check if game has ended
+                            if (!_controller.isGameActive &&
+                                _controller.livesRemaining <= 0) {
+                              // Schedule game over handling after this build cycle
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                _handleGameOver();
+                              });
+                            }
+                            return _buildGameContent();
+                          },
+                        ),
                       ),
                     );
                   },
@@ -390,11 +600,31 @@ class _GameOverScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Game over image
+                Container(
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: ModernSpacing.borderRadiusLarge,
+                    boxShadow: ModernShadows.medium,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: ModernSpacing.borderRadiusLarge,
+                    child: Image.asset(
+                      'assets/images/fail.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+
+                ModernSpacing.verticalSpaceLG,
+
                 // Game over title
                 Text(
-                  'Adventure Complete!',
+                  'Game Over',
                   style: ModernTypography.displayLarge.copyWith(
-                    color: ModernColors.primaryPurple,
+                    color: ModernColors.error,
+                    fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -458,56 +688,104 @@ class _GameOverScreen extends StatelessWidget {
                 // Action buttons
                 Column(
                   children: [
-                    PrimaryAnimatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const DogBreedsAdventureScreen(),
+                    // Play Again button - enhanced styling
+                    Container(
+                      width: double.infinity,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            ModernColors.primaryPurple,
+                            ModernColors.primaryBlue,
+                          ],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: ModernSpacing.borderRadiusLarge,
+                        boxShadow: ModernShadows.large,
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: ModernSpacing.borderRadiusLarge,
+                          onTap: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const DogBreedsAdventureScreen(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: ModernSpacing.paddingMD,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.replay_rounded,
+                                  color: ModernColors.textOnDark,
+                                  size: 24,
+                                ),
+                                ModernSpacing.horizontalSpaceSM,
+                                Text(
+                                  'Play Again',
+                                  style: ModernTypography.buttonLarge.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        );
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.replay_rounded,
-                            color: ModernColors.textOnDark,
-                            size: 20,
-                          ),
-                          ModernSpacing.horizontalSpaceSM,
-                          Text(
-                            'Play Again',
-                            style: ModernTypography.buttonLarge,
-                          ),
-                        ],
+                        ),
                       ),
                     ),
 
                     ModernSpacing.verticalSpaceMD,
 
-                    OutlineAnimatedButton(
-                      onPressed: () {
-                        Navigator.of(
-                          context,
-                        ).popUntil((route) => route.isFirst);
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.home_rounded,
-                            color: ModernColors.primaryPurple,
-                            size: 20,
-                          ),
-                          ModernSpacing.horizontalSpaceSM,
-                          Text(
-                            'Home',
-                            style: ModernTypography.buttonLarge.copyWith(
-                              color: ModernColors.primaryPurple,
+                    // Home button - enhanced styling
+                    Container(
+                      width: double.infinity,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: ModernColors.cardBackground,
+                        border: Border.all(
+                          color: ModernColors.primaryPurple,
+                          width: 2,
+                        ),
+                        borderRadius: ModernSpacing.borderRadiusLarge,
+                        boxShadow: ModernShadows.medium,
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: ModernSpacing.borderRadiusLarge,
+                          onTap: () {
+                            Navigator.of(
+                              context,
+                            ).popUntil((route) => route.isFirst);
+                          },
+                          child: Container(
+                            padding: ModernSpacing.paddingMD,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.home_rounded,
+                                  color: ModernColors.primaryPurple,
+                                  size: 24,
+                                ),
+                                ModernSpacing.horizontalSpaceSM,
+                                Text(
+                                  'Home',
+                                  style: ModernTypography.buttonLarge.copyWith(
+                                    color: ModernColors.primaryPurple,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ],

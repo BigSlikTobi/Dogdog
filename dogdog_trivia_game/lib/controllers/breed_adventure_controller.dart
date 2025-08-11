@@ -75,8 +75,8 @@ class BreedAdventureController extends ChangeNotifier {
   /// Current difficulty phase
   DifficultyPhase get currentPhase => _gameState.currentPhase;
 
-  /// Remaining time from timer
-  int get timeRemaining => _timer.remainingSeconds;
+  /// Remaining time from game state
+  int get timeRemaining => _gameState.timeRemaining;
 
   /// Check if timer is running
   bool get isTimerRunning => _timer.isRunning;
@@ -173,17 +173,23 @@ class BreedAdventureController extends ChangeNotifier {
 
     if (isCorrect) {
       await _handleCorrectAnswer(timeRemaining);
-    } else {
-      await _handleIncorrectAnswer();
-    }
-
-    // Check if game should continue
-    if (_shouldContinueGame()) {
-      // Small delay before next question
+      // Continue to next question
       await Future.delayed(const Duration(milliseconds: 1500));
       await _generateNextChallenge();
     } else {
-      await _endGame();
+      await _handleIncorrectAnswer();
+
+      // Check if we should offer second chance immediately
+      final incorrectAnswers = _getIncorrectAnswers();
+      // No second chance - just continue normal flow
+      if (incorrectAnswers < maxLives) {
+        // Continue to next question
+        await Future.delayed(const Duration(milliseconds: 1500));
+        await _generateNextChallenge();
+      } else {
+        // End game
+        await _endGame();
+      }
     }
 
     notifyListeners();
@@ -198,26 +204,22 @@ class BreedAdventureController extends ChangeNotifier {
     bool success = false;
 
     switch (powerUpType) {
-      case PowerUpType.hint:
-        success = await _useHintPowerUp();
-        break;
       case PowerUpType.extraTime:
         success = await _useExtraTimePowerUp();
         break;
       case PowerUpType.skip:
         success = await _useSkipPowerUp();
         break;
-      case PowerUpType.secondChance:
-        success = await _useSecondChancePowerUp();
-        break;
       case PowerUpType.fiftyFifty:
-        // Not applicable for breed adventure (only 2 options)
+      case PowerUpType.hint:
+      case PowerUpType.secondChance:
+        // These power-ups are not supported in breed adventure mode
         success = false;
         break;
     }
 
     if (success) {
-      _powerUpController.usePowerUp(powerUpType);
+      // Power-up consumption is handled by the individual apply methods
       _updatePowerUpsInGameState();
       // Play power-up feedback sound
       await _playPowerUpFeedback(powerUpType);
@@ -336,6 +338,9 @@ class BreedAdventureController extends ChangeNotifier {
 
       // Start timer
       _timer.start();
+
+      // Notify listeners of the new challenge and timer state
+      notifyListeners();
     } catch (e) {
       debugPrint('Error generating challenge: $e');
       await _endGame();
@@ -391,19 +396,6 @@ class BreedAdventureController extends ChangeNotifier {
     return _isGameActive && _powerUpController.canUsePowerUp(powerUpType);
   }
 
-  /// Use hint power-up
-  Future<bool> _useHintPowerUp() async {
-    if (_currentChallenge != null) {
-      final hint = _powerUpController.applyBreedHint(_currentChallenge!);
-      if (hint != null) {
-        // Store hint for UI to display
-        _gameState = _gameState.copyWith(currentHint: hint);
-        return true;
-      }
-    }
-    return false;
-  }
-
   /// Use extra time power-up
   Future<bool> _useExtraTimePowerUp() async {
     if (_timer.isActive) {
@@ -432,22 +424,6 @@ class BreedAdventureController extends ChangeNotifier {
       return true;
     }
     return false;
-  }
-
-  /// Use second chance power-up
-  Future<bool> _useSecondChancePowerUp() async {
-    return _powerUpController.applyBreedSecondChance();
-  }
-
-  /// Check if game should continue
-  bool _shouldContinueGame() {
-    final incorrectAnswers = _getIncorrectAnswers();
-    final hasSecondChance = _powerUpController.canUsePowerUp(
-      PowerUpType.secondChance,
-    );
-
-    // Game continues if lives remaining or has second chance
-    return incorrectAnswers < maxLives || hasSecondChance;
   }
 
   /// Get number of incorrect answers
@@ -483,8 +459,9 @@ class BreedAdventureController extends ChangeNotifier {
     // Treat as incorrect answer
     await _handleIncorrectAnswer();
 
-    // Check if game should continue
-    if (_shouldContinueGame()) {
+    // No second chance - just continue normal flow
+    final incorrectAnswers = _getIncorrectAnswers();
+    if (incorrectAnswers < maxLives) {
       await Future.delayed(const Duration(milliseconds: 1500));
       await _generateNextChallenge();
     } else {
