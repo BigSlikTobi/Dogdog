@@ -1035,6 +1035,30 @@ abstract class AppLocalizations {
   /// **'Start'**
   String get pathSelection_start;
 
+  /// Display name for dog trivia path
+  ///
+  /// In en, this message translates to:
+  /// **'Dog Trivia'**
+  String get pathType_dogTrivia_name;
+
+  /// Description for dog trivia path
+  ///
+  /// In en, this message translates to:
+  /// **'Learn about different dog breeds, their characteristics, and origins'**
+  String get pathType_dogTrivia_description;
+
+  /// Display name for puppy quest path
+  ///
+  /// In en, this message translates to:
+  /// **'Puppy Quest'**
+  String get pathType_puppyQuest_name;
+
+  /// Description for puppy quest path
+  ///
+  /// In en, this message translates to:
+  /// **'Test your breed identification skills with timed picture challenges'**
+  String get pathType_puppyQuest_description;
+
   /// Display name for dog breeds path
   ///
   /// In en, this message translates to:
@@ -1094,6 +1118,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Discover the history of dogs, genetics, and evolution'**
   String get pathType_dogHistory_description;
+
+  /// Display name for breed adventure path
+  ///
+  /// In en, this message translates to:
+  /// **'Breed Adventure'**
+  String get pathType_breedAdventure_name;
+
+  /// Description for breed adventure path
+  ///
+  /// In en, this message translates to:
+  /// **'Test your knowledge by identifying dog breeds from photos'**
+  String get pathType_breedAdventure_description;
 
   /// Suffix for path title in treasure map
   ///
@@ -1460,18 +1496,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expert'**
   String get difficultyPhase_expert;
-
-  /// Display name for breed adventure path
-  ///
-  /// In en, this message translates to:
-  /// **'Breed Adventure'**
-  String get pathType_breedAdventure_name;
-
-  /// Description for breed adventure path
-  ///
-  /// In en, this message translates to:
-  /// **'Identify dog breeds from photos in this exciting visual challenge'**
-  String get pathType_breedAdventure_description;
 
   /// Title for category selection section
   ///

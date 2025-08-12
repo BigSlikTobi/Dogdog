@@ -1762,7 +1762,7 @@ class GameController extends ChangeNotifier {
   /// Awards power-ups for completing a level (legacy method for backward compatibility)
   void _awardLevelCompletionPowerUps() {
     // Check if we're using the treasure map system
-    if (_treasureMapController.currentPath != PathType.dogBreeds) {
+    if (_treasureMapController.currentPath != PathType.dogTrivia) {
       // Use checkpoint-based rewards instead of legacy system
       return;
     }

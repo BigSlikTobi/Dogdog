@@ -70,10 +70,22 @@ class QuestionPoolManager {
     final text = question.text.toLowerCase();
 
     switch (pathType) {
-      case PathType.dogBreeds:
+      case PathType.dogTrivia:
         return category.contains('hunderassen') ||
             category.contains('breed') ||
             category.contains('rasse') ||
+            category.contains('training') ||
+            category.contains('kommando') ||
+            category.contains('command') ||
+            category.contains('gesundheit') ||
+            category.contains('health') ||
+            category.contains('medical') ||
+            category.contains('verhalten') ||
+            category.contains('behavior') ||
+            category.contains('psychology') ||
+            category.contains('geschichte') ||
+            category.contains('history') ||
+            category.contains('evolution') ||
             text.contains('rasse') ||
             text.contains('breed') ||
             text.contains('welche hunderasse') ||
@@ -86,74 +98,23 @@ class QuestionPoolManager {
             text.contains('chow chow') ||
             text.contains('bulldogge') ||
             text.contains('mops') ||
-            // Fallback: include all questions if no specific matches
-            true;
-
-      case PathType.dogTraining:
-        return category.contains('training') ||
-            category.contains('verhalten') ||
-            category.contains('behavior') ||
-            category.contains('kommando') ||
             text.contains('training') ||
-            text.contains('kommando') ||
-            text.contains('erziehung') ||
-            text.contains('gehorsam') ||
-            // Fallback: include all questions if no specific matches
-            true;
-
-      case PathType.healthCare:
-        return category.contains('gesundheit') ||
-            category.contains('health') ||
-            category.contains('medizin') ||
-            category.contains('veterinär') ||
-            category.contains('ernährung') ||
-            category.contains('pflege') ||
-            category.contains('physiologie') ||
-            category.contains('anatomie') ||
-            text.contains('gesund') ||
-            text.contains('krank') ||
-            text.contains('temperatur') ||
-            text.contains('zähne') ||
-            text.contains('schwangerschaft') ||
-            text.contains('hecheln') ||
-            // Fallback: include all questions if no specific matches
-            true;
-
-      case PathType.dogBehavior:
-        return category.contains('verhalten') ||
-            category.contains('behavior') ||
-            category.contains('psychologie') ||
-            category.contains('instinkt') ||
-            category.contains('sinne') ||
+            text.contains('sitz') ||
+            text.contains('platz') ||
+            text.contains('bleib') ||
+            text.contains('gesundheit') ||
+            text.contains('health') ||
+            text.contains('impfung') ||
+            text.contains('vaccination') ||
             text.contains('verhalten') ||
-            text.contains('warum') ||
-            text.contains('wedeln') ||
-            text.contains('bellen') ||
-            text.contains('riechen') ||
-            text.contains('hören') ||
-            text.contains('glücklich') ||
-            // Fallback: include all questions if no specific matches
-            true;
-
-      case PathType.dogHistory:
-        return category.contains('geschichte') ||
-            category.contains('history') ||
-            category.contains('genetik') ||
-            category.contains('evolution') ||
-            category.contains('ursprung') ||
-            category.contains('wissenschaft') ||
-            category.contains('neurobiologie') ||
-            text.contains('ursprünglich') ||
+            text.contains('behavior') ||
+            text.contains('instinct') ||
             text.contains('geschichte') ||
-            text.contains('gezüchtet') ||
-            text.contains('chromosomen') ||
-            text.contains('gen') ||
-            text.contains('kynologie') ||
-            // Fallback: include all questions if no specific matches
-            true;
+            text.contains('history') ||
+            text.contains('evolution');
 
-      case PathType.breedAdventure:
-        // Breed Adventure uses its own breed data, not questions
+      case PathType.puppyQuest:
+        // Puppy Quest uses its own breed data, not questions
         return false;
     }
   }

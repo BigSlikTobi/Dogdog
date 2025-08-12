@@ -541,6 +541,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get pathSelection_start => 'Iniciar';
 
   @override
+  String get pathType_dogTrivia_name => 'Quiz Canino';
+
+  @override
+  String get pathType_dogTrivia_description =>
+      'Aprende sobre diferentes razas de perros, sus características y orígenes';
+
+  @override
+  String get pathType_puppyQuest_name => 'Aventura Cachorros';
+
+  @override
+  String get pathType_puppyQuest_description =>
+      'Pon a prueba tus habilidades de identificación de razas con desafíos de imágenes cronometrados';
+
+  @override
   String get pathType_dogBreeds_name => 'Razas de Perros';
 
   @override
@@ -552,7 +566,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get pathType_dogTraining_description =>
-      'Domina técnicas de entrenamiento canino, comandos y orientación conductual';
+      'Domina las técnicas de entrenamiento canino, comandos y orientación conductual';
 
   @override
   String get pathType_healthCare_name => 'Salud y Cuidado';
@@ -574,6 +588,13 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get pathType_dogHistory_description =>
       'Descubre la historia de los perros, genética y evolución';
+
+  @override
+  String get pathType_breedAdventure_name => 'Aventura de Razas';
+
+  @override
+  String get pathType_breedAdventure_description =>
+      'Pon a prueba tu conocimiento identificando razas de perros a partir de fotos';
 
   @override
   String get treasureMap_adventure => 'Aventura';
@@ -786,13 +807,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get difficultyPhase_expert => 'Experto';
-
-  @override
-  String get pathType_breedAdventure_name => 'Aventura de Razas';
-
-  @override
-  String get pathType_breedAdventure_description =>
-      'Identifica razas de perros a partir de fotos en este emocionante desafío visual';
 
   @override
   String get treasureMap_chooseYourAdventure => 'Elige tu Aventura';

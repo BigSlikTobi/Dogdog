@@ -8,18 +8,10 @@ extension PathTypeLocalization on PathType {
   String getLocalizedName(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     switch (this) {
-      case PathType.dogBreeds:
-        return l10n.pathType_dogBreeds_name;
-      case PathType.dogTraining:
-        return l10n.pathType_dogTraining_name;
-      case PathType.healthCare:
-        return l10n.pathType_healthCare_name;
-      case PathType.dogBehavior:
-        return l10n.pathType_dogBehavior_name;
-      case PathType.dogHistory:
-        return l10n.pathType_dogHistory_name;
-      case PathType.breedAdventure:
-        return l10n.pathType_breedAdventure_name;
+      case PathType.dogTrivia:
+        return l10n.pathType_dogTrivia_name;
+      case PathType.puppyQuest:
+        return l10n.pathType_puppyQuest_name;
     }
   }
 
@@ -27,18 +19,10 @@ extension PathTypeLocalization on PathType {
   String getLocalizedDescription(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     switch (this) {
-      case PathType.dogBreeds:
-        return l10n.pathType_dogBreeds_description;
-      case PathType.dogTraining:
-        return l10n.pathType_dogTraining_description;
-      case PathType.healthCare:
-        return l10n.pathType_healthCare_description;
-      case PathType.dogBehavior:
-        return l10n.pathType_dogBehavior_description;
-      case PathType.dogHistory:
-        return l10n.pathType_dogHistory_description;
-      case PathType.breedAdventure:
-        return l10n.pathType_breedAdventure_description;
+      case PathType.dogTrivia:
+        return l10n.pathType_dogTrivia_description;
+      case PathType.puppyQuest:
+        return l10n.pathType_puppyQuest_description;
     }
   }
 }

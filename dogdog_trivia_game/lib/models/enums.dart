@@ -193,46 +193,26 @@ enum QuestionCategory {
 
 /// Enum representing different themed learning paths in the treasure map system
 enum PathType {
-  dogBreeds,
-  dogTraining,
-  healthCare,
-  dogBehavior,
-  dogHistory,
-  breedAdventure;
+  dogTrivia,
+  puppyQuest;
 
   /// Returns the display name for the path
   String get displayName {
     switch (this) {
-      case PathType.dogBreeds:
-        return 'Dog Breeds';
-      case PathType.dogTraining:
-        return 'Dog Training';
-      case PathType.healthCare:
-        return 'Health & Care';
-      case PathType.dogBehavior:
-        return 'Dog Behavior';
-      case PathType.dogHistory:
-        return 'Dog History';
-      case PathType.breedAdventure:
-        return 'Breed Adventure';
+      case PathType.dogTrivia:
+        return 'Dog Trivia';
+      case PathType.puppyQuest:
+        return 'Puppy Quest';
     }
   }
 
   /// Returns the description for the path
   String get description {
     switch (this) {
-      case PathType.dogBreeds:
+      case PathType.dogTrivia:
         return 'Learn about different dog breeds, their characteristics, and origins';
-      case PathType.dogTraining:
-        return 'Master dog training techniques, commands, and behavioral guidance';
-      case PathType.healthCare:
-        return 'Understand dog health, nutrition, and medical care';
-      case PathType.dogBehavior:
-        return 'Explore dog psychology, instincts, and behavioral patterns';
-      case PathType.dogHistory:
-        return 'Discover the history of dogs, genetics, and evolution';
-      case PathType.breedAdventure:
-        return 'Test your breed identification skills with timed picture challenges';
+      case PathType.puppyQuest:
+        return 'Test your knowledge by identifying dog breeds from photos';
     }
   }
 }

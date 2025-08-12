@@ -62,7 +62,7 @@ class GameSession {
       currentPath: map['currentPath'] != null
           ? PathType.values.firstWhere(
               (p) => p.toString() == map['currentPath'],
-              orElse: () => PathType.dogBreeds,
+              orElse: () => PathType.dogTrivia,
             )
           : null,
       livesRemaining: map['livesRemaining'] ?? 3,

@@ -927,6 +927,26 @@
     "description": "Button text to start a path"
   },
 
+  "pathType_dogTrivia_name": "Dog Trivia",
+  "@pathType_dogTrivia_name": {
+    "description": "Display name for dog trivia path"
+  },
+
+  "pathType_dogTrivia_description": "Learn about different dog breeds, their characteristics, and origins",
+  "@pathType_dogTrivia_description": {
+    "description": "Description for dog trivia path"
+  },
+
+  "pathType_puppyQuest_name": "Puppy Quest",
+  "@pathType_puppyQuest_name": {
+    "description": "Display name for puppy quest path"
+  },
+
+  "pathType_puppyQuest_description": "Test your breed identification skills with timed picture challenges",
+  "@pathType_puppyQuest_description": {
+    "description": "Description for puppy quest path"
+  },
+
   "pathType_dogBreeds_name": "Dog Breeds",
   "@pathType_dogBreeds_name": {
     "description": "Display name for dog breeds path"
@@ -975,6 +995,16 @@
   "pathType_dogHistory_description": "Discover the history of dogs, genetics, and evolution",
   "@pathType_dogHistory_description": {
     "description": "Description for dog history path"
+  },
+
+  "pathType_breedAdventure_name": "Breed Adventure",
+  "@pathType_breedAdventure_name": {
+    "description": "Display name for breed adventure path"
+  },
+
+  "pathType_breedAdventure_description": "Test your knowledge by identifying dog breeds from photos",
+  "@pathType_breedAdventure_description": {
+    "description": "Description for breed adventure path"
   },
 
   "treasureMap_adventure": "Adventure",
@@ -1336,16 +1366,6 @@
   "difficultyPhase_expert": "Expert",
   "@difficultyPhase_expert": {
     "description": "Name for expert difficulty phase"
-  },
-
-  "pathType_breedAdventure_name": "Breed Adventure",
-  "@pathType_breedAdventure_name": {
-    "description": "Display name for breed adventure path"
-  },
-
-  "pathType_breedAdventure_description": "Identify dog breeds from photos in this exciting visual challenge",
-  "@pathType_breedAdventure_description": {
-    "description": "Description for breed adventure path"
   },
 
   "treasureMap_chooseYourAdventure": "Choose Your Adventure",
