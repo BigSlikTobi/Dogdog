@@ -633,6 +633,90 @@ abstract class AppLocalizations {
   /// **'Error loading achievements: {error}'**
   String errorScreen_loadingError(String error);
 
+  /// Title for critical error conditions
+  ///
+  /// In en, this message translates to:
+  /// **'Critical Error'**
+  String get errorCriticalTitle;
+
+  /// Message for critical error conditions
+  ///
+  /// In en, this message translates to:
+  /// **'A critical error has occurred that prevents the game from functioning properly. Please restart the app.'**
+  String get errorCriticalMessage;
+
+  /// Title for localization-related errors
+  ///
+  /// In en, this message translates to:
+  /// **'Language Issue'**
+  String get errorLocalizationTitle;
+
+  /// Message for localization-related errors
+  ///
+  /// In en, this message translates to:
+  /// **'Some content may not be available in your selected language. Would you like to continue in English?'**
+  String get errorLocalizationMessage;
+
+  /// Title when no questions are available for a category
+  ///
+  /// In en, this message translates to:
+  /// **'No Questions Available'**
+  String get errorNoQuestionsTitle;
+
+  /// Message when no questions are available for a specific category
+  ///
+  /// In en, this message translates to:
+  /// **'No questions are available for {category}. Please try a different category.'**
+  String errorNoQuestionsForCategoryMessage(String category);
+
+  /// Message when limited questions are available
+  ///
+  /// In en, this message translates to:
+  /// **'Only {count} questions are available for this category. The game may be shorter than usual.'**
+  String errorFewQuestionsMessage(int count);
+
+  /// Title for general loading errors
+  ///
+  /// In en, this message translates to:
+  /// **'Loading Issue'**
+  String get errorLoadingTitle;
+
+  /// Generic error message for unknown errors
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred. Please try again.'**
+  String get errorGenericMessage;
+
+  /// Button text for retry action
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get errorActionRetry;
+
+  /// Button text for switching to a different category
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Different Category'**
+  String get errorActionSwitchCategory;
+
+  /// Button text for continuing with limited questions
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with {count} Questions'**
+  String errorActionContinueAnyway(int count);
+
+  /// Button text for using default language
+  ///
+  /// In en, this message translates to:
+  /// **'Use English Instead'**
+  String get errorActionUseDefaultLanguage;
+
+  /// Button text for returning to home screen
+  ///
+  /// In en, this message translates to:
+  /// **'Return to Main Menu'**
+  String get errorActionGoHome;
+
   /// Notification when extra time power-up is used
   ///
   /// In en, this message translates to:
@@ -1167,6 +1251,66 @@ abstract class AppLocalizations {
   /// **'Lives'**
   String get breedAdventure_lives;
 
+  /// Dog Training category name
+  ///
+  /// In en, this message translates to:
+  /// **'Dog Training'**
+  String get category_dogTraining;
+
+  /// Dog Breeds category name
+  ///
+  /// In en, this message translates to:
+  /// **'Dog Breeds'**
+  String get category_dogBreeds;
+
+  /// Dog Behavior category name
+  ///
+  /// In en, this message translates to:
+  /// **'Dog Behavior'**
+  String get category_dogBehavior;
+
+  /// Description for Dog Training category
+  ///
+  /// In en, this message translates to:
+  /// **'Master dog training techniques, commands, and behavioral guidance'**
+  String get category_dogTraining_description;
+
+  /// Description for Dog Breeds category
+  ///
+  /// In en, this message translates to:
+  /// **'Learn about different dog breeds, their characteristics, and origins'**
+  String get category_dogBreeds_description;
+
+  /// Description for Dog Behavior category
+  ///
+  /// In en, this message translates to:
+  /// **'Explore dog psychology, instincts, and behavioral patterns'**
+  String get category_dogBehavior_description;
+
+  /// Easy+ difficulty level name
+  ///
+  /// In en, this message translates to:
+  /// **'Easy+'**
+  String get difficulty_easyPlus;
+
+  /// Description for Easy+ difficulty
+  ///
+  /// In en, this message translates to:
+  /// **'Slightly more challenging than easy'**
+  String get difficulty_easyPlus_description;
+
+  /// Button text to start category-specific adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Start {category} Adventure'**
+  String treasureMap_startCategoryAdventure(String category);
+
+  /// Button text to continue category-specific adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Continue {category} Adventure'**
+  String treasureMap_continueCategoryAdventure(String category);
+
   /// Label for progress section
   ///
   /// In en, this message translates to:
@@ -1328,6 +1472,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Identify dog breeds from photos in this exciting visual challenge'**
   String get pathType_breedAdventure_description;
+
+  /// Title for category selection section
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Your Adventure'**
+  String get treasureMap_chooseYourAdventure;
+
+  /// Button text when no category is selected
+  ///
+  /// In en, this message translates to:
+  /// **'Select Category First'**
+  String get treasureMap_selectCategoryFirst;
+
+  /// Title for category selection dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Select Category'**
+  String get treasureMap_selectCategoryDialog_title;
+
+  /// Message in category selection dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a category above to start your adventure.'**
+  String get treasureMap_selectCategoryDialog_message;
+
+  /// Dog Health category name
+  ///
+  /// In en, this message translates to:
+  /// **'Dog Health'**
+  String get category_dogHealth;
+
+  /// Dog History category name
+  ///
+  /// In en, this message translates to:
+  /// **'Dog History'**
+  String get category_dogHistory;
+
+  /// Description for Dog Health category
+  ///
+  /// In en, this message translates to:
+  /// **'Understand dog health, nutrition, and medical care'**
+  String get category_dogHealth_description;
+
+  /// Description for Dog History category
+  ///
+  /// In en, this message translates to:
+  /// **'Discover the history of dogs, genetics, and evolution'**
+  String get category_dogHistory_description;
+
+  /// Title for category selection screen
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Your Adventure'**
+  String get categorySelection_title;
+
+  /// Accessibility hint for category selection
+  ///
+  /// In en, this message translates to:
+  /// **'Select a category to start your quiz adventure'**
+  String get categorySelection_hint;
+
+  /// Description text for category selection section
+  ///
+  /// In en, this message translates to:
+  /// **'Select a category to start your learning adventure with fun questions about dogs'**
+  String get categorySelection_description;
+
+  /// Accessibility hint when a category is selected
+  ///
+  /// In en, this message translates to:
+  /// **'Currently selected: {category}. Tap to confirm or choose a different category'**
+  String categorySelection_selectedHint(String category);
+
+  /// Accessibility hint for selecting a category
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to select {category} category'**
+  String categorySelection_selectHint(String category);
+
+  /// Screen reader announcement when a category is selected
+  ///
+  /// In en, this message translates to:
+  /// **'Selected {category} category'**
+  String categorySelection_announceSelection(String category);
 }
 
 class _AppLocalizationsDelegate

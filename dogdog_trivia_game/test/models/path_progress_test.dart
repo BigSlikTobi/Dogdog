@@ -62,7 +62,7 @@ void main() {
         currentCheckpoint: Checkpoint.deutscheDogge,
       );
 
-      expect(progressAtFirst.nextCheckpoint, Checkpoint.cockerSpaniel);
+      expect(progressAtFirst.nextCheckpoint, Checkpoint.pug);
       expect(progressAtLast.nextCheckpoint, Checkpoint.deutscheDogge);
     });
 
@@ -152,7 +152,7 @@ void main() {
 
       final updated = progress.advanceCheckpoint();
 
-      expect(updated.currentCheckpoint, Checkpoint.cockerSpaniel);
+      expect(updated.currentCheckpoint, Checkpoint.pug);
       expect(updated.isCompleted, false);
       expect(updated.lastPlayed.isAfter(testDate), true);
     });

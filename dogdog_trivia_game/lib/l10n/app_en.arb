@@ -516,6 +516,94 @@
     }
   },
 
+  "errorCriticalTitle": "Critical Error",
+  "@errorCriticalTitle": {
+    "description": "Title for critical error conditions"
+  },
+
+  "errorCriticalMessage": "A critical error has occurred that prevents the game from functioning properly. Please restart the app.",
+  "@errorCriticalMessage": {
+    "description": "Message for critical error conditions"
+  },
+
+  "errorLocalizationTitle": "Language Issue",
+  "@errorLocalizationTitle": {
+    "description": "Title for localization-related errors"
+  },
+
+  "errorLocalizationMessage": "Some content may not be available in your selected language. Would you like to continue in English?",
+  "@errorLocalizationMessage": {
+    "description": "Message for localization-related errors"
+  },
+
+  "errorNoQuestionsTitle": "No Questions Available",
+  "@errorNoQuestionsTitle": {
+    "description": "Title when no questions are available for a category"
+  },
+
+  "errorNoQuestionsForCategoryMessage": "No questions are available for {category}. Please try a different category.",
+  "@errorNoQuestionsForCategoryMessage": {
+    "description": "Message when no questions are available for a specific category",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Dog Breeds"
+      }
+    }
+  },
+
+  "errorFewQuestionsMessage": "Only {count} questions are available for this category. The game may be shorter than usual.",
+  "@errorFewQuestionsMessage": {
+    "description": "Message when limited questions are available",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
+  "errorLoadingTitle": "Loading Issue",
+  "@errorLoadingTitle": {
+    "description": "Title for general loading errors"
+  },
+
+  "errorGenericMessage": "An unexpected error occurred. Please try again.",
+  "@errorGenericMessage": {
+    "description": "Generic error message for unknown errors"
+  },
+
+  "errorActionRetry": "Try Again",
+  "@errorActionRetry": {
+    "description": "Button text for retry action"
+  },
+
+  "errorActionSwitchCategory": "Choose Different Category",
+  "@errorActionSwitchCategory": {
+    "description": "Button text for switching to a different category"
+  },
+
+  "errorActionContinueAnyway": "Continue with {count} Questions",
+  "@errorActionContinueAnyway": {
+    "description": "Button text for continuing with limited questions",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
+  "errorActionUseDefaultLanguage": "Use English Instead",
+  "@errorActionUseDefaultLanguage": {
+    "description": "Button text for using default language"
+  },
+
+  "errorActionGoHome": "Return to Main Menu",
+  "@errorActionGoHome": {
+    "description": "Button text for returning to home screen"
+  },
+
   "powerUp_extraTimeAdded": "Extra time added!",
   "@powerUp_extraTimeAdded": {
     "description": "Notification when extra time power-up is used"
@@ -1050,6 +1138,72 @@
 
   "breedAdventure_lives": "Lives",
   "@breedAdventure_lives": {
+    "description": "Label for lives in breed adventure"
+  },
+
+  "category_dogTraining": "Dog Training",
+  "@category_dogTraining": {
+    "description": "Dog Training category name"
+  },
+
+  "category_dogBreeds": "Dog Breeds", 
+  "@category_dogBreeds": {
+    "description": "Dog Breeds category name"
+  },
+
+  "category_dogBehavior": "Dog Behavior",
+  "@category_dogBehavior": {
+    "description": "Dog Behavior category name"
+  },
+
+  "category_dogTraining_description": "Master dog training techniques, commands, and behavioral guidance",
+  "@category_dogTraining_description": {
+    "description": "Description for Dog Training category"
+  },
+
+  "category_dogBreeds_description": "Learn about different dog breeds, their characteristics, and origins",
+  "@category_dogBreeds_description": {
+    "description": "Description for Dog Breeds category"
+  },
+
+  "category_dogBehavior_description": "Explore dog psychology, instincts, and behavioral patterns",
+  "@category_dogBehavior_description": {
+    "description": "Description for Dog Behavior category"
+  },
+
+  "difficulty_easyPlus": "Easy+",
+  "@difficulty_easyPlus": {
+    "description": "Easy+ difficulty level name"
+  },
+
+  "difficulty_easyPlus_description": "Slightly more challenging than easy",
+  "@difficulty_easyPlus_description": {
+    "description": "Description for Easy+ difficulty"
+  },
+
+  "treasureMap_startCategoryAdventure": "Start {category} Adventure",
+  "@treasureMap_startCategoryAdventure": {
+    "description": "Button text to start category-specific adventure",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Dog Training"
+      }
+    }
+  },
+
+  "treasureMap_continueCategoryAdventure": "Continue {category} Adventure",
+  "@treasureMap_continueCategoryAdventure": {
+    "description": "Button text to continue category-specific adventure",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Dog Training"
+      }
+    }
+  },
+
+  "@breedAdventure_lives": {
     "description": "Label for lives remaining"
   },
 
@@ -1192,5 +1346,93 @@
   "pathType_breedAdventure_description": "Identify dog breeds from photos in this exciting visual challenge",
   "@pathType_breedAdventure_description": {
     "description": "Description for breed adventure path"
+  },
+
+  "treasureMap_chooseYourAdventure": "Choose Your Adventure",
+  "@treasureMap_chooseYourAdventure": {
+    "description": "Title for category selection section"
+  },
+
+  "treasureMap_selectCategoryFirst": "Select Category First",
+  "@treasureMap_selectCategoryFirst": {
+    "description": "Button text when no category is selected"
+  },
+
+  "treasureMap_selectCategoryDialog_title": "Select Category",
+  "@treasureMap_selectCategoryDialog_title": {
+    "description": "Title for category selection dialog"
+  },
+
+  "treasureMap_selectCategoryDialog_message": "Please select a category above to start your adventure.",
+  "@treasureMap_selectCategoryDialog_message": {
+    "description": "Message in category selection dialog"
+  },
+
+  "category_dogHealth": "Dog Health",
+  "@category_dogHealth": {
+    "description": "Dog Health category name"
+  },
+
+  "category_dogHistory": "Dog History",
+  "@category_dogHistory": {
+    "description": "Dog History category name"
+  },
+
+  "category_dogHealth_description": "Understand dog health, nutrition, and medical care",
+  "@category_dogHealth_description": {
+    "description": "Description for Dog Health category"
+  },
+
+  "category_dogHistory_description": "Discover the history of dogs, genetics, and evolution",
+  "@category_dogHistory_description": {
+    "description": "Description for Dog History category"
+  },
+
+  "categorySelection_title": "Choose Your Adventure",
+  "@categorySelection_title": {
+    "description": "Title for category selection screen"
+  },
+
+  "categorySelection_hint": "Select a category to start your quiz adventure",
+  "@categorySelection_hint": {
+    "description": "Accessibility hint for category selection"
+  },
+
+  "categorySelection_description": "Select a category to start your learning adventure with fun questions about dogs",
+  "@categorySelection_description": {
+    "description": "Description text for category selection section"
+  },
+
+  "categorySelection_selectedHint": "Currently selected: {category}. Tap to confirm or choose a different category",
+  "@categorySelection_selectedHint": {
+    "description": "Accessibility hint when a category is selected",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Dog Training"
+      }
+    }
+  },
+
+  "categorySelection_selectHint": "Tap to select {category} category",
+  "@categorySelection_selectHint": {
+    "description": "Accessibility hint for selecting a category",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Dog Training"
+      }
+    }
+  },
+
+  "categorySelection_announceSelection": "Selected {category} category",
+  "@categorySelection_announceSelection": {
+    "description": "Screen reader announcement when a category is selected",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Dog Training"
+      }
+    }
   }
 }

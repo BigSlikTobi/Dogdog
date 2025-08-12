@@ -31,8 +31,14 @@ import '../l10n/generated/app_localizations.dart';
 class GameScreen extends StatefulWidget {
   final Difficulty difficulty;
   final int level;
+  final QuestionCategory? category;
 
-  const GameScreen({super.key, required this.difficulty, this.level = 1});
+  const GameScreen({
+    super.key,
+    required this.difficulty,
+    this.level = 1,
+    this.category,
+  });
 
   @override
   State<GameScreen> createState() => _GameScreenState();
@@ -55,7 +61,16 @@ class _GameScreenState extends State<GameScreen> {
     try {
       _gameController = Provider.of<GameController>(context, listen: false);
       _shouldDisposeController = false;
-      await _gameController.initializeGame(level: widget.level);
+
+      // If category is provided, use category-based initialization
+      if (widget.category != null) {
+        await _gameController.initializeGameWithCategory(
+          category: widget.category!,
+          level: widget.level,
+        );
+      } else {
+        await _gameController.initializeGame(level: widget.level);
+      }
     } on Exception {
       if (!mounted) return;
       final progressService = Provider.of<ProgressService>(
@@ -68,7 +83,16 @@ class _GameScreenState extends State<GameScreen> {
         timerController: timerController,
       );
       _shouldDisposeController = true;
-      await _gameController.initializeGame(level: widget.level);
+
+      // If category is provided, use category-based initialization
+      if (widget.category != null) {
+        await _gameController.initializeGameWithCategory(
+          category: widget.category!,
+          level: widget.level,
+        );
+      } else {
+        await _gameController.initializeGame(level: widget.level);
+      }
     }
     _gameController.setCheckpointReachedCallback(_handleCheckpointReached);
     if (mounted) setState(() => _isLoading = false);

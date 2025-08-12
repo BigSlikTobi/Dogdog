@@ -312,6 +312,57 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get errorCriticalTitle => 'Critical Error';
+
+  @override
+  String get errorCriticalMessage =>
+      'A critical error has occurred that prevents the game from functioning properly. Please restart the app.';
+
+  @override
+  String get errorLocalizationTitle => 'Language Issue';
+
+  @override
+  String get errorLocalizationMessage =>
+      'Some content may not be available in your selected language. Would you like to continue in English?';
+
+  @override
+  String get errorNoQuestionsTitle => 'No Questions Available';
+
+  @override
+  String errorNoQuestionsForCategoryMessage(String category) {
+    return 'No questions are available for $category. Please try a different category.';
+  }
+
+  @override
+  String errorFewQuestionsMessage(int count) {
+    return 'Only $count questions are available for this category. The game may be shorter than usual.';
+  }
+
+  @override
+  String get errorLoadingTitle => 'Loading Issue';
+
+  @override
+  String get errorGenericMessage =>
+      'An unexpected error occurred. Please try again.';
+
+  @override
+  String get errorActionRetry => 'Try Again';
+
+  @override
+  String get errorActionSwitchCategory => 'Choose Different Category';
+
+  @override
+  String errorActionContinueAnyway(int count) {
+    return 'Continue with $count Questions';
+  }
+
+  @override
+  String get errorActionUseDefaultLanguage => 'Use English Instead';
+
+  @override
+  String get errorActionGoHome => 'Return to Main Menu';
+
+  @override
   String get powerUp_extraTimeAdded => 'Extra time added!';
 
   @override
@@ -603,6 +654,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get breedAdventure_lives => 'Lives';
 
   @override
+  String get category_dogTraining => 'Dog Training';
+
+  @override
+  String get category_dogBreeds => 'Dog Breeds';
+
+  @override
+  String get category_dogBehavior => 'Dog Behavior';
+
+  @override
+  String get category_dogTraining_description =>
+      'Master dog training techniques, commands, and behavioral guidance';
+
+  @override
+  String get category_dogBreeds_description =>
+      'Learn about different dog breeds, their characteristics, and origins';
+
+  @override
+  String get category_dogBehavior_description =>
+      'Explore dog psychology, instincts, and behavioral patterns';
+
+  @override
+  String get difficulty_easyPlus => 'Easy+';
+
+  @override
+  String get difficulty_easyPlus_description =>
+      'Slightly more challenging than easy';
+
+  @override
+  String treasureMap_startCategoryAdventure(String category) {
+    return 'Start $category Adventure';
+  }
+
+  @override
+  String treasureMap_continueCategoryAdventure(String category) {
+    return 'Continue $category Adventure';
+  }
+
+  @override
   String get breedAdventure_progress => 'Progress';
 
   @override
@@ -695,4 +784,57 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pathType_breedAdventure_description =>
       'Identify dog breeds from photos in this exciting visual challenge';
+
+  @override
+  String get treasureMap_chooseYourAdventure => 'Choose Your Adventure';
+
+  @override
+  String get treasureMap_selectCategoryFirst => 'Select Category First';
+
+  @override
+  String get treasureMap_selectCategoryDialog_title => 'Select Category';
+
+  @override
+  String get treasureMap_selectCategoryDialog_message =>
+      'Please select a category above to start your adventure.';
+
+  @override
+  String get category_dogHealth => 'Dog Health';
+
+  @override
+  String get category_dogHistory => 'Dog History';
+
+  @override
+  String get category_dogHealth_description =>
+      'Understand dog health, nutrition, and medical care';
+
+  @override
+  String get category_dogHistory_description =>
+      'Discover the history of dogs, genetics, and evolution';
+
+  @override
+  String get categorySelection_title => 'Choose Your Adventure';
+
+  @override
+  String get categorySelection_hint =>
+      'Select a category to start your quiz adventure';
+
+  @override
+  String get categorySelection_description =>
+      'Select a category to start your learning adventure with fun questions about dogs';
+
+  @override
+  String categorySelection_selectedHint(String category) {
+    return 'Currently selected: $category. Tap to confirm or choose a different category';
+  }
+
+  @override
+  String categorySelection_selectHint(String category) {
+    return 'Tap to select $category category';
+  }
+
+  @override
+  String categorySelection_announceSelection(String category) {
+    return 'Selected $category category';
+  }
 }

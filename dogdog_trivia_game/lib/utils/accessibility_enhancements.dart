@@ -270,8 +270,12 @@ class AccessibilityEnhancements {
       label: gridDescription,
       child: GridView.builder(
         controller: controller,
+        shrinkWrap: true, // Fix: Allow the grid to size itself
+        physics:
+            const NeverScrollableScrollPhysics(), // Fix: Prevent nested scrolling
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
+          childAspectRatio: 1.5, // Fix: Define aspect ratio for proper sizing
         ),
         itemCount: children.length,
         itemBuilder: (context, index) {

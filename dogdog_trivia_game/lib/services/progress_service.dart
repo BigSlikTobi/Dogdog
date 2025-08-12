@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/player_progress.dart';
@@ -576,6 +577,54 @@ class ProgressService extends ChangeNotifier {
     } catch (e) {
       debugPrint('Error repairing data: $e');
       return false;
+    }
+  }
+
+  /// Saves custom data with a specific key
+  Future<void> saveCustomData(String key, Map<String, dynamic> data) async {
+    try {
+      final jsonString = jsonEncode(data);
+      await _prefs?.setString('custom_$key', jsonString);
+    } catch (e) {
+      debugPrint('Error saving custom data for key $key: $e');
+      rethrow;
+    }
+  }
+
+  /// Loads custom data for a specific key
+  Future<Map<String, dynamic>?> loadCustomData(String key) async {
+    try {
+      final jsonString = _prefs?.getString('custom_$key');
+      if (jsonString != null) {
+        return jsonDecode(jsonString) as Map<String, dynamic>;
+      }
+      return null;
+    } catch (e) {
+      debugPrint('Error loading custom data for key $key: $e');
+      return null;
+    }
+  }
+
+  /// Removes custom data for a specific key
+  Future<void> removeCustomData(String key) async {
+    try {
+      await _prefs?.remove('custom_$key');
+    } catch (e) {
+      debugPrint('Error removing custom data for key $key: $e');
+    }
+  }
+
+  /// Gets all custom data keys
+  List<String> getCustomDataKeys() {
+    try {
+      final allKeys = _prefs?.getKeys() ?? <String>{};
+      return allKeys
+          .where((key) => key.startsWith('custom_'))
+          .map((key) => key.substring(7)) // Remove 'custom_' prefix
+          .toList();
+    } catch (e) {
+      debugPrint('Error getting custom data keys: $e');
+      return [];
     }
   }
 

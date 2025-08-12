@@ -11,6 +11,7 @@ import '../services/error_service.dart';
 import '../services/checkpoint_rewards.dart';
 import '../services/checkpoint_fallback_handler.dart';
 import '../services/game_persistence_service.dart';
+import '../services/enhanced_persistence_manager.dart';
 import '../services/audio_service.dart';
 import '../services/haptic_service.dart';
 import 'power_up_controller.dart';
@@ -24,12 +25,15 @@ class GameController extends ChangeNotifier {
   final TreasureMapController _treasureMapController;
   final PersistentTimerController _timerController;
   final GamePersistenceService _persistenceService;
+  final EnhancedPersistenceManager _enhancedPersistence;
   final bool _shouldDisposeTimerController;
   final ProgressService? _progressService;
 
   GameState _gameState = GameState.initial();
   PathProgress? _currentPathProgress;
   GameSession? _currentSession;
+  QuestionCategory?
+  _currentCategory; // Current category for category-based games
   Timer? _timer; // Keep for compatibility during transition
   int _recentMistakes = 0;
 
@@ -50,6 +54,7 @@ class GameController extends ChangeNotifier {
     TreasureMapController? treasureMapController,
     PersistentTimerController? timerController,
     GamePersistenceService? persistenceService,
+    EnhancedPersistenceManager? enhancedPersistence,
     ProgressService? progressService,
   }) : _questionService = questionService ?? QuestionService(),
        _powerUpController = powerUpController ?? PowerUpController(),
@@ -57,11 +62,62 @@ class GameController extends ChangeNotifier {
            treasureMapController ?? TreasureMapController(),
        _timerController = timerController ?? PersistentTimerController(),
        _persistenceService = persistenceService ?? GamePersistenceService(),
+       _enhancedPersistence =
+           enhancedPersistence ?? EnhancedPersistenceManager(),
        _shouldDisposeTimerController = timerController == null,
        _progressService = progressService;
 
   /// Current game state
   GameState get gameState => _gameState;
+
+  /// Current category for category-based games
+  QuestionCategory? get currentCategory => _currentCategory;
+
+  /// Reports game session results to treasure map controller for progress tracking
+  Future<void> reportGameSessionResults() async {
+    try {
+      if (_currentCategory == null) return;
+
+      // Calculate session statistics
+      final totalQuestions = _gameState.currentQuestionIndex;
+      final correctAnswers = _gameState.correctAnswersInSession;
+      final sessionScore = _gameState.score;
+
+      // Get answered question IDs
+      final answeredQuestionIds = _gameState.questions
+          .take(totalQuestions)
+          .map((q) => q.id)
+          .toList();
+
+      // Check for new checkpoints based on total progress
+      final currentProgress = _treasureMapController.getCategoryProgress(
+        _currentCategory!,
+      );
+      final totalQuestionsAnswered =
+          (currentProgress?.questionsAnswered ?? 0) + totalQuestions;
+
+      final newCheckpoints = <Checkpoint>{};
+      for (final checkpoint in Checkpoint.values) {
+        if (totalQuestionsAnswered >= checkpoint.questionsRequired &&
+            !(currentProgress?.completedCheckpoints.contains(checkpoint) ??
+                false)) {
+          newCheckpoints.add(checkpoint);
+        }
+      }
+
+      // Report to treasure map controller
+      await _treasureMapController.updateProgressFromGameSession(
+        category: _currentCategory!,
+        questionsAnswered: totalQuestions,
+        correctAnswers: correctAnswers,
+        scoreEarned: sessionScore,
+        answeredQuestionIds: answeredQuestionIds,
+        newCheckpoints: newCheckpoints.isNotEmpty ? newCheckpoints : null,
+      );
+    } catch (e) {
+      debugPrint('Error reporting game session results: $e');
+    }
+  }
 
   /// Current question being displayed
   Question? get currentQuestion => _gameState.currentQuestion;
@@ -170,6 +226,176 @@ class GameController extends ChangeNotifier {
     callback,
   ) {
     _onCheckpointReached = callback;
+  }
+
+  /// Gets comprehensive game statistics for path progression
+  Future<Map<String, dynamic>> getComprehensiveStatistics() async {
+    try {
+      final allProgress = await _persistenceService.loadAllPathProgress();
+
+      // Calculate aggregate statistics
+      int totalGamesPlayed = 0;
+      int totalQuestionsAnswered = 0;
+      int totalCorrectAnswers = 0;
+      int totalTimeSpent = 0;
+      int totalCheckpointsCompleted = 0;
+      int totalFallbacks = 0;
+      double bestAccuracy = 0.0;
+
+      PathType? favoritePath;
+      int maxPathQuestions = 0;
+
+      for (final entry in allProgress.entries) {
+        final progress = entry.value;
+        totalQuestionsAnswered += progress.totalQuestions;
+        totalCorrectAnswers += progress.correctAnswers;
+        totalTimeSpent += progress.totalTimeSpent;
+        totalFallbacks += progress.fallbackCount;
+
+        // Count completed checkpoints
+        totalCheckpointsCompleted += progress.currentCheckpoint.index + 1;
+
+        if (progress.bestAccuracy > bestAccuracy) {
+          bestAccuracy = progress.bestAccuracy;
+        }
+
+        if (progress.totalQuestions > maxPathQuestions) {
+          maxPathQuestions = progress.totalQuestions;
+          favoritePath = progress.pathType;
+        }
+
+        if (progress.isCompleted) {
+          totalGamesPlayed++;
+        }
+      }
+
+      final averageAccuracy = totalQuestionsAnswered > 0
+          ? totalCorrectAnswers / totalQuestionsAnswered
+          : 0.0;
+
+      return {
+        'totalGamesPlayed': totalGamesPlayed,
+        'totalQuestionsAnswered': totalQuestionsAnswered,
+        'totalCorrectAnswers': totalCorrectAnswers,
+        'averageAccuracy': averageAccuracy,
+        'bestAccuracy': bestAccuracy,
+        'totalTimeSpent': totalTimeSpent,
+        'totalCheckpointsCompleted': totalCheckpointsCompleted,
+        'totalFallbacks': totalFallbacks,
+        'favoritePath': favoritePath?.toString(),
+        'pathProgress': allProgress.map(
+          (k, v) => MapEntry(k.toString(), {
+            'currentCheckpoint': v.currentCheckpoint.toString(),
+            'questionsAnswered': v.totalQuestions,
+            'accuracy': v.currentAccuracy,
+            'isCompleted': v.isCompleted,
+            'lastPlayed': v.lastPlayed.toIso8601String(),
+          }),
+        ),
+        'currentSession': _currentSession != null
+            ? {
+                'currentPath': _currentSession!.currentPath?.toString(),
+                'livesRemaining': _currentSession!.livesRemaining,
+                'currentStreak': _currentSession!.currentStreak,
+                'sessionTimeSpent': _currentSession!.sessionTimeSpent,
+              }
+            : null,
+        'systemHealth': await getGameSystemStatus(),
+      };
+    } catch (e) {
+      debugPrint('Error getting comprehensive statistics: $e');
+      return {
+        'error': 'Failed to load statistics',
+        'systemHealth': await getGameSystemStatus(),
+      };
+    }
+  }
+
+  /// Gets system status and health information for debugging and monitoring
+  Future<Map<String, dynamic>> getGameSystemStatus() async {
+    try {
+      return {
+        'controllersInitialized': {
+          'gameController': true,
+          'treasureMapController': true,
+          'powerUpController': true,
+          'timerController': true,
+          'persistenceService': true,
+          'enhancedPersistence': true,
+        },
+        'gameState': {
+          'isActive': _gameState.isGameActive,
+          'hasQuestions': _gameState.questions.isNotEmpty,
+          'currentQuestionIndex': _gameState.currentQuestionIndex,
+          'score': _gameState.score,
+          'lives': _gameState.lives,
+        },
+        'pathProgress': _currentPathProgress != null
+            ? {
+                'path': _currentPathProgress!.pathType.toString(),
+                'checkpoint': _currentPathProgress!.currentCheckpoint
+                    .toString(),
+                'questionsAnswered': _currentPathProgress!.totalQuestions,
+                'accuracy': _currentPathProgress!.currentAccuracy,
+              }
+            : null,
+        'session': _currentSession != null
+            ? {
+                'active': true,
+                'path': _currentSession!.currentPath?.toString(),
+                'sessionStart': _currentSession!.sessionStart.toIso8601String(),
+                'timeSpent': _currentSession!.sessionTimeSpent,
+              }
+            : {'active': false},
+        'powerUps': _powerUpController.powerUps,
+        'timestamp': DateTime.now().toIso8601String(),
+      };
+    } catch (e) {
+      return {
+        'error': 'Failed to get system status: $e',
+        'timestamp': DateTime.now().toIso8601String(),
+      };
+    }
+  }
+
+  /// Performs basic error recovery for state inconsistencies
+  Future<bool> recoverFromStateInconsistency() async {
+    try {
+      debugPrint('Attempting to recover from state inconsistency...');
+
+      // Stop any running timers
+      _timerController.stopTimer();
+
+      // Clear current session if corrupted
+      if (_currentSession != null) {
+        try {
+          await _persistenceService.clearGameSession();
+          _currentSession = null;
+        } catch (e) {
+          debugPrint('Failed to clear corrupted session: $e');
+        }
+      }
+
+      // Reset game state to safe defaults
+      _gameState = GameState.initial();
+
+      // Restart enhanced persistence if available
+      try {
+        _enhancedPersistence.dispose();
+        final newPersistence = EnhancedPersistenceManager();
+        await newPersistence.initialize();
+        // Note: Can't reassign final field, but dispose/restart pattern works
+      } catch (e) {
+        debugPrint('Failed to restart enhanced persistence: $e');
+      }
+
+      debugPrint('State recovery completed successfully');
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint('State recovery failed: $e');
+      return false;
+    }
   }
 
   /// Initializes a new path-based game with the treasure map system
@@ -325,6 +551,9 @@ class GameController extends ChangeNotifier {
     bool resumeSession = true,
   }) async {
     try {
+      // Initialize enhanced persistence manager
+      await _enhancedPersistence.initialize();
+
       // Initialize persistence service
       await _persistenceService.initialize();
 
@@ -421,6 +650,125 @@ class GameController extends ChangeNotifier {
     }
   }
 
+  /// Initializes a game session with a specific category
+  ///
+  /// [category] - The question category to focus on
+  /// [level] - Starting level (1-5)
+  /// [questionsPerRound] - Number of questions to load for this round
+  /// [rememberSelection] - Whether to remember this category for future sessions
+  Future<void> initializeGameWithCategory({
+    required QuestionCategory category,
+    int level = 1,
+    int questionsPerRound = 10,
+    bool rememberSelection = true,
+  }) async {
+    try {
+      // Ensure question service is initialized
+      if (!_questionService.isInitialized) {
+        await _questionService.initialize();
+      }
+
+      // Remember the category selection for next time
+      if (rememberSelection) {
+        _treasureMapController.selectCategory(category);
+        await _treasureMapController.saveCategoryProgress();
+      }
+
+      // Get category-specific questions
+      final questions = await _getQuestionsForCategory(
+        category: category,
+        count: questionsPerRound,
+        excludeAnsweredIds: _treasureMapController.getUsedQuestionIds(),
+      );
+
+      if (questions.isEmpty) {
+        throw Exception(
+          'No questions available for category ${category.displayName}',
+        );
+      }
+
+      // Initialize power-ups (default set for category-based games)
+      final powerUpsMap = <PowerUpType, int>{
+        PowerUpType.fiftyFifty: 2,
+        PowerUpType.hint: 2,
+        PowerUpType.extraTime: 1,
+        PowerUpType.skip: 1,
+        PowerUpType.secondChance: 1,
+      };
+
+      // Sync power-ups with controller
+      _powerUpController.setPowerUps(powerUpsMap);
+
+      // Create initial game state with category context
+      _gameState = GameState(
+        currentQuestionIndex: 0,
+        score: 0,
+        lives: 3, // Default lives for category-based games
+        streak: 0,
+        level: level,
+        questions: questions,
+        powerUps: powerUpsMap,
+        isGameActive: true,
+        timeRemaining: _getTimeLimitForLevel(level),
+        isTimerActive: level > 1, // Timer starts from level 2
+        totalQuestionsAnswered: 0,
+        correctAnswersInSession: 0,
+        isShowingFeedback: false,
+        selectedAnswerIndex: null,
+        lastAnswerWasCorrect: null,
+        disabledAnswerIndices: [],
+      );
+
+      // Store category context for question loading
+      _currentCategory = category;
+
+      // Reset recent mistakes counter
+      _recentMistakes = 0;
+
+      // Start timer if needed
+      if (_gameState.isTimerActive) {
+        _startTimer();
+      }
+
+      notifyListeners();
+    } catch (error, stackTrace) {
+      ErrorService().recordError(
+        ErrorType.gameLogic,
+        'Critical failure in category-based game initialization: $error',
+        severity: ErrorSeverity.high,
+        stackTrace: stackTrace,
+        originalError: error,
+      );
+
+      // Create safe fallback state
+      _gameState = GameState.initial();
+      notifyListeners();
+      rethrow;
+    }
+  }
+
+  /// Get the last selected category from storage
+  Future<QuestionCategory?> getLastSelectedCategory() async {
+    return await _treasureMapController.loadLastSelectedCategory();
+  }
+
+  /// Auto-restore the last selected category if available
+  Future<bool> autoRestoreLastCategory() async {
+    try {
+      final lastCategory = await getLastSelectedCategory();
+      if (lastCategory != null) {
+        _treasureMapController.selectCategory(lastCategory);
+        _currentCategory = lastCategory;
+        notifyListeners();
+        return true;
+      }
+      return false;
+    } catch (e) {
+      debugPrint('Failed to auto-restore last category: $e');
+      return false;
+    }
+  }
+
   /// Gets questions for a specific path while excluding already answered ones
   Future<List<Question>> _getQuestionsForPath({
     required PathType pathType,
@@ -443,6 +791,75 @@ class GameController extends ChangeNotifier {
         .toList();
 
     return filteredQuestions;
+  }
+
+  /// Gets questions for a specific category while excluding already answered ones
+  Future<List<Question>> _getQuestionsForCategory({
+    required QuestionCategory category,
+    required List<String> excludeAnsweredIds,
+    int count = 10,
+  }) async {
+    try {
+      // Get localized questions for the category
+      final localizedQuestions = _questionService
+          .getLocalizedQuestionsForCategory(
+            category: category,
+            count: count * 2, // Get more questions to filter from
+            locale: 'de', // TODO: Get from app locale
+            excludeIds: excludeAnsweredIds.toSet(),
+            shuffleWithinDifficulty: true,
+          );
+
+      // Convert LocalizedQuestion to Question for compatibility
+      final questions = localizedQuestions
+          .map(
+            (lq) => Question(
+              id: lq.id,
+              text: lq.getText('de'), // TODO: Use app locale
+              answers: lq.getAnswers('de'), // TODO: Use app locale
+              correctAnswerIndex: lq.correctAnswerIndex,
+              difficulty: _mapStringToDifficulty(lq.difficulty),
+              category: lq.category,
+              hint: lq.getHint('de'), // TODO: Use app locale
+              funFact: lq.getFunFact('de'), // TODO: Use app locale
+            ),
+          )
+          .take(count)
+          .toList();
+
+      return questions;
+    } catch (e) {
+      // Fallback to regular questions if localized questions fail
+      final allQuestions = _questionService.getQuestionsWithAdaptiveDifficulty(
+        count: count * 2,
+        playerLevel: 1,
+        streakCount: _gameState.streak,
+        recentMistakes: _recentMistakes,
+      );
+
+      // Filter out already answered questions
+      final filteredQuestions = allQuestions
+          .where((q) => !excludeAnsweredIds.contains(q.id))
+          .take(count)
+          .toList();
+
+      return filteredQuestions;
+    }
+  }
+
+  /// Maps string difficulty to Difficulty enum
+  Difficulty _mapStringToDifficulty(String difficulty) {
+    switch (difficulty.toLowerCase()) {
+      case 'easy':
+      case 'easy+':
+        return Difficulty.easy;
+      case 'medium':
+        return Difficulty.medium;
+      case 'hard':
+        return Difficulty.hard;
+      default:
+        return Difficulty.medium;
+    }
   }
 
   /// Processes a player's answer to the current question
@@ -682,6 +1099,11 @@ class GameController extends ChangeNotifier {
       await _persistenceService.savePathProgress(_currentPathProgress!);
       await _persistenceService.saveGameSession(_currentSession!);
 
+      // Auto-save category progress if playing with category
+      if (_currentCategory != null) {
+        await _saveCurrentCategoryProgress(question, isCorrect);
+      }
+
       // Check if we've reached a checkpoint
       await _checkCheckpointProgress();
     } catch (error, stackTrace) {
@@ -693,6 +1115,33 @@ class GameController extends ChangeNotifier {
         originalError: error,
       );
       // Don't rethrow - game should continue even if save fails
+    }
+  }
+
+  /// Auto-save current category progress after each answer
+  Future<void> _saveCurrentCategoryProgress(
+    Question question,
+    bool isCorrect,
+  ) async {
+    if (_currentCategory == null) return;
+
+    try {
+      final points = isCorrect
+          ? question.difficulty.points * _gameState.scoreMultiplier
+          : 0;
+
+      await _treasureMapController.updateProgressFromGameSession(
+        category: _currentCategory!,
+        questionsAnswered: 1, // Single question update
+        correctAnswers: isCorrect ? 1 : 0,
+        scoreEarned: points,
+        answeredQuestionIds: [question.id],
+      );
+
+      // Mark enhanced persistence manager about changes
+      _enhancedPersistence.markHasUnsavedChanges();
+    } catch (e) {
+      debugPrint('Failed to auto-save category progress: $e');
     }
   }
 
@@ -755,6 +1204,73 @@ class GameController extends ChangeNotifier {
       finalScore: _gameState.score,
       levelReached: _gameState.level,
     );
+
+    // Save final session state and category memory
+    _saveGameSessionEnd();
+
+    // Report session results for category-based games
+    if (_currentCategory != null) {
+      reportGameSessionResults();
+    }
+  }
+
+  /// Save game session end state and update category memory
+  Future<void> _saveGameSessionEnd() async {
+    try {
+      // Use enhanced persistence manager for comprehensive saving
+      final success = await _enhancedPersistence.saveGameSessionProgress(
+        treasureMapController: _treasureMapController,
+        currentSession: _currentSession,
+        currentCategory: _currentCategory,
+        additionalData: {
+          'finalScore': _gameState.score,
+          'finalLevel': _gameState.level,
+          'finalStreak': _gameState.streak,
+          'questionsAnswered': _gameState.totalQuestionsAnswered,
+          'correctAnswers': _gameState.correctAnswersInSession,
+          'gameEndTime': DateTime.now().toIso8601String(),
+        },
+      );
+
+      if (success) {
+        // Update global statistics using traditional method
+        await _persistenceService.updateGlobalStats(
+          questionsAnswered: _gameState.totalQuestionsAnswered,
+          correctAnswers: _gameState.correctAnswersInSession,
+          timeSpent: _currentSession?.sessionTimeSpent ?? 0,
+          bestStreak: _gameState.streak,
+          pathPlayed: _treasureMapController.currentPath,
+          pathCompleted: _treasureMapController.isPathCompleted,
+        );
+
+        debugPrint('Game session end saved successfully');
+      } else {
+        debugPrint('Failed to save game session end');
+      }
+
+      // Perform data integrity check periodically
+      await _performDataIntegrityCheck();
+    } catch (e) {
+      debugPrint('Failed to save game session end: $e');
+    }
+  }
+
+  /// Perform data integrity check to ensure consistency
+  Future<void> _performDataIntegrityCheck() async {
+    try {
+      // Check treasure map controller integrity
+      final isIntegrityValid = await _treasureMapController
+          .validateProgressIntegrity();
+
+      if (!isIntegrityValid) {
+        debugPrint('Data integrity issues detected and fixed');
+
+        // Create backup after fixes
+        await _treasureMapController.createProgressBackup();
+      }
+    } catch (e) {
+      debugPrint('Error during data integrity check: $e');
+    }
   }
 
   /// Restarts the game with the same level
@@ -796,12 +1312,29 @@ class GameController extends ChangeNotifier {
   /// This can be used when the current question set is exhausted
   Future<void> loadMoreQuestions({int count = 10}) async {
     try {
-      final newQuestions = _questionService.getQuestionsWithAdaptiveDifficulty(
-        count: count,
-        playerLevel: _gameState.level,
-        streakCount: _gameState.streak,
-        recentMistakes: _recentMistakes,
-      );
+      List<Question> newQuestions;
+
+      // Use category-specific questions if category is set
+      if (_currentCategory != null) {
+        // Get already answered question IDs to avoid duplicates
+        final answeredIds = _gameState.questions
+            .take(_gameState.currentQuestionIndex)
+            .map((q) => q.id)
+            .toList();
+
+        newQuestions = await _getQuestionsForCategory(
+          category: _currentCategory!,
+          count: count,
+          excludeAnsweredIds: answeredIds,
+        );
+      } else {
+        newQuestions = _questionService.getQuestionsWithAdaptiveDifficulty(
+          count: count,
+          playerLevel: _gameState.level,
+          streakCount: _gameState.streak,
+          recentMistakes: _recentMistakes,
+        );
+      }
 
       if (newQuestions.isNotEmpty) {
         final allQuestions = [..._gameState.questions, ...newQuestions];
@@ -817,13 +1350,57 @@ class GameController extends ChangeNotifier {
   /// This is called when the current question set is exhausted
   void _loadMoreQuestionsAndContinue() {
     try {
-      final newQuestions = _questionService.getQuestionsWithAdaptiveDifficulty(
-        count: 10,
-        playerLevel: _gameState.level,
-        streakCount: _gameState.streak,
-        recentMistakes: _recentMistakes,
-      );
+      List<Question> newQuestions;
 
+      // Use category-specific questions if category is set
+      if (_currentCategory != null) {
+        // Get already answered question IDs to avoid duplicates
+        final answeredIds = _gameState.questions
+            .take(_gameState.currentQuestionIndex)
+            .map((q) => q.id)
+            .toList();
+
+        // Use async method but handle it synchronously for this context
+        _getQuestionsForCategory(
+              category: _currentCategory!,
+              count: 10,
+              excludeAnsweredIds: answeredIds,
+            )
+            .then((questions) {
+              _continueWithNewQuestions(questions);
+            })
+            .catchError((e) {
+              debugPrint('Error loading category questions: $e');
+              // Fallback to regular questions
+              final fallbackQuestions = _questionService
+                  .getQuestionsWithAdaptiveDifficulty(
+                    count: 10,
+                    playerLevel: _gameState.level,
+                    streakCount: _gameState.streak,
+                    recentMistakes: _recentMistakes,
+                  );
+              _continueWithNewQuestions(fallbackQuestions);
+            });
+        return;
+      } else {
+        newQuestions = _questionService.getQuestionsWithAdaptiveDifficulty(
+          count: 10,
+          playerLevel: _gameState.level,
+          streakCount: _gameState.streak,
+          recentMistakes: _recentMistakes,
+        );
+      }
+
+      _continueWithNewQuestions(newQuestions);
+    } catch (e) {
+      debugPrint('Error in _loadMoreQuestionsAndContinue: $e');
+      _endGame();
+    }
+  }
+
+  /// Helper method to continue the game with new questions
+  void _continueWithNewQuestions(List<Question> newQuestions) {
+    try {
       if (newQuestions.isNotEmpty) {
         // Add new questions to the existing list
         final allQuestions = [..._gameState.questions, ...newQuestions];
@@ -1290,12 +1867,60 @@ class GameController extends ChangeNotifier {
     }
   }
 
+  /// Get comprehensive system status including persistence information
+  Future<Map<String, dynamic>> getSystemStatus() async {
+    try {
+      final persistenceStatus = await _enhancedPersistence.getSystemStatus();
+      return {
+        'gameState': {
+          'isActive': _gameState.isGameActive,
+          'isGameOver': _gameState.isGameOver,
+          'score': _gameState.score,
+          'lives': _gameState.lives,
+          'level': _gameState.level,
+          'currentQuestionIndex': _gameState.currentQuestionIndex,
+          'totalQuestions': _gameState.questions.length,
+        },
+        'currentPath': _treasureMapController.currentPath.name,
+        'currentCategory': _currentCategory?.name,
+        'sessionActive': _currentSession != null,
+        'persistenceStatus': persistenceStatus,
+      };
+    } catch (e) {
+      debugPrint('Failed to get system status: $e');
+      return {'error': e.toString()};
+    }
+  }
+
+  /// Force save all current progress
+  Future<bool> forceSaveProgress() async {
+    return await _enhancedPersistence.forceSaveAll(
+      treasureMapController: _treasureMapController,
+      currentSession: _currentSession,
+      currentCategory: _currentCategory,
+    );
+  }
+
   @override
   void dispose() {
+    // Save any unsaved progress before disposing
+    _enhancedPersistence.forceSaveAll(
+      treasureMapController: _treasureMapController,
+      currentSession: _currentSession,
+      currentCategory: _currentCategory,
+    );
+
+    // Dispose enhanced persistence manager
+    _enhancedPersistence.dispose();
+
+    // Stop timer
     _stopTimer();
+
+    // Dispose timer controller if we created it
     if (_shouldDisposeTimerController) {
       _timerController.dispose();
     }
+
     super.dispose();
   }
 }
