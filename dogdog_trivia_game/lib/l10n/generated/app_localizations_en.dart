@@ -532,6 +532,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pathSelection_start => 'Start';
 
   @override
+  String get pathType_dogTrivia_name => 'Dog Trivia';
+
+  @override
+  String get pathType_dogTrivia_description =>
+      'Learn about different dog breeds, their characteristics, and origins';
+
+  @override
+  String get pathType_puppyQuest_name => 'Puppy Quest';
+
+  @override
+  String get pathType_puppyQuest_description =>
+      'Test your breed identification skills with timed picture challenges';
+
+  @override
   String get pathType_dogBreeds_name => 'Dog Breeds';
 
   @override
@@ -565,6 +579,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pathType_dogHistory_description =>
       'Discover the history of dogs, genetics, and evolution';
+
+  @override
+  String get pathType_breedAdventure_name => 'Breed Adventure';
+
+  @override
+  String get pathType_breedAdventure_description =>
+      'Test your knowledge by identifying dog breeds from photos';
 
   @override
   String get treasureMap_adventure => 'Adventure';
@@ -777,13 +798,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get difficultyPhase_expert => 'Expert';
-
-  @override
-  String get pathType_breedAdventure_name => 'Breed Adventure';
-
-  @override
-  String get pathType_breedAdventure_description =>
-      'Identify dog breeds from photos in this exciting visual challenge';
 
   @override
   String get treasureMap_chooseYourAdventure => 'Choose Your Adventure';

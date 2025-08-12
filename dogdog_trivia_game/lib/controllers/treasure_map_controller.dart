@@ -6,7 +6,7 @@ import '../services/category_progress_service.dart';
 
 /// Controller for managing treasure map progression and checkpoint tracking with category support
 class TreasureMapController extends ChangeNotifier {
-  PathType _currentPath = PathType.dogBreeds;
+  PathType _currentPath = PathType.dogTrivia;
   QuestionCategory? _selectedCategory;
   int _currentQuestionCount = 0;
   Checkpoint? _lastCompletedCheckpoint;

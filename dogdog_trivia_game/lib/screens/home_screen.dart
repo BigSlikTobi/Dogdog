@@ -569,22 +569,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildCarouselIcon(PathType pathType) {
     IconData iconData;
     switch (pathType) {
-      case PathType.dogBreeds:
+      case PathType.dogTrivia:
         iconData = Icons.pets;
         break;
-      case PathType.dogTraining:
-        iconData = Icons.school;
-        break;
-      case PathType.healthCare:
-        iconData = Icons.local_hospital;
-        break;
-      case PathType.dogBehavior:
-        iconData = Icons.psychology;
-        break;
-      case PathType.dogHistory:
-        iconData = Icons.history_edu;
-        break;
-      case PathType.breedAdventure:
+      case PathType.puppyQuest:
         iconData = Icons.camera_alt;
         break;
     }
@@ -612,7 +600,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (!mounted) return;
     final navigator = Navigator.of(context);
 
-    if (pathType == PathType.breedAdventure) {
+    if (pathType == PathType.puppyQuest) {
       navigator.push(
         GameStateAnimations.createScaleTransition(
           child: const DogBreedsAdventureScreen(),
@@ -640,17 +628,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // Get gradient colors for the specified path type
   List<Color> _getGradientForPath(PathType pathType) {
     switch (pathType) {
-      case PathType.dogBreeds:
+      case PathType.dogTrivia:
         return ModernColors.blueGradient;
-      case PathType.dogTraining:
-        return ModernColors.greenGradient;
-      case PathType.healthCare:
-        return ModernColors.redGradient;
-      case PathType.dogBehavior:
-        return ModernColors.purpleGradient;
-      case PathType.dogHistory:
-        return ModernColors.yellowGradient;
-      case PathType.breedAdventure:
+      case PathType.puppyQuest:
         return ModernColors.orangeGradient;
     }
   }

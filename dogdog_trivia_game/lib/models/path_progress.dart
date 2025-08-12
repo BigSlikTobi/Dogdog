@@ -67,7 +67,7 @@ class PathProgress {
     return PathProgress(
       pathType: PathType.values.firstWhere(
         (p) => p.toString() == map['pathType'],
-        orElse: () => PathType.dogBreeds,
+        orElse: () => PathType.dogTrivia,
       ),
       currentCheckpoint: Checkpoint.values.firstWhere(
         (c) => c.toString() == map['currentCheckpoint'],

@@ -839,6 +839,26 @@
     "description": "Texto del botón para iniciar un camino"
   },
 
+  "pathType_dogTrivia_name": "Quiz Canino",
+  "@pathType_dogTrivia_name": {
+    "description": "Nombre para el camino de quiz canino"
+  },
+
+  "pathType_dogTrivia_description": "Aprende sobre diferentes razas de perros, sus características y orígenes",
+  "@pathType_dogTrivia_description": {
+    "description": "Descripción para el camino de quiz canino"
+  },
+
+  "pathType_puppyQuest_name": "Aventura Cachorros",
+  "@pathType_puppyQuest_name": {
+    "description": "Nombre para el camino de aventura cachorros"
+  },
+
+  "pathType_puppyQuest_description": "Pon a prueba tus habilidades de identificación de razas con desafíos de imágenes cronometrados",
+  "@pathType_puppyQuest_description": {
+    "description": "Descripción para el camino de aventura cachorros"
+  },
+
   "pathType_dogBreeds_name": "Razas de Perros",
   "@pathType_dogBreeds_name": {
     "description": "Nombre para el camino de razas de perros"
@@ -854,7 +874,7 @@
     "description": "Nombre para el camino de entrenamiento canino"
   },
 
-  "pathType_dogTraining_description": "Domina técnicas de entrenamiento canino, comandos y orientación conductual",
+  "pathType_dogTraining_description": "Domina las técnicas de entrenamiento canino, comandos y orientación conductual",
   "@pathType_dogTraining_description": {
     "description": "Descripción para el camino de entrenamiento canino"
   },
@@ -887,6 +907,16 @@
   "pathType_dogHistory_description": "Descubre la historia de los perros, genética y evolución",
   "@pathType_dogHistory_description": {
     "description": "Descripción para el camino de historia canina"
+  },
+
+  "pathType_breedAdventure_name": "Aventura de Razas",
+  "@pathType_breedAdventure_name": {
+    "description": "Nombre para el camino de aventura de razas"
+  },
+
+  "pathType_breedAdventure_description": "Pon a prueba tu conocimiento identificando razas de perros a partir de fotos",
+  "@pathType_breedAdventure_description": {
+    "description": "Descripción para el camino de aventura de razas"
   },
 
   "treasureMap_adventure": "Aventura",
@@ -1234,16 +1264,6 @@
   "difficultyPhase_expert": "Experto",
   "@difficultyPhase_expert": {
     "description": "Nombre para fase de dificultad experta"
-  },
-
-  "pathType_breedAdventure_name": "Aventura de Razas",
-  "@pathType_breedAdventure_name": {
-    "description": "Nombre para el camino de aventura de razas"
-  },
-
-  "pathType_breedAdventure_description": "Identifica razas de perros a partir de fotos en este emocionante desafío visual",
-  "@pathType_breedAdventure_description": {
-    "description": "Descripción para el camino de aventura de razas"
   },
 
   "treasureMap_chooseYourAdventure": "Elige tu Aventura",

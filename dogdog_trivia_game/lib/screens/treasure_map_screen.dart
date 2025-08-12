@@ -387,7 +387,7 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
       listen: false,
     );
 
-    if (controller.currentPath == PathType.breedAdventure) {
+    if (controller.currentPath == PathType.puppyQuest) {
       // Navigate to breed adventure screen
       Navigator.of(context).push(
         PageRouteBuilder(

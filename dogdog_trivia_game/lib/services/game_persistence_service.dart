@@ -133,7 +133,7 @@ class GamePersistenceService {
       'pathsCompleted': 0,
       'bestOverallAccuracy': 0.0,
       'longestStreak': 0,
-      'favoritePathType': PathType.dogBreeds.toString(),
+      'favoritePathType': PathType.dogTrivia.toString(),
       'lastPlayDate': DateTime.now().millisecondsSinceEpoch,
     };
   }

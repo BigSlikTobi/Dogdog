@@ -839,6 +839,26 @@
     "description": "Schaltflächentext zum Starten eines Pfads"
   },
 
+  "pathType_dogTrivia_name": "Hunde Quiz",
+  "@pathType_dogTrivia_name": {
+    "description": "Anzeigename für Hunde Quiz-Pfad"
+  },
+
+  "pathType_dogTrivia_description": "Lerne verschiedene Hunderassen, ihre Eigenschaften und Ursprünge kennen",
+  "@pathType_dogTrivia_description": {
+    "description": "Beschreibung für Hunde Quiz-Pfad"
+  },
+
+  "pathType_puppyQuest_name": "Welpen raten",
+  "@pathType_puppyQuest_name": {
+    "description": "Anzeigename für Welpen raten-Pfad"
+  },
+
+  "pathType_puppyQuest_description": "Teste deine Rassenerkennung mit zeitlich begrenzten Bildherausforderungen",
+  "@pathType_puppyQuest_description": {
+    "description": "Beschreibung für Welpen raten-Pfad"
+  },
+
   "pathType_dogBreeds_name": "Hunderassen",
   "@pathType_dogBreeds_name": {
     "description": "Anzeigename für Hunderassen-Pfad"
@@ -854,19 +874,19 @@
     "description": "Anzeigename für Hundetraining-Pfad"
   },
 
-  "pathType_dogTraining_description": "Meistere Hundetrainingstechniken, Kommandos und Verhaltensführung",
+  "pathType_dogTraining_description": "Meistere Hundetraining-Techniken, Kommandos und Verhaltensführung",
   "@pathType_dogTraining_description": {
     "description": "Beschreibung für Hundetraining-Pfad"
   },
 
   "pathType_healthCare_name": "Gesundheit & Pflege",
   "@pathType_healthCare_name": {
-    "description": "Anzeigename für Gesundheitspflege-Pfad"
+    "description": "Anzeigename für Gesundheit & Pflege-Pfad"
   },
 
   "pathType_healthCare_description": "Verstehe Hundegesundheit, Ernährung und medizinische Versorgung",
   "@pathType_healthCare_description": {
-    "description": "Beschreibung für Gesundheitspflege-Pfad"
+    "description": "Beschreibung für Gesundheit & Pflege-Pfad"
   },
 
   "pathType_dogBehavior_name": "Hundeverhalten",
@@ -887,6 +907,16 @@
   "pathType_dogHistory_description": "Entdecke die Geschichte der Hunde, Genetik und Evolution",
   "@pathType_dogHistory_description": {
     "description": "Beschreibung für Hundegeschichte-Pfad"
+  },
+
+  "pathType_breedAdventure_name": "Rassen-Abenteuer",
+  "@pathType_breedAdventure_name": {
+    "description": "Anzeigename für Rassen-Abenteuer-Pfad"
+  },
+
+  "pathType_breedAdventure_description": "Teste dein Wissen durch Identifizierung von Hunderassen anhand von Fotos",
+  "@pathType_breedAdventure_description": {
+    "description": "Beschreibung für Rassen-Abenteuer-Pfad"
   },
 
   "treasureMap_adventure": "Abenteuer",
@@ -1234,16 +1264,6 @@
   "difficultyPhase_expert": "Experte",
   "@difficultyPhase_expert": {
     "description": "Name für Experten-Schwierigkeitsphase"
-  },
-
-  "pathType_breedAdventure_name": "Rassen-Abenteuer",
-  "@pathType_breedAdventure_name": {
-    "description": "Anzeigename für Rassen-Abenteuer-Pfad"
-  },
-
-  "pathType_breedAdventure_description": "Identifiziere Hunderassen anhand von Fotos in dieser aufregenden visuellen Herausforderung",
-  "@pathType_breedAdventure_description": {
-    "description": "Beschreibung für Rassen-Abenteuer-Pfad"
   },
 
   "treasureMap_chooseYourAdventure": "Wähle dein Abenteuer",
