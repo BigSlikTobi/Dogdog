@@ -135,6 +135,11 @@ class _AccessibleCategorySelectionState
   }
 
   Widget _buildCategoryGrid(BuildContext context) {
+    // For only 2 categories, use a simple row layout on mobile, 3 columns on larger screens
+    if (widget.availableCategories.length <= 2 && widget.isMobile) {
+      return _buildSimpleRowLayout(context);
+    }
+
     return AccessibilityEnhancements.buildAccessibleGrid(
       gridDescription:
           'Category selection grid with ${widget.availableCategories.length} options',
@@ -144,6 +149,27 @@ class _AccessibleCategorySelectionState
         final category = entry.value;
         return _buildAccessibleCategoryButton(context, category, index);
       }).toList(),
+    );
+  }
+
+  Widget _buildSimpleRowLayout(BuildContext context) {
+    return Semantics(
+      label:
+          'Category selection with ${widget.availableCategories.length} options',
+      child: IntrinsicHeight(
+        child: Row(
+          children: widget.availableCategories.asMap().entries.map((entry) {
+            final index = entry.key;
+            final category = entry.value;
+            return Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: ModernSpacing.xs),
+                child: _buildAccessibleCategoryButton(context, category, index),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 
@@ -179,8 +205,8 @@ class _AccessibleCategorySelectionState
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeInOut,
             padding: EdgeInsets.symmetric(
-              vertical: ModernSpacing.md,
-              horizontal: ModernSpacing.sm,
+              vertical: ModernSpacing.xs, // Further reduced padding
+              horizontal: ModernSpacing.xs / 2, // Further reduced padding
             ),
             decoration: _buildAccessibleButtonDecoration(
               context,
@@ -197,10 +223,13 @@ class _AccessibleCategorySelectionState
                   isSelected,
                   categoryColors,
                 ),
-                SizedBox(height: ModernSpacing.sm),
-                _buildCategoryLabel(context, category, isSelected),
+                SizedBox(height: ModernSpacing.xs), // Reduced spacing
+                Flexible(
+                  // Add Flexible to prevent overflow
+                  child: _buildCategoryLabel(context, category, isSelected),
+                ),
                 if (isSelected) ...[
-                  SizedBox(height: ModernSpacing.xs),
+                  SizedBox(height: ModernSpacing.xs / 2), // Very small spacing
                   _buildSelectedIndicator(context),
                 ],
               ],
@@ -288,7 +317,7 @@ class _AccessibleCategorySelectionState
       child: Icon(
         _getCategoryIcon(category),
         color: iconColor,
-        size: widget.isMobile ? 32 : 36,
+        size: widget.isMobile ? 20 : 24, // Further reduced icon size
       ),
     );
   }
@@ -314,7 +343,7 @@ class _AccessibleCategorySelectionState
         ModernTypography.bodyMedium.copyWith(
           color: textColor,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-          fontSize: widget.isMobile ? 14 : 16,
+          fontSize: widget.isMobile ? 10 : 12, // Further reduced font size
         ),
       ),
       textAlign: TextAlign.center,

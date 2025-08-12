@@ -9,12 +9,14 @@ class VerticalProgressLine extends StatelessWidget {
   final int currentQuestionCount;
   final List<Checkpoint> completedCheckpoints;
   final Checkpoint? currentCheckpoint;
+  final QuestionCategory? category; // Add category parameter
 
   const VerticalProgressLine({
     super.key,
     required this.currentQuestionCount,
     required this.completedCheckpoints,
     this.currentCheckpoint,
+    this.category,
   });
 
   @override
@@ -32,7 +34,7 @@ class VerticalProgressLine extends StatelessWidget {
             children: [
               // Title
               Text(
-                'Dog Breed Progress',
+                _getProgressTitle(),
                 style: ModernTypography.headingSmall.copyWith(
                   color: ModernColors.textPrimary,
                   fontWeight: FontWeight.bold,
@@ -185,5 +187,23 @@ class VerticalProgressLine extends StatelessWidget {
       }
     }
     return null; // All completed
+  }
+
+  String _getProgressTitle() {
+    if (category != null) {
+      switch (category!) {
+        case QuestionCategory.dogTraining:
+          return 'Dog Training Progress';
+        case QuestionCategory.dogBreeds:
+          return 'Dog Breed Progress';
+        case QuestionCategory.dogBehavior:
+          return 'Dog Behavior Progress';
+        case QuestionCategory.dogHealth:
+          return 'Dog Health Progress';
+        case QuestionCategory.dogHistory:
+          return 'Dog History Progress';
+      }
+    }
+    return 'Progress'; // Fallback
   }
 }

@@ -6,10 +6,8 @@ import '../design_system/modern_colors.dart';
 import '../design_system/modern_typography.dart';
 import '../design_system/modern_spacing.dart';
 import '../widgets/modern_card.dart';
-import '../widgets/gradient_button.dart';
 import '../widgets/vertical_progress_line.dart';
-import '../widgets/question_error_handler.dart';
-import '../widgets/accessible_category_selection.dart';
+import '../widgets/category_carousel.dart';
 import '../utils/responsive.dart';
 import '../utils/path_localization.dart';
 import '../l10n/generated/app_localizations.dart';
@@ -37,15 +35,19 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
   }
 
   void _initializeController() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final controller = Provider.of<TreasureMapController>(
         context,
         listen: false,
       );
 
-      // Set default category if none is selected
-      if (controller.selectedCategory == null) {
-        controller.selectCategory(QuestionCategory.dogBreeds);
+      // Initialize the controller to load available categories
+      await controller.initialize();
+
+      // Set default category if none is selected and categories are available
+      if (controller.selectedCategory == null &&
+          controller.availableCategories.isNotEmpty) {
+        controller.selectCategory(controller.availableCategories.first);
       }
     });
   }
@@ -93,7 +95,6 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
               children: [
                 _buildHeader(isMobile),
                 _buildTreasureMapView(isMobile),
-                _buildActionSection(isMobile),
               ],
             ),
           ),
@@ -155,18 +156,17 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
       builder: (context, controller, child) {
         return Expanded(
           child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: ModernSpacing.md),
             child: Column(
               children: [
                 // Category Selection Section
                 _buildCategorySelection(isMobile, controller),
-                SizedBox(height: ModernSpacing.lg),
-                // Error Handler Section
-                QuestionErrorBanner(onTap: () => _showErrorDetails(context)),
-                SizedBox(height: ModernSpacing.sm),
+                SizedBox(height: ModernSpacing.xl),
                 // Treasure Map Progress Section
-                Container(
-                  height: 450, // Fixed height to prevent layout issues
-                  margin: EdgeInsets.symmetric(horizontal: ModernSpacing.lg),
+                SizedBox(
+                  height: isMobile
+                      ? 500
+                      : 600, // Fixed height to show all checkpoints
                   child: ModernCard(
                     child: Container(
                       padding: EdgeInsets.all(ModernSpacing.lg),
@@ -175,31 +175,14 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
                         completedCheckpoints: controller.completedCheckpoints
                             .toList(),
                         currentCheckpoint: controller.nextCheckpoint,
+                        category:
+                            controller.focusedCategory ??
+                            controller.selectedCategory, // Use focused category
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: ModernSpacing.lg),
               ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildActionSection(bool isMobile) {
-    return Consumer<TreasureMapController>(
-      builder: (context, controller, child) {
-        return Container(
-          padding: EdgeInsets.all(ModernSpacing.lg),
-          child: SizedBox(
-            width: double.infinity,
-            child: GradientButton(
-              onPressed: () => _handleActionButtonPressed(controller),
-              text: _getActionButtonText(controller),
-              gradientColors: ModernColors.blueGradient,
-              icon: _getActionButtonIcon(controller),
             ),
           ),
         );
@@ -211,17 +194,15 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
     bool isMobile,
     TreasureMapController controller,
   ) {
-    return AccessibleCategorySelection(
+    return CategoryCarousel(
       selectedCategory: controller.selectedCategory,
       onCategorySelected: (category) => controller.selectCategory(category),
+      onFocusedCategoryChanged: (category) => controller.setFocusedCategory(
+        category,
+      ), // Add focused category callback
       isMobile: isMobile,
-      availableCategories: const [
-        QuestionCategory.dogTraining,
-        QuestionCategory.dogBreeds,
-        QuestionCategory.dogBehavior,
-        QuestionCategory.dogHealth,
-        QuestionCategory.dogHistory,
-      ],
+      availableCategories: controller.availableCategories,
+      onStartGame: () => _navigateToGameScreen(), // Add navigation callback
     );
   }
 
@@ -243,142 +224,33 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
   String _getHeaderTitle(TreasureMapController controller) {
     try {
       final l10n = AppLocalizations.of(context);
-      if (controller.selectedCategory != null) {
+      // Use focused category for header display, fallback to selected category
+      final displayCategory =
+          controller.focusedCategory ?? controller.selectedCategory;
+      if (displayCategory != null) {
         final locale = Localizations.localeOf(context).languageCode;
-        return '${controller.selectedCategory!.getLocalizedName(locale)} ${l10n.treasureMap_adventure}';
+        return '${displayCategory.getLocalizedName(locale)} ${l10n.treasureMap_adventure}';
       }
       return '${controller.currentPath.getLocalizedName(context)} ${l10n.treasureMap_adventure}';
     } catch (e) {
       // Fallback for test environment
-      if (controller.selectedCategory != null) {
-        return '${controller.selectedCategory!.displayName} Adventure';
+      final displayCategory =
+          controller.focusedCategory ?? controller.selectedCategory;
+      if (displayCategory != null) {
+        return '${displayCategory.displayName} Adventure';
       }
       return '${controller.currentPath.displayName} Adventure';
     }
   }
 
   Color _getHeaderColor(TreasureMapController controller) {
-    if (controller.selectedCategory != null) {
-      return _getCategoryColors(controller.selectedCategory!).first;
+    // Use focused category for header color, fallback to selected category
+    final displayCategory =
+        controller.focusedCategory ?? controller.selectedCategory;
+    if (displayCategory != null) {
+      return _getCategoryColors(displayCategory).first;
     }
     return ModernColors.textPrimary;
-  }
-
-  String _getActionButtonText(TreasureMapController controller) {
-    try {
-      final l10n = AppLocalizations.of(context);
-      if (controller.selectedCategory == null) {
-        return l10n.treasureMap_selectCategoryFirst;
-      } else if (controller.isPathCompleted) {
-        return l10n.treasureMap_pathCompleted;
-      } else if (controller.currentQuestionCount == 0) {
-        final locale = Localizations.localeOf(context).languageCode;
-        final categoryName = controller.selectedCategory!.getLocalizedName(
-          locale,
-        );
-        return l10n.treasureMap_startCategoryAdventure(categoryName);
-      } else {
-        final locale = Localizations.localeOf(context).languageCode;
-        final categoryName = controller.selectedCategory!.getLocalizedName(
-          locale,
-        );
-        return l10n.treasureMap_continueCategoryAdventure(categoryName);
-      }
-    } catch (e) {
-      // Fallback for test environment
-      if (controller.selectedCategory == null) {
-        return 'Select Category First';
-      } else if (controller.isPathCompleted) {
-        return 'Path Completed';
-      } else if (controller.currentQuestionCount == 0) {
-        final categoryName = controller.selectedCategory!.displayName;
-        return 'Start $categoryName Adventure';
-      } else {
-        final categoryName = controller.selectedCategory!.displayName;
-        return 'Continue $categoryName Adventure';
-      }
-    }
-  }
-
-  IconData _getActionButtonIcon(TreasureMapController controller) {
-    if (controller.isPathCompleted) {
-      return Icons.celebration;
-    } else if (controller.currentQuestionCount == 0) {
-      return Icons.play_arrow;
-    } else {
-      return Icons.arrow_forward;
-    }
-  }
-
-  void _handleActionButtonPressed(TreasureMapController controller) {
-    if (controller.selectedCategory == null) {
-      // Show category selection prompt
-      _showCategorySelectionPrompt();
-      return;
-    }
-
-    if (controller.isPathCompleted) {
-      // Show completion celebration or navigate to results
-      _showCompletionDialog();
-    } else {
-      // Navigate to game screen to start/continue questions
-      _navigateToGameScreen();
-    }
-  }
-
-  void _showCategorySelectionPrompt() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(Icons.info_outline, color: ModernColors.primaryBlue),
-            SizedBox(width: ModernSpacing.sm),
-            Text(
-              _getLocalizedText(
-                'treasureMap_selectCategoryDialog_title',
-                'Select Category',
-              ),
-            ),
-          ],
-        ),
-        content: Text(
-          _getLocalizedText(
-            'treasureMap_selectCategoryDialog_message',
-            'Please select a category above to start your adventure.',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(_getLocalizedText('common_ok', 'OK')),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showCompletionDialog() {
-    final l10n = AppLocalizations.of(context);
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(Icons.celebration, color: ModernColors.success),
-            SizedBox(width: ModernSpacing.sm),
-            Text(l10n.treasureMap_congratulations),
-          ],
-        ),
-        content: Text(l10n.treasureMap_completionMessage),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(l10n.treasureMap_continueExploring),
-          ),
-        ],
-      ),
-    );
   }
 
   void _navigateToGameScreen() {
@@ -434,27 +306,6 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
     }
   }
 
-  /// Helper method to get localized text with fallback
-  String _getLocalizedText(String key, String fallback) {
-    try {
-      final l10n = AppLocalizations.of(context);
-      switch (key) {
-        case 'treasureMap_chooseYourAdventure':
-          return l10n.treasureMap_chooseYourAdventure;
-        case 'treasureMap_selectCategoryFirst':
-          return l10n.treasureMap_selectCategoryFirst;
-        case 'treasureMap_selectCategoryDialog_title':
-          return l10n.treasureMap_selectCategoryDialog_title;
-        case 'treasureMap_selectCategoryDialog_message':
-          return l10n.treasureMap_selectCategoryDialog_message;
-        default:
-          return fallback;
-      }
-    } catch (e) {
-      return fallback;
-    }
-  }
-
   /// Get localized segment display text
   String _getLocalizedSegmentDisplay(TreasureMapController controller) {
     try {
@@ -492,39 +343,5 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
 
       return '$questionsInSegment/$questionsNeeded questions to ${next.displayName}';
     }
-  }
-
-  /// Shows detailed error information in a dialog
-  void _showErrorDetails(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(Icons.info_outline, color: ModernColors.primaryBlue),
-            SizedBox(width: ModernSpacing.sm),
-            Text('Question Loading Status'),
-          ],
-        ),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: QuestionErrorHandler(
-            onRetrySuccess: () {
-              Navigator.of(context).pop();
-              // Optionally refresh the screen or show success message
-            },
-            onRetryFailed: () {
-              // Handle retry failure if needed
-            },
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Close'),
-          ),
-        ],
-      ),
-    );
   }
 }

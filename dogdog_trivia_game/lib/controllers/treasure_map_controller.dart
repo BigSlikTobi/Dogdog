@@ -3,11 +3,14 @@ import '../models/enums.dart';
 import '../models/category_progress.dart';
 import '../services/progress_service.dart';
 import '../services/category_progress_service.dart';
+import '../services/question_service.dart';
 
 /// Controller for managing treasure map progression and checkpoint tracking with category support
 class TreasureMapController extends ChangeNotifier {
   PathType _currentPath = PathType.dogTrivia;
   QuestionCategory? _selectedCategory;
+  QuestionCategory?
+  _focusedCategory; // New property for the focused category in carousel
   int _currentQuestionCount = 0;
   Checkpoint? _lastCompletedCheckpoint;
   final Set<Checkpoint> _completedCheckpoints = <Checkpoint>{};
@@ -17,21 +20,19 @@ class TreasureMapController extends ChangeNotifier {
   final ProgressService _progressService = ProgressService();
   final CategoryProgressService _categoryProgressService =
       CategoryProgressService();
+  final QuestionService _questionService = QuestionService();
 
-  // Available categories (can be dynamically updated)
-  final List<QuestionCategory> _availableCategories = [
-    QuestionCategory.dogTraining,
-    QuestionCategory.dogBreeds,
-    QuestionCategory.dogBehavior,
-    QuestionCategory.dogHealth,
-    QuestionCategory.dogHistory,
-  ];
+  // Available categories (dynamically loaded from question service)
+  List<QuestionCategory> _availableCategories = [];
 
   /// Current selected path
   PathType get currentPath => _currentPath;
 
   /// Currently selected question category
   QuestionCategory? get selectedCategory => _selectedCategory;
+
+  /// Currently focused category in the carousel (for UI display)
+  QuestionCategory? get focusedCategory => _focusedCategory;
 
   /// Current number of questions answered in this path
   int get currentQuestionCount => _currentQuestionCount;
@@ -105,9 +106,28 @@ class TreasureMapController extends ChangeNotifier {
   /// Initialize the controller and load saved progress
   Future<void> initialize() async {
     await _categoryProgressService.initialize();
+    await _loadAvailableCategories();
     await _loadCategoryProgress();
     await _restoreLastSelectedCategory();
     notifyListeners();
+  }
+
+  /// Load available categories from the question service
+  Future<void> _loadAvailableCategories() async {
+    try {
+      await _questionService.initialize();
+      _availableCategories = _questionService.getAvailableCategories();
+      debugPrint(
+        'Loaded ${_availableCategories.length} available categories: ${_availableCategories.map((c) => c.displayName).join(', ')}',
+      );
+    } catch (e) {
+      debugPrint('Failed to load available categories: $e');
+      // Fallback to default categories if loading fails
+      _availableCategories = [
+        QuestionCategory.dogTraining,
+        QuestionCategory.dogBreeds,
+      ];
+    }
   }
 
   /// Restore the last selected category if available
@@ -142,6 +162,14 @@ class TreasureMapController extends ChangeNotifier {
     _completedCheckpoints.addAll(categoryProgress.completedCheckpoints);
 
     notifyListeners();
+  }
+
+  /// Update the focused category (for UI display purposes)
+  void setFocusedCategory(QuestionCategory category) {
+    if (_focusedCategory != category) {
+      _focusedCategory = category;
+      notifyListeners();
+    }
   }
 
   /// Initialize a new path

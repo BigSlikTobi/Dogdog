@@ -275,7 +275,9 @@ class AccessibilityEnhancements {
             const NeverScrollableScrollPhysics(), // Fix: Prevent nested scrolling
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
-          childAspectRatio: 1.5, // Fix: Define aspect ratio for proper sizing
+          childAspectRatio: 1.2, // Increased to give more space for content
+          mainAxisSpacing: 8.0,
+          crossAxisSpacing: 8.0,
         ),
         itemCount: children.length,
         itemBuilder: (context, index) {
