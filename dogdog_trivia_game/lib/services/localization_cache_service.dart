@@ -37,6 +37,9 @@ class LocalizationCacheService {
   final List<String> _accessOrder = []; // LRU tracking
   String? _currentLocale;
 
+  /// Get the current locale
+  String get currentLocale => _currentLocale ?? 'de';
+
   /// Initialize with current locale
   void initialize(String locale) {
     if (_currentLocale != locale) {
@@ -44,8 +47,9 @@ class LocalizationCacheService {
       _stringCache.clear(); // Clear cache when locale changes
       _accessOrder.clear();
       if (kDebugMode) {
-        if (kDebugMode)
+        if (kDebugMode) {
           print('LocalizationCacheService initialized for locale: $locale');
+        }
       }
     }
   }
@@ -129,10 +133,11 @@ class LocalizationCacheService {
     }
 
     if (expiredKeys.isNotEmpty) {
-      if (kDebugMode)
+      if (kDebugMode) {
         print(
           'Removed ${expiredKeys.length} expired localization cache entries',
         );
+      }
     }
   }
 
@@ -146,8 +151,9 @@ class LocalizationCacheService {
       _accessOrder.remove(key);
     }
 
-    if (kDebugMode)
+    if (kDebugMode) {
       print('Removed $excessCount LRU localization cache entries');
+    }
   }
 
   /// Preload commonly used strings
@@ -185,8 +191,9 @@ class LocalizationCacheService {
       }
     }
 
-    if (kDebugMode)
+    if (kDebugMode) {
       print('Preloaded ${commonStrings.length} common localization strings');
+    }
   }
 
   /// Get cache statistics

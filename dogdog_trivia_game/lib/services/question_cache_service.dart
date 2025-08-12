@@ -149,8 +149,9 @@ class QuestionCacheService {
 
       return questions;
     } catch (e) {
-      if (kDebugMode)
+      if (kDebugMode) {
         print('Failed to load questions for category $category: $e');
+      }
       rethrow;
     } finally {
       _categoryLoadingState[category] = false;

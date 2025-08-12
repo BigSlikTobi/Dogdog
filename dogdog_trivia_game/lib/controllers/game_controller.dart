@@ -14,6 +14,7 @@ import '../services/game_persistence_service.dart';
 import '../services/enhanced_persistence_manager.dart';
 import '../services/audio_service.dart';
 import '../services/haptic_service.dart';
+import '../services/localization_cache_service.dart';
 import 'power_up_controller.dart';
 import 'treasure_map_controller.dart';
 import 'persistent_timer_controller.dart';
@@ -793,6 +794,16 @@ class GameController extends ChangeNotifier {
     return filteredQuestions;
   }
 
+  /// Gets the current app locale, with fallback to 'de'
+  String _getCurrentLocale() {
+    try {
+      return LocalizationCacheService.instance.currentLocale;
+    } catch (e) {
+      debugPrint('Failed to get current locale: $e');
+      return 'de'; // Fallback to German
+    }
+  }
+
   /// Gets questions for a specific category while excluding already answered ones
   Future<List<Question>> _getQuestionsForCategory({
     required QuestionCategory category,
@@ -805,7 +816,7 @@ class GameController extends ChangeNotifier {
           .getLocalizedQuestionsForCategory(
             category: category,
             count: count * 2, // Get more questions to filter from
-            locale: 'de', // TODO: Get from app locale
+            locale: _getCurrentLocale(),
             excludeIds: excludeAnsweredIds.toSet(),
             shuffleWithinDifficulty: true,
           );
@@ -815,13 +826,13 @@ class GameController extends ChangeNotifier {
           .map(
             (lq) => Question(
               id: lq.id,
-              text: lq.getText('de'), // TODO: Use app locale
-              answers: lq.getAnswers('de'), // TODO: Use app locale
+              text: lq.getText(_getCurrentLocale()),
+              answers: lq.getAnswers(_getCurrentLocale()),
               correctAnswerIndex: lq.correctAnswerIndex,
               difficulty: _mapStringToDifficulty(lq.difficulty),
               category: lq.category,
-              hint: lq.getHint('de'), // TODO: Use app locale
-              funFact: lq.getFunFact('de'), // TODO: Use app locale
+              hint: lq.getHint(_getCurrentLocale()),
+              funFact: lq.getFunFact(_getCurrentLocale()),
             ),
           )
           .take(count)

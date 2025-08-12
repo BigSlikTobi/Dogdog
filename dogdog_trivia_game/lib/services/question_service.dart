@@ -892,8 +892,9 @@ class QuestionService {
     // Validate difficulty progression (warning only, not error)
     if (!_randomizer.validateDifficultyProgression(questions)) {
       // Log warning but don't throw error as fallback logic might cause this
-      if (kDebugMode)
+      if (kDebugMode) {
         print('Warning: Question difficulty progression may not be optimal');
+      }
     }
   }
 
