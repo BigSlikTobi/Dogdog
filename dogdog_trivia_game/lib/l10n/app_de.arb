@@ -988,6 +988,73 @@
     "description": "Schaltfläche zum Fortsetzen des Spiels"
   },
 
+  "breedAdventure_exitGame": "Spiel Verlassen",
+  "@breedAdventure_exitGame": {
+    "description": "Schaltfläche zum Verlassen des Spiels"
+  },
+
+  "category_dogTraining": "Hundetraining",
+  "@category_dogTraining": {
+    "description": "Hundetraining Kategoriename"
+  },
+
+  "category_dogBreeds": "Hunderassen",
+  "@category_dogBreeds": {
+    "description": "Hunderassen Kategoriename"
+  },
+
+  "category_dogBehavior": "Hundeverhalten",
+  "@category_dogBehavior": {
+    "description": "Hundeverhalten Kategoriename"
+  },
+
+  "category_dogTraining_description": "Meistere Hundetrainingstechniken, Kommandos und Verhaltensführung",
+  "@category_dogTraining_description": {
+    "description": "Beschreibung für Hundetraining Kategorie"
+  },
+
+  "category_dogBreeds_description": "Lerne verschiedene Hunderassen, ihre Eigenschaften und Ursprünge kennen",
+  "@category_dogBreeds_description": {
+    "description": "Beschreibung für Hunderassen Kategorie"
+  },
+
+  "category_dogBehavior_description": "Erkunde Hundepsychologie, Instinkte und Verhaltensmuster",
+  "@category_dogBehavior_description": {
+    "description": "Beschreibung für Hundeverhalten Kategorie"
+  },
+
+  "difficulty_easyPlus": "Leicht+",
+  "@difficulty_easyPlus": {
+    "description": "Leicht+ Schwierigkeitsgrad Name"
+  },
+
+  "difficulty_easyPlus_description": "Etwas herausfordernder als leicht",
+  "@difficulty_easyPlus_description": {
+    "description": "Beschreibung für Leicht+ Schwierigkeit"
+  },
+
+  "treasureMap_startCategoryAdventure": "{category} Abenteuer Starten",
+  "@treasureMap_startCategoryAdventure": {
+    "description": "Schaltflächentext zum Starten kategoriespezifischen Abenteuers",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Hundetraining"
+      }
+    }
+  },
+
+  "treasureMap_continueCategoryAdventure": "{category} Abenteuer Fortsetzen",
+  "@treasureMap_continueCategoryAdventure": {
+    "description": "Schaltflächentext zum Fortsetzen kategoriespezifischen Abenteuers",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Hundetraining"
+      }
+    }
+  },
+
   "breedAdventure_exitGame": "Spiel Beenden",
   "@breedAdventure_exitGame": {
     "description": "Schaltfläche zum Beenden des Spiels"
@@ -1177,5 +1244,45 @@
   "pathType_breedAdventure_description": "Identifiziere Hunderassen anhand von Fotos in dieser aufregenden visuellen Herausforderung",
   "@pathType_breedAdventure_description": {
     "description": "Beschreibung für Rassen-Abenteuer-Pfad"
+  },
+
+  "treasureMap_chooseYourAdventure": "Wähle dein Abenteuer",
+  "@treasureMap_chooseYourAdventure": {
+    "description": "Titel für Kategorieauswahl-Bereich"
+  },
+
+  "treasureMap_selectCategoryFirst": "Zuerst Kategorie wählen",
+  "@treasureMap_selectCategoryFirst": {
+    "description": "Schaltflächentext wenn keine Kategorie ausgewählt ist"
+  },
+
+  "treasureMap_selectCategoryDialog_title": "Kategorie wählen",
+  "@treasureMap_selectCategoryDialog_title": {
+    "description": "Titel für Kategorieauswahl-Dialog"
+  },
+
+  "treasureMap_selectCategoryDialog_message": "Bitte wähle oben eine Kategorie aus, um dein Abenteuer zu starten.",
+  "@treasureMap_selectCategoryDialog_message": {
+    "description": "Nachricht im Kategorieauswahl-Dialog"
+  },
+
+  "category_dogHealth": "Hundegesundheit",
+  "@category_dogHealth": {
+    "description": "Hundegesundheit Kategoriename"
+  },
+
+  "category_dogHistory": "Hundegeschichte",
+  "@category_dogHistory": {
+    "description": "Hundegeschichte Kategoriename"
+  },
+
+  "category_dogHealth_description": "Verstehe Hundegesundheit, Ernährung und medizinische Versorgung",
+  "@category_dogHealth_description": {
+    "description": "Beschreibung für Hundegesundheit-Kategorie"
+  },
+
+  "category_dogHistory_description": "Entdecke die Geschichte der Hunde, Genetik und Evolution",
+  "@category_dogHistory_description": {
+    "description": "Beschreibung für Hundegeschichte-Kategorie"
   }
 }

@@ -101,6 +101,96 @@ enum ErrorSeverity {
   }
 }
 
+/// Enum representing question categories for the new localized format
+enum QuestionCategory {
+  dogTraining('Dog Training'),
+  dogBreeds('Dog Breeds'),
+  dogBehavior('Dog Behavior'),
+  dogHealth('Dog Health'),
+  dogHistory('Dog History');
+
+  const QuestionCategory(this.displayName);
+  final String displayName;
+
+  /// Returns the localized name for the category
+  String getLocalizedName(String locale) {
+    switch (this) {
+      case QuestionCategory.dogTraining:
+        switch (locale) {
+          case 'de':
+            return 'Hundetraining';
+          case 'es':
+            return 'Entrenamiento Canino';
+          default:
+            return 'Dog Training';
+        }
+      case QuestionCategory.dogBreeds:
+        switch (locale) {
+          case 'de':
+            return 'Hunderassen';
+          case 'es':
+            return 'Razas de Perros';
+          default:
+            return 'Dog Breeds';
+        }
+      case QuestionCategory.dogBehavior:
+        switch (locale) {
+          case 'de':
+            return 'Hundeverhalten';
+          case 'es':
+            return 'Comportamiento Canino';
+          default:
+            return 'Dog Behavior';
+        }
+      case QuestionCategory.dogHealth:
+        switch (locale) {
+          case 'de':
+            return 'Hundegesundheit';
+          case 'es':
+            return 'Salud Canina';
+          default:
+            return 'Dog Health';
+        }
+      case QuestionCategory.dogHistory:
+        switch (locale) {
+          case 'de':
+            return 'Hundegeschichte';
+          case 'es':
+            return 'Historia Canina';
+          default:
+            return 'Dog History';
+        }
+    }
+  }
+
+  /// Returns the category from a string value
+  static QuestionCategory fromString(String value) {
+    switch (value.toLowerCase()) {
+      case 'dog training':
+      case 'hundetraining':
+      case 'entrenamiento canino':
+        return QuestionCategory.dogTraining;
+      case 'dog behavior':
+      case 'hundeverhalten':
+      case 'comportamiento canino':
+        return QuestionCategory.dogBehavior;
+      case 'dog health':
+      case 'hundegesundheit':
+      case 'salud canina':
+        return QuestionCategory.dogHealth;
+      case 'dog history':
+      case 'hundegeschichte':
+      case 'historia canina':
+        return QuestionCategory.dogHistory;
+      case 'dog breeds':
+      case 'hunderassen':
+      case 'razas de perros':
+      default:
+        return QuestionCategory.dogBreeds;
+    }
+  }
+}
+
 /// Enum representing different themed learning paths in the treasure map system
 enum PathType {
   dogBreeds,

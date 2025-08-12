@@ -963,6 +963,73 @@
     "description": "Pregunta para identificación de razas"
   },
 
+  "category_dogTraining": "Entrenamiento Canino",
+  "@category_dogTraining": {
+    "description": "Nombre de categoría Entrenamiento Canino"
+  },
+
+  "category_dogBreeds": "Razas de Perros",
+  "@category_dogBreeds": {
+    "description": "Nombre de categoría Razas de Perros"
+  },
+
+  "category_dogBehavior": "Comportamiento Canino",
+  "@category_dogBehavior": {
+    "description": "Nombre de categoría Comportamiento Canino"
+  },
+
+  "category_dogTraining_description": "Domina técnicas de entrenamiento canino, comandos y orientación conductual",
+  "@category_dogTraining_description": {
+    "description": "Descripción para categoría Entrenamiento Canino"
+  },
+
+  "category_dogBreeds_description": "Aprende sobre diferentes razas de perros, sus características y orígenes",
+  "@category_dogBreeds_description": {
+    "description": "Descripción para categoría Razas de Perros"
+  },
+
+  "category_dogBehavior_description": "Explora la psicología canina, instintos y patrones de comportamiento",
+  "@category_dogBehavior_description": {
+    "description": "Descripción para categoría Comportamiento Canino"
+  },
+
+  "difficulty_easyPlus": "Fácil+",
+  "@difficulty_easyPlus": {
+    "description": "Nombre del nivel de dificultad Fácil+"
+  },
+
+  "difficulty_easyPlus_description": "Un poco más desafiante que fácil",
+  "@difficulty_easyPlus_description": {
+    "description": "Descripción para dificultad Fácil+"
+  },
+
+  "treasureMap_startCategoryAdventure": "Comenzar Aventura de {category}",
+  "@treasureMap_startCategoryAdventure": {
+    "description": "Texto del botón para comenzar aventura específica de categoría",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Entrenamiento Canino"
+      }
+    }
+  },
+
+  "treasureMap_continueCategoryAdventure": "Continuar Aventura de {category}",
+  "@treasureMap_continueCategoryAdventure": {
+    "description": "Texto del botón para continuar aventura específica de categoría",
+    "placeholders": {
+      "category": {
+        "type": "String",
+        "example": "Entrenamiento Canino"
+      }
+    }
+  },
+
+  "breedAdventure_whichImageShows": "¿Qué imagen muestra un",
+  "@breedAdventure_whichImageShows": {
+    "description": "Pregunta para identificación de razas"
+  },
+
   "breedAdventure_gameInitializing": "Preparando tu aventura de razas...",
   "@breedAdventure_gameInitializing": {
     "description": "Mensaje de carga al inicializar el juego"
@@ -1177,5 +1244,45 @@
   "pathType_breedAdventure_description": "Identifica razas de perros a partir de fotos en este emocionante desafío visual",
   "@pathType_breedAdventure_description": {
     "description": "Descripción para el camino de aventura de razas"
+  },
+
+  "treasureMap_chooseYourAdventure": "Elige tu Aventura",
+  "@treasureMap_chooseYourAdventure": {
+    "description": "Título para la sección de selección de categoría"
+  },
+
+  "treasureMap_selectCategoryFirst": "Selecciona Categoría Primero",
+  "@treasureMap_selectCategoryFirst": {
+    "description": "Texto del botón cuando no hay categoría seleccionada"
+  },
+
+  "treasureMap_selectCategoryDialog_title": "Seleccionar Categoría",
+  "@treasureMap_selectCategoryDialog_title": {
+    "description": "Título para el diálogo de selección de categoría"
+  },
+
+  "treasureMap_selectCategoryDialog_message": "Por favor selecciona una categoría arriba para comenzar tu aventura.",
+  "@treasureMap_selectCategoryDialog_message": {
+    "description": "Mensaje en el diálogo de selección de categoría"
+  },
+
+  "category_dogHealth": "Salud Canina",
+  "@category_dogHealth": {
+    "description": "Nombre de categoría Salud Canina"
+  },
+
+  "category_dogHistory": "Historia Canina",
+  "@category_dogHistory": {
+    "description": "Nombre de categoría Historia Canina"
+  },
+
+  "category_dogHealth_description": "Comprende la salud canina, nutrición y cuidado médico",
+  "@category_dogHealth_description": {
+    "description": "Descripción para la categoría Salud Canina"
+  },
+
+  "category_dogHistory_description": "Descubre la historia de los perros, genética y evolución",
+  "@category_dogHistory_description": {
+    "description": "Descripción para la categoría Historia Canina"
   }
 }
