@@ -72,7 +72,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
   Future<void> _initializeGame() async {
     try {
       await _controller.initialize();
-      await _controller.startGame();
+      await _controller.startGame(context);
 
       setState(() {
         _isInitialized = true;
@@ -126,7 +126,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     }
 
     // Process the selection in the controller
-    await _controller.selectImage(imageIndex);
+    await _controller.selectImage(context, imageIndex);
 
     // Wait for feedback display
     await Future.delayed(
@@ -142,7 +142,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
   }
 
   Future<void> _handlePowerUpUsage(PowerUpType powerUpType) async {
-    final success = await _controller.usePowerUp(powerUpType);
+    final success = await _controller.usePowerUp(context, powerUpType);
 
     if (success) {
       setState(() {
@@ -362,6 +362,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                 totalSeconds: 10,
                 isActive: _controller.isTimerRunning,
                 onTimeExpired: () {
+                  _controller.handleTimeExpired(context);
                   if (_controller.livesRemaining <= 0) {
                     _handleGameOver();
                   }

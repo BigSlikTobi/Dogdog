@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../design_system/modern_colors.dart';
 import '../../design_system/modern_typography.dart';
@@ -169,43 +170,38 @@ class _DualImageSelectionState extends State<DualImageSelection>
                     child: Stack(
                       children: [
                         // Image
-                        Image.network(
-                          imageUrl,
+                        CachedNetworkImage(
+                          imageUrl: imageUrl,
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: double.infinity,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Container(
-                              color: ModernColors.surfaceLight,
-                              child: const Center(
-                                child: ShimmerLoading(
-                                  child: SizedBox(width: 60, height: 60),
+                          placeholder: (context, url) => Container(
+                            color: ModernColors.surfaceLight,
+                            child: const Center(
+                              child: ShimmerLoading(
+                                child: SizedBox(width: 60, height: 60),
+                              ),
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            color: ModernColors.surfaceLight,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.error_outline,
+                                  size: 40,
+                                  color: ModernColors.textLight,
                                 ),
-                              ),
-                            );
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              color: ModernColors.surfaceLight,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.error_outline,
-                                    size: 40,
-                                    color: ModernColors.textLight,
-                                  ),
-                                  ModernSpacing.verticalSpaceSM,
-                                  Text(
-                                    'Image failed to load',
-                                    style: ModernTypography.caption,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
+                                ModernSpacing.verticalSpaceSM,
+                                Text(
+                                  'Image failed to load',
+                                  style: ModernTypography.caption,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
 
                         // Selection overlay - controlled directly by showFeedback state
