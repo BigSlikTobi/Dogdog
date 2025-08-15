@@ -34,9 +34,6 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
   late Animation<Offset> _slideAnimation;
 
   bool _isInitialized = false;
-  bool _showFeedback = false;
-  bool _isCorrect = false;
-  int? _selectedImageIndex;
   PowerUpType? _activePowerUpFeedback;
 
   @override
@@ -93,53 +90,10 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     super.dispose();
   }
 
-  Future<void> _handleImageSelection(int imageIndex) async {
-    if (!_controller.isGameActive || _showFeedback) return;
-
-    setState(() {
-      _selectedImageIndex = imageIndex;
-      _showFeedback = true;
-    });
-
-    // Determine if selection is correct
-    final challenge = _controller.currentChallenge;
-    if (challenge != null) {
-      _isCorrect = challenge.isCorrectSelection(imageIndex);
-    }
-
-    // Play audio feedback and record progress
-    if (_isCorrect) {
-      AudioService().playCorrectAnswerSound();
-      // Record correct answer with progress service
-      final phaseMultiplier =
-          _controller.gameState.currentPhase.scoreMultiplier;
-      final pointsEarned = (100 * phaseMultiplier); // Base score calculation
-      final currentStreak = _controller.gameState.consecutiveCorrect + 1;
-      await ProgressService().recordCorrectAnswer(
-        pointsEarned: pointsEarned,
-        currentStreak: currentStreak,
-      );
-    } else {
-      AudioService().playIncorrectAnswerSound();
-      // Record incorrect answer
-      await ProgressService().recordIncorrectAnswer();
-    }
-
-    // Process the selection in the controller without awaiting it.
-    // This allows the feedback timer and the next-challenge timer to run in parallel.
-    _controller.selectImage(context, imageIndex);
-
-    // The controller has a 1.5s delay. We wait for slightly less than that to hide
-    // the feedback, ensuring it's gone before the new images appear.
-    await Future.delayed(const Duration(milliseconds: 1400));
-
-    // Reset feedback state if the widget is still mounted.
-    if (mounted) {
-      setState(() {
-        _showFeedback = false;
-        _selectedImageIndex = null;
-        _isCorrect = false; // Reset the correct state for next challenge
-      });
+  void _handleImageSelection(int imageIndex) {
+    if (_controller.isGameActive &&
+        _controller.feedbackState == AnswerFeedback.none) {
+      _controller.selectImage(context, imageIndex);
     }
   }
 
@@ -165,7 +119,9 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
 
   Widget _buildHeaderPowerUpButton(PowerUpType powerUpType) {
     final count = _controller.powerUpInventory[powerUpType] ?? 0;
-    final canUse = _controller.isGameActive && !_showFeedback && count > 0;
+    final canUse = _controller.isGameActive &&
+        _controller.feedbackState == AnswerFeedback.none &&
+        count > 0;
 
     return GestureDetector(
       onTap: canUse ? () => _handlePowerUpUsage(powerUpType) : null,
@@ -461,18 +417,31 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
 
                 // Images container
                 Expanded(
-                  child: DualImageSelection(
-                    imageUrl1: challenge.correctImageIndex == 0
-                        ? challenge.correctImageUrl
-                        : challenge.incorrectImageUrl,
-                    imageUrl2: challenge.correctImageIndex == 1
-                        ? challenge.correctImageUrl
-                        : challenge.incorrectImageUrl,
-                    onImageSelected: _handleImageSelection,
-                    isEnabled: _controller.isGameActive && !_showFeedback,
-                    selectedIndex: _selectedImageIndex,
-                    isCorrect: _isCorrect,
-                    showFeedback: _showFeedback,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    transitionBuilder:
+                        (Widget child, Animation<double> animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    child: DualImageSelection(
+                      key: ValueKey(_controller.currentChallenge),
+                      imageUrl1: challenge.correctImageIndex == 0
+                          ? challenge.correctImageUrl
+                          : challenge.incorrectImageUrl,
+                      imageUrl2: challenge.correctImageIndex == 1
+                          ? challenge.correctImageUrl
+                          : challenge.incorrectImageUrl,
+                      onImageSelected: _handleImageSelection,
+                      isEnabled: _controller.feedbackState == AnswerFeedback.none,
+                      selectedIndex: _controller.feedbackIndex,
+                      isCorrect:
+                          _controller.feedbackState == AnswerFeedback.correct,
+                      showFeedback:
+                          _controller.feedbackState != AnswerFeedback.none,
+                    ),
                   ),
                 ),
               ],

@@ -237,3 +237,10 @@ enum Checkpoint {
   /// Path to the image asset for this checkpoint
   final String imagePath;
 }
+
+/// Enum for feedback state after an answer.
+enum AnswerFeedback {
+  none,
+  correct,
+  incorrect,
+}

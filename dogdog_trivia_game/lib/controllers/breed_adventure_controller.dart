@@ -25,6 +25,8 @@ class BreedAdventureController extends ChangeNotifier {
   BreedChallenge? _currentChallenge;
   StreamSubscription<int>? _timerSubscription;
   bool _isInitialized = false;
+  AnswerFeedback _feedbackState = AnswerFeedback.none;
+  int? _feedbackIndex;
 
   // Error handling state
   int _consecutiveFailures = 0;
@@ -65,6 +67,12 @@ class BreedAdventureController extends ChangeNotifier {
 
   /// Current challenge being displayed
   BreedChallenge? get currentChallenge => _currentChallenge;
+
+  /// The feedback state for the current answer.
+  AnswerFeedback get feedbackState => _feedbackState;
+
+  /// The index of the image that was selected.
+  int? get feedbackIndex => _feedbackIndex;
 
   /// Current score
   int get currentScore => _gameState.score;
@@ -171,28 +179,28 @@ class BreedAdventureController extends ChangeNotifier {
     final isCorrect = _currentChallenge!.isCorrectSelection(imageIndex);
     final timeRemaining = _timer.remainingSeconds;
 
+    // Set feedback state and notify listeners to show it immediately
+    _feedbackState =
+        isCorrect ? AnswerFeedback.correct : AnswerFeedback.incorrect;
+    _feedbackIndex = imageIndex;
+    notifyListeners();
+
     if (isCorrect) {
       await _handleCorrectAnswer(timeRemaining);
-      // Continue to next question
-      await Future.delayed(const Duration(milliseconds: 1500));
-      await _generateNextChallenge(context);
     } else {
       await _handleIncorrectAnswer();
-
-      // Check if we should offer second chance immediately
-      final incorrectAnswers = _getIncorrectAnswers();
-      // No second chance - just continue normal flow
-      if (incorrectAnswers < maxLives) {
-        // Continue to next question
-        await Future.delayed(const Duration(milliseconds: 1500));
-        await _generateNextChallenge(context);
-      } else {
-        // End game
-        await _endGame();
-      }
     }
 
-    notifyListeners();
+    // Wait for the user to see the feedback
+    await Future.delayed(const Duration(milliseconds: 1500));
+
+    // Proceed to the next challenge or end the game
+    final incorrectAnswers = _getIncorrectAnswers();
+    if (incorrectAnswers < maxLives) {
+      await _generateNextChallenge(context);
+    } else {
+      await _endGame();
+    }
   }
 
   /// Use a power-up
@@ -308,6 +316,10 @@ class BreedAdventureController extends ChangeNotifier {
 
   /// Generate the next challenge
   Future<void> _generateNextChallenge(BuildContext context) async {
+    // Reset feedback state for the new round
+    _feedbackState = AnswerFeedback.none;
+    _feedbackIndex = null;
+
     try {
       // Check if we need to progress to next phase
       if (!_breedService.hasAvailableBreeds(
