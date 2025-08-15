@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../services/breed_service.dart';
 import '../services/breed_adventure_timer.dart';
@@ -851,10 +851,8 @@ class BreedAdventureController extends ChangeNotifier {
     _consecutiveFailures = 0;
     _isInRecoveryMode = false;
 
-    // Attempt to reload current challenge
-    if (_currentChallenge != null) {
-      await _preloadChallengeImages();
-    }
+    // Note: Cannot reload challenge images without BuildContext
+    // Images will be loaded on demand when next challenge is generated
 
     notifyListeners();
   }
