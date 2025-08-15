@@ -125,20 +125,22 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
       await ProgressService().recordIncorrectAnswer();
     }
 
-    // Process the selection in the controller
-    await _controller.selectImage(context, imageIndex);
+    // Process the selection in the controller without awaiting it.
+    // This allows the feedback timer and the next-challenge timer to run in parallel.
+    _controller.selectImage(context, imageIndex);
 
-    // Wait for feedback display
-    await Future.delayed(
-      const Duration(milliseconds: 1100),
-    ); // 500ms forward + 600ms pause
+    // The controller has a 1.5s delay. We wait for slightly less than that to hide
+    // the feedback, ensuring it's gone before the new images appear.
+    await Future.delayed(const Duration(milliseconds: 1400));
 
-    // Reset feedback state when moving to next challenge
-    setState(() {
-      _showFeedback = false;
-      _selectedImageIndex = null;
-      _isCorrect = false; // Reset the correct state for next challenge
-    });
+    // Reset feedback state if the widget is still mounted.
+    if (mounted) {
+      setState(() {
+        _showFeedback = false;
+        _selectedImageIndex = null;
+        _isCorrect = false; // Reset the correct state for next challenge
+      });
+    }
   }
 
   Future<void> _handlePowerUpUsage(PowerUpType powerUpType) async {
