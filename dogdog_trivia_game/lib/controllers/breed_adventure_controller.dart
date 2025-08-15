@@ -139,7 +139,7 @@ class BreedAdventureController extends ChangeNotifier {
   }
 
   /// Start a new game
-  Future<void> startGame() async {
+  Future<void> startGame(BuildContext context) async {
     if (!_isInitialized) {
       throw StateError('Controller not initialized. Call initialize() first.');
     }
@@ -156,13 +156,13 @@ class BreedAdventureController extends ChangeNotifier {
     _timerSubscription = _timer.timerStream.listen(_onTimerUpdate);
 
     // Generate first challenge
-    await _generateNextChallenge();
+    await _generateNextChallenge(context);
 
     notifyListeners();
   }
 
   /// Select an image (0 or 1) as the answer
-  Future<void> selectImage(int imageIndex) async {
+  Future<void> selectImage(BuildContext context, int imageIndex) async {
     if (!_isGameActive || _currentChallenge == null) return;
 
     // Stop the timer
@@ -175,7 +175,7 @@ class BreedAdventureController extends ChangeNotifier {
       await _handleCorrectAnswer(timeRemaining);
       // Continue to next question
       await Future.delayed(const Duration(milliseconds: 1500));
-      await _generateNextChallenge();
+      await _generateNextChallenge(context);
     } else {
       await _handleIncorrectAnswer();
 
@@ -185,7 +185,7 @@ class BreedAdventureController extends ChangeNotifier {
       if (incorrectAnswers < maxLives) {
         // Continue to next question
         await Future.delayed(const Duration(milliseconds: 1500));
-        await _generateNextChallenge();
+        await _generateNextChallenge(context);
       } else {
         // End game
         await _endGame();
@@ -196,7 +196,7 @@ class BreedAdventureController extends ChangeNotifier {
   }
 
   /// Use a power-up
-  Future<bool> usePowerUp(PowerUpType powerUpType) async {
+  Future<bool> usePowerUp(BuildContext context, PowerUpType powerUpType) async {
     if (!_isGameActive || !_powerUpController.canUsePowerUp(powerUpType)) {
       return false;
     }
@@ -208,7 +208,7 @@ class BreedAdventureController extends ChangeNotifier {
         success = await _useExtraTimePowerUp();
         break;
       case PowerUpType.skip:
-        success = await _useSkipPowerUp();
+        success = await _useSkipPowerUp(context);
         break;
       case PowerUpType.fiftyFifty:
       case PowerUpType.hint:
@@ -307,7 +307,7 @@ class BreedAdventureController extends ChangeNotifier {
   }
 
   /// Generate the next challenge
-  Future<void> _generateNextChallenge() async {
+  Future<void> _generateNextChallenge(BuildContext context) async {
     try {
       // Check if we need to progress to next phase
       if (!_breedService.hasAvailableBreeds(
@@ -334,7 +334,7 @@ class BreedAdventureController extends ChangeNotifier {
       );
 
       // Preload images
-      await _preloadChallengeImages();
+      await _preloadChallengeImages(context);
 
       // Start timer
       _timer.start();
@@ -348,11 +348,11 @@ class BreedAdventureController extends ChangeNotifier {
   }
 
   /// Preload images for the current challenge
-  Future<void> _preloadChallengeImages() async {
+  Future<void> _preloadChallengeImages(BuildContext context) async {
     if (_currentChallenge == null) return;
 
     try {
-      await _imageCacheService.preloadImages([
+      await _imageCacheService.preloadImages(context, [
         _currentChallenge!.correctImageUrl,
         _currentChallenge!.incorrectImageUrl,
       ]);
@@ -409,7 +409,7 @@ class BreedAdventureController extends ChangeNotifier {
   }
 
   /// Use skip power-up
-  Future<bool> _useSkipPowerUp() async {
+  Future<bool> _useSkipPowerUp(BuildContext context) async {
     if (_currentChallenge != null && _powerUpController.applyBreedSkip()) {
       // Mark breed as used without penalty
       _gameState = _gameState.copyWith(
@@ -420,7 +420,7 @@ class BreedAdventureController extends ChangeNotifier {
 
       // Generate next challenge
       await Future.delayed(const Duration(milliseconds: 500));
-      await _generateNextChallenge();
+      await _generateNextChallenge(context);
       return true;
     }
     return false;
@@ -443,17 +443,11 @@ class BreedAdventureController extends ChangeNotifier {
   /// Handle timer updates
   void _onTimerUpdate(int remainingSeconds) {
     _gameState = _gameState.copyWith(timeRemaining: remainingSeconds);
-
-    // Auto-submit when timer expires
-    if (remainingSeconds <= 0 && _isGameActive) {
-      _handleTimeExpired();
-    }
-
     notifyListeners();
   }
 
   /// Handle timer expiration
-  Future<void> _handleTimeExpired() async {
+  Future<void> handleTimeExpired(BuildContext context) async {
     if (!_isGameActive || _currentChallenge == null) return;
 
     // Treat as incorrect answer
@@ -463,7 +457,7 @@ class BreedAdventureController extends ChangeNotifier {
     final incorrectAnswers = _getIncorrectAnswers();
     if (incorrectAnswers < maxLives) {
       await Future.delayed(const Duration(milliseconds: 1500));
-      await _generateNextChallenge();
+      await _generateNextChallenge(context);
     } else {
       await _endGame();
     }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 /// Enhanced image cache service with memory management and optimization for sustained gameplay
 class ImageCacheService {
@@ -49,7 +50,7 @@ class ImageCacheService {
   }
 
   /// Cache an image from URL
-  Future<bool> cacheImage(String imageUrl) async {
+  Future<bool> cacheImage(BuildContext context, String imageUrl) async {
     if (!_isInitialized) await initialize();
 
     try {
@@ -63,7 +64,16 @@ class ImageCacheService {
         return false;
       }
 
-      // Just mark as cached - actual caching will happen when image is used
+      // Precache the image
+      await precacheImage(
+        CachedNetworkImageProvider(imageUrl),
+        context,
+        onError: (e, stack) {
+          _failedUrls.add(imageUrl);
+          debugPrint('Failed to cache image $imageUrl: $e');
+        },
+      );
+
       _cachedUrls.add(imageUrl);
       _lastAccessed[imageUrl] = DateTime.now();
 
@@ -79,8 +89,10 @@ class ImageCacheService {
   }
 
   /// Preload multiple images
-  Future<void> preloadImages(List<String> imageUrls) async {
-    final futures = imageUrls.map((url) => cacheImage(url));
+  Future<void> preloadImages(
+      BuildContext context, List<String> imageUrls) async {
+    final futures =
+        imageUrls.map((url) => cacheImage(context, url)).toList();
     await Future.wait(futures, eagerError: false);
   }
 
