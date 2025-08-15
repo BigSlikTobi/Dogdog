@@ -450,6 +450,7 @@ class BreedAdventureController extends ChangeNotifier {
     _timerSubscription = null;
 
     _gameState = _gameState.copyWith(isGameActive: false);
+    notifyListeners();
   }
 
   /// Handle timer updates
