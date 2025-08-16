@@ -10,6 +10,7 @@ class GamePersistenceService {
   static const String _currentSessionKey = 'current_session';
   static const String _globalStatsKey = 'global_stats';
   static const String _settingsKey = 'game_settings';
+  static const String _breedAdventureHighScoreKey = 'breed_adventure_high_score';
 
   SharedPreferences? _prefs;
 
@@ -100,6 +101,18 @@ class GamePersistenceService {
   Future<void> clearGameSession() async {
     await _ensureInitialized();
     await _prefs!.remove(_currentSessionKey);
+  }
+
+  /// Saves the high score for the breed adventure game
+  Future<void> saveBreedAdventureHighScore(int score) async {
+    await _ensureInitialized();
+    await _prefs!.setInt(_breedAdventureHighScoreKey, score);
+  }
+
+  /// Loads the high score for the breed adventure game
+  Future<int> getBreedAdventureHighScore() async {
+    await _ensureInitialized();
+    return _prefs!.getInt(_breedAdventureHighScoreKey) ?? 0;
   }
 
   /// Saves global game statistics

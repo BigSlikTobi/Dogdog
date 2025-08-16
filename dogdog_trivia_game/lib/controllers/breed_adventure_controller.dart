@@ -8,6 +8,7 @@ import '../services/audio_service.dart';
 import '../services/progress_service.dart';
 import '../services/error_service.dart';
 import '../controllers/breed_adventure_power_up_controller.dart';
+import '../services/game_persistence_service.dart';
 
 /// Controller for managing the Dog Breeds Adventure game state and logic
 class BreedAdventureController extends ChangeNotifier {
@@ -19,6 +20,7 @@ class BreedAdventureController extends ChangeNotifier {
   final AudioService _audioService;
   final ProgressService _progressService;
   final ErrorService _errorService;
+  final GamePersistenceService _persistenceService;
 
   // Game state
   BreedAdventureGameState _gameState = BreedAdventureGameState.initial();
@@ -27,6 +29,7 @@ class BreedAdventureController extends ChangeNotifier {
   bool _isInitialized = false;
   AnswerFeedback _feedbackState = AnswerFeedback.none;
   int? _feedbackIndex;
+  int _highScore = 0;
 
   // Error handling state
   int _consecutiveFailures = 0;
@@ -53,6 +56,7 @@ class BreedAdventureController extends ChangeNotifier {
     AudioService? audioService,
     ProgressService? progressService,
     ErrorService? errorService,
+    GamePersistenceService? persistenceService,
   }) : _breedService = breedService ?? BreedService.instance,
        _timer = timer ?? BreedAdventureTimer.instance,
        _imageCacheService = imageCacheService ?? ImageCacheService.instance,
@@ -60,7 +64,8 @@ class BreedAdventureController extends ChangeNotifier {
            powerUpController ?? BreedAdventurePowerUpController(),
        _audioService = audioService ?? AudioService(),
        _progressService = progressService ?? ProgressService(),
-       _errorService = errorService ?? ErrorService();
+       _errorService = errorService ?? ErrorService(),
+       _persistenceService = persistenceService ?? GamePersistenceService();
 
   /// Current game state
   BreedAdventureGameState get gameState => _gameState;
@@ -76,6 +81,9 @@ class BreedAdventureController extends ChangeNotifier {
 
   /// Current score
   int get currentScore => _gameState.score;
+
+  /// High score
+  int get highScore => _highScore;
 
   /// Current correct answers count
   int get correctAnswers => _gameState.correctAnswers;
@@ -137,6 +145,9 @@ class BreedAdventureController extends ChangeNotifier {
 
       // Initialize app services for integration
       await _initializeAppServices();
+
+      // Load high score
+      _highScore = await _persistenceService.getBreedAdventureHighScore();
 
       _isInitialized = true;
       notifyListeners();
@@ -449,6 +460,11 @@ class BreedAdventureController extends ChangeNotifier {
     _timerSubscription?.cancel();
     _timerSubscription = null;
 
+    if (_gameState.score > _highScore) {
+      _highScore = _gameState.score;
+      await _persistenceService.saveBreedAdventureHighScore(_highScore);
+    }
+
     _gameState = _gameState.copyWith(isGameActive: false);
     notifyListeners();
   }
@@ -499,6 +515,8 @@ class BreedAdventureController extends ChangeNotifier {
       gameDuration: _gameState.gameDurationSeconds,
       powerUpsUsed: _getTotalPowerUpsUsed(),
       livesRemaining: livesRemaining,
+      highScore: _highScore,
+      isNewHighScore: _gameState.score == _highScore && _gameState.score > 0,
     );
   }
 
@@ -1039,6 +1057,8 @@ class GameStatistics {
   final int gameDuration;
   final int powerUpsUsed;
   final int livesRemaining;
+  final int highScore;
+  final bool isNewHighScore;
 
   const GameStatistics({
     required this.score,
@@ -1049,6 +1069,8 @@ class GameStatistics {
     required this.gameDuration,
     required this.powerUpsUsed,
     required this.livesRemaining,
+    required this.highScore,
+    required this.isNewHighScore,
   });
 
   @override
@@ -1056,6 +1078,7 @@ class GameStatistics {
     return 'GameStatistics(score: $score, correctAnswers: $correctAnswers, '
         'totalQuestions: $totalQuestions, accuracy: ${accuracy.toStringAsFixed(1)}%, '
         'phase: $currentPhase, duration: ${gameDuration}s, '
-        'powerUpsUsed: $powerUpsUsed, livesRemaining: $livesRemaining)';
+        'powerUpsUsed: $powerUpsUsed, livesRemaining: $livesRemaining, '
+        'highScore: $highScore, isNewHighScore: $isNewHighScore)';
   }
 }
