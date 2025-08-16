@@ -860,4 +860,57 @@ class AppLocalizationsEs extends AppLocalizations {
   String categorySelection_announceSelection(String category) {
     return 'Selected $category category';
   }
+
+  @override
+  String get breedAdventure_chooseCorrectImage => 'Elige la imagen correcta';
+
+  @override
+  String get breedAdventure_newHighScore => '¡Nuevo récord!';
+
+  @override
+  String get breedAdventure_loadingChallenge => 'Cargando desafío de raza...';
+
+  @override
+  String get breedAdventure_retry => 'Reintentar';
+
+  @override
+  String breedAdventure_completedAllBreedsMessage(String phaseName) {
+    return 'Has completado todas las razas en la fase $phaseName. ¡Gran trabajo!';
+  }
+
+  @override
+  String breedAdventure_recoveryModeActiveMessage(int consecutiveFailures) {
+    return 'Modo de recuperación activo después de $consecutiveFailures fallos. Usando contenido de respaldo.';
+  }
+
+  @override
+  String get breedAdventure_recoveryModeActiveOfflineMessage =>
+      'Modo de recuperación activo. Usando contenido sin conexión cuando sea posible.';
+
+  @override
+  String get breedAdventure_tryAgain => 'Intentar de nuevo';
+
+  @override
+  String get breedAdventure_dataCorruptedMessage =>
+      'Los datos del juego parecen estar corruptos. Por favor, reinicia el juego o vuelve a la pantalla de inicio.';
+
+  @override
+  String get breedAdventure_recoveryMode => 'Modo de recuperación';
+
+  @override
+  String get breedAdventure_loadingFailed => 'Fallo al cargar la imagen';
+
+  @override
+  String breedAdventure_loadingFailedMessage(int failedImageCount) {
+    return 'Fallo al cargar $failedImageCount imágenes. Esto podría ser un problema temporal.';
+  }
+
+  @override
+  String get breedAdventure_dataError => 'Error de datos';
+
+  @override
+  String get breedAdventure_somethingWentWrong => 'Algo salió mal';
+
+  @override
+  String get breedAdventure_goHome => 'Ir a inicio';
 }

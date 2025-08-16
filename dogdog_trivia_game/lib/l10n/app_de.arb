@@ -561,9 +561,9 @@
     "description": "Label für die Statistik der gespielten Spiele"
   },
 
-  "achievementsScreen_totalScore": "Gesamtpunktzahl",
+  "achievementsScreen_totalScore": "Rekord",
   "@achievementsScreen_totalScore": {
-    "description": "Label für die Gesamtpunktzahl-Statistik"
+    "description": "Label für den Rekord"
   },
 
   "achievementsScreen_currentRank": "Aktueller Rang",
@@ -1095,7 +1095,7 @@
     "description": "Titel für Spielende-Bildschirm"
   },
 
-  "breedAdventure_finalScore": "Endpunktzahl",
+  "breedAdventure_finalScore": "Punkte",
   "@breedAdventure_finalScore": {
     "description": "Label für Endpunktzahl-Anzeige"
   },

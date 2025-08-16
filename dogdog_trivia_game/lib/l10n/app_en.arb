@@ -386,7 +386,7 @@
     "description": "Title for game over screen"
   },
 
-  "gameOverScreen_finalScore": "Final Score: {score}",
+  "gameOverScreen_finalScore": "Score: {score}",
   "@gameOverScreen_finalScore": {
     "description": "Shows the final score achieved",
     "placeholders": {
@@ -649,7 +649,7 @@
     "description": "Label for games played statistic"
   },
 
-  "achievementsScreen_totalScore": "Total Score",
+  "achievementsScreen_totalScore": "Record",
   "@achievementsScreen_totalScore": {
     "description": "Label for total score statistic"
   },
@@ -1131,7 +1131,7 @@
     "description": "Title for game over screen"
   },
 
-  "breedAdventure_finalScore": "Final Score",
+  "breedAdventure_finalScore": "Score",
   "@breedAdventure_finalScore": {
     "description": "Label for final score display"
   },

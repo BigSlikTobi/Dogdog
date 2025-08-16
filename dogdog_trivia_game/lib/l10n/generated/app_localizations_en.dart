@@ -246,7 +246,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String gameOverScreen_finalScore(int score) {
-    return 'Final Score: $score';
+    return 'Score: $score';
   }
 
   @override
@@ -390,7 +390,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get achievementsScreen_gamesPlayed => 'Games Played';
 
   @override
-  String get achievementsScreen_totalScore => 'Total Score';
+  String get achievementsScreen_totalScore => 'Record';
 
   @override
   String get achievementsScreen_currentRank => 'Current Rank';
@@ -651,7 +651,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get breedAdventure_adventureComplete => 'Adventure Complete!';
 
   @override
-  String get breedAdventure_finalScore => 'Final Score';
+  String get breedAdventure_finalScore => 'Score';
 
   @override
   String get breedAdventure_correct => 'Correct';
@@ -851,4 +851,57 @@ class AppLocalizationsEn extends AppLocalizations {
   String categorySelection_announceSelection(String category) {
     return 'Selected $category category';
   }
+
+  @override
+  String get breedAdventure_chooseCorrectImage => 'Choose the Correct Image';
+
+  @override
+  String get breedAdventure_newHighScore => 'New High Score!';
+
+  @override
+  String get breedAdventure_loadingChallenge => 'Loading breed challenge...';
+
+  @override
+  String get breedAdventure_retry => 'Retry';
+
+  @override
+  String breedAdventure_completedAllBreedsMessage(String phaseName) {
+    return 'You\'ve completed all breeds in the $phaseName phase. Great job!';
+  }
+
+  @override
+  String breedAdventure_recoveryModeActiveMessage(int consecutiveFailures) {
+    return 'Recovery mode active after $consecutiveFailures failures. Using fallback content.';
+  }
+
+  @override
+  String get breedAdventure_recoveryModeActiveOfflineMessage =>
+      'Recovery mode active. Using offline content where possible.';
+
+  @override
+  String get breedAdventure_tryAgain => 'Try Again';
+
+  @override
+  String get breedAdventure_dataCorruptedMessage =>
+      'Game data appears to be corrupted. Please restart the game or return to the home screen.';
+
+  @override
+  String get breedAdventure_recoveryMode => 'Recovery Mode';
+
+  @override
+  String get breedAdventure_loadingFailed => 'Image Load Failed';
+
+  @override
+  String breedAdventure_loadingFailedMessage(int failedImageCount) {
+    return 'Failed to load $failedImageCount images. This might be a temporary issue.';
+  }
+
+  @override
+  String get breedAdventure_dataError => 'Data Error';
+
+  @override
+  String get breedAdventure_somethingWentWrong => 'Something Went Wrong';
+
+  @override
+  String get breedAdventure_goHome => 'Go Home';
 }

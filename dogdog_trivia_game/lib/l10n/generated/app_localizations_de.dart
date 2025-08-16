@@ -396,7 +396,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get achievementsScreen_gamesPlayed => 'Gespielte Spiele';
 
   @override
-  String get achievementsScreen_totalScore => 'Gesamtpunktzahl';
+  String get achievementsScreen_totalScore => 'Rekord';
 
   @override
   String get achievementsScreen_currentRank => 'Aktueller Rang';
@@ -656,7 +656,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get breedAdventure_adventureComplete => 'Abenteuer Abgeschlossen!';
 
   @override
-  String get breedAdventure_finalScore => 'Endpunktzahl';
+  String get breedAdventure_finalScore => 'Punkte';
 
   @override
   String get breedAdventure_correct => 'Richtig';
@@ -856,4 +856,58 @@ class AppLocalizationsDe extends AppLocalizations {
   String categorySelection_announceSelection(String category) {
     return 'Selected $category category';
   }
+
+  @override
+  String get breedAdventure_chooseCorrectImage => 'Wähle das richtige Bild';
+
+  @override
+  String get breedAdventure_newHighScore => 'Neuer Highscore!';
+
+  @override
+  String get breedAdventure_loadingChallenge =>
+      'Lade Rassen-Herausforderung...';
+
+  @override
+  String get breedAdventure_retry => 'Wiederholen';
+
+  @override
+  String breedAdventure_completedAllBreedsMessage(String phaseName) {
+    return 'Du hast alle Rassen in der $phaseName-Phase abgeschlossen. Großartige Arbeit!';
+  }
+
+  @override
+  String breedAdventure_recoveryModeActiveMessage(int consecutiveFailures) {
+    return 'Wiederherstellungsmodus nach $consecutiveFailures Fehlern aktiv. Fallback-Inhalt wird verwendet.';
+  }
+
+  @override
+  String get breedAdventure_recoveryModeActiveOfflineMessage =>
+      'Wiederherstellungsmodus aktiv. Offline-Inhalt wird wo möglich verwendet.';
+
+  @override
+  String get breedAdventure_tryAgain => 'Erneut versuchen';
+
+  @override
+  String get breedAdventure_dataCorruptedMessage =>
+      'Spieldaten scheinen beschädigt zu sein. Bitte starte das Spiel neu oder kehre zum Startbildschirm zurück.';
+
+  @override
+  String get breedAdventure_recoveryMode => 'Wiederherstellungsmodus';
+
+  @override
+  String get breedAdventure_loadingFailed => 'Bild-Laden fehlgeschlagen';
+
+  @override
+  String breedAdventure_loadingFailedMessage(int failedImageCount) {
+    return 'Fehler beim Laden von $failedImageCount Bildern. Dies könnte ein vorübergehendes Problem sein.';
+  }
+
+  @override
+  String get breedAdventure_dataError => 'Datenfehler';
+
+  @override
+  String get breedAdventure_somethingWentWrong => 'Etwas ist schiefgegangen';
+
+  @override
+  String get breedAdventure_goHome => 'Zum Startbildschirm';
 }

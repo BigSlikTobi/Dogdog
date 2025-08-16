@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../controllers/breed_adventure_controller.dart';
 import '../models/enums.dart';
 import '../services/audio_service.dart';
@@ -271,13 +271,15 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
   }
 
   void _showPauseDialog() {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: Text(l10n.breedAdventure_gamePaused,
-            style: ModernTypography.headingMedium),
+        title: Text(
+          l10n.breedAdventure_gamePaused,
+          style: ModernTypography.headingMedium,
+        ),
         content: Text(
           l10n.breedAdventure_pauseMessage,
           style: ModernTypography.bodyMedium,
@@ -288,16 +290,20 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
               Navigator.of(context).pop();
               _controller.resumeGame();
             },
-            child:
-                Text(l10n.breedAdventure_resume, style: ModernTypography.buttonMedium),
+            child: Text(
+              l10n.breedAdventure_resume,
+              style: ModernTypography.buttonMedium,
+            ),
           ),
           SecondaryAnimatedButton(
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop(); // Exit game
             },
-            child: Text(l10n.breedAdventure_exitGame,
-                style: ModernTypography.buttonMedium),
+            child: Text(
+              l10n.breedAdventure_exitGame,
+              style: ModernTypography.buttonMedium,
+            ),
           ),
         ],
       ),
@@ -410,8 +416,9 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    AppLocalizations.of(context)!
-                        .breedAdventure_chooseCorrectImage,
+                    AppLocalizations.of(
+                      context,
+                    ).breedAdventure_chooseCorrectImage,
                     style: ModernTypography.bodyMedium.copyWith(
                       color: ModernColors.primaryPurple,
                       fontWeight: FontWeight.w600,
@@ -483,7 +490,6 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: ModernColors.backgroundGradientStart,
       body: Container(
@@ -564,6 +570,7 @@ class _GameOverScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: ModernColors.backgroundGradientStart,
       body: Container(
