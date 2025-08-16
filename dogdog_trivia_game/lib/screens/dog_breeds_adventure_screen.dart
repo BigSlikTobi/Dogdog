@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../controllers/breed_adventure_controller.dart';
 import '../models/enums.dart';
 import '../services/audio_service.dart';
@@ -270,13 +271,15 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
   }
 
   void _showPauseDialog() {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: Text('Game Paused', style: ModernTypography.headingMedium),
+        title: Text(l10n.breedAdventure_gamePaused,
+            style: ModernTypography.headingMedium),
         content: Text(
-          'The game is paused. Tap Resume to continue.',
+          l10n.breedAdventure_pauseMessage,
           style: ModernTypography.bodyMedium,
         ),
         actions: [
@@ -285,14 +288,16 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
               Navigator.of(context).pop();
               _controller.resumeGame();
             },
-            child: Text('Resume', style: ModernTypography.buttonMedium),
+            child:
+                Text(l10n.breedAdventure_resume, style: ModernTypography.buttonMedium),
           ),
           SecondaryAnimatedButton(
             onPressed: () {
               Navigator.of(context).pop();
               Navigator.of(context).pop(); // Exit game
             },
-            child: Text('Exit Game', style: ModernTypography.buttonMedium),
+            child: Text(l10n.breedAdventure_exitGame,
+                style: ModernTypography.buttonMedium),
           ),
         ],
       ),
@@ -405,7 +410,8 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    'Choose the Correct Image',
+                    AppLocalizations.of(context)!
+                        .breedAdventure_chooseCorrectImage,
                     style: ModernTypography.bodyMedium.copyWith(
                       color: ModernColors.primaryPurple,
                       fontWeight: FontWeight.w600,
@@ -477,6 +483,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: ModernColors.backgroundGradientStart,
       body: Container(
@@ -594,7 +601,7 @@ class _GameOverScreen extends StatelessWidget {
 
                 // Game over title
                 Text(
-                  'Game Over',
+                  l10n.gameOverScreen_title,
                   style: ModernTypography.displayLarge.copyWith(
                     color: ModernColors.error,
                     fontWeight: FontWeight.bold,
@@ -622,7 +629,7 @@ class _GameOverScreen extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                'Final Score',
+                                l10n.breedAdventure_finalScore,
                                 style: ModernTypography.headingMedium.copyWith(
                                   color: ModernColors.textSecondary,
                                 ),
@@ -640,7 +647,7 @@ class _GameOverScreen extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                'High Score',
+                                l10n.achievementsScreen_totalScore,
                                 style: ModernTypography.headingMedium.copyWith(
                                   color: ModernColors.textSecondary,
                                 ),
@@ -671,7 +678,7 @@ class _GameOverScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
-                              'New High Score!',
+                              l10n.breedAdventure_newHighScore,
                               style: ModernTypography.bodyMedium.copyWith(
                                 color: ModernColors.textOnDark,
                                 fontWeight: FontWeight.bold,
@@ -687,17 +694,17 @@ class _GameOverScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _StatItem(
-                            label: 'Correct',
+                            label: l10n.breedAdventure_correct,
                             value: '${statistics.correctAnswers}',
                             color: ModernColors.success,
                           ),
                           _StatItem(
-                            label: 'Accuracy',
+                            label: l10n.breedAdventure_accuracy,
                             value: '${statistics.accuracy.toStringAsFixed(0)}%',
                             color: ModernColors.primaryBlue,
                           ),
                           _StatItem(
-                            label: 'Phase',
+                            label: l10n.breedAdventure_phase,
                             value: statistics.currentPhase.name,
                             color: ModernColors.primaryYellow,
                           ),
@@ -752,7 +759,7 @@ class _GameOverScreen extends StatelessWidget {
                                 ),
                                 ModernSpacing.horizontalSpaceSM,
                                 Text(
-                                  'Play Again',
+                                  l10n.breedAdventure_playAgain,
                                   style: ModernTypography.buttonLarge.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -800,7 +807,7 @@ class _GameOverScreen extends StatelessWidget {
                                 ),
                                 ModernSpacing.horizontalSpaceSM,
                                 Text(
-                                  'Home',
+                                  l10n.breedAdventure_home,
                                   style: ModernTypography.buttonLarge.copyWith(
                                     color: ModernColors.primaryPurple,
                                     fontWeight: FontWeight.bold,
