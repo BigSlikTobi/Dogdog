@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../controllers/breed_adventure_controller.dart';
 import '../models/enums.dart';
 import '../services/audio_service.dart';
-import '../services/progress_service.dart';
 import '../utils/animations.dart';
 import '../widgets/breed_adventure/breed_name_display.dart';
 import '../widgets/breed_adventure/dual_image_selection.dart';
@@ -119,7 +118,8 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
 
   Widget _buildHeaderPowerUpButton(PowerUpType powerUpType) {
     final count = _controller.powerUpInventory[powerUpType] ?? 0;
-    final canUse = _controller.isGameActive &&
+    final canUse =
+        _controller.isGameActive &&
         _controller.feedbackState == AnswerFeedback.none &&
         count > 0;
 
@@ -421,11 +421,11 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                     duration: const Duration(milliseconds: 300),
                     transitionBuilder:
                         (Widget child, Animation<double> animation) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    },
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
                     child: DualImageSelection(
                       key: ValueKey(_controller.currentChallenge),
                       imageUrl1: challenge.correctImageIndex == 0
@@ -435,7 +435,8 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                           ? challenge.correctImageUrl
                           : challenge.incorrectImageUrl,
                       onImageSelected: _handleImageSelection,
-                      isEnabled: _controller.feedbackState == AnswerFeedback.none,
+                      isEnabled:
+                          _controller.feedbackState == AnswerFeedback.none,
                       selectedIndex: _controller.feedbackIndex,
                       isCorrect:
                           _controller.feedbackState == AnswerFeedback.correct,
@@ -613,20 +614,71 @@ class _GameOverScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      // Final score
-                      Text(
-                        'Final Score',
-                        style: ModernTypography.headingMedium.copyWith(
-                          color: ModernColors.textSecondary,
-                        ),
+                      // High score and final score row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Final score
+                          Column(
+                            children: [
+                              Text(
+                                'Final Score',
+                                style: ModernTypography.headingMedium.copyWith(
+                                  color: ModernColors.textSecondary,
+                                ),
+                              ),
+                              ModernSpacing.verticalSpaceSM,
+                              Text(
+                                '${statistics.score}',
+                                style: ModernTypography.displayLarge.copyWith(
+                                  color: ModernColors.primaryPurple,
+                                ),
+                              ),
+                            ],
+                          ),
+                          // High score
+                          Column(
+                            children: [
+                              Text(
+                                'High Score',
+                                style: ModernTypography.headingMedium.copyWith(
+                                  color: ModernColors.textSecondary,
+                                ),
+                              ),
+                              ModernSpacing.verticalSpaceSM,
+                              Text(
+                                '${statistics.highScore}',
+                                style: ModernTypography.displayLarge.copyWith(
+                                  color: ModernColors.primaryPurple,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      ModernSpacing.verticalSpaceSM,
-                      Text(
-                        '${statistics.score}',
-                        style: ModernTypography.displayLarge.copyWith(
-                          color: ModernColors.primaryPurple,
+
+                      // New high score badge
+                      if (statistics.isNewHighScore)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: ModernColors.primaryYellow,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              'New High Score!',
+                              style: ModernTypography.bodyMedium.copyWith(
+                                color: ModernColors.textOnDark,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
 
                       ModernSpacing.verticalSpaceLG,
 
