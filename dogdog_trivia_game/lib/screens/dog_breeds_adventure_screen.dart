@@ -118,7 +118,8 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
 
   Widget _buildHeaderPowerUpButton(PowerUpType powerUpType) {
     final count = _controller.powerUpInventory[powerUpType] ?? 0;
-    final canUse = _controller.isGameActive &&
+    final canUse =
+        _controller.isGameActive &&
         _controller.feedbackState == AnswerFeedback.none &&
         count > 0;
 
@@ -420,11 +421,11 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                     duration: const Duration(milliseconds: 300),
                     transitionBuilder:
                         (Widget child, Animation<double> animation) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    },
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
                     child: DualImageSelection(
                       key: ValueKey(_controller.currentChallenge),
                       imageUrl1: challenge.correctImageIndex == 0
@@ -434,7 +435,8 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                           ? challenge.correctImageUrl
                           : challenge.incorrectImageUrl,
                       onImageSelected: _handleImageSelection,
-                      isEnabled: _controller.feedbackState == AnswerFeedback.none,
+                      isEnabled:
+                          _controller.feedbackState == AnswerFeedback.none,
                       selectedIndex: _controller.feedbackIndex,
                       isCorrect:
                           _controller.feedbackState == AnswerFeedback.correct,
@@ -614,7 +616,7 @@ class _GameOverScreen extends StatelessWidget {
                     children: [
                       // High score and final score row
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           // Final score
                           Column(
