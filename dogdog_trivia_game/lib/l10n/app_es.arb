@@ -1304,5 +1304,95 @@
   "category_dogHistory_description": "Descubre la historia de los perros, genética y evolución",
   "@category_dogHistory_description": {
     "description": "Descripción para la categoría Historia Canina"
+  },
+
+  "breedAdventure_chooseCorrectImage" : "Elige la imagen correcta",
+  "@breedAdventure_chooseCorrectImage" : {
+    "description": "Título para la selección de imagen en la aventura de razas"
+  },
+
+  "breedAdventure_newHighScore" : "¡Nuevo récord!",
+  "@breedAdventure_newHighScore" : {
+    "description": "Texto para nuevo récord"
+  },
+
+  "breedAdventure_loadingChallenge" : "Cargando desafío de raza...",
+  "@breedAdventure_loadingChallenge" : {
+    "description": "Mensaje de carga para desafío de raza"
+  },
+
+  "breedAdventure_retry" : "Reintentar",
+  "@breedAdventure_retry" : {
+    "description": "Botón de reintentar"
+  },
+
+  "breedAdventure_completedAllBreedsMessage" : "Has completado todas las razas en la fase {phaseName}. ¡Gran trabajo!",
+  "@breedAdventure_completedAllBreedsMessage" : {
+    "description": "Mensaje para completar todas las razas en una fase",
+    "placeholders": {
+      "phaseName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "breedAdventure_recoveryModeActiveMessage" : "Modo de recuperación activo después de {consecutiveFailures} fallos. Usando contenido de respaldo.",
+  "@breedAdventure_recoveryModeActiveMessage" : {
+    "description": "Mensaje para modo de recuperación",
+    "placeholders": {
+      "consecutiveFailures": {
+        "type": "int"
+      }
+    }
+  },
+
+  "breedAdventure_recoveryModeActiveOfflineMessage" : "Modo de recuperación activo. Usando contenido sin conexión cuando sea posible.",
+  "@breedAdventure_recoveryModeActiveOfflineMessage" : {
+    "description": "Mensaje para modo de recuperación con contenido sin conexión"
+  },
+
+  "breedAdventure_tryAgain" : "Intentar de nuevo",
+  "@breedAdventure_tryAgain" : {
+    "description": "Botón de intentar de nuevo"
+  },
+
+  "breedAdventure_dataCorruptedMessage" : "Los datos del juego parecen estar corruptos. Por favor, reinicia el juego o vuelve a la pantalla de inicio.",
+  "@breedAdventure_dataCorruptedMessage" : {
+    "description": "Mensaje para datos de juego corruptos"
+  },
+
+  "breedAdventure_recoveryMode" : "Modo de recuperación",
+  "@breedAdventure_recoveryMode" : {
+    "description": "Título para modo de recuperación"
+  },
+
+  "breedAdventure_loadingFailed" : "Fallo al cargar la imagen",
+  "@breedAdventure_loadingFailed" : {
+    "description": "Título para fallo al cargar la imagen"
+  },
+
+  "breedAdventure_loadingFailedMessage" : "Fallo al cargar {failedImageCount} imágenes. Esto podría ser un problema temporal.",
+  "@breedAdventure_loadingFailedMessage" : {
+    "description": "Mensaje para fallo al cargar la imagen",
+    "placeholders": {
+      "failedImageCount": {
+        "type": "int"
+      }
+    }
+  },
+
+  "breedAdventure_dataError" : "Error de datos",
+  "@breedAdventure_dataError" : {
+    "description": "Título para error de datos"
+  },
+
+  "breedAdventure_somethingWentWrong" : "Algo salió mal",
+  "@breedAdventure_somethingWentWrong" : {
+    "description": "Título para algo salió mal"
+  },
+
+  "breedAdventure_goHome" : "Ir a inicio",
+  "@breedAdventure_goHome" : {
+    "description": "Botón de ir a inicio"
   }
 }

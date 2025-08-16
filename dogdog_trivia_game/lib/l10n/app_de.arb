@@ -561,9 +561,9 @@
     "description": "Label für die Statistik der gespielten Spiele"
   },
 
-  "achievementsScreen_totalScore": "Gesamtpunktzahl",
+  "achievementsScreen_totalScore": "Rekord",
   "@achievementsScreen_totalScore": {
-    "description": "Label für die Gesamtpunktzahl-Statistik"
+    "description": "Label für den Rekord"
   },
 
   "achievementsScreen_currentRank": "Aktueller Rang",
@@ -1095,7 +1095,7 @@
     "description": "Titel für Spielende-Bildschirm"
   },
 
-  "breedAdventure_finalScore": "Endpunktzahl",
+  "breedAdventure_finalScore": "Punkte",
   "@breedAdventure_finalScore": {
     "description": "Label für Endpunktzahl-Anzeige"
   },
@@ -1304,5 +1304,95 @@
   "category_dogHistory_description": "Entdecke die Geschichte der Hunde, Genetik und Evolution",
   "@category_dogHistory_description": {
     "description": "Beschreibung für Hundegeschichte-Kategorie"
+  },
+
+  "breedAdventure_chooseCorrectImage" : "Wähle das richtige Bild",
+  "@breedAdventure_chooseCorrectImage" : {
+    "description": "Titel für die Bildauswahl im Rassen-Abenteuer"
+  },
+
+  "breedAdventure_newHighScore" : "Neuer Highscore!",
+  "@breedAdventure_newHighScore" : {
+    "description": "Text für neuen Highscore"
+  },
+
+  "breedAdventure_loadingChallenge" : "Lade Rassen-Herausforderung...",
+  "@breedAdventure_loadingChallenge" : {
+    "description": "Lademeldung für Rassen-Herausforderung"
+  },
+
+  "breedAdventure_retry" : "Wiederholen",
+  "@breedAdventure_retry" : {
+    "description": "Wiederholen-Button"
+  },
+
+  "breedAdventure_completedAllBreedsMessage" : "Du hast alle Rassen in der {phaseName}-Phase abgeschlossen. Großartige Arbeit!",
+  "@breedAdventure_completedAllBreedsMessage" : {
+    "description": "Nachricht für den Abschluss aller Rassen in einer Phase",
+    "placeholders": {
+      "phaseName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "breedAdventure_recoveryModeActiveMessage" : "Wiederherstellungsmodus nach {consecutiveFailures} Fehlern aktiv. Fallback-Inhalt wird verwendet.",
+  "@breedAdventure_recoveryModeActiveMessage" : {
+    "description": "Nachricht für den Wiederherstellungsmodus",
+    "placeholders": {
+      "consecutiveFailures": {
+        "type": "int"
+      }
+    }
+  },
+
+  "breedAdventure_recoveryModeActiveOfflineMessage" : "Wiederherstellungsmodus aktiv. Offline-Inhalt wird wo möglich verwendet.",
+  "@breedAdventure_recoveryModeActiveOfflineMessage" : {
+    "description": "Nachricht für den Wiederherstellungsmodus mit Offline-Inhalt"
+  },
+
+  "breedAdventure_tryAgain" : "Erneut versuchen",
+  "@breedAdventure_tryAgain" : {
+    "description": "Erneut versuchen-Button"
+  },
+
+  "breedAdventure_dataCorruptedMessage" : "Spieldaten scheinen beschädigt zu sein. Bitte starte das Spiel neu oder kehre zum Startbildschirm zurück.",
+  "@breedAdventure_dataCorruptedMessage" : {
+    "description": "Nachricht für beschädigte Spieldaten"
+  },
+
+  "breedAdventure_recoveryMode" : "Wiederherstellungsmodus",
+  "@breedAdventure_recoveryMode" : {
+    "description": "Titel für den Wiederherstellungsmodus"
+  },
+
+  "breedAdventure_loadingFailed" : "Bild-Laden fehlgeschlagen",
+  "@breedAdventure_loadingFailed" : {
+    "description": "Titel für fehlgeschlagenes Bild-Laden"
+  },
+
+  "breedAdventure_loadingFailedMessage" : "Fehler beim Laden von {failedImageCount} Bildern. Dies könnte ein vorübergehendes Problem sein.",
+  "@breedAdventure_loadingFailedMessage" : {
+    "description": "Nachricht für fehlgeschlagenes Bild-Laden",
+    "placeholders": {
+      "failedImageCount": {
+        "type": "int"
+      }
+    }
+  },
+
+  "breedAdventure_dataError" : "Datenfehler",
+  "@breedAdventure_dataError" : {
+    "description": "Titel für Datenfehler"
+  },
+
+  "breedAdventure_somethingWentWrong" : "Etwas ist schiefgegangen",
+  "@breedAdventure_somethingWentWrong" : {
+    "description": "Titel für 'Etwas ist schiefgegangen'"
+  },
+
+  "breedAdventure_goHome" : "Zum Startbildschirm",
+  "@breedAdventure_goHome" : {
+    "description": "Zum Startbildschirm-Button"
   }
 }

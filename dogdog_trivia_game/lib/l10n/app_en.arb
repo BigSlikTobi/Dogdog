@@ -386,7 +386,7 @@
     "description": "Title for game over screen"
   },
 
-  "gameOverScreen_finalScore": "Final Score: {score}",
+  "gameOverScreen_finalScore": "Score: {score}",
   "@gameOverScreen_finalScore": {
     "description": "Shows the final score achieved",
     "placeholders": {
@@ -649,7 +649,7 @@
     "description": "Label for games played statistic"
   },
 
-  "achievementsScreen_totalScore": "Total Score",
+  "achievementsScreen_totalScore": "Record",
   "@achievementsScreen_totalScore": {
     "description": "Label for total score statistic"
   },
@@ -1131,7 +1131,7 @@
     "description": "Title for game over screen"
   },
 
-  "breedAdventure_finalScore": "Final Score",
+  "breedAdventure_finalScore": "Score",
   "@breedAdventure_finalScore": {
     "description": "Label for final score display"
   },
@@ -1454,5 +1454,95 @@
         "example": "Dog Training"
       }
     }
+  },
+
+  "breedAdventure_chooseCorrectImage" : "Choose the Correct Image",
+  "@breedAdventure_chooseCorrectImage" : {
+    "description": "Title for the image selection in breed adventure"
+  },
+
+  "breedAdventure_newHighScore" : "New High Score!",
+  "@breedAdventure_newHighScore" : {
+    "description": "Text for new high score"
+  },
+
+  "breedAdventure_loadingChallenge" : "Loading breed challenge...",
+  "@breedAdventure_loadingChallenge" : {
+    "description": "Loading message for breed challenge"
+  },
+
+  "breedAdventure_retry" : "Retry",
+  "@breedAdventure_retry" : {
+    "description": "Retry button"
+  },
+
+  "breedAdventure_completedAllBreedsMessage" : "You've completed all breeds in the {phaseName} phase. Great job!",
+  "@breedAdventure_completedAllBreedsMessage" : {
+    "description": "Message for completing all breeds in a phase",
+    "placeholders": {
+      "phaseName": {
+        "type": "String"
+      }
+    }
+  },
+
+  "breedAdventure_recoveryModeActiveMessage" : "Recovery mode active after {consecutiveFailures} failures. Using fallback content.",
+  "@breedAdventure_recoveryModeActiveMessage" : {
+    "description": "Message for recovery mode",
+    "placeholders": {
+      "consecutiveFailures": {
+        "type": "int"
+      }
+    }
+  },
+
+  "breedAdventure_recoveryModeActiveOfflineMessage" : "Recovery mode active. Using offline content where possible.",
+  "@breedAdventure_recoveryModeActiveOfflineMessage" : {
+    "description": "Message for recovery mode with offline content"
+  },
+
+  "breedAdventure_tryAgain" : "Try Again",
+  "@breedAdventure_tryAgain" : {
+    "description": "Try again button"
+  },
+
+  "breedAdventure_dataCorruptedMessage" : "Game data appears to be corrupted. Please restart the game or return to the home screen.",
+  "@breedAdventure_dataCorruptedMessage" : {
+    "description": "Message for corrupted game data"
+  },
+
+  "breedAdventure_recoveryMode" : "Recovery Mode",
+  "@breedAdventure_recoveryMode" : {
+    "description": "Title for recovery mode"
+  },
+
+  "breedAdventure_loadingFailed" : "Image Load Failed",
+  "@breedAdventure_loadingFailed" : {
+    "description": "Title for image load failed"
+  },
+
+  "breedAdventure_loadingFailedMessage" : "Failed to load {failedImageCount} images. This might be a temporary issue.",
+  "@breedAdventure_loadingFailedMessage" : {
+    "description": "Message for image load failed",
+    "placeholders": {
+      "failedImageCount": {
+        "type": "int"
+      }
+    }
+  },
+
+  "breedAdventure_dataError" : "Data Error",
+  "@breedAdventure_dataError" : {
+    "description": "Title for data error"
+  },
+
+  "breedAdventure_somethingWentWrong" : "Something Went Wrong",
+  "@breedAdventure_somethingWentWrong" : {
+    "description": "Title for something went wrong"
+  },
+
+  "breedAdventure_goHome" : "Go Home",
+  "@breedAdventure_goHome" : {
+    "description": "Go home button"
   }
 }

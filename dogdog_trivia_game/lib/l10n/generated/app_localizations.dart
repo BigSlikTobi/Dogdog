@@ -528,7 +528,7 @@ abstract class AppLocalizations {
   /// Shows the final score achieved
   ///
   /// In en, this message translates to:
-  /// **'Final Score: {score}'**
+  /// **'Score: {score}'**
   String gameOverScreen_finalScore(int score);
 
   /// Shows correct answers out of total
@@ -774,7 +774,7 @@ abstract class AppLocalizations {
   /// Label for total score statistic
   ///
   /// In en, this message translates to:
-  /// **'Total Score'**
+  /// **'Record'**
   String get achievementsScreen_totalScore;
 
   /// Title for current rank section
@@ -1242,7 +1242,7 @@ abstract class AppLocalizations {
   /// Label for final score display
   ///
   /// In en, this message translates to:
-  /// **'Final Score'**
+  /// **'Score'**
   String get breedAdventure_finalScore;
 
   /// Label for correct answers count
@@ -1580,6 +1580,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Selected {category} category'**
   String categorySelection_announceSelection(String category);
+
+  /// Title for the image selection in breed adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the Correct Image'**
+  String get breedAdventure_chooseCorrectImage;
+
+  /// Text for new high score
+  ///
+  /// In en, this message translates to:
+  /// **'New High Score!'**
+  String get breedAdventure_newHighScore;
+
+  /// Loading message for breed challenge
+  ///
+  /// In en, this message translates to:
+  /// **'Loading breed challenge...'**
+  String get breedAdventure_loadingChallenge;
+
+  /// Retry button
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get breedAdventure_retry;
+
+  /// Message for completing all breeds in a phase
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve completed all breeds in the {phaseName} phase. Great job!'**
+  String breedAdventure_completedAllBreedsMessage(String phaseName);
+
+  /// Message for recovery mode
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery mode active after {consecutiveFailures} failures. Using fallback content.'**
+  String breedAdventure_recoveryModeActiveMessage(int consecutiveFailures);
+
+  /// Message for recovery mode with offline content
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery mode active. Using offline content where possible.'**
+  String get breedAdventure_recoveryModeActiveOfflineMessage;
+
+  /// Try again button
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get breedAdventure_tryAgain;
+
+  /// Message for corrupted game data
+  ///
+  /// In en, this message translates to:
+  /// **'Game data appears to be corrupted. Please restart the game or return to the home screen.'**
+  String get breedAdventure_dataCorruptedMessage;
+
+  /// Title for recovery mode
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery Mode'**
+  String get breedAdventure_recoveryMode;
+
+  /// Title for image load failed
+  ///
+  /// In en, this message translates to:
+  /// **'Image Load Failed'**
+  String get breedAdventure_loadingFailed;
+
+  /// Message for image load failed
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load {failedImageCount} images. This might be a temporary issue.'**
+  String breedAdventure_loadingFailedMessage(int failedImageCount);
+
+  /// Title for data error
+  ///
+  /// In en, this message translates to:
+  /// **'Data Error'**
+  String get breedAdventure_dataError;
+
+  /// Title for something went wrong
+  ///
+  /// In en, this message translates to:
+  /// **'Something Went Wrong'**
+  String get breedAdventure_somethingWentWrong;
+
+  /// Go home button
+  ///
+  /// In en, this message translates to:
+  /// **'Go Home'**
+  String get breedAdventure_goHome;
 }
 
 class _AppLocalizationsDelegate

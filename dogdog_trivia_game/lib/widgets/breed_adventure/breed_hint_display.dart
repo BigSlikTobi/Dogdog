@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/generated/app_localizations.dart';
 import '../../design_system/modern_colors.dart';
 import '../../design_system/modern_typography.dart';
 import '../../design_system/modern_spacing.dart';
@@ -139,7 +140,9 @@ class _BreedHintDisplayState extends State<BreedHintDisplay>
 
                         Expanded(
                           child: Text(
-                            'Breed Hint',
+                            AppLocalizations.of(
+                              context,
+                            ).breedAdventure_hintTitle,
                             style: ModernTypography.headingSmall.copyWith(
                               color: ModernColors.textOnDark,
                               fontWeight: FontWeight.bold,
