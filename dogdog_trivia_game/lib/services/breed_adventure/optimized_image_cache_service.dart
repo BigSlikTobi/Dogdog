@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:collection';
 import 'package:flutter/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../services/error_service.dart';
+import '../../models/enums.dart';
 
 /// Advanced image cache service with LRU eviction, preloading, and memory optimization
 class OptimizedImageCacheService {
@@ -89,10 +91,17 @@ class OptimizedImageCacheService {
       _recordLoadTime(stopwatch.elapsed);
 
       return imageProvider;
-    } catch (e) {
+    } catch (e, stack) {
       stopwatch.stop();
       _failedUrls.add(url);
       debugPrint('Failed to load optimized image $url: $e');
+      await ErrorService().recordError(
+        ErrorType.network,
+        'Failed to load optimized image: $url',
+        severity: ErrorSeverity.medium,
+        stackTrace: stack,
+        originalError: e,
+      );
       rethrow;
     }
   }
@@ -207,15 +216,30 @@ class OptimizedImageCacheService {
               completer.completeError(exception);
             }
             imageStream.removeListener(listener);
+            // Log error to ErrorService
+            ErrorService().recordError(
+              ErrorType.network,
+              'Image stream error for $url',
+              severity: ErrorSeverity.medium,
+              stackTrace: stackTrace,
+              originalError: exception,
+            );
           },
         );
 
         imageStream.addListener(listener);
 
         return await completer.future;
-      } catch (e) {
+      } catch (e, stack) {
         attempts++;
         if (attempts >= maxRetries) {
+          await ErrorService().recordError(
+            ErrorType.network,
+            'Failed to load image after $maxRetries attempts: $url',
+            severity: ErrorSeverity.high,
+            stackTrace: stack,
+            originalError: e,
+          );
           rethrow;
         }
 
