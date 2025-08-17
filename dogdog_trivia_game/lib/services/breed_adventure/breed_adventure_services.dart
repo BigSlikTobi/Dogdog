@@ -7,3 +7,7 @@ library;
 export 'breed_service.dart';
 export 'breed_adventure_timer.dart';
 export 'breed_localization_service.dart';
+export 'optimized_image_cache_service.dart';
+export 'breed_adventure_memory_manager.dart';
+export 'breed_adventure_performance_monitor.dart';
+export 'frame_rate_optimizer.dart';

@@ -71,7 +71,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     try {
       await _controller.initialize();
       if (mounted) {
-        await _controller.startGame(context);
+        await _controller.startGame();
 
         setState(() {
           _isInitialized = true;
@@ -96,12 +96,14 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
   void _handleImageSelection(int imageIndex) {
     if (_controller.isGameActive &&
         _controller.feedbackState == AnswerFeedback.none) {
-      _controller.selectImage(context, imageIndex);
+      _controller.selectImage(imageIndex);
     }
   }
 
   Future<void> _handlePowerUpUsage(PowerUpType powerUpType) async {
-    final success = await _controller.usePowerUp(context, powerUpType);
+    final success = await _controller.usePowerUp(powerUpType);
+
+    if (!mounted) return;
 
     if (success) {
       setState(() {
@@ -109,6 +111,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
       });
 
       _feedbackController.forward().then((_) {
+        if (!mounted) return;
         _feedbackController.reset();
         setState(() {
           _activePowerUpFeedback = null;
@@ -337,8 +340,9 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                 remainingSeconds: _controller.timeRemaining,
                 totalSeconds: 10,
                 isActive: _controller.isTimerRunning,
-                onTimeExpired: () {
-                  _controller.handleTimeExpired(context);
+                onTimeExpired: () async {
+                  await _controller.handleTimeExpired();
+                  if (!mounted) return;
                   if (_controller.livesRemaining <= 0) {
                     _handleGameOver();
                   }
