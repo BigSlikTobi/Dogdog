@@ -338,7 +338,9 @@ class _GameCompletionScreenState extends State<GameCompletionScreen>
 
                 const Text(
                   'Punkte',
-                  style: TextStyle(fontSize: 18, color: Colors.white70),
+                Text(
+                  AppLocalizations.of(context)!.points,
+                  style: const TextStyle(fontSize: 18, color: Colors.white70),
                 ),
 
                 const SizedBox(height: 16),
