@@ -181,13 +181,6 @@ class _CountdownTimerDisplayState extends State<CountdownTimerDisplay>
     final isHighContrast = AccessibilityUtils.isHighContrastEnabled(context);
     final colorScheme = AccessibilityUtils.getHighContrastColors(context);
 
-    // Create comprehensive semantic label
-    final timerLabel = AccessibilityEnhancements.buildAccessibleTimer(
-      child: Container(), // Placeholder, we'll use the label
-      seconds: widget.remainingSeconds,
-      isUrgent: widget.remainingSeconds <= 3,
-    );
-
     return AccessibilityTheme(
       child: AccessibilityEnhancements.buildReducedMotionWrapper(
         child: AnimatedBuilder(

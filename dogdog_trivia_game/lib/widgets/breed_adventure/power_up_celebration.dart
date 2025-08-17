@@ -50,61 +50,54 @@ class _PowerUpCelebrationState extends State<PowerUpCelebration>
       vsync: this,
     );
 
-    _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 0.0, end: 1.2),
-        weight: 30,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.2, end: 1.0),
-        weight: 20,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 1.0),
-        weight: 40,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 0.0),
-        weight: 10,
-      ),
-    ]).animate(CurvedAnimation(
-      parent: _mainController,
-      curve: Curves.easeInOut,
-    ));
+    _scaleAnimation =
+        TweenSequence<double>([
+          TweenSequenceItem(
+            tween: Tween<double>(begin: 0.0, end: 1.2),
+            weight: 30,
+          ),
+          TweenSequenceItem(
+            tween: Tween<double>(begin: 1.2, end: 1.0),
+            weight: 20,
+          ),
+          TweenSequenceItem(
+            tween: Tween<double>(begin: 1.0, end: 1.0),
+            weight: 40,
+          ),
+          TweenSequenceItem(
+            tween: Tween<double>(begin: 1.0, end: 0.0),
+            weight: 10,
+          ),
+        ]).animate(
+          CurvedAnimation(parent: _mainController, curve: Curves.easeInOut),
+        );
 
-    _fadeAnimation = TweenSequence<double>([
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 0.0, end: 1.0),
-        weight: 20,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 1.0),
-        weight: 60,
-      ),
-      TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 0.0),
-        weight: 20,
-      ),
-    ]).animate(CurvedAnimation(
-      parent: _mainController,
-      curve: Curves.easeInOut,
-    ));
+    _fadeAnimation =
+        TweenSequence<double>([
+          TweenSequenceItem(
+            tween: Tween<double>(begin: 0.0, end: 1.0),
+            weight: 20,
+          ),
+          TweenSequenceItem(
+            tween: Tween<double>(begin: 1.0, end: 1.0),
+            weight: 60,
+          ),
+          TweenSequenceItem(
+            tween: Tween<double>(begin: 1.0, end: 0.0),
+            weight: 20,
+          ),
+        ]).animate(
+          CurvedAnimation(parent: _mainController, curve: Curves.easeInOut),
+        );
 
-    _rotationAnimation = Tween<double>(
-      begin: 0.0,
-      end: widget.isEarned ? 2.0 : 1.0,
-    ).animate(CurvedAnimation(
-      parent: _mainController,
-      curve: Curves.easeInOut,
-    ));
+    _rotationAnimation =
+        Tween<double>(begin: 0.0, end: widget.isEarned ? 2.0 : 1.0).animate(
+          CurvedAnimation(parent: _mainController, curve: Curves.easeInOut),
+        );
 
-    _particleAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _particleController,
-      curve: Curves.easeOut,
-    ));
+    _particleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _particleController, curve: Curves.easeOut),
+    );
 
     _startAnimation();
   }
@@ -297,7 +290,8 @@ class PowerUpRewardNotification extends StatefulWidget {
   });
 
   @override
-  State<PowerUpRewardNotification> createState() => _PowerUpRewardNotificationState();
+  State<PowerUpRewardNotification> createState() =>
+      _PowerUpRewardNotificationState();
 }
 
 class _PowerUpRewardNotificationState extends State<PowerUpRewardNotification>
@@ -318,18 +312,12 @@ class _PowerUpRewardNotificationState extends State<PowerUpRewardNotification>
     _slideAnimation = Tween<Offset>(
       begin: const Offset(1.0, 0.0),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutBack,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
 
     _fadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeIn,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
     _controller.forward();
 

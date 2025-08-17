@@ -1490,6 +1490,7 @@
   "breedAdventure_whichImageShows": "¿Qué imagen muestra un",
   "@breedAdventure_whichImageShows": {
     "description": "Pregunta para aventura de razas"
+  },
 
   "breedAdventure_breedChallenge": "Desafío de Razas",
   "@breedAdventure_breedChallenge": {
