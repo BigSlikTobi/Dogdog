@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../design_system/modern_colors.dart';
-import '../design_system/modern_typography.dart';
-import '../design_system/modern_spacing.dart';
-import '../design_system/modern_shadows.dart';
+import '../../design_system/modern_colors.dart';
+import '../../design_system/modern_typography.dart';
+import '../../design_system/modern_spacing.dart';
+import '../../design_system/modern_shadows.dart';
 
 /// Widget that displays streak celebration animations with multiplier feedback
 class StreakCelebrationWidget extends StatefulWidget {

@@ -1191,7 +1191,7 @@ abstract class AppLocalizations {
   /// **'Test your knowledge by identifying dog breeds from photos'**
   String get breedAdventure_description;
 
-  /// Question prompt for breed identification
+  /// Question prompt for breed adventure
   ///
   /// In en, this message translates to:
   /// **'Which image shows a'**
@@ -1353,7 +1353,7 @@ abstract class AppLocalizations {
   /// **'Progress'**
   String get breedAdventure_progress;
 
-  /// Label for countdown timer
+  /// Label for time remaining display
   ///
   /// In en, this message translates to:
   /// **'Time Remaining'**
@@ -1376,6 +1376,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Connection Problem'**
   String get breedAdventure_connectionProblem;
+
+  /// Title for the image selection in breed adventure
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the Correct Image'**
+  String get breedAdventure_chooseCorrectImage;
+
+  /// Text for new high score
+  ///
+  /// In en, this message translates to:
+  /// **'New High Score!'**
+  String get breedAdventure_newHighScore;
+
+  /// Error message when breed image fails to load
+  ///
+  /// In en, this message translates to:
+  /// **'Image failed to load'**
+  String get breedAdventure_imageFailedToLoad;
+
+  /// Short form for seconds
+  ///
+  /// In en, this message translates to:
+  /// **'sec'**
+  String get breedAdventure_seconds;
+
+  /// Very short form for seconds
+  ///
+  /// In en, this message translates to:
+  /// **'s'**
+  String get breedAdventure_secondsShort;
+
+  /// Notification when a power-up is used
+  ///
+  /// In en, this message translates to:
+  /// **'{powerUp} used!'**
+  String breedAdventure_powerUpUsed(String powerUp);
+
+  /// Title when game ends
+  ///
+  /// In en, this message translates to:
+  /// **'Game Over'**
+  String get breedAdventure_gameOver;
+
+  /// Congratulations message for good performance
+  ///
+  /// In en, this message translates to:
+  /// **'Congratulations!'**
+  String get breedAdventure_congratulations;
+
+  /// Try again button
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get breedAdventure_tryAgain;
+
+  /// General loading message
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get breedAdventure_loading;
+
+  /// General error title
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get breedAdventure_error;
+
+  /// Retry button
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get breedAdventure_retry;
+
+  /// Button to skip current question
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get breedAdventure_skip;
+
+  /// Button text to continue
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get breedAdventure_continue;
+
+  /// Button text to close dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get breedAdventure_close;
 
   /// Message for network connectivity issues
   ///
@@ -1418,12 +1508,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Restart Game'**
   String get breedAdventure_restartGame;
-
-  /// Button to skip current question
-  ///
-  /// In en, this message translates to:
-  /// **'Skip'**
-  String get breedAdventure_skip;
 
   /// Abbreviation for seconds
   ///
@@ -1581,29 +1665,11 @@ abstract class AppLocalizations {
   /// **'Selected {category} category'**
   String categorySelection_announceSelection(String category);
 
-  /// Title for the image selection in breed adventure
-  ///
-  /// In en, this message translates to:
-  /// **'Choose the Correct Image'**
-  String get breedAdventure_chooseCorrectImage;
-
-  /// Text for new high score
-  ///
-  /// In en, this message translates to:
-  /// **'New High Score!'**
-  String get breedAdventure_newHighScore;
-
   /// Loading message for breed challenge
   ///
   /// In en, this message translates to:
   /// **'Loading breed challenge...'**
   String get breedAdventure_loadingChallenge;
-
-  /// Retry button
-  ///
-  /// In en, this message translates to:
-  /// **'Retry'**
-  String get breedAdventure_retry;
 
   /// Message for completing all breeds in a phase
   ///
@@ -1622,12 +1688,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recovery mode active. Using offline content where possible.'**
   String get breedAdventure_recoveryModeActiveOfflineMessage;
-
-  /// Try again button
-  ///
-  /// In en, this message translates to:
-  /// **'Try Again'**
-  String get breedAdventure_tryAgain;
 
   /// Message for corrupted game data
   ///
@@ -1670,6 +1730,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go Home'**
   String get breedAdventure_goHome;
+
+  /// Label for breed challenge element
+  ///
+  /// In en, this message translates to:
+  /// **'Breed Challenge'**
+  String get breedAdventure_breedChallenge;
+
+  /// Hint for selecting correct image
+  ///
+  /// In en, this message translates to:
+  /// **'Select the correct image from the two options below'**
+  String get breedAdventure_selectCorrectImageHint;
+
+  /// Label for the breed to identify
+  ///
+  /// In en, this message translates to:
+  /// **'Target Breed'**
+  String get breedAdventure_targetBreed;
+
+  /// Accessibility label for question mark indicator
+  ///
+  /// In en, this message translates to:
+  /// **'Question indicator'**
+  String get breedAdventure_questionIndicator;
+
+  /// Label for breed name display
+  ///
+  /// In en, this message translates to:
+  /// **'Breed Name'**
+  String get breedAdventure_breedName;
+
+  /// Label for image selection options
+  ///
+  /// In en, this message translates to:
+  /// **'Image option {number}'**
+  String breedAdventure_imageOption(int number);
+
+  /// Hint for tapping to select image
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to select this image'**
+  String get breedAdventure_tapToSelectImage;
+
+  /// Message when image selection is disabled
+  ///
+  /// In en, this message translates to:
+  /// **'Image selection is disabled'**
+  String get breedAdventure_imageDisabled;
+
+  /// Feedback for correct image selection
+  ///
+  /// In en, this message translates to:
+  /// **'Correct selection'**
+  String get breedAdventure_correctSelection;
+
+  /// Feedback for incorrect image selection
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect selection'**
+  String get breedAdventure_incorrectSelection;
+
+  /// Label for the image selection area
+  ///
+  /// In en, this message translates to:
+  /// **'Image selection area'**
+  String get breedAdventure_imageSelectionArea;
+
+  /// Hint for choosing correct image
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the correct image that matches the breed name'**
+  String get breedAdventure_chooseCorrectImageHint;
+
+  /// Announcement when image is selected
+  ///
+  /// In en, this message translates to:
+  /// **'Selected {imageLabel}'**
+  String breedAdventure_imageSelected(String imageLabel);
+
+  /// Description for breed images
+  ///
+  /// In en, this message translates to:
+  /// **'Dog breed image for identification'**
+  String get breedAdventure_breedImageDescription;
+
+  /// Label for timer element
+  ///
+  /// In en, this message translates to:
+  /// **'Timer'**
+  String get breedAdventure_timer;
+
+  /// State when time is running out
+  ///
+  /// In en, this message translates to:
+  /// **'Time running out'**
+  String get breedAdventure_timeRunningOut;
+
+  /// Announcement for seconds remaining
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} seconds remaining'**
+  String breedAdventure_secondsRemaining(int seconds);
+
+  /// Announcement when time expires
+  ///
+  /// In en, this message translates to:
+  /// **'Time has expired'**
+  String get breedAdventure_timeExpired;
+
+  /// Label for countdown timer
+  ///
+  /// In en, this message translates to:
+  /// **'Countdown Timer'**
+  String get breedAdventure_countdownTimer;
+
+  /// Label for timer progress indicator
+  ///
+  /// In en, this message translates to:
+  /// **'Timer Progress'**
+  String get breedAdventure_timerProgress;
+
+  /// Label for time display
+  ///
+  /// In en, this message translates to:
+  /// **'Time Display'**
+  String get breedAdventure_timeDisplay;
+
+  /// Warning for urgent time situation
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent time warning'**
+  String get breedAdventure_urgentWarning;
+
+  /// Warning for critical time situation
+  ///
+  /// In en, this message translates to:
+  /// **'Critical time remaining'**
+  String get breedAdventure_criticalTime;
 }
 
 class _AppLocalizationsDelegate

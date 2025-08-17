@@ -1,5 +1,8 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../../design_system/modern_colors.dart';
+import '../../design_system/modern_typography.dart';
+import '../../design_system/modern_shadows.dart';
 
 /// A custom loading animation widget with dog-themed elements
 class LoadingAnimation extends StatefulWidget {
@@ -74,21 +77,31 @@ class _LoadingAnimationState extends State<LoadingAnimation>
                   width: widget.size,
                   height: widget.size,
                   decoration: BoxDecoration(
-                    color: widget.color ?? const Color(0xFF4A90E2),
+                    gradient: LinearGradient(
+                      colors: [
+                        widget.color ?? ModernColors.primaryBlue,
+                        (widget.color ?? ModernColors.primaryBlue).withValues(
+                          alpha: 0.8,
+                        ),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: (widget.color ?? const Color(0xFF4A90E2))
-                            .withValues(alpha: 0.3),
-                        blurRadius: 10,
+                        color: (widget.color ?? ModernColors.primaryBlue)
+                            .withValues(alpha: 0.4),
+                        blurRadius: 12,
                         spreadRadius: 2,
                       ),
+                      ...ModernShadows.medium,
                     ],
                   ),
                   child: Icon(
                     Icons.pets,
                     size: widget.size * 0.5,
-                    color: Colors.white,
+                    color: ModernColors.textOnDark,
                   ),
                 ),
               ),
@@ -96,12 +109,11 @@ class _LoadingAnimationState extends State<LoadingAnimation>
           },
         ),
         if (widget.message != null) ...[
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           Text(
             widget.message!,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Color(0xFF6B7280),
+            style: ModernTypography.bodyMedium.copyWith(
+              color: ModernColors.textSecondary,
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,
@@ -123,8 +135,8 @@ class ShimmerLoading extends StatefulWidget {
     super.key,
     required this.child,
     this.isLoading = true,
-    this.baseColor = const Color(0xFFE5E7EB),
-    this.highlightColor = const Color(0xFFF3F4F6),
+    this.baseColor = ModernColors.surfaceMedium,
+    this.highlightColor = ModernColors.surfaceLight,
   });
 
   @override
@@ -280,10 +292,21 @@ class _DotProgressIndicatorState extends State<DotProgressIndicator>
                   width: widget.dotSize,
                   height: widget.dotSize,
                   decoration: BoxDecoration(
-                    color: (widget.color ?? const Color(0xFF4A90E2)).withValues(
-                      alpha: 0.3 + (_animations[index].value * 0.7),
-                    ),
+                    color: (widget.color ?? ModernColors.primaryBlue)
+                        .withValues(
+                          alpha: 0.3 + (_animations[index].value * 0.7),
+                        ),
                     shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: (widget.color ?? ModernColors.primaryBlue)
+                            .withValues(
+                              alpha: 0.2 + (_animations[index].value * 0.3),
+                            ),
+                        blurRadius: 4,
+                        spreadRadius: 1,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -351,7 +374,7 @@ class _WaveProgressIndicatorState extends State<WaveProgressIndicator>
           size: Size(widget.width, widget.height),
           painter: WavePainter(
             animationValue: _animation.value,
-            color: widget.color ?? const Color(0xFF4A90E2),
+            color: widget.color ?? ModernColors.primaryBlue,
             waveCount: widget.waveCount,
           ),
         );

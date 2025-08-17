@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../models/models.dart';
-import '../services/breed_service.dart';
-import '../services/breed_adventure_timer.dart';
-import '../services/image_cache_service.dart';
-import '../services/audio_service.dart';
-import '../services/progress_service.dart';
-import '../services/error_service.dart';
-import '../controllers/breed_adventure_power_up_controller.dart';
-import '../services/game_persistence_service.dart';
+import '../../models/models.dart';
+import '../../services/breed_adventure/breed_adventure_services.dart';
+import '../../services/image_cache_service.dart';
+import '../../services/audio_service.dart';
+import '../../services/progress_service.dart';
+import '../../services/error_service.dart';
+import 'breed_adventure_power_up_controller.dart';
+import '../../services/game_persistence_service.dart';
 
 /// Controller for managing the Dog Breeds Adventure game state and logic
 class BreedAdventureController extends ChangeNotifier {
@@ -191,8 +190,9 @@ class BreedAdventureController extends ChangeNotifier {
     final timeRemaining = _timer.remainingSeconds;
 
     // Set feedback state and notify listeners to show it immediately
-    _feedbackState =
-        isCorrect ? AnswerFeedback.correct : AnswerFeedback.incorrect;
+    _feedbackState = isCorrect
+        ? AnswerFeedback.correct
+        : AnswerFeedback.incorrect;
     _feedbackIndex = imageIndex;
     notifyListeners();
 
@@ -506,17 +506,11 @@ class BreedAdventureController extends ChangeNotifier {
 
   /// Get game statistics
   GameStatistics getGameStatistics() {
-    return GameStatistics(
-      score: _gameState.score,
-      correctAnswers: _gameState.correctAnswers,
-      totalQuestions: _gameState.totalQuestions,
-      accuracy: _gameState.accuracy,
-      currentPhase: _gameState.currentPhase,
-      gameDuration: _gameState.gameDurationSeconds,
-      powerUpsUsed: _getTotalPowerUpsUsed(),
-      livesRemaining: livesRemaining,
-      highScore: _highScore,
-      isNewHighScore: _gameState.score == _highScore && _gameState.score > 0,
+    return GameStatistics.fromBreedAdventure(
+      _gameState,
+      _highScore,
+      livesRemaining,
+      _getTotalPowerUpsUsed(),
     );
   }
 
@@ -997,88 +991,15 @@ class BreedAdventureController extends ChangeNotifier {
 
       // Reset power-up controller to free memory
       _powerUpController.resetForNewGame();
-
-      notifyListeners();
     } catch (e) {
       debugPrint('Memory cleanup error: $e');
     }
   }
 
-  /// Get current memory usage statistics
-  Map<String, dynamic> getMemoryStats() {
-    final imageCacheStats = _imageCacheService.getStatistics();
-    return {
-      'imageCacheSize': imageCacheStats.cacheSize,
-      'cachedImagesCount': imageCacheStats.cachedImagesCount,
-      'memoryPressureLevel': imageCacheStats.memoryPressureLevel,
-      'failedImageUrls': _failedImageUrls.length,
-      'usedBreedsCount': _gameState.usedBreeds.length,
-      'isInRecoveryMode': _isInRecoveryMode,
-      'consecutiveFailures': _consecutiveFailures,
-    };
-  }
-
-  /// Perform memory optimization if needed
-  Future<void> optimizeMemoryIfNeeded() async {
-    final stats = getMemoryStats();
-    final memoryPressure = stats['memoryPressureLevel'] as int;
-
-    // Trigger cleanup if memory pressure is medium or high
-    if (memoryPressure >= 1) {
-      await cleanupMemory();
-    }
-  }
-
   @override
   void dispose() {
-    // Cancel timer subscription
+    _timer.stop();
     _timerSubscription?.cancel();
-
-    // Dispose timer
-    _timer.dispose();
-
-    // Clean up power-up controller
-    _powerUpController.resetForNewGame();
-
-    // Clear error state
-    _resetErrorState();
-
     super.dispose();
-  }
-}
-
-/// Statistics for a completed game
-class GameStatistics {
-  final int score;
-  final int correctAnswers;
-  final int totalQuestions;
-  final double accuracy;
-  final DifficultyPhase currentPhase;
-  final int gameDuration;
-  final int powerUpsUsed;
-  final int livesRemaining;
-  final int highScore;
-  final bool isNewHighScore;
-
-  const GameStatistics({
-    required this.score,
-    required this.correctAnswers,
-    required this.totalQuestions,
-    required this.accuracy,
-    required this.currentPhase,
-    required this.gameDuration,
-    required this.powerUpsUsed,
-    required this.livesRemaining,
-    required this.highScore,
-    required this.isNewHighScore,
-  });
-
-  @override
-  String toString() {
-    return 'GameStatistics(score: $score, correctAnswers: $correctAnswers, '
-        'totalQuestions: $totalQuestions, accuracy: ${accuracy.toStringAsFixed(1)}%, '
-        'phase: $currentPhase, duration: ${gameDuration}s, '
-        'powerUpsUsed: $powerUpsUsed, livesRemaining: $livesRemaining, '
-        'highScore: $highScore, isNewHighScore: $isNewHighScore)';
   }
 }

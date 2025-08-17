@@ -51,6 +51,9 @@ enum Rank {
 /// Enum representing possible game results
 enum GameResult { win, lose, quit }
 
+/// Enum representing different game modes available in the app
+enum GameMode { classicTrivia, breedAdventure, treasureMap }
+
 /// Enum representing different types of errors that can occur
 enum ErrorType {
   network,
@@ -239,8 +242,4 @@ enum Checkpoint {
 }
 
 /// Enum for feedback state after an answer.
-enum AnswerFeedback {
-  none,
-  correct,
-  incorrect,
-}
+enum AnswerFeedback { none, correct, incorrect }

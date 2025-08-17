@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import '../models/models.dart';
+import '../../models/models.dart';
 
 /// Service for managing breed data, localization, and challenge generation
 class BreedService {

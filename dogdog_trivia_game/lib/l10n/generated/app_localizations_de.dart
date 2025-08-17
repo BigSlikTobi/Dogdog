@@ -733,6 +733,54 @@ class AppLocalizationsDe extends AppLocalizations {
   String get breedAdventure_connectionProblem => 'Verbindungsproblem';
 
   @override
+  String get breedAdventure_chooseCorrectImage => 'Wähle das richtige Bild';
+
+  @override
+  String get breedAdventure_newHighScore => 'Neuer Highscore!';
+
+  @override
+  String get breedAdventure_imageFailedToLoad =>
+      'Bild konnte nicht geladen werden';
+
+  @override
+  String get breedAdventure_seconds => 'Sek';
+
+  @override
+  String get breedAdventure_secondsShort => 's';
+
+  @override
+  String breedAdventure_powerUpUsed(String powerUp) {
+    return '$powerUp verwendet!';
+  }
+
+  @override
+  String get breedAdventure_gameOver => 'Spiel Beendet';
+
+  @override
+  String get breedAdventure_congratulations => 'Herzlichen Glückwunsch!';
+
+  @override
+  String get breedAdventure_tryAgain => 'Erneut versuchen';
+
+  @override
+  String get breedAdventure_loading => 'Lädt...';
+
+  @override
+  String get breedAdventure_error => 'Fehler';
+
+  @override
+  String get breedAdventure_retry => 'Wiederholen';
+
+  @override
+  String get breedAdventure_skip => 'Überspringen';
+
+  @override
+  String get breedAdventure_continue => 'Weiter';
+
+  @override
+  String get breedAdventure_close => 'Schließen';
+
+  @override
   String get breedAdventure_connectionMessage =>
       'Bilder können nicht geladen werden. Bitte überprüfe deine Internetverbindung und versuche es erneut.';
 
@@ -756,9 +804,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get breedAdventure_restartGame => 'Spiel Neustarten';
-
-  @override
-  String get breedAdventure_skip => 'Überspringen';
 
   @override
   String get breedAdventure_sec => 'Sek';
@@ -858,17 +903,8 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get breedAdventure_chooseCorrectImage => 'Wähle das richtige Bild';
-
-  @override
-  String get breedAdventure_newHighScore => 'Neuer Highscore!';
-
-  @override
   String get breedAdventure_loadingChallenge =>
       'Lade Rassen-Herausforderung...';
-
-  @override
-  String get breedAdventure_retry => 'Wiederholen';
 
   @override
   String breedAdventure_completedAllBreedsMessage(String phaseName) {
@@ -883,9 +919,6 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get breedAdventure_recoveryModeActiveOfflineMessage =>
       'Wiederherstellungsmodus aktiv. Offline-Inhalt wird wo möglich verwendet.';
-
-  @override
-  String get breedAdventure_tryAgain => 'Erneut versuchen';
 
   @override
   String get breedAdventure_dataCorruptedMessage =>
@@ -910,4 +943,83 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get breedAdventure_goHome => 'Zum Startbildschirm';
+
+  @override
+  String get breedAdventure_breedChallenge => 'Rassen-Herausforderung';
+
+  @override
+  String get breedAdventure_selectCorrectImageHint =>
+      'Wählen Sie das richtige Bild aus den beiden Optionen unten';
+
+  @override
+  String get breedAdventure_targetBreed => 'Zielrasse';
+
+  @override
+  String get breedAdventure_questionIndicator => 'Fragezeichen-Indikator';
+
+  @override
+  String get breedAdventure_breedName => 'Rassenname';
+
+  @override
+  String breedAdventure_imageOption(int number) {
+    return 'Bildoption $number';
+  }
+
+  @override
+  String get breedAdventure_tapToSelectImage =>
+      'Tippen Sie, um dieses Bild auszuwählen';
+
+  @override
+  String get breedAdventure_imageDisabled => 'Bildauswahl ist deaktiviert';
+
+  @override
+  String get breedAdventure_correctSelection => 'Richtige Auswahl';
+
+  @override
+  String get breedAdventure_incorrectSelection => 'Falsche Auswahl';
+
+  @override
+  String get breedAdventure_imageSelectionArea => 'Bildauswahlbereich';
+
+  @override
+  String get breedAdventure_chooseCorrectImageHint =>
+      'Wählen Sie das richtige Bild, das zum Rassennamen passt';
+
+  @override
+  String breedAdventure_imageSelected(String imageLabel) {
+    return '$imageLabel ausgewählt';
+  }
+
+  @override
+  String get breedAdventure_breedImageDescription =>
+      'Hunderassenbild zur Identifikation';
+
+  @override
+  String get breedAdventure_timer => 'Timer';
+
+  @override
+  String get breedAdventure_timeRunningOut => 'Zeit läuft ab';
+
+  @override
+  String breedAdventure_secondsRemaining(int seconds) {
+    return '$seconds Sekunden verbleibend';
+  }
+
+  @override
+  String get breedAdventure_timeExpired => 'Zeit ist abgelaufen';
+
+  @override
+  String get breedAdventure_countdownTimer => 'Countdown-Timer';
+
+  @override
+  String get breedAdventure_timerProgress => 'Timer-Fortschritt';
+
+  @override
+  String get breedAdventure_timeDisplay => 'Zeitanzeige';
+
+  @override
+  String get breedAdventure_urgentWarning => 'Dringende Zeitwarnung';
+
+  @override
+  String get breedAdventure_criticalTime => 'Kritische Zeit verbleibend';
 }

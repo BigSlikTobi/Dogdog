@@ -3,6 +3,10 @@ import '../../design_system/modern_colors.dart';
 import '../../design_system/modern_typography.dart';
 import '../../design_system/modern_spacing.dart';
 import '../../design_system/modern_shadows.dart';
+import '../../l10n/generated/app_localizations.dart';
+import '../../services/breed_adventure/breed_localization_service.dart';
+import '../../utils/accessibility.dart';
+import '../../utils/accessibility_enhancements.dart' hide AccessibilityTheme;
 
 /// Widget that displays the breed name with localized text and modern typography
 class BreedNameDisplay extends StatefulWidget {
@@ -80,76 +84,214 @@ class _BreedNameDisplayState extends State<BreedNameDisplay>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, child) {
-        return SlideTransition(
-          position: _slideAnimation,
-          child: FadeTransition(
-            opacity: _fadeAnimation,
-            child: Container(
-              width: double.infinity,
-              margin: ModernSpacing.paddingHorizontalLG,
-              padding: ModernSpacing.paddingLG,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    ModernColors.cardBackground,
-                    ModernColors.cardBackground.withValues(alpha: 0.95),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+    final localizedBreedName = BreedLocalizationService.getLocalizedBreedName(
+      context,
+      widget.breedName,
+    );
+
+    final questionText = AppLocalizations.of(
+      context,
+    ).breedAdventure_whichImageShows;
+
+    // Create comprehensive semantic label for screen readers
+    final semanticLabel = AccessibilityUtils.createGameElementLabel(
+      element: AppLocalizations.of(context).breedAdventure_breedChallenge,
+      value: localizedBreedName,
+      context: questionText,
+    );
+
+    return AccessibilityTheme(
+      child: AnimatedBuilder(
+        animation: _animationController,
+        builder: (context, child) {
+          return AccessibilityEnhancements.buildReducedMotionWrapper(
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: _buildAccessibleContainer(
+                  context,
+                  localizedBreedName,
+                  questionText,
+                  semanticLabel,
                 ),
-                borderRadius: ModernSpacing.borderRadiusLarge,
-                boxShadow: ModernShadows.medium,
-                border: Border.all(
-                  color: ModernColors.primaryPurple.withValues(alpha: 0.1),
-                  width: 1,
-                ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Question prompt
-                  Text(
-                    'Which image shows a',
-                    style: ModernTypography.bodyMedium.copyWith(
-                      color: ModernColors.textSecondary,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-
-                  ModernSpacing.verticalSpaceSM,
-
-                  // Breed name
-                  Text(
-                    widget.breedName,
-                    style: ModernTypography.headingLarge.copyWith(
-                      color: ModernColors.primaryPurple,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-
-                  ModernSpacing.verticalSpaceXS,
-
-                  // Question mark indicator
-                  Text(
-                    '?',
-                    style: ModernTypography.displayMedium.copyWith(
-                      color: ModernColors.primaryPurple.withValues(alpha: 0.6),
-                      fontWeight: FontWeight.w300,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
               ),
             ),
-          ),
-        );
-      },
+            reducedMotionChild: _buildAccessibleContainer(
+              context,
+              localizedBreedName,
+              questionText,
+              semanticLabel,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildAccessibleContainer(
+    BuildContext context,
+    String localizedBreedName,
+    String questionText,
+    String semanticLabel,
+  ) {
+    final isHighContrast = AccessibilityUtils.isHighContrastEnabled(context);
+    final colorScheme = AccessibilityUtils.getHighContrastColors(context);
+
+    return Semantics(
+      label: semanticLabel,
+      hint: AppLocalizations.of(context).breedAdventure_selectCorrectImageHint,
+      readOnly: true,
+      child: Container(
+        width: double.infinity,
+        margin: ModernSpacing.paddingHorizontalLG,
+        padding: ModernSpacing.paddingLG,
+        decoration: isHighContrast
+            ? AccessibilityUtils.getAccessibleCardDecoration(context)
+            : BoxDecoration(
+                gradient: ModernColors.createLinearGradient(
+                  [
+                    ModernColors.cardBackground,
+                    ModernColors.cardBackground.withValues(alpha: 0.98),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: ModernSpacing.borderRadiusLarge,
+                boxShadow: ModernShadows.card,
+                border: Border.all(
+                  color: ModernColors.primaryPurple.withValues(alpha: 0.15),
+                  width: 1.5,
+                ),
+              ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Question prompt with accessibility enhancements
+            Semantics(
+              label: questionText,
+              readOnly: true,
+              child: AccessibilityEnhancements.buildHighContrastText(
+                text: questionText,
+                style: AccessibilityUtils.getAccessibleTextStyle(
+                  context,
+                  ModernTypography.bodyMedium.copyWith(
+                    color: isHighContrast
+                        ? colorScheme.onSurface
+                        : ModernColors.textSecondary,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ),
+            ),
+
+            ModernSpacing.verticalSpaceMD,
+
+            // Breed name with enhanced accessibility
+            Semantics(
+              label: AccessibilityUtils.createGameElementLabel(
+                element: AppLocalizations.of(
+                  context,
+                ).breedAdventure_targetBreed,
+                value: localizedBreedName,
+              ),
+              readOnly: true,
+              child: Container(
+                padding: ModernSpacing.paddingMD,
+                decoration: isHighContrast
+                    ? BoxDecoration(
+                        color: colorScheme.primary,
+                        borderRadius: ModernSpacing.borderRadiusMedium,
+                        border: Border.all(
+                          color: colorScheme.onPrimary,
+                          width: 2,
+                        ),
+                      )
+                    : BoxDecoration(
+                        gradient: ModernColors.createLinearGradient(
+                          ModernColors.purpleGradient,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: ModernSpacing.borderRadiusMedium,
+                        boxShadow: ModernShadows.glow(
+                          ModernColors.primaryPurple,
+                          opacity: 0.2,
+                          blur: 12,
+                        ),
+                      ),
+                child: AccessibilityEnhancements.buildHighContrastText(
+                  text: localizedBreedName,
+                  style: AccessibilityUtils.getAccessibleTextStyle(
+                    context,
+                    ModernTypography.headingLarge.copyWith(
+                      color: isHighContrast
+                          ? colorScheme.onPrimary
+                          : ModernColors.textOnDark,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.5,
+                      shadows: isHighContrast
+                          ? null
+                          : [
+                              Shadow(
+                                color: Colors.black.withValues(alpha: 0.3),
+                                offset: const Offset(0, 1),
+                                blurRadius: 2,
+                              ),
+                            ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            ModernSpacing.verticalSpaceSM,
+
+            // Enhanced question mark indicator with accessibility
+            Semantics(
+              label: AppLocalizations.of(
+                context,
+              ).breedAdventure_questionIndicator,
+              readOnly: true,
+              child: Container(
+                width: 48,
+                height: 48,
+                decoration: isHighContrast
+                    ? AccessibilityUtils.getAccessibleCircularDecoration(
+                        context,
+                      )
+                    : BoxDecoration(
+                        color: ModernColors.primaryPurple.withValues(
+                          alpha: 0.1,
+                        ),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: ModernColors.primaryPurple.withValues(
+                            alpha: 0.3,
+                          ),
+                          width: 2,
+                        ),
+                      ),
+                child: Center(
+                  child: AccessibilityEnhancements.buildHighContrastText(
+                    text: '?',
+                    style: AccessibilityUtils.getAccessibleTextStyle(
+                      context,
+                      ModernTypography.headingLarge.copyWith(
+                        color: isHighContrast
+                            ? colorScheme.onSurface
+                            : ModernColors.primaryPurple,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -169,36 +311,59 @@ class CompactBreedNameDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            ModernColors.cardBackground,
-            ModernColors.cardBackground.withValues(alpha: 0.95),
-          ],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+    final localizedBreedName = BreedLocalizationService.getLocalizedBreedName(
+      context,
+      breedName,
+    );
+    final isHighContrast = AccessibilityUtils.isHighContrastEnabled(context);
+    final colorScheme = AccessibilityUtils.getHighContrastColors(context);
+
+    return AccessibilityTheme(
+      child: Semantics(
+        label: AccessibilityUtils.createGameElementLabel(
+          element: AppLocalizations.of(context).breedAdventure_breedName,
+          value: localizedBreedName,
         ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: ModernColors.primaryPurple.withValues(alpha: 0.2),
-          width: 1,
-        ),
-        boxShadow: ModernShadows.small,
-      ),
-      child: Text(
-        breedName,
-        style:
-            textStyle ??
-            ModernTypography.headingMedium.copyWith(
-              color: textColor ?? ModernColors.primaryPurple,
-              fontWeight: FontWeight.bold,
+        readOnly: true,
+        child: Container(
+          width: double.infinity,
+          padding: ModernSpacing.paddingLG,
+          decoration: isHighContrast
+              ? AccessibilityUtils.getAccessibleCardDecoration(context)
+              : BoxDecoration(
+                  gradient: ModernColors.createLinearGradient(
+                    [
+                      ModernColors.cardBackground,
+                      ModernColors.cardBackground.withValues(alpha: 0.98),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: ModernSpacing.borderRadiusLarge,
+                  border: Border.all(
+                    color: ModernColors.primaryPurple.withValues(alpha: 0.2),
+                    width: 1.5,
+                  ),
+                  boxShadow: ModernShadows.card,
+                ),
+          child: Center(
+            // Center the text content
+            child: AccessibilityEnhancements.buildHighContrastText(
+              text: localizedBreedName,
+              style: AccessibilityUtils.getAccessibleTextStyle(
+                context,
+                textStyle ??
+                    ModernTypography.headingMedium.copyWith(
+                      color: isHighContrast
+                          ? colorScheme.onSurface
+                          : (textColor ?? ModernColors.primaryPurple),
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.3,
+                    ),
+              ),
             ),
-        textAlign: TextAlign.center,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ),
     );
   }

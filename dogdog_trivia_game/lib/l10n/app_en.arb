@@ -1259,6 +1259,102 @@
 
   "breedAdventure_connectionProblem": "Connection Problem",
   "@breedAdventure_connectionProblem": {
+    "description": "Title for connection error dialog"
+  },
+
+  "breedAdventure_chooseCorrectImage": "Choose the correct image",
+  "@breedAdventure_chooseCorrectImage": {
+    "description": "Instruction text for image selection"
+  },
+
+  "breedAdventure_whichImageShows": "Which image shows a",
+  "@breedAdventure_whichImageShows": {
+    "description": "Question prompt for breed identification"
+  },
+
+  "breedAdventure_newHighScore": "New High Score!",
+  "@breedAdventure_newHighScore": {
+    "description": "Badge text for new high score achievement"
+  },
+
+  "breedAdventure_imageFailedToLoad": "Image failed to load",
+  "@breedAdventure_imageFailedToLoad": {
+    "description": "Error message when breed image fails to load"
+  },
+
+  "breedAdventure_timeRemaining": "Time Remaining",
+  "@breedAdventure_timeRemaining": {
+    "description": "Label for countdown timer display"
+  },
+
+  "breedAdventure_seconds": "sec",
+  "@breedAdventure_seconds": {
+    "description": "Short form for seconds in timer"
+  },
+
+  "breedAdventure_secondsShort": "s",
+  "@breedAdventure_secondsShort": {
+    "description": "Very short form for seconds"
+  },
+
+  "breedAdventure_powerUpUsed": "{powerUp} used!",
+  "@breedAdventure_powerUpUsed": {
+    "description": "Notification when a power-up is used",
+    "placeholders": {
+      "powerUp": {
+        "type": "String",
+        "example": "Hint"
+      }
+    }
+  },
+
+  "breedAdventure_gameOver": "Game Over",
+  "@breedAdventure_gameOver": {
+    "description": "Title when game ends"
+  },
+
+  "breedAdventure_congratulations": "Congratulations!",
+  "@breedAdventure_congratulations": {
+    "description": "Congratulations message for good performance"
+  },
+
+  "breedAdventure_tryAgain": "Try Again",
+  "@breedAdventure_tryAgain": {
+    "description": "Button text to retry after error"
+  },
+
+  "breedAdventure_loading": "Loading...",
+  "@breedAdventure_loading": {
+    "description": "General loading message"
+  },
+
+  "breedAdventure_error": "Error",
+  "@breedAdventure_error": {
+    "description": "General error title"
+  },
+
+  "breedAdventure_retry": "Retry",
+  "@breedAdventure_retry": {
+    "description": "Button text to retry an action"
+  },
+
+  "breedAdventure_skip": "Skip",
+  "@breedAdventure_skip": {
+    "description": "Button text to skip current item"
+  },
+
+  "breedAdventure_continue": "Continue",
+  "@breedAdventure_continue": {
+    "description": "Button text to continue"
+  },
+
+  "breedAdventure_close": "Close",
+  "@breedAdventure_close": {
+    "description": "Button text to close dialog"
+  },
+
+  "breedAdventure_connectionProblem": "Connection Problem",
+  "@breedAdventure_connectionProblem": {
     "description": "Title for network error"
   },
 
@@ -1544,5 +1640,158 @@
   "breedAdventure_goHome" : "Go Home",
   "@breedAdventure_goHome" : {
     "description": "Go home button"
+  },
+
+  "breedAdventure_whichImageShows": "Which image shows a",
+  "@breedAdventure_whichImageShows": {
+    "description": "Question prompt for breed adventure"
+  },
+
+  "breedAdventure_breedChallenge": "Breed Challenge",
+  "@breedAdventure_breedChallenge": {
+    "description": "Label for breed challenge element"
+  },
+
+  "breedAdventure_selectCorrectImageHint": "Select the correct image from the two options below",
+  "@breedAdventure_selectCorrectImageHint": {
+    "description": "Hint for selecting correct image"
+  },
+
+  "breedAdventure_targetBreed": "Target Breed",
+  "@breedAdventure_targetBreed": {
+    "description": "Label for the breed to identify"
+  },
+
+  "breedAdventure_questionIndicator": "Question indicator",
+  "@breedAdventure_questionIndicator": {
+    "description": "Accessibility label for question mark indicator"
+  },
+
+  "breedAdventure_breedName": "Breed Name",
+  "@breedAdventure_breedName": {
+    "description": "Label for breed name display"
+  },
+
+  "breedAdventure_imageOption": "Image option {number}",
+  "@breedAdventure_imageOption": {
+    "description": "Label for image selection options",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+
+  "breedAdventure_tapToSelectImage": "Tap to select this image",
+  "@breedAdventure_tapToSelectImage": {
+    "description": "Hint for tapping to select image"
+  },
+
+  "breedAdventure_imageDisabled": "Image selection is disabled",
+  "@breedAdventure_imageDisabled": {
+    "description": "Message when image selection is disabled"
+  },
+
+  "breedAdventure_correctSelection": "Correct selection",
+  "@breedAdventure_correctSelection": {
+    "description": "Feedback for correct image selection"
+  },
+
+  "breedAdventure_incorrectSelection": "Incorrect selection",
+  "@breedAdventure_incorrectSelection": {
+    "description": "Feedback for incorrect image selection"
+  },
+
+  "breedAdventure_imageSelectionArea": "Image selection area",
+  "@breedAdventure_imageSelectionArea": {
+    "description": "Label for the image selection area"
+  },
+
+  "breedAdventure_chooseCorrectImageHint": "Choose the correct image that matches the breed name",
+  "@breedAdventure_chooseCorrectImageHint": {
+    "description": "Hint for choosing correct image"
+  },
+
+  "breedAdventure_imageSelected": "Selected {imageLabel}",
+  "@breedAdventure_imageSelected": {
+    "description": "Announcement when image is selected",
+    "placeholders": {
+      "imageLabel": {
+        "type": "String",
+        "example": "Image option 1"
+      }
+    }
+  },
+
+  "breedAdventure_breedImageDescription": "Dog breed image for identification",
+  "@breedAdventure_breedImageDescription": {
+    "description": "Description for breed images"
+  },
+
+  "breedAdventure_timer": "Timer",
+  "@breedAdventure_timer": {
+    "description": "Label for timer element"
+  },
+
+  "breedAdventure_timeRunningOut": "Time running out",
+  "@breedAdventure_timeRunningOut": {
+    "description": "State when time is running out"
+  },
+
+  "breedAdventure_secondsRemaining": "{seconds} seconds remaining",
+  "@breedAdventure_secondsRemaining": {
+    "description": "Announcement for seconds remaining",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
+  "breedAdventure_timeExpired": "Time has expired",
+  "@breedAdventure_timeExpired": {
+    "description": "Announcement when time expires"
+  },
+
+  "breedAdventure_countdownTimer": "Countdown Timer",
+  "@breedAdventure_countdownTimer": {
+    "description": "Label for countdown timer"
+  },
+
+  "breedAdventure_timerProgress": "Timer Progress",
+  "@breedAdventure_timerProgress": {
+    "description": "Label for timer progress indicator"
+  },
+
+  "breedAdventure_timeDisplay": "Time Display",
+  "@breedAdventure_timeDisplay": {
+    "description": "Label for time display"
+  },
+
+  "breedAdventure_urgentWarning": "Urgent time warning",
+  "@breedAdventure_urgentWarning": {
+    "description": "Warning for urgent time situation"
+  },
+
+  "breedAdventure_criticalTime": "Critical time remaining",
+  "@breedAdventure_criticalTime": {
+    "description": "Warning for critical time situation"
+  },
+
+  "breedAdventure_seconds": "sec",
+  "@breedAdventure_seconds": {
+    "description": "Short form for seconds"
+  },
+
+  "breedAdventure_secondsShort": "s",
+  "@breedAdventure_secondsShort": {
+    "description": "Very short form for seconds"
+  },
+
+  "breedAdventure_timeRemaining": "Time Remaining",
+  "@breedAdventure_timeRemaining": {
+    "description": "Label for time remaining display"
   }
 }
