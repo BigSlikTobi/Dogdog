@@ -407,7 +407,7 @@ class _GameCompletionScreenState extends State<GameCompletionScreen>
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Spielstatistiken',
+                      AppLocalizations.of(context)!.statisticsTitle,
                       style: Theme.of(context).textTheme.headlineMedium
                           ?.copyWith(
                             fontSize: 20,
