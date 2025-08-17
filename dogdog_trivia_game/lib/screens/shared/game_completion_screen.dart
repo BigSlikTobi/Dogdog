@@ -358,7 +358,9 @@ class _GameCompletionScreenState extends State<GameCompletionScreen>
                     ),
                     child: const Text(
                       'Neuer Rekord!',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.newRecord,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
