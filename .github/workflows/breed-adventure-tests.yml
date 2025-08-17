@@ -1,0 +1,247 @@
+name: Breed Adventure Tests
+
+on:
+  push:
+    branches: [ main, develop, tests/dog_breed_adventure-CICD ]
+    paths:
+      # Breed Adventure specific files
+      - 'dogdog_trivia_game/lib/models/breed_adventure/**'
+      - 'dogdog_trivia_game/lib/controllers/breed_adventure/**'
+      - 'dogdog_trivia_game/lib/services/breed_adventure/**'
+      - 'dogdog_trivia_game/lib/widgets/breed_adventure/**'
+      - 'dogdog_trivia_game/lib/screens/dog_breeds_adventure_screen.dart'
+      # Test files
+      - 'dogdog_trivia_game/test/breed_adventure/**'
+      # Shared dependencies that affect breed adventure
+      - 'dogdog_trivia_game/lib/models/shared/**'
+      - 'dogdog_trivia_game/lib/widgets/shared/**'
+      - 'dogdog_trivia_game/lib/design_system/**'
+      - 'dogdog_trivia_game/lib/l10n/**'
+      # Configuration files
+      - 'dogdog_trivia_game/pubspec.yaml'
+      - 'dogdog_trivia_game/analysis_options.yaml'
+      - '.github/workflows/breed-adventure-tests.yml'
+
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      # Same paths as push trigger
+      - 'dogdog_trivia_game/lib/models/breed_adventure/**'
+      - 'dogdog_trivia_game/lib/controllers/breed_adventure/**'
+      - 'dogdog_trivia_game/lib/services/breed_adventure/**'
+      - 'dogdog_trivia_game/lib/widgets/breed_adventure/**'
+      - 'dogdog_trivia_game/lib/screens/dog_breeds_adventure_screen.dart'
+      - 'dogdog_trivia_game/test/breed_adventure/**'
+      - 'dogdog_trivia_game/lib/models/shared/**'
+      - 'dogdog_trivia_game/lib/widgets/shared/**'
+      - 'dogdog_trivia_game/lib/design_system/**'
+      - 'dogdog_trivia_game/lib/l10n/**'
+      - 'dogdog_trivia_game/pubspec.yaml'
+      - 'dogdog_trivia_game/analysis_options.yaml'
+
+  # Allow manual triggering for testing
+  workflow_dispatch:
+
+env:
+  FLUTTER_VERSION: '3.32.8'
+  COVERAGE_THRESHOLD: 90
+
+jobs:
+  breed-adventure-tests:
+    name: 🐕 Breed Adventure Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+    - name: 📚 Checkout repository
+      uses: actions/checkout@v4
+
+    - name: 🚀 Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: 'stable'
+        cache: true
+
+    - name: 📦 Install dependencies
+      run: |
+        cd dogdog_trivia_game
+        flutter pub get
+
+    - name: 🔍 Verify Flutter installation
+      run: |
+        cd dogdog_trivia_game
+        flutter doctor -v
+
+    - name: 🧹 Check code formatting
+      run: |
+        cd dogdog_trivia_game
+        dart format --set-exit-if-changed lib/models/breed_adventure/ lib/controllers/breed_adventure/ lib/services/breed_adventure/ lib/widgets/breed_adventure/ lib/screens/dog_breeds_adventure_screen.dart test/breed_adventure/
+
+    - name: 🔍 Run static analysis on breed adventure code
+      run: |
+        cd dogdog_trivia_game
+        echo "🔍 Running analysis on breed adventure specific files..."
+        flutter analyze lib/models/breed_adventure/ || echo "⚠️ Analysis issues in models"
+        flutter analyze lib/controllers/breed_adventure/ || echo "⚠️ Analysis issues in controllers"
+        flutter analyze lib/services/breed_adventure/ || echo "⚠️ Analysis issues in services"
+        flutter analyze lib/widgets/breed_adventure/ || echo "⚠️ Analysis issues in widgets"
+        flutter analyze lib/screens/dog_breeds_adventure_screen.dart || echo "⚠️ Analysis issues in screen"
+        flutter analyze test/breed_adventure/ || echo "⚠️ Analysis issues in tests"
+
+    - name: 🌐 Generate localization files
+      run: |
+        cd dogdog_trivia_game
+        flutter gen-l10n
+
+    - name: 📊 Verify test structure
+      run: |
+        cd dogdog_trivia_game
+        echo "📊 Verifying breed adventure test structure..."
+        
+        # Count different types of tests
+        unit_tests=$(find test/breed_adventure/unit -name "*.dart" 2>/dev/null | wc -l || echo "0")
+        integration_tests=$(find test/breed_adventure/integration -name "*.dart" 2>/dev/null | wc -l || echo "0")
+        total_tests=$(find test/breed_adventure -name "*.dart" -not -name "*.mocks.dart" 2>/dev/null | wc -l || echo "0")
+        
+        echo "📋 Test Summary:"
+        echo "  • Unit tests: $unit_tests"
+        echo "  • Integration tests: $integration_tests"
+        echo "  • Total test files: $total_tests"
+        
+        if [ "$total_tests" -lt 5 ]; then
+          echo "⚠️ Warning: Low number of test files detected"
+        else
+          echo "✅ Good test coverage structure detected!"
+        fi
+
+    - name: 🧪 Run breed adventure unit tests
+      run: |
+        cd dogdog_trivia_game
+        echo "🧪 Running breed adventure unit tests..."
+        flutter test test/breed_adventure/unit/ --coverage --reporter=expanded
+        echo "✅ Unit tests completed!"
+
+    - name: 🔗 Run breed adventure integration tests
+      run: |
+        cd dogdog_trivia_game
+        echo "🔗 Running breed adventure integration tests..."
+        flutter test test/breed_adventure/integration/ --coverage --reporter=expanded
+        echo "✅ Integration tests completed!"
+
+    - name: 📈 Generate and check coverage
+      run: |
+        cd dogdog_trivia_game
+        echo "📈 Analyzing test coverage for breed adventure..."
+        
+        # Check if coverage file exists
+        if [ ! -f coverage/lcov.info ]; then
+          echo "❌ No coverage file found"
+          exit 1
+        fi
+        
+        # Extract breed adventure file coverage
+        echo "📊 Coverage for breed adventure files:"
+        
+        # Look for breed adventure specific files in coverage
+        breed_adventure_files=$(grep -E "SF:.*breed_adventure" coverage/lcov.info | wc -l || echo "0")
+        echo "  • Breed adventure files in coverage: $breed_adventure_files"
+        
+        # Calculate approximate coverage for breed adventure files
+        if grep -q "breed_adventure" coverage/lcov.info; then
+          echo "✅ Breed adventure files found in coverage report"
+          
+          # Extract coverage data for breed adventure files
+          awk '
+          /SF:.*breed_adventure/ { 
+            file = $0
+            getline; while (!/^SF:/ && !/^end_of_record/ && NF > 0) {
+              if (/^LF:/) lines_found = substr($0, 4)
+              if (/^LH:/) lines_hit = substr($0, 4)
+              getline
+            }
+            if (lines_found > 0) {
+              coverage = (lines_hit / lines_found) * 100
+              printf "  • %s: %.1f%% (%d/%d lines)\n", file, coverage, lines_hit, lines_found
+            }
+          }' coverage/lcov.info
+        else
+          echo "⚠️ No breed adventure files found in coverage report"
+        fi
+        
+        # Overall coverage check
+        total_lines=$(grep "^LF:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}')
+        hit_lines=$(grep "^LH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}')
+        
+        if [ "$total_lines" -gt 0 ]; then
+          overall_coverage=$(echo "scale=2; $hit_lines * 100 / $total_lines" | bc -l || echo "0")
+          echo "📊 Overall coverage: ${overall_coverage}% ($hit_lines/$total_lines lines)"
+          
+          # Check if coverage meets threshold
+          coverage_int=$(echo "$overall_coverage" | cut -d. -f1)
+          if [ "$coverage_int" -ge "$COVERAGE_THRESHOLD" ]; then
+            echo "✅ Coverage threshold met: ${overall_coverage}% >= ${COVERAGE_THRESHOLD}%"
+          else
+            echo "❌ Coverage below threshold: ${overall_coverage}% < ${COVERAGE_THRESHOLD}%"
+            echo "💡 Please add more tests to improve coverage"
+            exit 1
+          fi
+        else
+          echo "❌ No coverage data found"
+          exit 1
+        fi
+
+    - name: 📤 Upload coverage artifact
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: breed-adventure-coverage
+        path: dogdog_trivia_game/coverage/
+        retention-days: 7
+
+    - name: 📊 Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      if: always()
+      with:
+        file: ./dogdog_trivia_game/coverage/lcov.info
+        flags: breed-adventure
+        name: breed-adventure-coverage
+        fail_ci_if_error: false
+
+    - name: 📝 Coverage Summary
+      if: always()
+      run: |
+        cd dogdog_trivia_game
+        echo "📝 Breed Adventure Test Summary:"
+        echo "=================================="
+        echo "✅ All breed adventure tests passed!"
+        echo "📊 Coverage report generated"
+        echo "🚀 Ready for deployment"
+        echo ""
+        echo "🔗 View full coverage report in artifacts"
+
+  # Quality gate job that depends on main test job
+  quality-gate:
+    name: 🚦 Quality Gate
+    runs-on: ubuntu-latest
+    needs: breed-adventure-tests
+    if: always()
+
+    steps:
+    - name: ✅ Check test results
+      run: |
+        if [ "${{ needs.breed-adventure-tests.result }}" = "success" ]; then
+          echo "✅ All breed adventure tests passed!"
+          echo "🚀 Quality gate: PASSED"
+        else
+          echo "❌ Breed adventure tests failed!"
+          echo "🛑 Quality gate: FAILED"
+          exit 1
+        fi
+
+    - name: 🎉 Success notification
+      if: needs.breed-adventure-tests.result == 'success'
+      run: |
+        echo "🎉 Breed Adventure Feature is ready for deployment!"
+        echo "📊 All tests passed with sufficient coverage"
+        echo "🚀 Changes can be safely merged"

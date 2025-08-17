@@ -116,7 +116,7 @@
   - _Requirements: 4.3, 4.5_
 
 -
-  13. [ ] Create integration tests
+  13. [x] Create integration tests
   - Write integration test for complete game flow from start to finish
   - Write integration test for power-up usage and effects
   - Write integration test for phase progression scenarios
@@ -125,7 +125,7 @@
   - _Requirements: 4.4, 4.5_
 
 -
-  14. [ ] Set up CI/CD integration
+  14. [x] Set up CI/CD integration
   - Create GitHub Actions workflow for breed adventure tests
   - Configure workflow to run only on breed adventure file changes
   - Set up coverage reporting and threshold enforcement
