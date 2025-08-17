@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import '../../models/models.dart';
+import '../../services/error_service.dart';
 
 /// Service for managing breed data, localization, and challenge generation
 class BreedService {
@@ -103,7 +104,14 @@ class BreedService {
           .toList();
 
       _isInitialized = true;
-    } catch (e) {
+    } catch (e, stack) {
+      await ErrorService().recordError(
+        ErrorType.network,
+        'Failed to initialize BreedService',
+        severity: ErrorSeverity.high,
+        stackTrace: stack,
+        originalError: e,
+      );
       throw Exception('Failed to initialize BreedService: $e');
     }
   }
@@ -298,7 +306,14 @@ class BreedService {
 
       // Final fallback - return any available breeds
       return List.from(_allBreeds);
-    } catch (e) {
+    } catch (e, stack) {
+      ErrorService().recordError(
+        ErrorType.network,
+        'Failed to get breeds for phase with fallback',
+        severity: ErrorSeverity.medium,
+        stackTrace: stack,
+        originalError: e,
+      );
       // Return hardcoded fallback breeds
       return _getHardcodedFallbackBreeds();
     }
@@ -311,11 +326,25 @@ class BreedService {
   ) async {
     try {
       return await generateChallenge(phase, usedBreeds);
-    } catch (e) {
+    } catch (e, stack) {
+      ErrorService().recordError(
+        ErrorType.gameLogic,
+        'Failed to generate challenge with fallback (phase: $phase)',
+        severity: ErrorSeverity.medium,
+        stackTrace: stack,
+        originalError: e,
+      );
       // Try with empty used breeds set
       try {
         return await generateChallenge(phase, <String>{});
-      } catch (e2) {
+      } catch (e2, stack2) {
+        ErrorService().recordError(
+          ErrorType.gameLogic,
+          'Failed to generate fallback challenge (phase: $phase)',
+          severity: ErrorSeverity.high,
+          stackTrace: stack2,
+          originalError: e2,
+        );
         // Final fallback - create basic challenge
         return _createFallbackChallenge(phase);
       }
