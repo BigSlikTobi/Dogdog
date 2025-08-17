@@ -133,6 +133,125 @@ class BreedAdventureGameState {
     timeRemaining,
   );
 
+  /// Converts this state to a JSON map for persistence
+  Map<String, dynamic> toJson() {
+    return {
+      'score': score,
+      'correctAnswers': correctAnswers,
+      'totalQuestions': totalQuestions,
+      'currentPhase': currentPhase.index,
+      'usedBreeds': usedBreeds.toList(),
+      'powerUps': powerUps.map(
+        (key, value) => MapEntry(key.index.toString(), value),
+      ),
+      'isGameActive': isGameActive,
+      'gameStartTime': gameStartTime?.millisecondsSinceEpoch,
+      'consecutiveCorrect': consecutiveCorrect,
+      'timeRemaining': timeRemaining,
+      'currentHint': currentHint,
+    };
+  }
+
+  /// Creates a game state from a JSON map
+  factory BreedAdventureGameState.fromJson(Map<String, dynamic> json) {
+    return BreedAdventureGameState(
+      score: json['score'] ?? 0,
+      correctAnswers: json['correctAnswers'] ?? 0,
+      totalQuestions: json['totalQuestions'] ?? 0,
+      currentPhase: DifficultyPhase.values[json['currentPhase'] ?? 0],
+      usedBreeds: Set<String>.from(json['usedBreeds'] ?? []),
+      powerUps: _deserializePowerUps(json['powerUps']),
+      isGameActive: json['isGameActive'] ?? false,
+      gameStartTime: json['gameStartTime'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(json['gameStartTime'])
+          : null,
+      consecutiveCorrect: json['consecutiveCorrect'] ?? 0,
+      timeRemaining: json['timeRemaining'] ?? 10,
+      currentHint: json['currentHint'],
+    );
+  }
+
+  /// Helper method to safely deserialize power-ups map
+  static Map<PowerUpType, int> _deserializePowerUps(dynamic powerUpsJson) {
+    if (powerUpsJson == null) {
+      return {PowerUpType.extraTime: 2, PowerUpType.skip: 1}; // Default
+    }
+
+    final Map<PowerUpType, int> result = {};
+
+    if (powerUpsJson is Map) {
+      powerUpsJson.forEach((key, value) {
+        try {
+          final powerUpIndex = int.parse(key.toString());
+          if (powerUpIndex >= 0 && powerUpIndex < PowerUpType.values.length) {
+            result[PowerUpType.values[powerUpIndex]] = value as int? ?? 0;
+          }
+        } catch (e) {
+          // Skip invalid entries
+        }
+      });
+    }
+
+    return result;
+  }
+
+  /// Validates the integrity of this game state
+  bool isValid() {
+    // Check for negative values
+    if (score < 0 || correctAnswers < 0 || totalQuestions < 0) return false;
+
+    // Check logical consistency
+    if (correctAnswers > totalQuestions) return false;
+
+    // Check consecutive correct makes sense
+    if (consecutiveCorrect < 0) return false;
+
+    // Check time remaining is reasonable
+    if (timeRemaining < 0) return false;
+
+    // Check power-ups are valid
+    for (final count in powerUps.values) {
+      if (count < 0) return false;
+    }
+
+    return true;
+  }
+
+  /// Creates a safe copy with validation
+  BreedAdventureGameState copyWithValidation({
+    int? score,
+    int? correctAnswers,
+    int? totalQuestions,
+    DifficultyPhase? currentPhase,
+    Set<String>? usedBreeds,
+    Map<PowerUpType, int>? powerUps,
+    bool? isGameActive,
+    DateTime? gameStartTime,
+    int? consecutiveCorrect,
+    int? timeRemaining,
+    String? currentHint,
+  }) {
+    final newState = copyWith(
+      score: score,
+      correctAnswers: correctAnswers,
+      totalQuestions: totalQuestions,
+      currentPhase: currentPhase,
+      usedBreeds: usedBreeds,
+      powerUps: powerUps,
+      isGameActive: isGameActive,
+      gameStartTime: gameStartTime,
+      consecutiveCorrect: consecutiveCorrect,
+      timeRemaining: timeRemaining,
+      currentHint: currentHint,
+    );
+
+    if (!newState.isValid()) {
+      throw StateError('Invalid game state created: $newState');
+    }
+
+    return newState;
+  }
+
   @override
   String toString() {
     return 'BreedAdventureGameState(score: $score, correctAnswers: $correctAnswers, '

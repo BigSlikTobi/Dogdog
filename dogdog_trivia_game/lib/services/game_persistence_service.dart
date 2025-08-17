@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/enums.dart';
 import '../models/path_progress.dart';
 import '../models/game_session.dart';
+import '../models/breed_adventure/breed_adventure_game_state.dart';
 
 /// Service for persisting game progress and session data
 class GamePersistenceService {
@@ -12,6 +13,10 @@ class GamePersistenceService {
   static const String _settingsKey = 'game_settings';
   static const String _breedAdventureHighScoreKey =
       'breed_adventure_high_score';
+  static const String _breedAdventureStateKey = 'breed_adventure_state';
+  static const String _breedAdventurePowerUpsKey = 'breed_adventure_power_ups';
+  static const String _breedAdventureStatisticsKey =
+      'breed_adventure_statistics';
 
   SharedPreferences? _prefs;
 
@@ -267,6 +272,174 @@ class GamePersistenceService {
   Future<void> clearAllData() async {
     await _ensureInitialized();
     await _prefs!.clear();
+  }
+
+  /// Saves the current breed adventure game state
+  Future<void> saveBreedAdventureState(BreedAdventureGameState state) async {
+    await _ensureInitialized();
+    final json = jsonEncode(state.toJson());
+    await _prefs!.setString(_breedAdventureStateKey, json);
+  }
+
+  /// Loads the saved breed adventure game state
+  Future<BreedAdventureGameState?> loadBreedAdventureState() async {
+    await _ensureInitialized();
+    final json = _prefs!.getString(_breedAdventureStateKey);
+
+    if (json == null) return null;
+
+    try {
+      final map = jsonDecode(json) as Map<String, dynamic>;
+      final state = BreedAdventureGameState.fromJson(map);
+
+      // Validate state integrity before returning
+      if (!state.isValid()) {
+        await clearBreedAdventureState(); // Clear corrupted state
+        return null;
+      }
+
+      return state;
+    } catch (e) {
+      // If data is corrupted, clear it and return null
+      await clearBreedAdventureState();
+      return null;
+    }
+  }
+
+  /// Clears the saved breed adventure state
+  Future<void> clearBreedAdventureState() async {
+    await _ensureInitialized();
+    await _prefs!.remove(_breedAdventureStateKey);
+  }
+
+  /// Saves breed adventure power-up inventory separately for recovery
+  Future<void> saveBreedAdventurePowerUps(
+    Map<PowerUpType, int> powerUps,
+  ) async {
+    await _ensureInitialized();
+    final json = jsonEncode(
+      powerUps.map((key, value) => MapEntry(key.index.toString(), value)),
+    );
+    await _prefs!.setString(_breedAdventurePowerUpsKey, json);
+  }
+
+  /// Loads breed adventure power-up inventory
+  Future<Map<PowerUpType, int>?> loadBreedAdventurePowerUps() async {
+    await _ensureInitialized();
+    final json = _prefs!.getString(_breedAdventurePowerUpsKey);
+
+    if (json == null) return null;
+
+    try {
+      final map = jsonDecode(json) as Map<String, dynamic>;
+      return Map<PowerUpType, int>.fromEntries(
+        map.entries.map(
+          (entry) => MapEntry(
+            PowerUpType.values[int.parse(entry.key)],
+            entry.value as int,
+          ),
+        ),
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Saves breed adventure statistics for progress tracking
+  Future<void> saveBreedAdventureStatistics(Map<String, dynamic> stats) async {
+    await _ensureInitialized();
+    final json = jsonEncode(stats);
+    await _prefs!.setString(_breedAdventureStatisticsKey, json);
+  }
+
+  /// Loads breed adventure statistics
+  Future<Map<String, dynamic>> loadBreedAdventureStatistics() async {
+    await _ensureInitialized();
+    final json = _prefs!.getString(_breedAdventureStatisticsKey);
+
+    if (json == null) return _createDefaultBreedAdventureStats();
+
+    try {
+      return jsonDecode(json) as Map<String, dynamic>;
+    } catch (e) {
+      return _createDefaultBreedAdventureStats();
+    }
+  }
+
+  /// Creates default breed adventure statistics
+  Map<String, dynamic> _createDefaultBreedAdventureStats() {
+    return {
+      'gamesPlayed': 0,
+      'totalScore': 0,
+      'totalCorrectAnswers': 0,
+      'totalQuestions': 0,
+      'bestAccuracy': 0.0,
+      'longestStreak': 0,
+      'powerUpsUsed': 0,
+      'totalTimePlayed': 0,
+      'lastPlayDate': DateTime.now().millisecondsSinceEpoch,
+      'averageGameDuration': 0,
+      'phaseProgress': {
+        'beginner': {'completions': 0, 'bestScore': 0},
+        'intermediate': {'completions': 0, 'bestScore': 0},
+        'expert': {'completions': 0, 'bestScore': 0},
+      },
+    };
+  }
+
+  /// Updates breed adventure statistics after a game session
+  Future<void> updateBreedAdventureStatistics({
+    required BreedAdventureGameState finalState,
+    required int gameDuration,
+    required int powerUpsUsed,
+  }) async {
+    final stats = await loadBreedAdventureStatistics();
+
+    stats['gamesPlayed'] = (stats['gamesPlayed'] ?? 0) + 1;
+    stats['totalScore'] = (stats['totalScore'] ?? 0) + finalState.score;
+    stats['totalCorrectAnswers'] =
+        (stats['totalCorrectAnswers'] ?? 0) + finalState.correctAnswers;
+    stats['totalQuestions'] =
+        (stats['totalQuestions'] ?? 0) + finalState.totalQuestions;
+    stats['powerUpsUsed'] = (stats['powerUpsUsed'] ?? 0) + powerUpsUsed;
+    stats['totalTimePlayed'] = (stats['totalTimePlayed'] ?? 0) + gameDuration;
+
+    // Update best accuracy
+    if (finalState.totalQuestions > 0) {
+      final accuracy = finalState.accuracy;
+      if (accuracy > (stats['bestAccuracy'] ?? 0)) {
+        stats['bestAccuracy'] = accuracy;
+      }
+    }
+
+    // Update longest streak
+    if (finalState.consecutiveCorrect > (stats['longestStreak'] ?? 0)) {
+      stats['longestStreak'] = finalState.consecutiveCorrect;
+    }
+
+    // Update average game duration
+    final totalGames = stats['gamesPlayed'];
+    stats['averageGameDuration'] = (stats['totalTimePlayed'] / totalGames)
+        .round();
+
+    // Update phase-specific progress
+    final phaseProgress = stats['phaseProgress'] as Map<String, dynamic>;
+    final phaseName = finalState.currentPhase.toString().split('.').last;
+
+    if (!phaseProgress.containsKey(phaseName)) {
+      phaseProgress[phaseName] = {'completions': 0, 'bestScore': 0};
+    }
+
+    final phaseStats = phaseProgress[phaseName] as Map<String, dynamic>;
+    phaseStats['completions'] = (phaseStats['completions'] ?? 0) + 1;
+
+    if (finalState.score > (phaseStats['bestScore'] ?? 0)) {
+      phaseStats['bestScore'] = finalState.score;
+    }
+
+    stats['lastPlayDate'] = DateTime.now().millisecondsSinceEpoch;
+
+    await saveBreedAdventureStatistics(stats);
   }
 
   /// Gets storage size information
