@@ -7,6 +7,7 @@ import '../../design_system/modern_spacing.dart';
 import '../../design_system/modern_shadows.dart';
 import '../shared/loading_animation.dart';
 import 'loading_error_states.dart';
+import '../../services/image_service.dart';
 import '../../utils/accessibility.dart';
 import '../../utils/accessibility_enhancements.dart' hide AccessibilityTheme;
 import '../../l10n/generated/app_localizations.dart';
@@ -238,16 +239,46 @@ class _DualImageSelectionState extends State<DualImageSelection>
                 1.2, // Made images slightly wider for more prominent display
             child: Stack(
               children: [
-                // Image with accessibility description
+                // Image with accessibility description and reliable caching
                 AccessibilityEnhancements.buildAccessibleImage(
                   image: CachedNetworkImage(
                     imageUrl: imageUrl,
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: double.infinity,
+
+                    // Enhanced caching for iPhone profile mode
+                    memCacheWidth: 400,
+                    memCacheHeight: 400,
+
+                    // More persistent caching settings
+                    httpHeaders: const {
+                      'User-Agent': 'DogDog-TriviGame/1.0',
+                      'Accept': 'image/*',
+                      'Cache-Control': 'max-age=86400', // 24 hours
+                    },
+
                     placeholder: (context, url) => const BreedImageLoading(),
-                    errorWidget: (context, url, error) =>
-                        const BreedImageError(),
+
+                    errorWidget: (context, url, error) {
+                      debugPrint('Network image failed for $url: $error');
+
+                      // Try to extract breed name and use local fallback
+                      final breedName = _extractBreedNameFromUrl(url);
+                      if (breedName != null) {
+                        return ImageService.getDogBreedImage(
+                          breedName: breedName,
+                          fit: BoxFit.cover,
+                          placeholder: const BreedImageLoading(),
+                          errorWidget: const BreedImageError(),
+                        );
+                      }
+
+                      return const BreedImageError();
+                    },
+
+                    fadeInDuration: const Duration(milliseconds: 300),
+                    fadeOutDuration: const Duration(milliseconds: 100),
                   ),
                   semanticLabel: imageLabel,
                   description: AppLocalizations.of(
@@ -434,6 +465,37 @@ class _DualImageSelectionState extends State<DualImageSelection>
 
     // Call the original callback
     widget.onImageSelected(index);
+  }
+
+  /// Extract breed name from Supabase URL for fallback purposes
+  String? _extractBreedNameFromUrl(String url) {
+    try {
+      // Extract breed name from Supabase URLs like:
+      // https://...../labrador-retriever_1_1024x1024_20250809T120349Z.png
+      final uri = Uri.parse(url);
+      final filename = uri.pathSegments.last;
+
+      // Remove file extension and timestamp
+      final nameWithoutExtension = filename.split('.').first;
+      final parts = nameWithoutExtension.split('_');
+
+      if (parts.isNotEmpty) {
+        final breedPart = parts.first;
+
+        // Convert hyphenated breed names to proper format
+        return breedPart
+            .split('-')
+            .map(
+              (word) => word.isNotEmpty
+                  ? word[0].toUpperCase() + word.substring(1).toLowerCase()
+                  : word,
+            )
+            .join(' ');
+      }
+    } catch (e) {
+      debugPrint('Could not extract breed name from URL: $url');
+    }
+    return null;
   }
 
   @override

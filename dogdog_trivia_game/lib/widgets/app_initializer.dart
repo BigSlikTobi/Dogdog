@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/image_service.dart';
+import '../services/image_preloader.dart';
 
 /// Widget that handles app initialization including image preloading
 class AppInitializer extends StatefulWidget {
@@ -36,8 +37,11 @@ class _AppInitializerState extends State<AppInitializer> {
       await Future.delayed(const Duration(milliseconds: 100));
       if (!mounted) return;
 
-      // Preload critical images
-      await ImageService.preloadCriticalImages(context);
+      // Preload both critical local images and network images
+      await Future.wait([
+        ImageService.preloadCriticalImages(context),
+        ImagePreloader.instance.preloadCriticalBreedImages(context),
+      ], eagerError: false);
       if (!mounted) return;
 
       setState(() {

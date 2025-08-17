@@ -14,8 +14,24 @@ import 'models/enums.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'dart:async';
 
+/// Configure image cache with settings optimized for iPhone profile mode
+void _configureImageCacheForIPhone() {
+  final imageCache = PaintingBinding.instance.imageCache;
+
+  // More aggressive caching for iPhone profile mode
+  imageCache.maximumSize = 200; // Increased from default 100
+  imageCache.maximumSizeBytes = 100 * 1024 * 1024; // 100MB cache
+
+  debugPrint(
+    'Image cache configured for iPhone: ${imageCache.maximumSize} items, ${imageCache.maximumSizeBytes ~/ (1024 * 1024)}MB',
+  );
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Configure global image cache for iPhone optimization
+  _configureImageCacheForIPhone();
 
   // Set up global error handling
   FlutterError.onError = (FlutterErrorDetails details) {
