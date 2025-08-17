@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/achievement.dart';
 import '../../models/shared/game_statistics.dart';
 import '../../widgets/animated_button.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 import '../../services/audio_service.dart';
 
@@ -336,10 +337,10 @@ class _GameCompletionScreenState extends State<GameCompletionScreen>
 
                 const SizedBox(height: 8),
 
-                const Text(
-                  'Punkte',
                 Text(
-                  AppLocalizations.of(context)!.points,
+                  AppLocalizations.of(
+                    context,
+                  ).checkpointCelebration_pointsEarned,
                   style: const TextStyle(fontSize: 18, color: Colors.white70),
                 ),
 
@@ -356,10 +357,8 @@ class _GameCompletionScreenState extends State<GameCompletionScreen>
                       color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Text(
-                      'Neuer Rekord!',
                     child: Text(
-                      AppLocalizations.of(context)!.newRecord,
+                      AppLocalizations.of(context).breedAdventure_newHighScore,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -409,7 +408,9 @@ class _GameCompletionScreenState extends State<GameCompletionScreen>
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      AppLocalizations.of(context)!.statisticsTitle,
+                      AppLocalizations.of(
+                        context,
+                      ).achievementsScreen_yourStatistics,
                       style: Theme.of(context).textTheme.headlineMedium
                           ?.copyWith(
                             fontSize: 20,

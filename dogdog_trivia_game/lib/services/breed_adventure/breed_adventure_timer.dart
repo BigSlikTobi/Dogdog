@@ -34,8 +34,8 @@ class BreedAdventureTimer {
   /// Check if the timer is currently paused
   bool get isPaused => _isPaused;
 
-  /// Check if the timer is currently running (active and not paused)
-  bool get isRunning => _isActive && !_isPaused;
+  /// Check if the timer is currently running (active and not paused and not expired)
+  bool get isRunning => _isActive && !_isPaused && !hasExpired;
 
   /// Check if the timer has expired (reached zero)
   bool get hasExpired => _remainingSeconds <= 0 && _isActive;
