@@ -415,17 +415,22 @@ class _DualImageSelectionState extends State<DualImageSelection>
     // Provide haptic feedback
     AccessibilityEnhancements.provideHapticFeedback(GameHapticType.button);
 
-    // Play audio feedback
-    await AudioService().playButtonSound();
-
-    // Announce selection to screen reader
+    // Get localized strings before async operations
     final imageLabel = AppLocalizations.of(
       context,
     ).breedAdventure_imageOption(index + 1);
-    AccessibilityUtils.announceToScreenReader(
+    final selectionAnnouncement = AppLocalizations.of(
       context,
-      AppLocalizations.of(context).breedAdventure_imageSelected(imageLabel),
-    );
+    ).breedAdventure_imageSelected(imageLabel);
+
+    // Play audio feedback
+    await AudioService().playButtonSound();
+
+    // Check if widget is still mounted after async operation
+    if (!mounted) return;
+
+    // Announce selection to screen reader
+    AccessibilityUtils.announceToScreenReader(context, selectionAnnouncement);
 
     // Call the original callback
     widget.onImageSelected(index);

@@ -15,6 +15,10 @@ class BreedAdventureController extends ChangeNotifier {
   final BreedService _breedService;
   final BreedAdventureTimer _timer;
   final ImageCacheService _imageCacheService;
+  final OptimizedImageCacheService _optimizedImageCache;
+  final BreedAdventureMemoryManager _memoryManager;
+  final BreedAdventurePerformanceMonitor _performanceMonitor;
+  final FrameRateOptimizer _frameRateOptimizer;
   final BreedAdventurePowerUpController _powerUpController;
   final AudioService _audioService;
   final ProgressService _progressService;
@@ -59,6 +63,10 @@ class BreedAdventureController extends ChangeNotifier {
   }) : _breedService = breedService ?? BreedService.instance,
        _timer = timer ?? BreedAdventureTimer.instance,
        _imageCacheService = imageCacheService ?? ImageCacheService.instance,
+       _optimizedImageCache = OptimizedImageCacheService.instance,
+       _memoryManager = BreedAdventureMemoryManager.instance,
+       _performanceMonitor = BreedAdventurePerformanceMonitor.instance,
+       _frameRateOptimizer = FrameRateOptimizer.instance,
        _powerUpController =
            powerUpController ?? BreedAdventurePowerUpController(),
        _audioService = audioService ?? AudioService(),
@@ -120,6 +128,19 @@ class BreedAdventureController extends ChangeNotifier {
   bool get isInRecoveryMode => _isInRecoveryMode;
   int get consecutiveFailures => _consecutiveFailures;
   bool get hasImageErrors => _failedImageUrls.isNotEmpty;
+
+  /// Performance monitoring getters
+  bool get isPerformingWell => _performanceMonitor.isPerformingWell;
+  double get currentFPS => _performanceMonitor.getPerformanceStats().currentFPS;
+  double get averageFPS => _performanceMonitor.getPerformanceStats().averageFPS;
+  bool get shouldOptimizeMemory => _memoryManager.shouldOptimizeMemory;
+  int get currentMemoryUsageMB =>
+      _memoryManager.getMemoryStats().currentUsageMB;
+
+  /// Get comprehensive performance statistics
+  dynamic get performanceStats => _performanceMonitor.getPerformanceStats();
+  dynamic get memoryStats => _memoryManager.getMemoryStats();
+  dynamic get imageCacheStats => _optimizedImageCache.getPerformanceStats();
   int get failedImageCount => _failedImageUrls.length;
 
   /// Clear all error state
@@ -157,7 +178,7 @@ class BreedAdventureController extends ChangeNotifier {
   }
 
   /// Start a new game
-  Future<void> startGame(BuildContext context) async {
+  Future<void> startGame() async {
     if (!_isInitialized) {
       throw StateError('Controller not initialized. Call initialize() first.');
     }
@@ -174,13 +195,16 @@ class BreedAdventureController extends ChangeNotifier {
     _timerSubscription = _timer.timerStream.listen(_onTimerUpdate);
 
     // Generate first challenge
-    await _generateNextChallenge(context);
+    await _generateNextChallenge();
+
+    // Start background preloading for better performance
+    _preloadInitialGameImages();
 
     notifyListeners();
   }
 
   /// Select an image (0 or 1) as the answer
-  Future<void> selectImage(BuildContext context, int imageIndex) async {
+  Future<void> selectImage(int imageIndex) async {
     if (!_isGameActive || _currentChallenge == null) return;
 
     // Stop the timer
@@ -202,20 +226,28 @@ class BreedAdventureController extends ChangeNotifier {
       await _handleIncorrectAnswer();
     }
 
-    // Wait for the user to see the feedback
-    await Future.delayed(const Duration(milliseconds: 1500));
+    // Different delays for correct vs incorrect answers
+    // Correct answers: shorter delay for faster gameplay
+    // Incorrect answers: longer delay to process feedback
+    final feedbackDelay = isCorrect
+        ? const Duration(
+            milliseconds: 300,
+          ) // Fast progression for correct answers
+        : const Duration(milliseconds: 300); // More time to see what went wrong
+
+    await Future.delayed(feedbackDelay);
 
     // Proceed to the next challenge or end the game
     final incorrectAnswers = _getIncorrectAnswers();
     if (incorrectAnswers < maxLives) {
-      await _generateNextChallenge(context);
+      await _generateNextChallenge();
     } else {
       await _endGame();
     }
   }
 
   /// Use a power-up
-  Future<bool> usePowerUp(BuildContext context, PowerUpType powerUpType) async {
+  Future<bool> usePowerUp(PowerUpType powerUpType) async {
     if (!_isGameActive || !_powerUpController.canUsePowerUp(powerUpType)) {
       return false;
     }
@@ -227,7 +259,7 @@ class BreedAdventureController extends ChangeNotifier {
         success = await _useExtraTimePowerUp();
         break;
       case PowerUpType.skip:
-        success = await _useSkipPowerUp(context);
+        success = await _useSkipPowerUp();
         break;
       case PowerUpType.fiftyFifty:
       case PowerUpType.hint:
@@ -326,7 +358,7 @@ class BreedAdventureController extends ChangeNotifier {
   }
 
   /// Generate the next challenge
-  Future<void> _generateNextChallenge(BuildContext context) async {
+  Future<void> _generateNextChallenge() async {
     // Reset feedback state for the new round
     _feedbackState = AnswerFeedback.none;
     _feedbackIndex = null;
@@ -357,7 +389,7 @@ class BreedAdventureController extends ChangeNotifier {
       );
 
       // Preload images
-      await _preloadChallengeImages(context);
+      await _preloadChallengeImages();
 
       // Start timer
       _timer.start();
@@ -370,19 +402,108 @@ class BreedAdventureController extends ChangeNotifier {
     }
   }
 
-  /// Preload images for the current challenge
-  Future<void> _preloadChallengeImages(BuildContext context) async {
+  /// Preload images for the current challenge with performance optimization
+  Future<void> _preloadChallengeImages() async {
     if (_currentChallenge == null) return;
 
     try {
-      await _imageCacheService.preloadImages(context, [
+      // Track image loading performance
+      final stopwatch = Stopwatch()..start();
+
+      _performanceMonitor.trackImageLoadStart(
+        _currentChallenge!.correctImageUrl,
+      );
+      _performanceMonitor.trackImageLoadStart(
+        _currentChallenge!.incorrectImageUrl,
+      );
+
+      // Use optimized image cache for immediate loading of current challenge images
+      await _optimizedImageCache.preloadCriticalImages([
         _currentChallenge!.correctImageUrl,
         _currentChallenge!.incorrectImageUrl,
       ]);
+
+      // Preload additional images from current phase in background for better performance
+      _preloadBackgroundImages();
+
+      stopwatch.stop();
+
+      // Track completion times
+      _performanceMonitor.trackImageLoadEnd(
+        _currentChallenge!.correctImageUrl,
+        stopwatch.elapsed,
+      );
+      _performanceMonitor.trackImageLoadEnd(
+        _currentChallenge!.incorrectImageUrl,
+        stopwatch.elapsed,
+      );
+
+      debugPrint('Images preloaded in ${stopwatch.elapsedMilliseconds}ms');
     } catch (e) {
       debugPrint('Error preloading images: $e');
       // Continue anyway - images will load on demand
     }
+  }
+
+  /// Preload background images from current phase to improve future performance
+  void _preloadBackgroundImages() {
+    // Don't block the UI - run this in background
+    Future.microtask(() async {
+      try {
+        final availableBreeds = _breedService.getAvailableBreeds(
+          _gameState.currentPhase,
+          _gameState.usedBreeds,
+        );
+
+        // Get image URLs from next few potential breeds (up to 10)
+        final imageUrlsToPreload = availableBreeds
+            .take(10)
+            .map((breed) => breed.imageUrl)
+            .where((url) => url.isNotEmpty)
+            .toList();
+
+        if (imageUrlsToPreload.isNotEmpty) {
+          // Use the delayed preloading for background images
+          await _optimizedImageCache.preloadNextImages(imageUrlsToPreload);
+          debugPrint(
+            'Background preloaded ${imageUrlsToPreload.length} images',
+          );
+        }
+      } catch (e) {
+        debugPrint('Error preloading background images: $e');
+      }
+    });
+  }
+
+  /// Preload initial game images when starting the game
+  void _preloadInitialGameImages() {
+    // Don't block the UI - run this in background
+    Future.microtask(() async {
+      try {
+        // Get a sample of breeds from current phase for preloading
+        final availableBreeds = _breedService.getAvailableBreeds(
+          _gameState.currentPhase,
+          <String>{}, // Empty set to get all available breeds
+        );
+
+        // Preload images from first 15 breeds to have them ready
+        final initialImageUrls = availableBreeds
+            .take(15)
+            .map((breed) => breed.imageUrl)
+            .where((url) => url.isNotEmpty)
+            .toList();
+
+        if (initialImageUrls.isNotEmpty) {
+          // Use delayed preloading so it doesn't interfere with current challenge
+          await _optimizedImageCache.preloadNextImages(initialImageUrls);
+          debugPrint(
+            'Initial game preloaded ${initialImageUrls.length} images',
+          );
+        }
+      } catch (e) {
+        debugPrint('Error preloading initial game images: $e');
+      }
+    });
   }
 
   /// Check if phase progression is needed
@@ -432,7 +553,7 @@ class BreedAdventureController extends ChangeNotifier {
   }
 
   /// Use skip power-up
-  Future<bool> _useSkipPowerUp(BuildContext context) async {
+  Future<bool> _useSkipPowerUp() async {
     if (_currentChallenge != null && _powerUpController.applyBreedSkip()) {
       // Mark breed as used without penalty
       _gameState = _gameState.copyWith(
@@ -443,7 +564,7 @@ class BreedAdventureController extends ChangeNotifier {
 
       // Generate next challenge
       await Future.delayed(const Duration(milliseconds: 500));
-      await _generateNextChallenge(context);
+      await _generateNextChallenge();
       return true;
     }
     return false;
@@ -476,7 +597,7 @@ class BreedAdventureController extends ChangeNotifier {
   }
 
   /// Handle timer expiration
-  Future<void> handleTimeExpired(BuildContext context) async {
+  Future<void> handleTimeExpired() async {
     if (!_isGameActive || _currentChallenge == null) return;
 
     // Treat as incorrect answer
@@ -485,8 +606,9 @@ class BreedAdventureController extends ChangeNotifier {
     // No second chance - just continue normal flow
     final incorrectAnswers = _getIncorrectAnswers();
     if (incorrectAnswers < maxLives) {
-      await Future.delayed(const Duration(milliseconds: 1500));
-      await _generateNextChallenge(context);
+      // Use same delay as incorrect answers for consistency
+      await Future.delayed(const Duration(milliseconds: 600));
+      await _generateNextChallenge();
     } else {
       await _endGame();
     }
@@ -637,6 +759,22 @@ class BreedAdventureController extends ChangeNotifier {
     await _retryOperation(() async {
       await _imageCacheService.initialize();
     }, 'ImageCacheService initialization');
+
+    // Initialize performance optimization services
+    await _retryOperation(() async {
+      await _optimizedImageCache.initialize();
+    }, 'OptimizedImageCacheService initialization');
+
+    await _retryOperation(() async {
+      await _memoryManager.initialize();
+    }, 'BreedAdventureMemoryManager initialization');
+
+    await _retryOperation(() async {
+      await _performanceMonitor.initialize();
+    }, 'BreedAdventurePerformanceMonitor initialization');
+
+    // Initialize frame rate optimizer
+    _frameRateOptimizer.initialize();
   }
 
   /// Simple retry mechanism for service initialization
@@ -972,17 +1110,19 @@ class BreedAdventureController extends ChangeNotifier {
     }
   }
 
-  /// Cleanup memory resources and cached data
+  /// Cleanup memory resources and cached data with advanced optimization
   Future<void> cleanupMemory() async {
     try {
+      debugPrint('Starting advanced memory cleanup...');
+
+      // Use memory manager for intelligent cleanup
+      await _memoryManager.cleanupMemory();
+
+      // Optimize game state through memory manager
+      _gameState = _memoryManager.optimizeGameState(_gameState);
+
       // Clear image cache statistics and perform memory cleanup
       _imageCacheService.clearStatistics();
-      await Future.delayed(const Duration(milliseconds: 100));
-
-      // Clear used breeds if set is large (memory optimization)
-      if (_gameState.usedBreeds.length > 50) {
-        _gameState = _gameState.copyWith(usedBreeds: <String>{});
-      }
 
       // Clear failed image URLs if accumulating
       if (_failedImageUrls.length > 10) {
@@ -991,6 +1131,13 @@ class BreedAdventureController extends ChangeNotifier {
 
       // Reset power-up controller to free memory
       _powerUpController.resetForNewGame();
+
+      // Get memory statistics for monitoring
+      final memoryStats = _memoryManager.getMemoryStats();
+      final performanceStats = _performanceMonitor.getPerformanceStats();
+
+      debugPrint('Memory cleanup completed: $memoryStats');
+      debugPrint('Performance after cleanup: $performanceStats');
     } catch (e) {
       debugPrint('Memory cleanup error: $e');
     }
@@ -1000,6 +1147,13 @@ class BreedAdventureController extends ChangeNotifier {
   void dispose() {
     _timer.stop();
     _timerSubscription?.cancel();
+
+    // Dispose performance optimization services
+    _memoryManager.dispose();
+    _performanceMonitor.dispose();
+    _frameRateOptimizer.dispose();
+    _optimizedImageCache.dispose();
+
     super.dispose();
   }
 }

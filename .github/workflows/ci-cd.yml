@@ -109,7 +109,7 @@ jobs:
         flutter build apk --release
 
     - name: Upload APK artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: android-apk
         path: dogdog_trivia_game/build/app/outputs/flutter-apk/app-release.apk
@@ -146,7 +146,7 @@ jobs:
         flutter build ios --release --no-codesign
 
     - name: Upload iOS build artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ios-build
         path: dogdog_trivia_game/build/ios/iphoneos/

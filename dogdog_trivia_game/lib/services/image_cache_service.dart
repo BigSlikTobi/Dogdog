@@ -51,6 +51,13 @@ class ImageCacheService {
 
   /// Cache an image from URL
   Future<bool> cacheImage(BuildContext context, String imageUrl) async {
+    // Store the context validity before any async operations
+    final navigator = Navigator.maybeOf(context);
+    if (navigator == null) {
+      debugPrint('Invalid context provided to cacheImage');
+      return false;
+    }
+
     if (!_isInitialized) await initialize();
 
     try {
@@ -64,9 +71,11 @@ class ImageCacheService {
         return false;
       }
 
-      // Precache the image
+      // Create the image provider and precache immediately
+      final imageProvider = CachedNetworkImageProvider(imageUrl);
       await precacheImage(
-        CachedNetworkImageProvider(imageUrl),
+        imageProvider,
+        // ignore: use_build_context_synchronously
         context,
         onError: (e, stack) {
           _failedUrls.add(imageUrl);
@@ -90,9 +99,10 @@ class ImageCacheService {
 
   /// Preload multiple images
   Future<void> preloadImages(
-      BuildContext context, List<String> imageUrls) async {
-    final futures =
-        imageUrls.map((url) => cacheImage(context, url)).toList();
+    BuildContext context,
+    List<String> imageUrls,
+  ) async {
+    final futures = imageUrls.map((url) => cacheImage(context, url)).toList();
     await Future.wait(futures, eagerError: false);
   }
 

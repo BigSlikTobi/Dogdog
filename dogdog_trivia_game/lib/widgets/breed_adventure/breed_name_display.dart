@@ -5,10 +5,11 @@ import '../../design_system/modern_spacing.dart';
 import '../../design_system/modern_shadows.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../services/breed_adventure/breed_localization_service.dart';
+import '../../services/breed_adventure/frame_rate_optimizer.dart';
 import '../../utils/accessibility.dart';
 import '../../utils/accessibility_enhancements.dart' hide AccessibilityTheme;
 
-/// Widget that displays the breed name with localized text and modern typography
+/// Widget that displays the breed name with localized text and performance optimization
 class BreedNameDisplay extends StatefulWidget {
   final String breedName;
   final bool isVisible;
@@ -29,31 +30,31 @@ class _BreedNameDisplayState extends State<BreedNameDisplay>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
+  final FrameRateOptimizer _frameRateOptimizer = FrameRateOptimizer.instance;
 
   @override
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
+    // Use optimized animation controller
+    _animationController = _frameRateOptimizer.createOptimizedController(
       duration: widget.animationDuration,
       vsync: this,
+      isEssential: true, // Breed name display is essential
+      debugLabel: 'BreedNameDisplay',
+    );
+
+    final optimizedCurve = _frameRateOptimizer.getOptimizedCurve(
+      Curves.easeInOut,
+      isEssential: true,
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+      CurvedAnimation(parent: _animationController, curve: optimizedCurve),
     );
 
-    _slideAnimation =
-        Tween<Offset>(begin: const Offset(0, -0.5), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: Curves.easeOutBack,
-          ),
-        );
-
     if (widget.isVisible) {
-      _animationController.forward();
+      _animationController.forwardOptimized(isEssential: true);
     }
   }
 
@@ -63,16 +64,16 @@ class _BreedNameDisplayState extends State<BreedNameDisplay>
 
     if (widget.isVisible != oldWidget.isVisible) {
       if (widget.isVisible) {
-        _animationController.forward();
+        _animationController.forwardOptimized(isEssential: true);
       } else {
-        _animationController.reverse();
+        _animationController.reverseOptimized(isEssential: true);
       }
     }
 
     // Animate when breed name changes
     if (widget.breedName != oldWidget.breedName) {
       _animationController.reset();
-      _animationController.forward();
+      _animationController.forwardOptimized(isEssential: true);
     }
   }
 
@@ -100,32 +101,36 @@ class _BreedNameDisplayState extends State<BreedNameDisplay>
       context: questionText,
     );
 
-    return AccessibilityTheme(
-      child: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) {
-          return AccessibilityEnhancements.buildReducedMotionWrapper(
-            child: SlideTransition(
-              position: _slideAnimation,
-              child: FadeTransition(
-                opacity: _fadeAnimation,
+    // Optimize rebuilds with RepaintBoundary
+    return _frameRateOptimizer.optimizeRebuilds(
+      child: AccessibilityTheme(
+        child: AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, child) {
+            return AccessibilityEnhancements.buildReducedMotionWrapper(
+              child: _frameRateOptimizer.createOptimizedTransition(
                 child: _buildAccessibleContainer(
                   context,
                   localizedBreedName,
                   questionText,
                   semanticLabel,
                 ),
+                animation: _fadeAnimation,
+                type: AnimationType.fade,
+                isEssential: true,
               ),
-            ),
-            reducedMotionChild: _buildAccessibleContainer(
-              context,
-              localizedBreedName,
-              questionText,
-              semanticLabel,
-            ),
-          );
-        },
+              reducedMotionChild: _buildAccessibleContainer(
+                context,
+                localizedBreedName,
+                questionText,
+                semanticLabel,
+              ),
+            );
+          },
+        ),
       ),
+      shouldRebuild: _animationController.isAnimating,
+      debugLabel: 'BreedNameDisplay',
     );
   }
 
