@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../services/image_service.dart';
+import '../../services/image_service.dart';
 
 /// A widget that displays success animations by alternating between success images.
 ///

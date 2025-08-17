@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../l10n/generated/app_localizations.dart';
-import '../controllers/breed_adventure_controller.dart';
+import '../controllers/breed_adventure/breed_adventure_controller.dart';
 import '../models/enums.dart';
+import '../models/shared/game_statistics.dart';
 import '../services/audio_service.dart';
 import '../utils/animations.dart';
 import '../widgets/breed_adventure/breed_name_display.dart';
@@ -69,13 +70,15 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
   Future<void> _initializeGame() async {
     try {
       await _controller.initialize();
-      await _controller.startGame(context);
+      if (mounted) {
+        await _controller.startGame(context);
 
-      setState(() {
-        _isInitialized = true;
-      });
+        setState(() {
+          _isInitialized = true;
+        });
 
-      _screenController.forward();
+        _screenController.forward();
+      }
     } catch (e) {
       debugPrint('Failed to initialize game: $e');
       // Handle initialization error
@@ -314,7 +317,11 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     final challenge = _controller.currentChallenge;
 
     if (challenge == null) {
-      return const GameInitializingState();
+      return Center(
+        child: BreedAdventureLoading(
+          message: AppLocalizations.of(context).breedAdventure_gameInitializing,
+        ),
+      );
     }
 
     return Column(
@@ -365,10 +372,11 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
 
         // Image selection - made more prominent and larger with frame
         Expanded(
-          flex: 3,
+          flex: 4, // Increased from 3 to 4 to give more space to images
           child: Container(
             margin: ModernSpacing.paddingHorizontalLG,
-            padding: ModernSpacing.paddingLG,
+            padding: ModernSpacing
+                .paddingMD, // Reduced padding to give more space to images
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -463,8 +471,8 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
           ),
         ),
 
-        ModernSpacing.verticalSpaceMD,
-
+        ModernSpacing
+            .verticalSpaceSM, // Reduced from MD to SM to bring breed name closer to images
         // Compact breed name display - smaller and simpler
         Padding(
           padding: ModernSpacing.paddingHorizontalLG,
@@ -531,7 +539,13 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                   },
                 )
               else
-                const GameInitializingState(),
+                Center(
+                  child: BreedAdventureLoading(
+                    message: AppLocalizations.of(
+                      context,
+                    ).breedAdventure_gameInitializing,
+                  ),
+                ),
 
               // Power-up feedback overlay
               if (_activePowerUpFeedback != null)
@@ -712,7 +726,10 @@ class _GameOverScreen extends StatelessWidget {
                           ),
                           _StatItem(
                             label: l10n.breedAdventure_phase,
-                            value: statistics.currentPhase.name,
+                            value:
+                                statistics.additionalStats['currentPhase']
+                                    as String? ??
+                                'Unknown',
                             color: ModernColors.primaryYellow,
                           ),
                         ],

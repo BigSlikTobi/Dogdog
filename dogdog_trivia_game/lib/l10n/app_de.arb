@@ -1155,6 +1155,97 @@
     "description": "Benachrichtigung wenn Power-Up verdient wird"
   },
 
+  "breedAdventure_chooseCorrectImage": "Wähle das richtige Bild",
+  "@breedAdventure_chooseCorrectImage": {
+    "description": "Anweisungstext für Bildauswahl"
+  },
+
+  "breedAdventure_whichImageShows": "Welches Bild zeigt einen",
+  "@breedAdventure_whichImageShows": {
+    "description": "Frageaufforderung für Rassenidentifikation"
+  },
+
+  "breedAdventure_newHighScore": "Neuer Rekord!",
+  "@breedAdventure_newHighScore": {
+    "description": "Badge-Text für neue Rekord-Errungenschaft"
+  },
+
+  "breedAdventure_imageFailedToLoad": "Bild konnte nicht geladen werden",
+  "@breedAdventure_imageFailedToLoad": {
+    "description": "Fehlermeldung wenn Rassenbild nicht geladen werden kann"
+  },
+
+  "breedAdventure_timeRemaining": "Verbleibende Zeit",
+  "@breedAdventure_timeRemaining": {
+    "description": "Label für Countdown-Timer-Anzeige"
+  },
+
+  "breedAdventure_seconds": "Sek",
+  "@breedAdventure_seconds": {
+    "description": "Kurzform für Sekunden im Timer"
+  },
+
+  "breedAdventure_secondsShort": "s",
+  "@breedAdventure_secondsShort": {
+    "description": "Sehr kurze Form für Sekunden"
+  },
+
+  "breedAdventure_powerUpUsed": "{powerUp} verwendet!",
+  "@breedAdventure_powerUpUsed": {
+    "description": "Benachrichtigung wenn ein Power-Up verwendet wird",
+    "placeholders": {
+      "powerUp": {
+        "type": "String",
+        "example": "Hinweis"
+      }
+    }
+  },
+
+  "breedAdventure_gameOver": "Spiel Beendet",
+  "@breedAdventure_gameOver": {
+    "description": "Titel wenn Spiel endet"
+  },
+
+  "breedAdventure_congratulations": "Herzlichen Glückwunsch!",
+  "@breedAdventure_congratulations": {
+    "description": "Glückwunschnachricht für gute Leistung"
+  },
+
+  "breedAdventure_tryAgain": "Erneut Versuchen",
+  "@breedAdventure_tryAgain": {
+    "description": "Schaltflächentext zum erneuten Versuchen nach Fehler"
+  },
+
+  "breedAdventure_loading": "Lädt...",
+  "@breedAdventure_loading": {
+    "description": "Allgemeine Lademeldung"
+  },
+
+  "breedAdventure_error": "Fehler",
+  "@breedAdventure_error": {
+    "description": "Allgemeiner Fehlertitel"
+  },
+
+  "breedAdventure_retry": "Wiederholen",
+  "@breedAdventure_retry": {
+    "description": "Schaltflächentext zum Wiederholen einer Aktion"
+  },
+
+  "breedAdventure_skip": "Überspringen",
+  "@breedAdventure_skip": {
+    "description": "Schaltflächentext zum Überspringen des aktuellen Elements"
+  },
+
+  "breedAdventure_continue": "Weiter",
+  "@breedAdventure_continue": {
+    "description": "Schaltflächentext zum Fortfahren"
+  },
+
+  "breedAdventure_close": "Schließen",
+  "@breedAdventure_close": {
+    "description": "Schaltflächentext zum Schließen des Dialogs"
+  },
+
   "breedAdventure_connectionProblem": "Verbindungsproblem",
   "@breedAdventure_connectionProblem": {
     "description": "Titel für Netzwerkfehler"
@@ -1394,5 +1485,158 @@
   "breedAdventure_goHome" : "Zum Startbildschirm",
   "@breedAdventure_goHome" : {
     "description": "Zum Startbildschirm-Button"
+  },
+
+  "breedAdventure_whichImageShows": "Welches Bild zeigt einen",
+  "@breedAdventure_whichImageShows": {
+    "description": "Frageprompt für Rassenabenteuer"
+  },
+
+  "breedAdventure_breedChallenge": "Rassen-Herausforderung",
+  "@breedAdventure_breedChallenge": {
+    "description": "Bezeichnung für Rassen-Herausforderungselement"
+  },
+
+  "breedAdventure_selectCorrectImageHint": "Wählen Sie das richtige Bild aus den beiden Optionen unten",
+  "@breedAdventure_selectCorrectImageHint": {
+    "description": "Hinweis zur Auswahl des richtigen Bildes"
+  },
+
+  "breedAdventure_targetBreed": "Zielrasse",
+  "@breedAdventure_targetBreed": {
+    "description": "Bezeichnung für die zu identifizierende Rasse"
+  },
+
+  "breedAdventure_questionIndicator": "Fragezeichen-Indikator",
+  "@breedAdventure_questionIndicator": {
+    "description": "Barrierefreiheits-Bezeichnung für Fragezeichen-Indikator"
+  },
+
+  "breedAdventure_breedName": "Rassenname",
+  "@breedAdventure_breedName": {
+    "description": "Bezeichnung für Rassenname-Anzeige"
+  },
+
+  "breedAdventure_imageOption": "Bildoption {number}",
+  "@breedAdventure_imageOption": {
+    "description": "Bezeichnung für Bildauswahloptionen",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+
+  "breedAdventure_tapToSelectImage": "Tippen Sie, um dieses Bild auszuwählen",
+  "@breedAdventure_tapToSelectImage": {
+    "description": "Hinweis zum Tippen zur Bildauswahl"
+  },
+
+  "breedAdventure_imageDisabled": "Bildauswahl ist deaktiviert",
+  "@breedAdventure_imageDisabled": {
+    "description": "Nachricht wenn Bildauswahl deaktiviert ist"
+  },
+
+  "breedAdventure_correctSelection": "Richtige Auswahl",
+  "@breedAdventure_correctSelection": {
+    "description": "Rückmeldung für richtige Bildauswahl"
+  },
+
+  "breedAdventure_incorrectSelection": "Falsche Auswahl",
+  "@breedAdventure_incorrectSelection": {
+    "description": "Rückmeldung für falsche Bildauswahl"
+  },
+
+  "breedAdventure_imageSelectionArea": "Bildauswahlbereich",
+  "@breedAdventure_imageSelectionArea": {
+    "description": "Bezeichnung für den Bildauswahlbereich"
+  },
+
+  "breedAdventure_chooseCorrectImageHint": "Wählen Sie das richtige Bild, das zum Rassennamen passt",
+  "@breedAdventure_chooseCorrectImageHint": {
+    "description": "Hinweis zur Auswahl des richtigen Bildes"
+  },
+
+  "breedAdventure_imageSelected": "{imageLabel} ausgewählt",
+  "@breedAdventure_imageSelected": {
+    "description": "Ansage wenn Bild ausgewählt wird",
+    "placeholders": {
+      "imageLabel": {
+        "type": "String",
+        "example": "Bildoption 1"
+      }
+    }
+  },
+
+  "breedAdventure_breedImageDescription": "Hunderassenbild zur Identifikation",
+  "@breedAdventure_breedImageDescription": {
+    "description": "Beschreibung für Rassenbilder"
+  },
+
+  "breedAdventure_timer": "Timer",
+  "@breedAdventure_timer": {
+    "description": "Bezeichnung für Timer-Element"
+  },
+
+  "breedAdventure_timeRunningOut": "Zeit läuft ab",
+  "@breedAdventure_timeRunningOut": {
+    "description": "Zustand wenn Zeit abläuft"
+  },
+
+  "breedAdventure_secondsRemaining": "{seconds} Sekunden verbleibend",
+  "@breedAdventure_secondsRemaining": {
+    "description": "Ansage für verbleibende Sekunden",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+
+  "breedAdventure_timeExpired": "Zeit ist abgelaufen",
+  "@breedAdventure_timeExpired": {
+    "description": "Ansage wenn Zeit abläuft"
+  },
+
+  "breedAdventure_countdownTimer": "Countdown-Timer",
+  "@breedAdventure_countdownTimer": {
+    "description": "Bezeichnung für Countdown-Timer"
+  },
+
+  "breedAdventure_timerProgress": "Timer-Fortschritt",
+  "@breedAdventure_timerProgress": {
+    "description": "Bezeichnung für Timer-Fortschrittsanzeige"
+  },
+
+  "breedAdventure_timeDisplay": "Zeitanzeige",
+  "@breedAdventure_timeDisplay": {
+    "description": "Bezeichnung für Zeitanzeige"
+  },
+
+  "breedAdventure_urgentWarning": "Dringende Zeitwarnung",
+  "@breedAdventure_urgentWarning": {
+    "description": "Warnung für dringende Zeitsituation"
+  },
+
+  "breedAdventure_criticalTime": "Kritische Zeit verbleibend",
+  "@breedAdventure_criticalTime": {
+    "description": "Warnung für kritische Zeitsituation"
+  },
+
+  "breedAdventure_seconds": "Sek",
+  "@breedAdventure_seconds": {
+    "description": "Kurzform für Sekunden"
+  },
+
+  "breedAdventure_secondsShort": "s",
+  "@breedAdventure_secondsShort": {
+    "description": "Sehr kurze Form für Sekunden"
+  },
+
+  "breedAdventure_timeRemaining": "Verbleibende Zeit",
+  "@breedAdventure_timeRemaining": {
+    "description": "Bezeichnung für verbleibende Zeitanzeige"
   }
 }

@@ -3,6 +3,11 @@ import '../../design_system/modern_colors.dart';
 import '../../design_system/modern_typography.dart';
 import '../../design_system/modern_spacing.dart';
 import '../../design_system/modern_shadows.dart';
+import '../../l10n/generated/app_localizations.dart';
+import '../../utils/accessibility.dart';
+import '../../utils/accessibility_enhancements.dart' hide AccessibilityTheme;
+import '../../services/audio_service.dart';
+import 'package:flutter/semantics.dart';
 
 /// Widget that displays a countdown timer with circular progress indicator and color changes
 class CountdownTimerDisplay extends StatefulWidget {
@@ -78,6 +83,20 @@ class _CountdownTimerDisplayState extends State<CountdownTimerDisplay>
         _warningController.forward().then((_) {
           _warningController.reverse();
         });
+
+        // Provide audio cue for accessibility
+        _playTimerWarningAudio();
+
+        // Provide haptic feedback
+        AccessibilityEnhancements.provideHapticFeedback(
+          GameHapticType.incorrect,
+        );
+      }
+
+      // Announce time updates to screen reader for critical moments
+      if (mounted &&
+          (widget.remainingSeconds <= 5 || widget.remainingSeconds % 10 == 0)) {
+        _announceTimeUpdate();
       }
 
       _previousSeconds = widget.remainingSeconds;
@@ -86,7 +105,48 @@ class _CountdownTimerDisplayState extends State<CountdownTimerDisplay>
     // Handle time expiration
     if (widget.remainingSeconds <= 0 && oldWidget.remainingSeconds > 0) {
       widget.onTimeExpired?.call();
+      _announceTimeExpired();
     }
+  }
+
+  void _playTimerWarningAudio() async {
+    try {
+      await AudioService().playTimerWarningSound();
+    } catch (e) {
+      // Silently fail if audio service is not available
+    }
+  }
+
+  void _announceTimeUpdate() {
+    if (!mounted) return;
+
+    final timeLabel = AccessibilityEnhancements.getGameElementDescription(
+      elementType: AppLocalizations.of(context).breedAdventure_timer,
+      state: widget.remainingSeconds <= 3
+          ? AppLocalizations.of(context).breedAdventure_timeRunningOut
+          : null,
+      value: AppLocalizations.of(
+        context,
+      ).breedAdventure_secondsRemaining(widget.remainingSeconds),
+    );
+
+    AccessibilityUtils.announceToScreenReader(
+      context,
+      timeLabel,
+      assertiveness: widget.remainingSeconds <= 3
+          ? Assertiveness.assertive
+          : Assertiveness.polite,
+    );
+  }
+
+  void _announceTimeExpired() {
+    if (!mounted) return;
+
+    AccessibilityUtils.announceToScreenReader(
+      context,
+      AppLocalizations.of(context).breedAdventure_timeExpired,
+      assertiveness: Assertiveness.assertive,
+    );
   }
 
   @override
@@ -118,89 +178,212 @@ class _CountdownTimerDisplayState extends State<CountdownTimerDisplay>
         ? (widget.remainingSeconds / widget.totalSeconds).clamp(0.0, 1.0)
         : 0.0;
 
-    return AnimatedBuilder(
-      animation: Listenable.merge([_pulseAnimation, _warningAnimation]),
-      builder: (context, child) {
-        double scale = _pulseAnimation.value;
-        if (widget.remainingSeconds <= 3) {
-          scale *= _warningAnimation.value;
-        }
+    final isHighContrast = AccessibilityUtils.isHighContrastEnabled(context);
+    final colorScheme = AccessibilityUtils.getHighContrastColors(context);
 
-        return Transform.scale(
-          scale: scale,
-          child: Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: _getBackgroundColor(),
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: _getTimerColor().withValues(alpha: 0.3),
-                  blurRadius: 10,
-                  spreadRadius: 2,
+    // Create comprehensive semantic label
+    final timerLabel = AccessibilityEnhancements.buildAccessibleTimer(
+      child: Container(), // Placeholder, we'll use the label
+      seconds: widget.remainingSeconds,
+      isUrgent: widget.remainingSeconds <= 3,
+    );
+
+    return AccessibilityTheme(
+      child: AccessibilityEnhancements.buildReducedMotionWrapper(
+        child: AnimatedBuilder(
+          animation: Listenable.merge([_pulseAnimation, _warningAnimation]),
+          builder: (context, child) {
+            double scale = _pulseAnimation.value;
+            if (widget.remainingSeconds <= 3) {
+              scale *= _warningAnimation.value;
+            }
+
+            return Transform.scale(
+              scale: scale,
+              child: _buildAccessibleTimer(
+                context,
+                progress,
+                isHighContrast,
+                colorScheme,
+              ),
+            );
+          },
+        ),
+        reducedMotionChild: _buildAccessibleTimer(
+          context,
+          progress,
+          isHighContrast,
+          colorScheme,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAccessibleTimer(
+    BuildContext context,
+    double progress,
+    bool isHighContrast,
+    ColorScheme colorScheme,
+  ) {
+    final timerColor = isHighContrast ? colorScheme.primary : _getTimerColor();
+    final backgroundColor = isHighContrast
+        ? colorScheme.surface
+        : _getBackgroundColor();
+
+    return Semantics(
+      label: AccessibilityUtils.createGameElementLabel(
+        element: AppLocalizations.of(context).breedAdventure_countdownTimer,
+        value: AppLocalizations.of(
+          context,
+        ).breedAdventure_secondsRemaining(widget.remainingSeconds),
+        context: widget.remainingSeconds <= 3
+            ? AppLocalizations.of(context).breedAdventure_timeRunningOut
+            : null,
+      ),
+      value: widget.remainingSeconds.toString(),
+      liveRegion: true,
+      child: Container(
+        width: 88,
+        height: 88,
+        decoration: isHighContrast
+            ? AccessibilityUtils.getAccessibleCircularDecoration(context)
+            : BoxDecoration(
+                gradient: ModernColors.createRadialGradient(
+                  [backgroundColor, backgroundColor.withValues(alpha: 0.8)],
+                  center: Alignment.center,
+                  radius: 0.8,
                 ),
-                ...ModernShadows.medium,
-              ],
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Circular progress indicator
-                SizedBox(
-                  width: 70,
-                  height: 70,
-                  child: CircularProgressIndicator(
-                    value: progress,
-                    strokeWidth: 4,
-                    backgroundColor: ModernColors.surfaceDark.withValues(
-                      alpha: 0.3,
-                    ),
-                    valueColor: AlwaysStoppedAnimation<Color>(_getTimerColor()),
-                    strokeCap: StrokeCap.round,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  // Enhanced glow effect
+                  ...ModernShadows.glow(
+                    timerColor,
+                    opacity: widget.remainingSeconds <= 3 ? 0.6 : 0.3,
+                    blur: widget.remainingSeconds <= 3 ? 16 : 12,
                   ),
+                  // Depth shadow
+                  ...ModernShadows.large,
+                ],
+                border: Border.all(
+                  color: timerColor.withValues(alpha: 0.4),
+                  width: 2,
                 ),
+              ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Enhanced circular progress indicator with accessibility
+            Semantics(
+              label: AppLocalizations.of(context).breedAdventure_timerProgress,
+              value: '${(progress * 100).round()}%',
+              child: SizedBox(
+                width: 76,
+                height: 76,
+                child: CircularProgressIndicator(
+                  value: progress,
+                  strokeWidth: 5,
+                  backgroundColor: isHighContrast
+                      ? colorScheme.onSurface.withValues(alpha: 0.3)
+                      : ModernColors.surfaceDark.withValues(alpha: 0.2),
+                  valueColor: AlwaysStoppedAnimation<Color>(timerColor),
+                  strokeCap: StrokeCap.round,
+                ),
+              ),
+            ),
 
-                // Timer text
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${widget.remainingSeconds}',
-                      style: ModernTypography.headingMedium.copyWith(
-                        color: _getTimerColor(),
+            // Enhanced timer text with accessibility
+            Semantics(
+              label: AppLocalizations.of(context).breedAdventure_timeDisplay,
+              readOnly: true,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AccessibilityEnhancements.buildHighContrastText(
+                    text: '${widget.remainingSeconds}',
+                    style: AccessibilityUtils.getAccessibleTextStyle(
+                      context,
+                      ModernTypography.displayMedium.copyWith(
+                        color: timerColor,
                         fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                    ),
-                    Text(
-                      'sec',
-                      style: ModernTypography.caption.copyWith(
-                        color: _getTimerColor().withValues(alpha: 0.7),
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-
-                // Warning indicator for last 3 seconds
-                if (widget.remainingSeconds <= 3 && widget.remainingSeconds > 0)
-                  Positioned.fill(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: ModernColors.error.withValues(alpha: 0.5),
-                          width: 2,
-                        ),
+                        fontSize: 28,
+                        letterSpacing: -1,
+                        shadows: isHighContrast
+                            ? null
+                            : [
+                                Shadow(
+                                  color: Colors.black.withValues(alpha: 0.1),
+                                  offset: const Offset(0, 1),
+                                  blurRadius: 2,
+                                ),
+                              ],
                       ),
                     ),
                   ),
-              ],
+                  AccessibilityEnhancements.buildHighContrastText(
+                    text: AppLocalizations.of(context).breedAdventure_seconds,
+                    style: AccessibilityUtils.getAccessibleTextStyle(
+                      context,
+                      ModernTypography.caption.copyWith(
+                        color: timerColor.withValues(alpha: 0.8),
+                        fontSize: 9,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+
+            // Enhanced warning indicator with accessibility
+            if (widget.remainingSeconds <= 3 && widget.remainingSeconds > 0)
+              Semantics(
+                label: AppLocalizations.of(
+                  context,
+                ).breedAdventure_urgentWarning,
+                liveRegion: true,
+                child: Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: isHighContrast
+                            ? Colors.red
+                            : ModernColors.error.withValues(
+                                alpha: 0.4 + (_warningAnimation.value * 0.4),
+                              ),
+                        width: isHighContrast ? 4 : 3,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+            // Critical state overlay with accessibility
+            if (widget.remainingSeconds <= 1 && widget.remainingSeconds > 0)
+              Semantics(
+                label: AppLocalizations.of(context).breedAdventure_criticalTime,
+                liveRegion: true,
+                child: Positioned.fill(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: isHighContrast
+                          ? null
+                          : ModernColors.createRadialGradient([
+                              ModernColors.error.withValues(alpha: 0.1),
+                              ModernColors.error.withValues(alpha: 0.05),
+                            ]),
+                      color: isHighContrast
+                          ? Colors.red.withValues(alpha: 0.2)
+                          : null,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -237,38 +420,44 @@ class CompactCountdownTimer extends StatelessWidget {
         : 0.0;
 
     return Container(
-      padding: ModernSpacing.paddingSM,
+      padding: ModernSpacing.paddingMD,
       decoration: BoxDecoration(
-        color: _getTimerColor().withValues(alpha: 0.1),
+        gradient: ModernColors.createLinearGradient([
+          _getTimerColor().withValues(alpha: 0.1),
+          _getTimerColor().withValues(alpha: 0.05),
+        ]),
         borderRadius: ModernSpacing.borderRadiusMedium,
         border: Border.all(
-          color: _getTimerColor().withValues(alpha: 0.3),
-          width: 1,
+          color: _getTimerColor().withValues(alpha: 0.4),
+          width: 1.5,
         ),
+        boxShadow: ModernShadows.small,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Mini progress indicator
+          // Enhanced mini progress indicator
           SizedBox(
-            width: 20,
-            height: 20,
+            width: 24,
+            height: 24,
             child: CircularProgressIndicator(
               value: progress,
-              strokeWidth: 2,
-              backgroundColor: ModernColors.surfaceDark.withValues(alpha: 0.3),
+              strokeWidth: 3,
+              backgroundColor: ModernColors.surfaceDark.withValues(alpha: 0.2),
               valueColor: AlwaysStoppedAnimation<Color>(_getTimerColor()),
+              strokeCap: StrokeCap.round,
             ),
           ),
 
-          ModernSpacing.horizontalSpaceSM,
+          ModernSpacing.horizontalSpaceMD,
 
-          // Timer text
+          // Enhanced timer text
           Text(
-            '${remainingSeconds}s',
+            '$remainingSeconds${AppLocalizations.of(context).breedAdventure_secondsShort}',
             style: ModernTypography.bodyMedium.copyWith(
               color: _getTimerColor(),
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.2,
             ),
           ),
         ],
@@ -313,43 +502,75 @@ class LinearCountdownTimer extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Timer text
+        // Enhanced timer text
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Time Remaining',
+              AppLocalizations.of(context).breedAdventure_timeRemaining,
               style: ModernTypography.caption.copyWith(
                 color: ModernColors.textSecondary,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.3,
               ),
             ),
-            Text(
-              '${remainingSeconds}s',
-              style: ModernTypography.caption.copyWith(
-                color: _getTimerColor(),
-                fontWeight: FontWeight.w600,
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: ModernSpacing.sm,
+                vertical: ModernSpacing.xs,
+              ),
+              decoration: BoxDecoration(
+                color: _getTimerColor().withValues(alpha: 0.1),
+                borderRadius: ModernSpacing.borderRadiusSmall,
+              ),
+              child: Text(
+                '$remainingSeconds${AppLocalizations.of(context).breedAdventure_secondsShort}',
+                style: ModernTypography.caption.copyWith(
+                  color: _getTimerColor(),
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.2,
+                ),
               ),
             ),
           ],
         ),
 
-        ModernSpacing.verticalSpaceXS,
+        ModernSpacing.verticalSpaceSM,
 
-        // Progress bar
+        // Enhanced progress bar
         Container(
           height: height,
           decoration: BoxDecoration(
-            color: ModernColors.surfaceLight,
+            gradient: ModernColors.createLinearGradient([
+              ModernColors.surfaceLight,
+              ModernColors.surfaceMedium,
+            ]),
             borderRadius: BorderRadius.circular(height / 2),
-          ),
-          child: FractionallySizedBox(
-            alignment: Alignment.centerLeft,
-            widthFactor: progress,
-            child: Container(
-              decoration: BoxDecoration(
-                color: _getTimerColor(),
-                borderRadius: BorderRadius.circular(height / 2),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                offset: const Offset(0, 1),
+                blurRadius: 2,
               ),
+            ],
+          ),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOutCubic,
+            width: MediaQuery.of(context).size.width * progress,
+            decoration: BoxDecoration(
+              gradient: ModernColors.createLinearGradient([
+                _getTimerColor(),
+                _getTimerColor().withValues(alpha: 0.8),
+              ]),
+              borderRadius: BorderRadius.circular(height / 2),
+              boxShadow: [
+                BoxShadow(
+                  color: _getTimerColor().withValues(alpha: 0.3),
+                  offset: const Offset(0, 1),
+                  blurRadius: 3,
+                ),
+              ],
             ),
           ),
         ),

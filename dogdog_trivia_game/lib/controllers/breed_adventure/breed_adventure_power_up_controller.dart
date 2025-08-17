@@ -1,6 +1,6 @@
-import '../models/enums.dart';
-import '../models/breed_challenge.dart';
-import '../controllers/power_up_controller.dart';
+import '../../models/enums.dart';
+import '../../models/breed_adventure/breed_challenge.dart';
+import '../power_up_controller.dart';
 
 /// Extended power-up controller specifically for Dog Breeds Adventure game mode
 class BreedAdventurePowerUpController extends PowerUpController {

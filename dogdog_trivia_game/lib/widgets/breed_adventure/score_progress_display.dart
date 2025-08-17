@@ -3,7 +3,7 @@ import '../../design_system/modern_colors.dart';
 import '../../design_system/modern_typography.dart';
 import '../../design_system/modern_spacing.dart';
 import '../../design_system/modern_shadows.dart';
-import '../../models/difficulty_phase.dart';
+import '../../models/breed_adventure/difficulty_phase.dart';
 
 /// Widget that displays score and progress with animations
 class ScoreProgressDisplay extends StatefulWidget {
@@ -158,11 +158,26 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
       children: List.generate(3, (index) {
         final isActive = index < widget.livesRemaining;
         return Padding(
-          padding: EdgeInsets.only(right: ModernSpacing.xs),
-          child: Icon(
-            isActive ? Icons.favorite : Icons.favorite_border,
-            color: isActive ? ModernColors.error : ModernColors.textLight,
-            size: 20,
+          padding: EdgeInsets.only(right: ModernSpacing.sm),
+          child: Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: isActive
+                  ? ModernColors.error.withValues(alpha: 0.1)
+                  : ModernColors.textLight.withValues(alpha: 0.1),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isActive
+                    ? ModernColors.error.withValues(alpha: 0.3)
+                    : ModernColors.textLight.withValues(alpha: 0.3),
+                width: 1,
+              ),
+            ),
+            child: Icon(
+              isActive ? Icons.favorite : Icons.favorite_border,
+              color: isActive ? ModernColors.error : ModernColors.textLight,
+              size: 18,
+            ),
           ),
         );
       }),
@@ -173,117 +188,161 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
   Widget build(BuildContext context) {
     return Container(
       margin: ModernSpacing.paddingHorizontalLG,
-      padding: ModernSpacing.paddingLG,
+      padding: ModernSpacing.paddingXL,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
+        gradient: ModernColors.createLinearGradient(
+          [
             ModernColors.cardBackground,
-            ModernColors.cardBackground.withValues(alpha: 0.95),
+            ModernColors.cardBackground.withValues(alpha: 0.98),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: ModernSpacing.borderRadiusLarge,
-        boxShadow: ModernShadows.medium,
+        boxShadow: ModernShadows.card,
         border: Border.all(
-          color: _getPhaseColor().withValues(alpha: 0.2),
-          width: 1,
+          color: _getPhaseColor().withValues(alpha: 0.25),
+          width: 1.5,
         ),
       ),
       child: Column(
         children: [
-          // Top row: Score and Lives
+          // Enhanced top row: Score and Lives
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Score
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Score',
-                    style: ModernTypography.caption.copyWith(
-                      color: ModernColors.textSecondary,
+              // Enhanced Score section
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Score',
+                      style: ModernTypography.label.copyWith(
+                        color: ModernColors.textSecondary,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                      ),
                     ),
-                  ),
-                  AnimatedBuilder(
-                    animation: _scoreAnimation,
-                    builder: (context, child) {
-                      return Text(
-                        widget.showAnimations
-                            ? '${_scoreAnimation.value}'
-                            : '${widget.score}',
-                        style: ModernTypography.displayMedium.copyWith(
-                          color: _getPhaseColor(),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                    ModernSpacing.verticalSpaceXS,
+                    AnimatedBuilder(
+                      animation: _scoreAnimation,
+                      builder: (context, child) {
+                        return Container(
+                          padding: ModernSpacing.paddingSM,
+                          decoration: BoxDecoration(
+                            gradient: ModernColors.createLinearGradient(
+                              _getPhaseGradient(),
+                            ),
+                            borderRadius: ModernSpacing.borderRadiusMedium,
+                            boxShadow: ModernShadows.glow(
+                              _getPhaseColor(),
+                              opacity: 0.2,
+                              blur: 8,
+                            ),
+                          ),
+                          child: Text(
+                            widget.showAnimations
+                                ? '${_scoreAnimation.value}'
+                                : '${widget.score}',
+                            style: ModernTypography.displayMedium.copyWith(
+                              color: ModernColors.textOnDark,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: -1,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withValues(alpha: 0.3),
+                                  offset: const Offset(0, 1),
+                                  blurRadius: 2,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
 
-              // Lives
+              ModernSpacing.horizontalSpaceLG,
+
+              // Enhanced Lives section
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     'Lives',
-                    style: ModernTypography.caption.copyWith(
+                    style: ModernTypography.label.copyWith(
                       color: ModernColors.textSecondary,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
                     ),
                   ),
-                  ModernSpacing.verticalSpaceXS,
+                  ModernSpacing.verticalSpaceSM,
                   _buildLivesIndicator(),
                 ],
               ),
             ],
           ),
 
-          ModernSpacing.verticalSpaceMD,
+          ModernSpacing.verticalSpaceXL,
 
-          // Progress section
+          // Enhanced Progress section
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Progress label and phase
+              // Enhanced progress label and phase
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Progress',
-                    style: ModernTypography.caption.copyWith(
+                    style: ModernTypography.label.copyWith(
                       color: ModernColors.textSecondary,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: ModernSpacing.sm,
-                      vertical: ModernSpacing.xs,
-                    ),
+                    padding: ModernSpacing.paddingMD,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: _getPhaseGradient()),
-                      borderRadius: ModernSpacing.borderRadiusSmall,
+                      gradient: ModernColors.createLinearGradient(
+                        _getPhaseGradient(),
+                      ),
+                      borderRadius: ModernSpacing.borderRadiusMedium,
+                      boxShadow: ModernShadows.small,
                     ),
                     child: Text(
-                      widget.currentPhase.name,
+                      widget.currentPhase.name.toUpperCase(),
                       style: ModernTypography.caption.copyWith(
                         color: ModernColors.textOnDark,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
                       ),
                     ),
                   ),
                 ],
               ),
 
-              ModernSpacing.verticalSpaceSM,
+              ModernSpacing.verticalSpaceMD,
 
-              // Progress bar
+              // Enhanced progress bar
               Container(
-                height: 8,
+                height: 12,
                 decoration: BoxDecoration(
-                  color: ModernColors.surfaceLight,
-                  borderRadius: BorderRadius.circular(4),
+                  gradient: ModernColors.createLinearGradient([
+                    ModernColors.surfaceLight,
+                    ModernColors.surfaceMedium,
+                  ]),
+                  borderRadius: BorderRadius.circular(6),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      offset: const Offset(0, 1),
+                      blurRadius: 2,
+                    ),
+                  ],
                 ),
                 child: AnimatedBuilder(
                   animation: _progressAnimation,
@@ -299,8 +358,17 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
                       widthFactor: progress.clamp(0.0, 1.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: _getPhaseGradient()),
-                          borderRadius: BorderRadius.circular(4),
+                          gradient: ModernColors.createLinearGradient(
+                            _getPhaseGradient(),
+                          ),
+                          borderRadius: BorderRadius.circular(6),
+                          boxShadow: [
+                            BoxShadow(
+                              color: _getPhaseColor().withValues(alpha: 0.4),
+                              offset: const Offset(0, 1),
+                              blurRadius: 4,
+                            ),
+                          ],
                         ),
                       ),
                     );
@@ -308,22 +376,38 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
                 ),
               ),
 
-              ModernSpacing.verticalSpaceSM,
+              ModernSpacing.verticalSpaceMD,
 
-              // Stats row
+              // Enhanced stats row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${widget.correctAnswers}/${widget.totalQuestions} correct',
-                    style: ModernTypography.bodySmall.copyWith(
-                      color: ModernColors.textSecondary,
+                  Container(
+                    padding: ModernSpacing.paddingSM,
+                    decoration: BoxDecoration(
+                      color: ModernColors.surfaceLight,
+                      borderRadius: ModernSpacing.borderRadiusSmall,
+                    ),
+                    child: Text(
+                      '${widget.correctAnswers}/${widget.totalQuestions} correct',
+                      style: ModernTypography.bodySmall.copyWith(
+                        color: ModernColors.textSecondary,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  Text(
-                    '${widget.accuracy.toStringAsFixed(0)}% accuracy',
-                    style: ModernTypography.bodySmall.copyWith(
-                      color: ModernColors.textSecondary,
+                  Container(
+                    padding: ModernSpacing.paddingSM,
+                    decoration: BoxDecoration(
+                      color: _getPhaseColor().withValues(alpha: 0.1),
+                      borderRadius: ModernSpacing.borderRadiusSmall,
+                    ),
+                    child: Text(
+                      '${widget.accuracy.toStringAsFixed(0)}% accuracy',
+                      style: ModernTypography.bodySmall.copyWith(
+                        color: _getPhaseColor(),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
@@ -365,39 +449,70 @@ class CompactScoreDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: ModernSpacing.paddingMD,
+      padding: ModernSpacing.paddingLG,
       decoration: BoxDecoration(
-        color: _getPhaseColor().withValues(alpha: 0.1),
+        gradient: ModernColors.createLinearGradient([
+          _getPhaseColor().withValues(alpha: 0.1),
+          _getPhaseColor().withValues(alpha: 0.05),
+        ]),
         borderRadius: ModernSpacing.borderRadiusMedium,
         border: Border.all(
-          color: _getPhaseColor().withValues(alpha: 0.3),
-          width: 1,
+          color: _getPhaseColor().withValues(alpha: 0.4),
+          width: 1.5,
         ),
+        boxShadow: ModernShadows.small,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Score
-          Text(
-            '$score',
-            style: ModernTypography.headingSmall.copyWith(
-              color: _getPhaseColor(),
-              fontWeight: FontWeight.bold,
+          // Enhanced Score
+          Container(
+            padding: ModernSpacing.paddingSM,
+            decoration: BoxDecoration(
+              gradient: ModernColors.createLinearGradient([
+                _getPhaseColor(),
+                _getPhaseColor().withValues(alpha: 0.8),
+              ]),
+              borderRadius: ModernSpacing.borderRadiusSmall,
+            ),
+            child: Text(
+              '$score',
+              style: ModernTypography.headingSmall.copyWith(
+                color: ModernColors.textOnDark,
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+              ),
             ),
           ),
 
-          ModernSpacing.horizontalSpaceSM,
+          ModernSpacing.horizontalSpaceMD,
 
-          // Separator
-          Container(width: 1, height: 20, color: ModernColors.surfaceDark),
+          // Enhanced Separator
+          Container(
+            width: 2,
+            height: 24,
+            decoration: BoxDecoration(
+              gradient: ModernColors.createLinearGradient(
+                [
+                  ModernColors.surfaceDark.withValues(alpha: 0.3),
+                  ModernColors.surfaceDark.withValues(alpha: 0.1),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              borderRadius: BorderRadius.circular(1),
+            ),
+          ),
 
-          ModernSpacing.horizontalSpaceSM,
+          ModernSpacing.horizontalSpaceMD,
 
-          // Progress
+          // Enhanced Progress
           Text(
             '$correctAnswers/$totalQuestions',
             style: ModernTypography.bodyMedium.copyWith(
               color: ModernColors.textSecondary,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.2,
             ),
           ),
         ],

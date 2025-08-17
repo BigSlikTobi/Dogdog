@@ -1,5 +1,5 @@
 import 'difficulty_phase.dart';
-import 'enums.dart';
+import '../enums.dart';
 
 /// Model representing the current state of a Dog Breeds Adventure game session
 class BreedAdventureGameState {

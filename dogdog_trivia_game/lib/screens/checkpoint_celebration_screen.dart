@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/enums.dart';
 import '../widgets/animated_button.dart';
-import '../widgets/success_animation_widget.dart';
+import '../widgets/shared/success_animation_widget.dart';
 import '../design_system/modern_colors.dart';
 import '../design_system/modern_spacing.dart';
 import '../design_system/modern_typography.dart';

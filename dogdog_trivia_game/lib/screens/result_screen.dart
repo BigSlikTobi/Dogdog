@@ -7,7 +7,7 @@ import '../models/achievement.dart';
 import '../services/progress_service.dart';
 import 'game_over_screen.dart';
 import '../widgets/animated_button.dart';
-import '../widgets/success_animation_widget.dart';
+import '../widgets/shared/success_animation_widget.dart';
 import '../design_system/modern_colors.dart';
 import '../design_system/modern_spacing.dart';
 import '../utils/animations.dart';
