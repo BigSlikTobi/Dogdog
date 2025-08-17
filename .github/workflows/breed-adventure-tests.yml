@@ -174,7 +174,7 @@ jobs:
         hit_lines=$(grep "^LH:" coverage/lcov.info | awk -F: '{sum += $2} END {print sum}')
         
         if [ "$total_lines" -gt 0 ]; then
-          overall_coverage=$(echo "scale=2; $hit_lines * 100 / $total_lines" | bc -l || echo "0")
+          overall_coverage=$(echo "scale=2; $hit_lines * 100 / $total_lines" | bc -l 2>/dev/null || python3 -c "print(f'{$hit_lines * 100 / $total_lines:.2f}')" 2>/dev/null || awk "BEGIN {printf \"%.2f\", $hit_lines * 100 / $total_lines}")
           echo "📊 Overall coverage: ${overall_coverage}% ($hit_lines/$total_lines lines)"
           
           # Check if coverage meets threshold
@@ -192,7 +192,7 @@ jobs:
         fi
 
     - name: 📤 Upload coverage artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: breed-adventure-coverage
@@ -200,7 +200,7 @@ jobs:
         retention-days: 7
 
     - name: 📊 Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       if: always()
       with:
         file: ./dogdog_trivia_game/coverage/lcov.info
