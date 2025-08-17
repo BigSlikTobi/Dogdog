@@ -24,6 +24,7 @@ class BreedAdventureController extends ChangeNotifier {
   final ProgressService _progressService;
   final ErrorService _errorService;
   final GamePersistenceService _persistenceService;
+  final BreedAdventureStateManager _stateManager;
 
   // Game state
   BreedAdventureGameState _gameState = BreedAdventureGameState.initial();
@@ -60,6 +61,7 @@ class BreedAdventureController extends ChangeNotifier {
     ProgressService? progressService,
     ErrorService? errorService,
     GamePersistenceService? persistenceService,
+    BreedAdventureStateManager? stateManager,
   }) : _breedService = breedService ?? BreedService.instance,
        _timer = timer ?? BreedAdventureTimer.instance,
        _imageCacheService = imageCacheService ?? ImageCacheService.instance,
@@ -72,7 +74,8 @@ class BreedAdventureController extends ChangeNotifier {
        _audioService = audioService ?? AudioService(),
        _progressService = progressService ?? ProgressService(),
        _errorService = errorService ?? ErrorService(),
-       _persistenceService = persistenceService ?? GamePersistenceService();
+       _persistenceService = persistenceService ?? GamePersistenceService(),
+       _stateManager = stateManager ?? BreedAdventureStateManager.instance;
 
   /// Current game state
   BreedAdventureGameState get gameState => _gameState;
@@ -160,6 +163,9 @@ class BreedAdventureController extends ChangeNotifier {
       // Initialize services with retry mechanism
       await _initializeServicesWithRetry();
 
+      // Initialize state manager for reliable state preservation
+      await _stateManager.initialize();
+
       // Initialize power-ups for breed adventure
       _powerUpController.initializeForBreedAdventure();
 
@@ -168,6 +174,9 @@ class BreedAdventureController extends ChangeNotifier {
 
       // Load high score
       _highScore = await _persistenceService.getBreedAdventureHighScore();
+
+      // Try to restore previous game state if available
+      await _tryRestorePreviousState();
 
       _isInitialized = true;
       notifyListeners();
@@ -183,12 +192,21 @@ class BreedAdventureController extends ChangeNotifier {
       throw StateError('Controller not initialized. Call initialize() first.');
     }
 
+    // Clear any previous saved state since we're starting fresh
+    await _stateManager.clearSavedState();
+
     // Reset game state
     _gameState = BreedAdventureGameState.initial().copyWith(
       isGameActive: true,
       gameStartTime: DateTime.now(),
       powerUps: Map.from(_powerUpController.powerUps),
     );
+
+    // Mark game as active in state manager
+    _stateManager.setGameActive(true);
+
+    // Save initial state
+    await _stateManager.saveGameState(_gameState);
 
     // Set up timer subscription
     _timerSubscription?.cancel();
@@ -284,6 +302,10 @@ class BreedAdventureController extends ChangeNotifier {
   void pauseGame() {
     if (_isGameActive) {
       _timer.pause();
+
+      // Save current state when pausing
+      _stateManager.saveGameState(_gameState);
+
       notifyListeners();
     }
   }
@@ -323,7 +345,7 @@ class BreedAdventureController extends ChangeNotifier {
     final totalPoints =
         (baseScore * phaseMultiplier) + timeBonusPoints + streakBonusPoints;
 
-    _gameState = _gameState.copyWith(
+    final newState = _gameState.copyWith(
       score: _gameState.score + totalPoints,
       correctAnswers: _gameState.correctAnswers + 1,
       totalQuestions: _gameState.totalQuestions + 1,
@@ -331,6 +353,9 @@ class BreedAdventureController extends ChangeNotifier {
       usedBreeds: Set.from(_gameState.usedBreeds)
         ..add(_currentChallenge!.correctBreedName),
     );
+
+    // Update state with persistence and validation
+    await _updateGameStateWithPersistence(newState);
 
     // Track correct answer for power-up rewards
     _powerUpController.trackCorrectAnswer();
@@ -345,12 +370,15 @@ class BreedAdventureController extends ChangeNotifier {
 
   /// Handle incorrect answer
   Future<void> _handleIncorrectAnswer() async {
-    _gameState = _gameState.copyWith(
+    final newState = _gameState.copyWith(
       totalQuestions: _gameState.totalQuestions + 1,
       consecutiveCorrect: 0,
       usedBreeds: Set.from(_gameState.usedBreeds)
         ..add(_currentChallenge!.correctBreedName),
     );
+
+    // Update state with persistence and validation
+    await _updateGameStateWithPersistence(newState);
 
     // Integrate with existing app systems
     await _playIncorrectAnswerFeedback();
@@ -514,10 +542,13 @@ class BreedAdventureController extends ChangeNotifier {
     )) {
       final nextPhase = _gameState.currentPhase.nextPhase;
       if (nextPhase != null) {
-        _gameState = _gameState.copyWith(
+        final newState = _gameState.copyWith(
           currentPhase: nextPhase,
           usedBreeds: <String>{}, // Reset used breeds for new phase
         );
+
+        // Update state with persistence and validation
+        await _updateGameStateWithPersistence(newState);
       }
     }
   }
@@ -556,11 +587,14 @@ class BreedAdventureController extends ChangeNotifier {
   Future<bool> _useSkipPowerUp() async {
     if (_currentChallenge != null && _powerUpController.applyBreedSkip()) {
       // Mark breed as used without penalty
-      _gameState = _gameState.copyWith(
+      final newState = _gameState.copyWith(
         totalQuestions: _gameState.totalQuestions + 1,
         usedBreeds: Set.from(_gameState.usedBreeds)
           ..add(_currentChallenge!.correctBreedName),
       );
+
+      // Update state with persistence and validation
+      await _updateGameStateWithPersistence(newState);
 
       // Generate next challenge
       await Future.delayed(const Duration(milliseconds: 500));
@@ -581,12 +615,43 @@ class BreedAdventureController extends ChangeNotifier {
     _timerSubscription?.cancel();
     _timerSubscription = null;
 
+    // Calculate game duration
+    final gameDuration = _gameState.gameStartTime != null
+        ? DateTime.now().difference(_gameState.gameStartTime!).inSeconds
+        : 0;
+
+    // Calculate power-ups used during game
+    final initialPowerUps = {PowerUpType.extraTime: 2, PowerUpType.skip: 1};
+    final currentPowerUps = _powerUpController.powerUps;
+    final powerUpsUsed = initialPowerUps.entries
+        .map(
+          (entry) =>
+              (initialPowerUps[entry.key] ?? 0) -
+              (currentPowerUps[entry.key] ?? 0),
+        )
+        .fold(0, (sum, used) => sum + used);
+
+    // Update high score
     if (_gameState.score > _highScore) {
       _highScore = _gameState.score;
       await _persistenceService.saveBreedAdventureHighScore(_highScore);
     }
 
-    _gameState = _gameState.copyWith(isGameActive: false);
+    // Mark game as inactive
+    final finalState = _gameState.copyWith(isGameActive: false);
+    _gameState = finalState;
+
+    // Mark game as inactive in state manager and update statistics
+    _stateManager.setGameActive(false);
+    await _stateManager.updateGameStatistics(
+      finalState: finalState,
+      gameDuration: gameDuration,
+      powerUpsUsed: powerUpsUsed,
+    );
+
+    // Clear saved state since game is complete
+    await _stateManager.clearSavedState();
+
     notifyListeners();
   }
 
@@ -618,9 +683,12 @@ class BreedAdventureController extends ChangeNotifier {
 
   /// Update power-ups in game state
   void _updatePowerUpsInGameState() {
-    _gameState = _gameState.copyWith(
+    final newState = _gameState.copyWith(
       powerUps: Map.from(_powerUpController.powerUps),
     );
+
+    // Use async update for persistence
+    _updateGameStateWithPersistence(newState);
   }
 
   /// Check if game is active
@@ -1148,12 +1216,129 @@ class BreedAdventureController extends ChangeNotifier {
     _timer.stop();
     _timerSubscription?.cancel();
 
+    // Mark game as inactive and save final state
+    _stateManager.setGameActive(false);
+
     // Dispose performance optimization services
     _memoryManager.dispose();
     _performanceMonitor.dispose();
     _frameRateOptimizer.dispose();
     _optimizedImageCache.dispose();
 
+    // Dispose state manager
+    _stateManager.dispose();
+
     super.dispose();
+  }
+
+  /// Try to restore previous game state if available
+  Future<void> _tryRestorePreviousState() async {
+    try {
+      final savedState = await _stateManager.loadGameState();
+
+      if (savedState != null && savedState.isGameActive) {
+        // Validate the saved state
+        if (_stateManager.validateCurrentState(savedState)) {
+          // Restore the state
+          _gameState = savedState;
+
+          // Restore power-ups in the controller
+          _powerUpController.setPowerUps(savedState.powerUps);
+
+          debugPrint(
+            'Restored previous game state: score=${savedState.score}, phase=${savedState.currentPhase}',
+          );
+        } else {
+          // State is corrupted, try recovery
+          await _attemptStateRecovery();
+        }
+      }
+    } catch (e) {
+      await _errorService.recordError(
+        ErrorType.gameLogic,
+        'Failed to restore previous state: $e',
+        severity: ErrorSeverity.medium,
+        originalError: e,
+      );
+    }
+  }
+
+  /// Attempt to recover from corrupted state
+  Future<void> _attemptStateRecovery() async {
+    try {
+      final recoveryState = _stateManager.getRecoveryState();
+
+      if (recoveryState != null) {
+        _gameState = recoveryState.copyWith(
+          isGameActive: false,
+        ); // Deactivate to be safe
+        _powerUpController.setPowerUps(recoveryState.powerUps);
+
+        await _errorService.recordError(
+          ErrorType.gameLogic,
+          'Successfully recovered from corrupted state using backup',
+          severity: ErrorSeverity.low,
+        );
+
+        debugPrint('Recovered game state from backup');
+      } else {
+        // Complete reset to safe state
+        _gameState = BreedAdventureGameState.initial();
+        _powerUpController.resetForNewGame();
+
+        await _errorService.recordError(
+          ErrorType.gameLogic,
+          'Reset to initial state due to unrecoverable corruption',
+          severity: ErrorSeverity.medium,
+        );
+
+        debugPrint('Reset to initial state due to corruption');
+      }
+    } catch (e) {
+      await _errorService.recordError(
+        ErrorType.gameLogic,
+        'State recovery failed completely: $e',
+        severity: ErrorSeverity.high,
+        originalError: e,
+      );
+    }
+  }
+
+  /// Update game state with automatic persistence and validation
+  Future<void> _updateGameStateWithPersistence(
+    BreedAdventureGameState newState,
+  ) async {
+    try {
+      // Validate new state before applying
+      if (!_stateManager.validateCurrentState(newState)) {
+        await _errorService.recordError(
+          ErrorType.gameLogic,
+          'Attempted to update to invalid game state, using recovery',
+          severity: ErrorSeverity.medium,
+        );
+
+        await _attemptStateRecovery();
+        return;
+      }
+
+      // Apply the new state
+      _gameState = newState;
+
+      // Save to state manager for persistence
+      await _stateManager.saveGameState(_gameState);
+
+      // Optimize memory if needed
+      _gameState = _memoryManager.optimizeGameState(_gameState);
+    } catch (e) {
+      await _errorService.recordError(
+        ErrorType.gameLogic,
+        'Failed to update game state with persistence: $e',
+        severity: ErrorSeverity.high,
+        originalError: e,
+      );
+
+      // Try recovery as fallback
+      await _attemptStateRecovery();
+    }
   }
 }
