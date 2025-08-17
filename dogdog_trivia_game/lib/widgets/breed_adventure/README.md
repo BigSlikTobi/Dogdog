@@ -1,3 +1,22 @@
+# Breed Adventure Widgets
+
+This directory contains the reusable UI components (widgets) for the Dog Breed Adventure feature. These widgets are used to build the user interface of the game.
+
+## Key Widgets
+
+*   **`dual_image_selection.dart`**: A widget that displays two images and allows the user to select one. This is the primary interaction component for answering a challenge.
+*   **`countdown_timer_display.dart`**: A widget that displays the 10-second countdown timer. It provides visual feedback as the time runs out.
+*   **`breed_name_display.dart`**: A widget that displays the name of the breed to be identified. It uses the `BreedLocalizationService` to show the translated name.
+*   **`power_up_button_row.dart`**: A widget that displays the available power-ups as a row of buttons.
+*   **`score_progress_display.dart`**: A widget that displays the current score and progress through the difficulty phase.
+*   **`loading_error_states.dart`**: A collection of widgets for displaying loading indicators and error messages.
+
+## Architecture
+
+The widgets are designed to be as stateless as possible. They receive their data from the `BreedAdventureController` via a `Consumer` or `Selector` widget from the `provider` package. When the controller's state changes, the widgets are automatically rebuilt to reflect the new state. This ensures that the UI is always in sync with the application's state.
+
+---
+
 # Breed Adventure Widgets - Accessibility Features
 
 This document outlines the comprehensive accessibility features implemented in the Breed Adventure widgets to ensure an inclusive gaming experience for all users.

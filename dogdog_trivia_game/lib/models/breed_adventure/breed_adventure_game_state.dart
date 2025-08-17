@@ -1,20 +1,35 @@
 import 'difficulty_phase.dart';
 import '../enums.dart';
 
-/// Model representing the current state of a Dog Breeds Adventure game session
+/// Represents the state of a Dog Breeds Adventure game session.
+///
+/// This class is immutable and contains all the information needed to represent
+/// the game at any point in time.
 class BreedAdventureGameState {
+  /// The player's current score.
   final int score;
+  /// The number of questions answered correctly.
   final int correctAnswers;
+  /// The total number of questions answered so far.
   final int totalQuestions;
+  /// The current difficulty phase of the game.
   final DifficultyPhase currentPhase;
+  /// The set of breed names that have already been used in the current phase.
   final Set<String> usedBreeds;
+  /// The player's inventory of power-ups.
   final Map<PowerUpType, int> powerUps;
+  /// Whether the game is currently active.
   final bool isGameActive;
+  /// The time when the game started.
   final DateTime? gameStartTime;
+  /// The number of consecutive correct answers.
   final int consecutiveCorrect;
+  /// The remaining time on the timer for the current challenge.
   final int timeRemaining;
+  /// The hint for the current challenge, if any.
   final String? currentHint;
 
+  /// Creates a new instance of [BreedAdventureGameState].
   const BreedAdventureGameState({
     required this.score,
     required this.correctAnswers,
@@ -29,7 +44,7 @@ class BreedAdventureGameState {
     this.currentHint,
   });
 
-  /// Creates an initial game state for starting a new game
+  /// Creates an initial game state for a new game.
   factory BreedAdventureGameState.initial() {
     return BreedAdventureGameState(
       score: 0,
@@ -46,7 +61,7 @@ class BreedAdventureGameState {
     );
   }
 
-  /// Creates a copy of this state with updated values
+  /// Creates a copy of this state with the given fields updated.
   BreedAdventureGameState copyWith({
     int? score,
     int? correctAnswers,
@@ -75,29 +90,29 @@ class BreedAdventureGameState {
     );
   }
 
-  /// Returns the accuracy percentage (0-100)
+  /// The player's accuracy as a percentage (0-100).
   double get accuracy {
     if (totalQuestions == 0) return 0.0;
     return (correctAnswers / totalQuestions) * 100;
   }
 
-  /// Returns the current game duration in seconds
+  /// The duration of the current game in seconds.
   int get gameDurationSeconds {
     if (gameStartTime == null) return 0;
     return DateTime.now().difference(gameStartTime!).inSeconds;
   }
 
-  /// Returns true if the player should receive a power-up reward
+  /// Whether the player should receive a power-up reward.
   bool get shouldReceivePowerUpReward {
     return consecutiveCorrect > 0 && consecutiveCorrect % 5 == 0;
   }
 
-  /// Returns the total number of power-ups available
+  /// The total number of power-ups the player has.
   int get totalPowerUps {
     return powerUps.values.fold(0, (sum, count) => sum + count);
   }
 
-  /// Returns true if the specified power-up is available
+  /// Whether the player has the specified power-up available.
   bool hasPowerUp(PowerUpType powerUpType) {
     return (powerUps[powerUpType] ?? 0) > 0;
   }
@@ -133,7 +148,7 @@ class BreedAdventureGameState {
     timeRemaining,
   );
 
-  /// Converts this state to a JSON map for persistence
+  /// Converts this state to a JSON map for persistence.
   Map<String, dynamic> toJson() {
     return {
       'score': score,
@@ -152,7 +167,7 @@ class BreedAdventureGameState {
     };
   }
 
-  /// Creates a game state from a JSON map
+  /// Creates a game state from a JSON map.
   factory BreedAdventureGameState.fromJson(Map<String, dynamic> json) {
     return BreedAdventureGameState(
       score: json['score'] ?? 0,
@@ -171,10 +186,10 @@ class BreedAdventureGameState {
     );
   }
 
-  /// Helper method to safely deserialize power-ups map
+  /// A helper method to safely deserialize the power-ups map.
   static Map<PowerUpType, int> _deserializePowerUps(dynamic powerUpsJson) {
     if (powerUpsJson == null) {
-      return {PowerUpType.extraTime: 2, PowerUpType.skip: 1}; // Default
+      return {PowerUpType.extraTime: 2, PowerUpType.skip: 1}; // Default values.
     }
 
     final Map<PowerUpType, int> result = {};
@@ -187,7 +202,7 @@ class BreedAdventureGameState {
             result[PowerUpType.values[powerUpIndex]] = value as int? ?? 0;
           }
         } catch (e) {
-          // Skip invalid entries
+          // Skip any invalid entries.
         }
       });
     }
@@ -195,21 +210,21 @@ class BreedAdventureGameState {
     return result;
   }
 
-  /// Validates the integrity of this game state
+  /// Validates the integrity of this game state.
   bool isValid() {
-    // Check for negative values
+    // Check for negative values.
     if (score < 0 || correctAnswers < 0 || totalQuestions < 0) return false;
 
-    // Check logical consistency
+    // Check for logical consistency.
     if (correctAnswers > totalQuestions) return false;
 
-    // Check consecutive correct makes sense
+    // Check that the consecutive correct count makes sense.
     if (consecutiveCorrect < 0) return false;
 
-    // Check time remaining is reasonable
+    // Check that the time remaining is reasonable.
     if (timeRemaining < 0) return false;
 
-    // Check power-ups are valid
+    // Check that the power-ups are valid.
     for (final count in powerUps.values) {
       if (count < 0) return false;
     }
@@ -217,7 +232,7 @@ class BreedAdventureGameState {
     return true;
   }
 
-  /// Creates a safe copy with validation
+  /// Creates a safe copy with validation.
   BreedAdventureGameState copyWithValidation({
     int? score,
     int? correctAnswers,
