@@ -10,7 +10,8 @@ class GamePersistenceService {
   static const String _currentSessionKey = 'current_session';
   static const String _globalStatsKey = 'global_stats';
   static const String _settingsKey = 'game_settings';
-  static const String _breedAdventureHighScoreKey = 'breed_adventure_high_score';
+  static const String _breedAdventureHighScoreKey =
+      'breed_adventure_high_score';
 
   SharedPreferences? _prefs;
 
