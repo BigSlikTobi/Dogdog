@@ -23,18 +23,25 @@ import '../../services/audio_service.dart';
 class DualImageSelection extends StatefulWidget {
   /// The URL of the first image.
   final String imageUrl1;
+
   /// The URL of the second image.
   final String imageUrl2;
+
   /// A callback function that is called when an image is selected.
   final Function(int) onImageSelected;
+
   /// Whether the widget is enabled for user interaction.
   final bool isEnabled;
+
   /// The index of the currently selected image.
   final int? selectedIndex;
+
   /// Whether the selected answer is correct.
   final bool? isCorrect;
+
   /// Whether to show feedback on the selection.
   final bool showFeedback;
+
   /// The duration of the entry animation.
   final Duration animationDuration;
 
@@ -60,12 +67,16 @@ class _DualImageSelectionState extends State<DualImageSelection>
     with TickerProviderStateMixin {
   /// The animation controller for the entry animation.
   late AnimationController _entryController;
+
   /// The animation controller for the feedback animation.
   late AnimationController _feedbackController;
+
   /// The scale animation for the entry animation.
   late Animation<double> _scaleAnimation;
+
   /// The fade animation for the entry animation.
   late Animation<double> _fadeAnimation;
+
   /// The feedback animation for when an answer is selected.
   late Animation<double> _feedbackAnimation;
 

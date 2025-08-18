@@ -14,6 +14,7 @@ import '../../services/error_service.dart';
 /// - Handling errors related to breed data and providing fallbacks.
 class BreedService {
   static BreedService? _instance;
+
   /// The singleton instance of the [BreedService].
   static BreedService get instance => _instance ??= BreedService._();
 
@@ -25,8 +26,10 @@ class BreedService {
 
   /// A list of all the breeds loaded from the JSON file.
   List<Breed> _allBreeds = [];
+
   /// Whether the service has been initialized.
   bool _isInitialized = false;
+
   /// A random number generator.
   final Random _random = Random();
 
@@ -442,7 +445,8 @@ class BreedService {
         correctBreedName: correctBreed.name,
         correctImageUrl: correctBreed.imageUrl,
         incorrectImageUrl: incorrectBreed.imageUrl,
-        correctImageIndex: 0, // Always put the correct image on the left for simplicity.
+        correctImageIndex:
+            0, // Always put the correct image on the left for simplicity.
         phase: phase,
       );
     }

@@ -22,70 +22,97 @@ class BreedAdventureController extends ChangeNotifier {
   // Services
   /// Service for managing breed data and generating challenges.
   final BreedService _breedService;
+
   /// Timer for the 10-second challenge countdown.
   final BreedAdventureTimer _timer;
+
   /// Service for caching images.
   final ImageCacheService _imageCacheService;
+
   /// Advanced service for optimized image caching.
   final OptimizedImageCacheService _optimizedImageCache;
+
   /// Service for managing memory usage.
   final BreedAdventureMemoryManager _memoryManager;
+
   /// Service for monitoring game performance.
   final BreedAdventurePerformanceMonitor _performanceMonitor;
+
   /// Service for optimizing the frame rate.
   final FrameRateOptimizer _frameRateOptimizer;
+
   /// Controller for managing power-ups.
   final BreedAdventurePowerUpController _powerUpController;
+
   /// Service for playing audio feedback.
   final AudioService _audioService;
+
   /// Service for tracking player progress.
   final ProgressService _progressService;
+
   /// Service for recording and handling errors.
   final ErrorService _errorService;
+
   /// Service for persisting game data.
   final GamePersistenceService _persistenceService;
+
   /// Manager for saving and restoring the game state.
   final BreedAdventureStateManager _stateManager;
 
   // --- Game State ---
   /// The current state of the game.
   BreedAdventureGameState _gameState = BreedAdventureGameState.initial();
+
   /// The current challenge being displayed to the user.
   BreedChallenge? _currentChallenge;
+
   /// Subscription to the timer stream.
   StreamSubscription<int>? _timerSubscription;
+
   /// Whether the controller has been initialized.
   bool _isInitialized = false;
+
   /// The feedback state for the current answer (e.g., correct, incorrect).
   AnswerFeedback _feedbackState = AnswerFeedback.none;
+
   /// The index of the image that was selected by the user.
   int? _feedbackIndex;
+
   /// The player's high score for the breed adventure game.
   int _highScore = 0;
 
   // --- Error Handling State ---
   /// The number of consecutive failures (e.g., image load errors).
   int _consecutiveFailures = 0;
+
   /// Whether the game is currently in recovery mode.
   bool _isInRecoveryMode = false;
+
   /// The last error that occurred.
   AppError? _lastError;
+
   /// A list of URLs for images that have failed to load.
   final List<String> _failedImageUrls = [];
 
   // --- Configuration ---
   /// The base score for a correct answer.
   static const int baseScore = 100;
+
   /// The number of points awarded for each second remaining on the timer.
   static const int timeBonus = 10;
+
   /// The bonus points awarded for a streak of correct answers.
   static const int streakBonus = 50;
+
   /// The number of correct answers required to earn a power-up.
   static const int powerUpRewardThreshold = 5;
+
   /// The maximum number of lives a player has.
   static const int maxLives = 3;
+
   /// The maximum number of consecutive failures before entering recovery mode.
   static const int maxConsecutiveFailures = 3;
+
   /// The maximum number of failed image URLs to keep track of.
   static const int maxFailedUrls = 10;
 
@@ -168,33 +195,44 @@ class BreedAdventureController extends ChangeNotifier {
 
   /// Whether there is currently an error.
   bool get hasError => _lastError != null;
+
   /// The last error that occurred.
   AppError? get currentError => _lastError;
+
   /// Whether the game is in recovery mode.
   bool get isInRecoveryMode => _isInRecoveryMode;
+
   /// The number of consecutive failures.
   int get consecutiveFailures => _consecutiveFailures;
+
   /// Whether there have been any image loading errors.
   bool get hasImageErrors => _failedImageUrls.isNotEmpty;
 
   /// Whether the game is performing well.
   bool get isPerformingWell => _performanceMonitor.isPerformingWell;
+
   /// The current frames per second (FPS).
   double get currentFPS => _performanceMonitor.getPerformanceStats().currentFPS;
+
   /// The average frames per second (FPS).
   double get averageFPS => _performanceMonitor.getPerformanceStats().averageFPS;
+
   /// Whether the memory should be optimized.
   bool get shouldOptimizeMemory => _memoryManager.shouldOptimizeMemory;
+
   /// The current memory usage in megabytes.
   int get currentMemoryUsageMB =>
       _memoryManager.getMemoryStats().currentUsageMB;
 
   /// Comprehensive performance statistics.
   dynamic get performanceStats => _performanceMonitor.getPerformanceStats();
+
   /// Memory usage statistics.
   dynamic get memoryStats => _memoryManager.getMemoryStats();
+
   /// Image cache performance statistics.
   dynamic get imageCacheStats => _optimizedImageCache.getPerformanceStats();
+
   /// The number of images that have failed to load.
   int get failedImageCount => _failedImageUrls.length;
 
@@ -308,7 +346,9 @@ class BreedAdventureController extends ChangeNotifier {
         ? const Duration(
             milliseconds: 300,
           ) // Fast progression for correct answers.
-        : const Duration(milliseconds: 300); // More time to see what went wrong.
+        : const Duration(
+            milliseconds: 300,
+          ); // More time to see what went wrong.
 
     await Future.delayed(feedbackDelay);
 
@@ -1106,7 +1146,8 @@ class BreedAdventureController extends ChangeNotifier {
         correctImageUrl:
             'assets/images/schaeferhund.png', // Local asset fallback.
         incorrectImageUrl: 'assets/images/cocker.png', // Local asset fallback.
-        correctImageIndex: 0, // Always put the correct image on the left for simplicity.
+        correctImageIndex:
+            0, // Always put the correct image on the left for simplicity.
         phase: DifficultyPhase.beginner,
       );
     }

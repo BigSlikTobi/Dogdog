@@ -8,24 +8,34 @@ import '../enums.dart';
 class BreedAdventureGameState {
   /// The player's current score.
   final int score;
+
   /// The number of questions answered correctly.
   final int correctAnswers;
+
   /// The total number of questions answered so far.
   final int totalQuestions;
+
   /// The current difficulty phase of the game.
   final DifficultyPhase currentPhase;
+
   /// The set of breed names that have already been used in the current phase.
   final Set<String> usedBreeds;
+
   /// The player's inventory of power-ups.
   final Map<PowerUpType, int> powerUps;
+
   /// Whether the game is currently active.
   final bool isGameActive;
+
   /// The time when the game started.
   final DateTime? gameStartTime;
+
   /// The number of consecutive correct answers.
   final int consecutiveCorrect;
+
   /// The remaining time on the timer for the current challenge.
   final int timeRemaining;
+
   /// The hint for the current challenge, if any.
   final String? currentHint;
 
