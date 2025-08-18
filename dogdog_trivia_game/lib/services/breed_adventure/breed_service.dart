@@ -5,22 +5,35 @@ import 'package:flutter/material.dart';
 import '../../models/models.dart';
 import '../../services/error_service.dart';
 
-/// Service for managing breed data, localization, and challenge generation
+/// A service for managing breed data, localization, and challenge generation.
+///
+/// This service is responsible for:
+/// - Loading breed data from a JSON file.
+/// - Providing localized breed names.
+/// - Generating challenges for the Dog Breed Adventure game.
+/// - Handling errors related to breed data and providing fallbacks.
 class BreedService {
   static BreedService? _instance;
+
+  /// The singleton instance of the [BreedService].
   static BreedService get instance => _instance ??= BreedService._();
 
   BreedService._();
 
-  /// Factory constructor for testing purposes
+  /// A factory constructor for testing purposes.
   @visibleForTesting
   factory BreedService.forTesting() => BreedService._();
 
+  /// A list of all the breeds loaded from the JSON file.
   List<Breed> _allBreeds = [];
+
+  /// Whether the service has been initialized.
   bool _isInitialized = false;
+
+  /// A random number generator.
   final Random _random = Random();
 
-  /// Breed name translations for supported languages
+  /// A map of breed name translations for the supported languages.
   static const Map<String, Map<String, String>> _breedTranslations = {
     'German Shepherd Dog': {
       'de': 'Deutscher Schäferhund',
@@ -88,7 +101,7 @@ class BreedService {
     'Dalmatian': {'de': 'Dalmatiner', 'es': 'Dálmata', 'en': 'Dalmatian'},
   };
 
-  /// Initialize the breed service by loading breed data
+  /// Initializes the breed service by loading the breed data from the JSON file.
   Future<void> initialize() async {
     if (_isInitialized) return;
 
@@ -116,7 +129,7 @@ class BreedService {
     }
   }
 
-  /// Get all breeds filtered by difficulty phase
+  /// Gets all breeds filtered by the given difficulty phase.
   List<Breed> getBreedsByDifficultyPhase(DifficultyPhase phase) {
     _ensureInitialized();
 
@@ -125,28 +138,28 @@ class BreedService {
         .toList();
   }
 
-  /// Get the total number of breeds in a specific difficulty phase
+  /// Gets the total number of breeds in a specific difficulty phase.
   int getTotalBreedsInPhase(DifficultyPhase phase) {
     return getBreedsByDifficultyPhase(phase).length;
   }
 
-  /// Get localized breed name for the given locale
+  /// Gets the localized breed name for the given locale.
   String getLocalizedBreedName(String breedName, Locale locale) {
     final languageCode = locale.languageCode;
 
-    // Handle empty or whitespace-only strings
+    // Handle empty or whitespace-only strings.
     if (breedName.trim().isEmpty) {
       return breedName;
     }
 
-    // Try to find exact match first
+    // Try to find an exact match first.
     if (_breedTranslations.containsKey(breedName)) {
       return _breedTranslations[breedName]![languageCode] ??
           _breedTranslations[breedName]!['en'] ??
           breedName;
     }
 
-    // Try to find partial match (for breeds with variations)
+    // Try to find a partial match (for breeds with variations).
     for (final entry in _breedTranslations.entries) {
       if (breedName.toLowerCase().contains(entry.key.toLowerCase()) ||
           entry.key.toLowerCase().contains(breedName.toLowerCase())) {
@@ -154,11 +167,11 @@ class BreedService {
       }
     }
 
-    // Fallback to original name
+    // Fallback to the original name if no translation is found.
     return breedName;
   }
 
-  /// Generate a breed challenge with one correct and one incorrect image
+  /// Generates a breed challenge with one correct and one incorrect image.
   Future<BreedChallenge> generateChallenge(
     DifficultyPhase phase,
     Set<String> usedBreeds,
@@ -205,7 +218,7 @@ class BreedService {
     );
   }
 
-  /// Get available breeds for a phase excluding used ones
+  /// Gets the available breeds for a phase, excluding the ones that have already been used.
   List<Breed> getAvailableBreeds(
     DifficultyPhase phase,
     Set<String> usedBreeds,
@@ -215,12 +228,12 @@ class BreedService {
     ).where((breed) => !usedBreeds.contains(breed.name)).toList();
   }
 
-  /// Check if there are any available breeds left in the current phase
+  /// Checks if there are any available breeds left in the current phase.
   bool hasAvailableBreeds(DifficultyPhase phase, Set<String> usedBreeds) {
     return getAvailableBreeds(phase, usedBreeds).isNotEmpty;
   }
 
-  /// Get breed by name (for testing and debugging)
+  /// Gets a breed by its name (for testing and debugging).
   Breed? getBreedByName(String name) {
     _ensureInitialized();
 
@@ -231,12 +244,12 @@ class BreedService {
     }
   }
 
-  /// Get all supported language codes for breed translations
+  /// Gets all the supported language codes for breed translations.
   List<String> getSupportedLanguages() {
     return ['en', 'de', 'es'];
   }
 
-  /// Check if a breed name has translations available
+  /// Checks if a breed name has translations available.
   bool hasTranslation(String breedName) {
     if (breedName.trim().isEmpty) return false;
 
@@ -248,7 +261,7 @@ class BreedService {
         );
   }
 
-  /// Get statistics about breed distribution across difficulty phases
+  /// Gets statistics about the breed distribution across difficulty phases.
   Map<DifficultyPhase, int> getBreedDistribution() {
     _ensureInitialized();
 
@@ -258,43 +271,43 @@ class BreedService {
     };
   }
 
-  /// Reset the service (mainly for testing)
+  /// Resets the service (mainly for testing).
   void reset() {
     _allBreeds.clear();
     _isInitialized = false;
   }
 
-  /// Ensure the service is initialized before use
+  /// Ensures that the service is initialized before use.
   void _ensureInitialized() {
     if (!_isInitialized) {
       throw Exception('BreedService not initialized. Call initialize() first.');
     }
   }
 
-  /// Get all breeds (for testing and debugging)
+  /// A list of all the breeds (for testing and debugging).
   List<Breed> get allBreeds {
     _ensureInitialized();
     return List.unmodifiable(_allBreeds);
   }
 
-  /// Check if the service is initialized
+  /// Whether the service has been initialized.
   bool get isInitialized => _isInitialized;
 
   // MARK: - Error Handling and Recovery Methods
 
-  /// Get breeds for phase with fallback to other phases if needed
+  /// Gets breeds for a phase with a fallback to other phases if needed.
   List<Breed> getBreedsForPhaseWithFallback(DifficultyPhase phase) {
     try {
       _ensureInitialized();
 
-      // Try the requested phase first
+      // Try the requested phase first.
       var breeds = getBreedsByDifficultyPhase(phase);
 
       if (breeds.isNotEmpty) {
         return breeds;
       }
 
-      // Fallback to other phases in order of preference
+      // Fallback to other phases in order of preference.
       final fallbackPhases = _getFallbackPhases(phase);
 
       for (final fallbackPhase in fallbackPhases) {
@@ -304,7 +317,7 @@ class BreedService {
         }
       }
 
-      // Final fallback - return any available breeds
+      // Final fallback - return any available breeds.
       return List.from(_allBreeds);
     } catch (e, stack) {
       ErrorService().recordError(
@@ -319,7 +332,7 @@ class BreedService {
     }
   }
 
-  /// Generate challenge with error recovery
+  /// Generates a challenge with error recovery.
   Future<BreedChallenge> generateChallengeWithFallback(
     DifficultyPhase phase,
     Set<String> usedBreeds,
@@ -351,12 +364,12 @@ class BreedService {
     }
   }
 
-  /// Validate breed data integrity
+  /// Validates the integrity of the breed data.
   bool validateBreedData() {
     try {
       if (_allBreeds.isEmpty) return false;
 
-      // Check that each difficulty phase has at least 2 breeds
+      // Check that each difficulty phase has at least 2 breeds.
       for (final phase in DifficultyPhase.values) {
         final breeds = getBreedsByDifficultyPhase(phase);
         if (breeds.length < 2) {
@@ -364,7 +377,7 @@ class BreedService {
         }
       }
 
-      // Check that breed translations are available
+      // Check that the breed translations are available.
       if (_breedTranslations.isEmpty) return false;
 
       return true;
@@ -373,7 +386,7 @@ class BreedService {
     }
   }
 
-  /// Get fallback phases in order of preference
+  /// Gets the fallback phases in order of preference.
   List<DifficultyPhase> _getFallbackPhases(DifficultyPhase phase) {
     switch (phase) {
       case DifficultyPhase.beginner:
@@ -385,7 +398,7 @@ class BreedService {
     }
   }
 
-  /// Get hardcoded fallback breeds when all else fails
+  /// Gets hardcoded fallback breeds when all else fails.
   List<Breed> _getHardcodedFallbackBreeds() {
     return [
       Breed(
@@ -411,11 +424,11 @@ class BreedService {
     ];
   }
 
-  /// Create fallback challenge with local assets
+  /// Creates a fallback challenge with local assets.
   BreedChallenge _createFallbackChallenge(DifficultyPhase phase) {
     final fallbackBreeds = _getHardcodedFallbackBreeds();
 
-    // Filter by phase if possible, otherwise use any two breeds
+    // Filter by phase if possible, otherwise use any two breeds.
     var availableBreeds = fallbackBreeds
         .where((b) => _getDifficultyPhaseFromInt(b.difficulty) == phase)
         .toList();
@@ -432,12 +445,13 @@ class BreedService {
         correctBreedName: correctBreed.name,
         correctImageUrl: correctBreed.imageUrl,
         incorrectImageUrl: incorrectBreed.imageUrl,
-        correctImageIndex: 0, // Always put correct on left for simplicity
+        correctImageIndex:
+            0, // Always put the correct image on the left for simplicity.
         phase: phase,
       );
     }
 
-    // Absolute fallback
+    // Absolute fallback.
     return BreedChallenge(
       correctBreedName: 'German Shepherd',
       correctImageUrl: 'assets/images/schaeferhund.png',
@@ -447,32 +461,32 @@ class BreedService {
     );
   }
 
-  /// Convert difficulty int to phase (helper method)
+  /// Converts a difficulty integer to a [DifficultyPhase] (helper method).
   DifficultyPhase _getDifficultyPhaseFromInt(int difficulty) {
     if (difficulty <= 2) return DifficultyPhase.beginner;
     if (difficulty <= 4) return DifficultyPhase.intermediate;
     return DifficultyPhase.expert;
   }
 
-  /// Recovery from corrupted state
+  /// Recovers from a corrupted state.
   Future<void> recoverFromError() async {
     try {
-      // Reset state
+      // Reset the state.
       _allBreeds.clear();
       _breedTranslations.clear();
       _isInitialized = false;
 
-      // Attempt re-initialization
+      // Attempt to re-initialize.
       await initialize();
     } catch (e) {
-      // If re-initialization fails, set up minimal fallback state
+      // If re-initialization fails, set up a minimal fallback state.
       _allBreeds.addAll(_getHardcodedFallbackBreeds());
       _setupFallbackTranslations();
       _isInitialized = true;
     }
   }
 
-  /// Setup minimal translations for fallback breeds
+  /// Sets up minimal translations for the fallback breeds.
   void _setupFallbackTranslations() {
     _breedTranslations.addAll({
       'German Shepherd': {

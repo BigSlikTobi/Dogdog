@@ -13,17 +13,39 @@ import '../../utils/accessibility_enhancements.dart' hide AccessibilityTheme;
 import '../../l10n/generated/app_localizations.dart';
 import '../../services/audio_service.dart';
 
-/// Widget that displays two images side by side for breed selection
+/// A widget that displays two images side-by-side for the user to select from.
+///
+/// This widget is a core component of the Dog Breed Adventure game. It is responsible for:
+/// - Displaying two images from URLs.
+/// - Handling user taps on the images.
+/// - Showing feedback on whether the selection was correct or incorrect.
+/// - Providing accessibility features, such as semantic labels and focus management.
 class DualImageSelection extends StatefulWidget {
+  /// The URL of the first image.
   final String imageUrl1;
+
+  /// The URL of the second image.
   final String imageUrl2;
+
+  /// A callback function that is called when an image is selected.
   final Function(int) onImageSelected;
+
+  /// Whether the widget is enabled for user interaction.
   final bool isEnabled;
+
+  /// The index of the currently selected image.
   final int? selectedIndex;
+
+  /// Whether the selected answer is correct.
   final bool? isCorrect;
+
+  /// Whether to show feedback on the selection.
   final bool showFeedback;
+
+  /// The duration of the entry animation.
   final Duration animationDuration;
 
+  /// Creates a new instance of [DualImageSelection].
   const DualImageSelection({
     super.key,
     required this.imageUrl1,
@@ -40,12 +62,22 @@ class DualImageSelection extends StatefulWidget {
   State<DualImageSelection> createState() => _DualImageSelectionState();
 }
 
+/// The state for the [DualImageSelection] widget.
 class _DualImageSelectionState extends State<DualImageSelection>
     with TickerProviderStateMixin {
+  /// The animation controller for the entry animation.
   late AnimationController _entryController;
+
+  /// The animation controller for the feedback animation.
   late AnimationController _feedbackController;
+
+  /// The scale animation for the entry animation.
   late Animation<double> _scaleAnimation;
+
+  /// The fade animation for the entry animation.
   late Animation<double> _fadeAnimation;
+
+  /// The feedback animation for when an answer is selected.
   late Animation<double> _feedbackAnimation;
 
   @override
@@ -110,6 +142,7 @@ class _DualImageSelectionState extends State<DualImageSelection>
     super.dispose();
   }
 
+  /// Gets the border color for an image based on the selection state.
   Color _getImageBorderColor(int index) {
     if (!widget.showFeedback || widget.selectedIndex != index) {
       return ModernColors.surfaceDark;
@@ -118,6 +151,7 @@ class _DualImageSelectionState extends State<DualImageSelection>
     return widget.isCorrect == true ? ModernColors.success : ModernColors.error;
   }
 
+  /// Gets the border width for an image based on the selection state.
   double _getImageBorderWidth(int index) {
     if (!widget.showFeedback || widget.selectedIndex != index) {
       return 2.0;
@@ -125,12 +159,13 @@ class _DualImageSelectionState extends State<DualImageSelection>
     return 4.0;
   }
 
+  /// Builds the container for a single image.
   Widget _buildImageContainer(String imageUrl, int index) {
     final isSelected = widget.selectedIndex == index;
     final showFeedback = widget.showFeedback && isSelected;
     final isHighContrast = AccessibilityUtils.isHighContrastEnabled(context);
 
-    // Create semantic labels for accessibility
+    // Create semantic labels for accessibility.
     final imageLabel = AppLocalizations.of(
       context,
     ).breedAdventure_imageOption(index + 1);
@@ -189,6 +224,7 @@ class _DualImageSelectionState extends State<DualImageSelection>
     );
   }
 
+  /// Builds an accessible image container with focus management and semantics.
   Widget _buildAccessibleImageContainer(
     String imageUrl,
     int index,
@@ -305,6 +341,7 @@ class _DualImageSelectionState extends State<DualImageSelection>
     );
   }
 
+  /// Builds the feedback overlay that is shown when an answer is selected.
   Widget _buildFeedbackOverlay(bool isHighContrast) {
     return Container(
       decoration: BoxDecoration(
@@ -375,6 +412,7 @@ class _DualImageSelectionState extends State<DualImageSelection>
     );
   }
 
+  /// Builds the overlay that is shown when the widget is disabled.
   Widget _buildDisabledOverlay(bool isHighContrast) {
     return Container(
       decoration: BoxDecoration(
@@ -394,6 +432,7 @@ class _DualImageSelectionState extends State<DualImageSelection>
     );
   }
 
+  /// Builds the tap indicator that is shown on the images.
   Widget _buildTapIndicator(int index, bool isHighContrast) {
     return Positioned(
       bottom: ModernSpacing.md,
@@ -425,6 +464,7 @@ class _DualImageSelectionState extends State<DualImageSelection>
     );
   }
 
+  /// Gets the accessible border color for an image.
   Color _getAccessibleBorderColor(int index, bool isHighContrast) {
     if (isHighContrast) {
       if (!widget.showFeedback || widget.selectedIndex != index) {
@@ -435,6 +475,7 @@ class _DualImageSelectionState extends State<DualImageSelection>
     return _getImageBorderColor(index);
   }
 
+  /// Gets the accessible border width for an image.
   double _getAccessibleBorderWidth(int index, bool isHighContrast) {
     if (isHighContrast) {
       return widget.showFeedback && widget.selectedIndex == index ? 4.0 : 3.0;
@@ -442,11 +483,12 @@ class _DualImageSelectionState extends State<DualImageSelection>
     return _getImageBorderWidth(index);
   }
 
+  /// Handles the selection of an image, including haptic and audio feedback.
   void _handleImageSelection(int index) async {
-    // Provide haptic feedback
+    // Provide haptic feedback for the interaction.
     AccessibilityEnhancements.provideHapticFeedback(GameHapticType.button);
 
-    // Get localized strings before async operations
+    // Get the localized strings before any async operations.
     final imageLabel = AppLocalizations.of(
       context,
     ).breedAdventure_imageOption(index + 1);
@@ -467,15 +509,15 @@ class _DualImageSelectionState extends State<DualImageSelection>
     widget.onImageSelected(index);
   }
 
-  /// Extract breed name from Supabase URL for fallback purposes
+  /// Extracts the breed name from a Supabase URL for fallback purposes.
   String? _extractBreedNameFromUrl(String url) {
     try {
-      // Extract breed name from Supabase URLs like:
+      // Extract the breed name from Supabase URLs like:
       // https://...../labrador-retriever_1_1024x1024_20250809T120349Z.png
       final uri = Uri.parse(url);
       final filename = uri.pathSegments.last;
 
-      // Remove file extension and timestamp
+      // Remove the file extension and timestamp.
       final nameWithoutExtension = filename.split('.').first;
       final parts = nameWithoutExtension.split('_');
 
@@ -537,7 +579,9 @@ class _DualImageSelectionState extends State<DualImageSelection>
 }
 
 /// A loading state for the dual image selection with elegant animations
+/// A loading state for the [DualImageSelection] widget with elegant animations.
 class DualImageSelectionLoading extends StatelessWidget {
+  /// Creates a new instance of [DualImageSelectionLoading].
   const DualImageSelectionLoading({super.key});
 
   @override

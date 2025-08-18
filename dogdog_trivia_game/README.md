@@ -220,6 +220,20 @@ lib/
 - **Data integrity validation** and backup systems
 - **Performance optimization** with efficient caching
 
+## Documentation
+
+This project includes comprehensive documentation to help developers understand the architecture, debug issues, and extend the features of the game.
+
+### Dog Breed Adventure
+
+The Dog Breed Adventure feature has its own set of detailed documentation:
+
+*   **[Architecture and Data Flow](./documentation/breed_adventure_architecture.md)**: An in-depth explanation of the feature's architecture, including the roles of the controllers, services, models, and widgets, as well as a diagram of the data flow.
+*   **[Debugging and Troubleshooting Guide](./documentation/breed_adventure_debugging_guide.md)**: A guide to help you debug common issues, from data loading problems to performance bottlenecks.
+*   **[Extension Guide](./documentation/breed_adventure_extension_guide.md)**: Instructions on how to extend the feature, such as adding new breeds, difficulty phases, or power-ups.
+
+You can also find `README.md` files in each of the `breed_adventure` directories that provide an overview of the code in that directory.
+
 ### Game Flow
 
 #### Traditional Quiz Mode

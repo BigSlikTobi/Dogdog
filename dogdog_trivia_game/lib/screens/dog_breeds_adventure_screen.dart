@@ -17,8 +17,15 @@ import '../design_system/modern_typography.dart';
 import '../design_system/modern_spacing.dart';
 import '../design_system/modern_shadows.dart';
 
-/// Main screen for the Dog Breeds Adventure game
+/// The main screen for the Dog Breeds Adventure game.
+///
+/// This screen is responsible for:
+/// - Initializing the [BreedAdventureController].
+/// - Building the UI for the game, including the timer, power-ups, image selection, and score display.
+/// - Handling user interactions, such as tapping on an image or using a power-up.
+/// - Managing animations for screen transitions and feedback.
 class DogBreedsAdventureScreen extends StatefulWidget {
+  /// Creates a new instance of [DogBreedsAdventureScreen].
   const DogBreedsAdventureScreen({super.key});
 
   @override
@@ -26,15 +33,28 @@ class DogBreedsAdventureScreen extends StatefulWidget {
       _DogBreedsAdventureScreenState();
 }
 
+/// The state for the [DogBreedsAdventureScreen].
 class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     with TickerProviderStateMixin {
+  /// The controller for the breed adventure game.
   late BreedAdventureController _controller;
+
+  /// The animation controller for the screen transitions.
   late AnimationController _screenController;
+
+  /// The animation controller for the power-up feedback.
   late AnimationController _feedbackController;
+
+  /// The fade animation for the screen content.
   late Animation<double> _fadeAnimation;
+
+  /// The slide animation for the screen content.
   late Animation<Offset> _slideAnimation;
 
+  /// Whether the game has been initialized.
   bool _isInitialized = false;
+
+  /// The type of power-up feedback currently being displayed.
   PowerUpType? _activePowerUpFeedback;
 
   @override
@@ -67,6 +87,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     _initializeGame();
   }
 
+  /// Initializes the game by setting up the controller and starting the game.
   Future<void> _initializeGame() async {
     try {
       await _controller.initialize();
@@ -81,7 +102,6 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
       }
     } catch (e) {
       debugPrint('Failed to initialize game: $e');
-      // Handle initialization error
     }
   }
 
@@ -93,6 +113,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     super.dispose();
   }
 
+  /// Handles the user's selection of an image.
   void _handleImageSelection(int imageIndex) {
     if (_controller.isGameActive &&
         _controller.feedbackState == AnswerFeedback.none) {
@@ -100,6 +121,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     }
   }
 
+  /// Handles the user's usage of a power-up.
   Future<void> _handlePowerUpUsage(PowerUpType powerUpType) async {
     final success = await _controller.usePowerUp(powerUpType);
 
@@ -118,11 +140,12 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
         });
       });
 
-      // Play power-up sound
+      // Play a sound to give feedback to the user.
       AudioService().playPowerUpSound();
     }
   }
 
+  /// Builds a power-up button for the header.
   Widget _buildHeaderPowerUpButton(PowerUpType powerUpType) {
     final count = _controller.powerUpInventory[powerUpType] ?? 0;
     final canUse =
@@ -255,13 +278,14 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     }
   }
 
+  /// Handles the end of the game by navigating to the game over screen.
   void _handleGameOver() async {
     final stats = _controller.getGameStatistics();
 
-    // Record game completion using controller integration
+    // Record the completion of the game using the controller integration.
     await _controller.recordGameCompletion();
 
-    // Navigate to game over screen
+    // Navigate to the game over screen.
     if (mounted) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -271,6 +295,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     }
   }
 
+  /// Handles pausing the game.
   void _handlePauseGame() {
     _controller.pauseGame();
     _showPauseDialog();
@@ -316,6 +341,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     );
   }
 
+  /// Builds the main content of the game screen.
   Widget _buildGameContent() {
     final challenge = _controller.currentChallenge;
 
@@ -349,7 +375,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                 },
               ),
 
-              // Power-ups (only extra time and skip)
+              // Power-ups (only extra time and skip are shown in the header).
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -359,7 +385,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                 ],
               ),
 
-              // Pause button
+              // Pause button.
               IconButton(
                 onPressed: _handlePauseGame,
                 icon: Icon(
@@ -515,7 +541,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
         child: SafeArea(
           child: Stack(
             children: [
-              // Main game content
+              // Main game content.
               if (_isInitialized)
                 AnimatedBuilder(
                   animation: _screenController,
@@ -527,10 +553,10 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                         child: ListenableBuilder(
                           listenable: _controller,
                           builder: (context, child) {
-                            // Check if game has ended
+                            // Check if the game has ended.
                             if (!_controller.isGameActive &&
                                 _controller.livesRemaining <= 0) {
-                              // Schedule game over handling after this build cycle
+                              // Schedule the game over handling after this build cycle.
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 _handleGameOver();
                               });
@@ -551,7 +577,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                   ),
                 ),
 
-              // Power-up feedback overlay
+              // Power-up feedback overlay.
               if (_activePowerUpFeedback != null)
                 Positioned.fill(
                   child: Container(
@@ -571,7 +597,7 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                   ),
                 ),
 
-              // Game over check handled in controller callbacks
+              // The game over check is handled in the controller callbacks.
             ],
           ),
         ),
@@ -580,10 +606,12 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
   }
 }
 
-/// Game over screen for breed adventure
+/// A screen that displays the game over statistics for the breed adventure game.
 class _GameOverScreen extends StatelessWidget {
+  /// The statistics for the completed game.
   final GameStatistics statistics;
 
+  /// Creates a new instance of [_GameOverScreen].
   const _GameOverScreen({required this.statistics});
 
   @override
@@ -858,12 +886,18 @@ class _GameOverScreen extends StatelessWidget {
   }
 }
 
-/// Widget for displaying individual statistics
+/// A widget for displaying an individual statistic on the game over screen.
 class _StatItem extends StatelessWidget {
+  /// The label for the statistic.
   final String label;
+
+  /// The value of the statistic.
   final String value;
+
+  /// The color of the value text.
   final Color color;
 
+  /// Creates a new instance of [_StatItem].
   const _StatItem({
     required this.label,
     required this.value,
