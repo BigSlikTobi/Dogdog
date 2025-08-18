@@ -38,17 +38,22 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
     with TickerProviderStateMixin {
   /// The controller for the breed adventure game.
   late BreedAdventureController _controller;
+
   /// The animation controller for the screen transitions.
   late AnimationController _screenController;
+
   /// The animation controller for the power-up feedback.
   late AnimationController _feedbackController;
+
   /// The fade animation for the screen content.
   late Animation<double> _fadeAnimation;
+
   /// The slide animation for the screen content.
   late Animation<Offset> _slideAnimation;
 
   /// Whether the game has been initialized.
   bool _isInitialized = false;
+
   /// The type of power-up feedback currently being displayed.
   PowerUpType? _activePowerUpFeedback;
 
@@ -97,7 +102,6 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
       }
     } catch (e) {
       debugPrint('Failed to initialize game: $e');
-      // TODO: Handle initialization error more gracefully (e.g., show an error message).
     }
   }
 
@@ -886,8 +890,10 @@ class _GameOverScreen extends StatelessWidget {
 class _StatItem extends StatelessWidget {
   /// The label for the statistic.
   final String label;
+
   /// The value of the statistic.
   final String value;
+
   /// The color of the value text.
   final Color color;
 
