@@ -152,15 +152,18 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
     }
   }
 
-  Widget _buildLivesIndicator() {
+  Widget _buildLivesIndicator({bool isCompact = false}) {
+    final double spacing = isCompact ? ModernSpacing.xs : ModernSpacing.sm;
+    final double iconSize = isCompact ? 14 : 18;
+    final double paddingValue = isCompact ? 3 : 4;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(3, (index) {
         final isActive = index < widget.livesRemaining;
         return Padding(
-          padding: EdgeInsets.only(right: ModernSpacing.sm),
+          padding: EdgeInsets.only(right: index == 2 ? 0 : spacing),
           child: Container(
-            padding: const EdgeInsets.all(4),
+            padding: EdgeInsets.all(paddingValue),
             decoration: BoxDecoration(
               color: isActive
                   ? ModernColors.error.withValues(alpha: 0.1)
@@ -176,7 +179,7 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
             child: Icon(
               isActive ? Icons.favorite : Icons.favorite_border,
               color: isActive ? ModernColors.error : ModernColors.textLight,
-              size: 18,
+              size: iconSize,
             ),
           ),
         );
@@ -186,9 +189,178 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final bool isCompact = screenWidth < 360;
+
+    final EdgeInsetsGeometry containerMargin = EdgeInsets.symmetric(
+      horizontal: isCompact ? ModernSpacing.md : ModernSpacing.lg,
+    );
+    final EdgeInsetsGeometry containerPadding = EdgeInsets.all(
+      isCompact ? ModernSpacing.lg : ModernSpacing.xl,
+    );
+    final TextStyle labelStyle = ModernTypography.label.copyWith(
+      color: ModernColors.textSecondary,
+      fontWeight: FontWeight.w600,
+      letterSpacing: isCompact ? 0.3 : 0.5,
+      fontSize: isCompact ? 12 : ModernTypography.label.fontSize,
+    );
+    final TextStyle scoreTextStyle =
+        (isCompact
+                ? ModernTypography.headingMedium
+                : ModernTypography.displayMedium)
+            .copyWith(
+              color: ModernColors.textOnDark,
+              fontWeight: FontWeight.bold,
+              letterSpacing: isCompact ? -0.4 : -1,
+              shadows: [
+                Shadow(
+                  color: Colors.black.withValues(alpha: 0.25),
+                  offset: const Offset(0, 1),
+                  blurRadius: 2,
+                ),
+              ],
+            );
+    final EdgeInsets scorePadding = EdgeInsets.symmetric(
+      horizontal: isCompact ? ModernSpacing.md : ModernSpacing.lg,
+      vertical: isCompact ? ModernSpacing.sm : ModernSpacing.md,
+    );
+    final double primaryGap = isCompact ? ModernSpacing.lg : ModernSpacing.xl;
+    final double secondaryGap = isCompact ? ModernSpacing.md : ModernSpacing.lg;
+    final double progressBarHeight = isCompact ? 8 : 12;
+
+    Widget buildScoreSection() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Score', style: labelStyle),
+          SizedBox(height: isCompact ? ModernSpacing.xs : ModernSpacing.sm),
+          AnimatedBuilder(
+            animation: _scoreAnimation,
+            builder: (context, child) {
+              return Container(
+                padding: scorePadding,
+                decoration: BoxDecoration(
+                  gradient: ModernColors.createLinearGradient(
+                    _getPhaseGradient(),
+                  ),
+                  borderRadius: ModernSpacing.borderRadiusMedium,
+                  boxShadow: ModernShadows.glow(
+                    _getPhaseColor(),
+                    opacity: 0.2,
+                    blur: isCompact ? 6 : 8,
+                  ),
+                ),
+                child: Text(
+                  widget.showAnimations
+                      ? '${_scoreAnimation.value}'
+                      : '${widget.score}',
+                  style: scoreTextStyle,
+                ),
+              );
+            },
+          ),
+        ],
+      );
+    }
+
+    Widget buildLivesSection() {
+      return Column(
+        crossAxisAlignment: isCompact
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.end,
+        children: [
+          Text('Lives', style: labelStyle),
+          SizedBox(height: isCompact ? ModernSpacing.xs : ModernSpacing.sm),
+          _buildLivesIndicator(isCompact: isCompact),
+        ],
+      );
+    }
+
+    Widget buildProgressHeader() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('Progress', style: labelStyle),
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: isCompact ? ModernSpacing.md : ModernSpacing.lg,
+              vertical: isCompact ? ModernSpacing.xs : ModernSpacing.sm,
+            ),
+            decoration: BoxDecoration(
+              gradient: ModernColors.createLinearGradient(_getPhaseGradient()),
+              borderRadius: ModernSpacing.borderRadiusMedium,
+              boxShadow: ModernShadows.small,
+            ),
+            child: Text(
+              widget.currentPhase.name.toUpperCase(),
+              style: ModernTypography.caption.copyWith(
+                color: ModernColors.textOnDark,
+                fontWeight: FontWeight.bold,
+                letterSpacing: isCompact ? 0.8 : 1,
+                fontSize: isCompact ? 10 : ModernTypography.caption.fontSize,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    Widget buildProgressStats() {
+      final Widget totalCorrect = Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: isCompact ? ModernSpacing.sm : ModernSpacing.md,
+          vertical: isCompact ? ModernSpacing.xs : ModernSpacing.sm,
+        ),
+        decoration: BoxDecoration(
+          color: ModernColors.surfaceLight,
+          borderRadius: ModernSpacing.borderRadiusSmall,
+        ),
+        child: Text(
+          '${widget.correctAnswers}/${widget.totalQuestions} correct',
+          style: ModernTypography.bodySmall.copyWith(
+            color: ModernColors.textSecondary,
+            fontWeight: FontWeight.w600,
+            fontSize: isCompact ? 12 : ModernTypography.bodySmall.fontSize,
+          ),
+        ),
+      );
+
+      final Widget accuracy = Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: isCompact ? ModernSpacing.sm : ModernSpacing.md,
+          vertical: isCompact ? ModernSpacing.xs : ModernSpacing.sm,
+        ),
+        decoration: BoxDecoration(
+          color: _getPhaseColor().withValues(alpha: 0.1),
+          borderRadius: ModernSpacing.borderRadiusSmall,
+        ),
+        child: Text(
+          '${widget.accuracy.toStringAsFixed(0)}% accuracy',
+          style: ModernTypography.bodySmall.copyWith(
+            color: _getPhaseColor(),
+            fontWeight: FontWeight.bold,
+            fontSize: isCompact ? 12 : ModernTypography.bodySmall.fontSize,
+          ),
+        ),
+      );
+
+      if (isCompact) {
+        return Wrap(
+          spacing: ModernSpacing.sm,
+          runSpacing: ModernSpacing.sm,
+          children: [totalCorrect, accuracy],
+        );
+      }
+
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [totalCorrect, accuracy],
+      );
+    }
+
     return Container(
-      margin: ModernSpacing.paddingHorizontalLG,
-      padding: ModernSpacing.paddingXL,
+      margin: containerMargin,
+      padding: containerPadding,
       decoration: BoxDecoration(
         gradient: ModernColors.createLinearGradient(
           [
@@ -206,136 +378,42 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
         ),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Enhanced top row: Score and Lives
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Enhanced Score section
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Score',
-                      style: ModernTypography.label.copyWith(
-                        color: ModernColors.textSecondary,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    ModernSpacing.verticalSpaceXS,
-                    AnimatedBuilder(
-                      animation: _scoreAnimation,
-                      builder: (context, child) {
-                        return Container(
-                          padding: ModernSpacing.paddingSM,
-                          decoration: BoxDecoration(
-                            gradient: ModernColors.createLinearGradient(
-                              _getPhaseGradient(),
-                            ),
-                            borderRadius: ModernSpacing.borderRadiusMedium,
-                            boxShadow: ModernShadows.glow(
-                              _getPhaseColor(),
-                              opacity: 0.2,
-                              blur: 8,
-                            ),
-                          ),
-                          child: Text(
-                            widget.showAnimations
-                                ? '${_scoreAnimation.value}'
-                                : '${widget.score}',
-                            style: ModernTypography.displayMedium.copyWith(
-                              color: ModernColors.textOnDark,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: -1,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withValues(alpha: 0.3),
-                                  offset: const Offset(0, 1),
-                                  blurRadius: 2,
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
+          if (isCompact)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildScoreSection(),
+                SizedBox(height: secondaryGap),
+                buildLivesSection(),
+              ],
+            )
+          else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: buildScoreSection()),
+                SizedBox(width: ModernSpacing.lg),
+                buildLivesSection(),
+              ],
+            ),
 
-              ModernSpacing.horizontalSpaceLG,
+          SizedBox(height: primaryGap),
 
-              // Enhanced Lives section
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'Lives',
-                    style: ModernTypography.label.copyWith(
-                      color: ModernColors.textSecondary,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  ModernSpacing.verticalSpaceSM,
-                  _buildLivesIndicator(),
-                ],
-              ),
-            ],
-          ),
-
-          ModernSpacing.verticalSpaceXL,
-
-          // Enhanced Progress section
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Enhanced progress label and phase
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Progress',
-                    style: ModernTypography.label.copyWith(
-                      color: ModernColors.textSecondary,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  Container(
-                    padding: ModernSpacing.paddingMD,
-                    decoration: BoxDecoration(
-                      gradient: ModernColors.createLinearGradient(
-                        _getPhaseGradient(),
-                      ),
-                      borderRadius: ModernSpacing.borderRadiusMedium,
-                      boxShadow: ModernShadows.small,
-                    ),
-                    child: Text(
-                      widget.currentPhase.name.toUpperCase(),
-                      style: ModernTypography.caption.copyWith(
-                        color: ModernColors.textOnDark,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              ModernSpacing.verticalSpaceMD,
-
-              // Enhanced progress bar
+              buildProgressHeader(),
+              SizedBox(height: ModernSpacing.md),
               Container(
-                height: 12,
+                height: progressBarHeight,
                 decoration: BoxDecoration(
                   gradient: ModernColors.createLinearGradient([
                     ModernColors.surfaceLight,
                     ModernColors.surfaceMedium,
                   ]),
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: BorderRadius.circular(progressBarHeight / 2),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.05),
@@ -361,10 +439,12 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
                           gradient: ModernColors.createLinearGradient(
                             _getPhaseGradient(),
                           ),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(
+                            progressBarHeight / 2,
+                          ),
                           boxShadow: [
                             BoxShadow(
-                              color: _getPhaseColor().withValues(alpha: 0.4),
+                              color: _getPhaseColor().withValues(alpha: 0.35),
                               offset: const Offset(0, 1),
                               blurRadius: 4,
                             ),
@@ -375,43 +455,8 @@ class _ScoreProgressDisplayState extends State<ScoreProgressDisplay>
                   },
                 ),
               ),
-
-              ModernSpacing.verticalSpaceMD,
-
-              // Enhanced stats row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: ModernSpacing.paddingSM,
-                    decoration: BoxDecoration(
-                      color: ModernColors.surfaceLight,
-                      borderRadius: ModernSpacing.borderRadiusSmall,
-                    ),
-                    child: Text(
-                      '${widget.correctAnswers}/${widget.totalQuestions} correct',
-                      style: ModernTypography.bodySmall.copyWith(
-                        color: ModernColors.textSecondary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: ModernSpacing.paddingSM,
-                    decoration: BoxDecoration(
-                      color: _getPhaseColor().withValues(alpha: 0.1),
-                      borderRadius: ModernSpacing.borderRadiusSmall,
-                    ),
-                    child: Text(
-                      '${widget.accuracy.toStringAsFixed(0)}% accuracy',
-                      style: ModernTypography.bodySmall.copyWith(
-                        color: _getPhaseColor(),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              SizedBox(height: ModernSpacing.md),
+              buildProgressStats(),
             ],
           ),
         ],

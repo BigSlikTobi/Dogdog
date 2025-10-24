@@ -542,6 +542,9 @@ class _DualImageSelectionState extends State<DualImageSelection>
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final bool stackVertically = screenWidth < 360;
+
     return AccessibilityTheme(
       child: Semantics(
         label: AppLocalizations.of(context).breedAdventure_imageSelectionArea,
@@ -551,27 +554,41 @@ class _DualImageSelectionState extends State<DualImageSelection>
         child: Padding(
           padding: ModernSpacing
               .paddingHorizontalMD, // Reduced from LG to MD for bigger images
-          child: Row(
-            children: [
-              // First image with semantic ordering
-              Expanded(
-                child: Semantics(
-                  sortKey: const OrdinalSortKey(1),
-                  child: _buildImageContainer(widget.imageUrl1, 0),
-                ),
-              ),
+          child: stackVertically
+              ? Column(
+                  children: [
+                    Semantics(
+                      sortKey: const OrdinalSortKey(1),
+                      child: _buildImageContainer(widget.imageUrl1, 0),
+                    ),
+                    SizedBox(height: ModernSpacing.md),
+                    Semantics(
+                      sortKey: const OrdinalSortKey(2),
+                      child: _buildImageContainer(widget.imageUrl2, 1),
+                    ),
+                  ],
+                )
+              : Row(
+                  children: [
+                    // First image with semantic ordering
+                    Expanded(
+                      child: Semantics(
+                        sortKey: const OrdinalSortKey(1),
+                        child: _buildImageContainer(widget.imageUrl1, 0),
+                      ),
+                    ),
 
-              ModernSpacing
-                  .horizontalSpaceMD, // Reduced from XL to MD for bigger images
-              // Second image with semantic ordering
-              Expanded(
-                child: Semantics(
-                  sortKey: const OrdinalSortKey(2),
-                  child: _buildImageContainer(widget.imageUrl2, 1),
+                    ModernSpacing
+                        .horizontalSpaceMD, // Reduced from XL to MD for bigger images
+                    // Second image with semantic ordering
+                    Expanded(
+                      child: Semantics(
+                        sortKey: const OrdinalSortKey(2),
+                        child: _buildImageContainer(widget.imageUrl2, 1),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );

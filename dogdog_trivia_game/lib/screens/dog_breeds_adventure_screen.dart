@@ -353,60 +353,20 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
       );
     }
 
-    return Column(
-      children: [
-        // Top section: Timer, power-ups, and pause button
-        Padding(
-          padding: ModernSpacing.paddingHorizontalLG,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Timer
-              CountdownTimerDisplay(
-                remainingSeconds: _controller.timeRemaining,
-                totalSeconds: 10,
-                isActive: _controller.isTimerRunning,
-                onTimeExpired: () async {
-                  await _controller.handleTimeExpired();
-                  if (!mounted) return;
-                  if (_controller.livesRemaining <= 0) {
-                    _handleGameOver();
-                  }
-                },
-              ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool needsScroll = constraints.maxHeight < 720;
+        final double imageHeight = constraints.maxHeight * 0.42;
+        final double clampedImageHeight = imageHeight
+            .clamp(260.0, 420.0)
+            .toDouble();
 
-              // Power-ups (only extra time and skip are shown in the header).
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildHeaderPowerUpButton(PowerUpType.extraTime),
-                  ModernSpacing.horizontalSpaceSM,
-                  _buildHeaderPowerUpButton(PowerUpType.skip),
-                ],
-              ),
-
-              // Pause button.
-              IconButton(
-                onPressed: _handlePauseGame,
-                icon: Icon(
-                  Icons.pause_rounded,
-                  color: ModernColors.textSecondary,
-                  size: 28,
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        ModernSpacing.verticalSpaceLG,
-
-        // Image selection - made more prominent and larger with frame
-        Expanded(
-          flex: 4, // Increased from 3 to 4 to give more space to images
-          child: Container(
-            margin: ModernSpacing.paddingHorizontalLG,
-            padding: ModernSpacing
-                .paddingMD, // Reduced padding to give more space to images
+        Widget buildImageArena() {
+          return Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: needsScroll ? ModernSpacing.md : ModernSpacing.lg,
+            ),
+            padding: const EdgeInsets.all(ModernSpacing.md),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -437,8 +397,8 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
               ),
             ),
             child: Column(
+              // Column used to keep title and gallery vertically aligned
               children: [
-                // Game arena title
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -463,10 +423,9 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                     ),
                   ),
                 ),
-
-                ModernSpacing.verticalSpaceLG,
-
-                // Images container
+                SizedBox(
+                  height: needsScroll ? ModernSpacing.md : ModernSpacing.lg,
+                ),
                 Expanded(
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
@@ -498,31 +457,96 @@ class _DogBreedsAdventureScreenState extends State<DogBreedsAdventureScreen>
                 ),
               ],
             ),
+          );
+        }
+
+        Widget buildContent({required bool useFlexible}) {
+          return Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: needsScroll ? ModernSpacing.md : ModernSpacing.lg,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CountdownTimerDisplay(
+                      remainingSeconds: _controller.timeRemaining,
+                      totalSeconds: 10,
+                      isActive: _controller.isTimerRunning,
+                      onTimeExpired: () async {
+                        await _controller.handleTimeExpired();
+                        if (!mounted) return;
+                        if (_controller.livesRemaining <= 0) {
+                          _handleGameOver();
+                        }
+                      },
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _buildHeaderPowerUpButton(PowerUpType.extraTime),
+                        ModernSpacing.horizontalSpaceSM,
+                        _buildHeaderPowerUpButton(PowerUpType.skip),
+                      ],
+                    ),
+                    IconButton(
+                      onPressed: _handlePauseGame,
+                      icon: Icon(
+                        Icons.pause_rounded,
+                        color: ModernColors.textSecondary,
+                        size: 28,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: needsScroll ? ModernSpacing.md : ModernSpacing.lg,
+              ),
+              if (useFlexible)
+                Expanded(child: buildImageArena())
+              else
+                SizedBox(height: clampedImageHeight, child: buildImageArena()),
+              SizedBox(height: ModernSpacing.sm),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: needsScroll ? ModernSpacing.md : ModernSpacing.lg,
+                ),
+                child: CompactBreedNameDisplay(
+                  breedName: challenge.correctBreedName,
+                ),
+              ),
+              SizedBox(
+                height: needsScroll ? ModernSpacing.md : ModernSpacing.lg,
+              ),
+              ScoreProgressDisplay(
+                score: _controller.currentScore,
+                correctAnswers: _controller.correctAnswers,
+                totalQuestions: _controller.gameState.totalQuestions,
+                currentPhase: _controller.currentPhase,
+                livesRemaining: _controller.livesRemaining,
+                accuracy: _controller.accuracy,
+              ),
+              SizedBox(
+                height: needsScroll ? ModernSpacing.md : ModernSpacing.lg,
+              ),
+            ],
+          );
+        }
+
+        if (!needsScroll) {
+          return buildContent(useFlexible: true);
+        }
+
+        return SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: ModernSpacing.lg),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: buildContent(useFlexible: false),
           ),
-        ),
-
-        ModernSpacing
-            .verticalSpaceSM, // Reduced from MD to SM to bring breed name closer to images
-        // Compact breed name display - smaller and simpler
-        Padding(
-          padding: ModernSpacing.paddingHorizontalLG,
-          child: CompactBreedNameDisplay(breedName: challenge.correctBreedName),
-        ),
-
-        ModernSpacing.verticalSpaceLG,
-
-        // Score and progress
-        ScoreProgressDisplay(
-          score: _controller.currentScore,
-          correctAnswers: _controller.correctAnswers,
-          totalQuestions: _controller.gameState.totalQuestions,
-          currentPhase: _controller.currentPhase,
-          livesRemaining: _controller.livesRemaining,
-          accuracy: _controller.accuracy,
-        ),
-
-        ModernSpacing.verticalSpaceLG,
-      ],
+        );
+      },
     );
   }
 

@@ -22,8 +22,8 @@ class ImagePreloader {
     // List of most common breed images that should be cached
     final criticalImageUrls = [
       'https://sluyywhdnyuabvgibbou.supabase.co/storage/v1/object/public/puppies/labrador-retriever_1_1024x1024_20250809T120349Z.png',
-      'https://sluyywhdnyuabvgibbou.supabase.co/storage/v1/object/public/puppies/golden-retriever_1_1024x1024_20250809T111315Z.png',
-      'https://sluyywhdnyuabvgibbou.supabase.co/storage/v1/object/public/puppies/german-shepherd_1_1024x1024_20250809T111315Z.png',
+      'https://sluyywhdnyuabvgibbou.supabase.co/storage/v1/object/public/puppies/golden-retriever_1_1024x1024_20250809T120349Z.png',
+      'https://sluyywhdnyuabvgibbou.supabase.co/storage/v1/object/public/puppies/german-shepherd-dog_1_1024x1024_20250809T120349Z.png',
       'https://sluyywhdnyuabvgibbou.supabase.co/storage/v1/object/public/puppies/chihuahua_1_1024x1024_20250809T111315Z.png',
       'https://sluyywhdnyuabvgibbou.supabase.co/storage/v1/object/public/puppies/bulldog_1_1024x1024_20250809T111315Z.png',
     ];
