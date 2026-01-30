@@ -17,19 +17,19 @@ class AudioService {
   double _volume = 1.0;
 
   /// Audio file paths
-  static const String _correctAnswerSound = 'assets/audio/happy_bark.mp3';
-  static const String _incorrectAnswerSound = 'assets/audio/sad_whimper.mp3';
-  static const String _buttonClickSound = 'assets/audio/playful_bark.mp3';
-  static const String _powerUpSound = 'assets/audio/power_up.mp3';
-  static const String _achievementSound = 'assets/audio/achievement_unlock.mp3';
+  static const String _correctAnswerSound = 'audio/happy_bark.mp3';
+  static const String _incorrectAnswerSound = 'audio/sad_whimper.mp3';
+  static const String _buttonClickSound = 'audio/playful_bark.mp3';
+  static const String _powerUpSound = 'audio/power_up.mp3';
+  static const String _achievementSound = 'audio/achievement_unlock.mp3';
   static const String _timerWarningSound =
-      'assets/audio/sad_whimper.mp3'; // Use sad whimper for timer warning
+      'audio/sad_whimper.mp3'; // Use sad whimper for timer warning
   static const String _checkpointCompleteSound =
-      'assets/audio/achievement_unlock.mp3';
-  static const String _pathCompleteSound = 'assets/audio/happy_bark.mp3';
-  static const String _streakBonusSound = 'assets/audio/playful_bark.mp3';
-  static const String _powerUpActivateSound = 'assets/audio/power_up.mp3';
-  static const String _milestoneSound = 'assets/audio/achievement_unlock.mp3';
+      'audio/achievement_unlock.mp3';
+  static const String _pathCompleteSound = 'audio/happy_bark.mp3';
+  static const String _streakBonusSound = 'audio/playful_bark.mp3';
+  static const String _powerUpActivateSound = 'audio/power_up.mp3';
+  static const String _milestoneSound = 'audio/achievement_unlock.mp3';
 
   /// Initialize the audio service
   Future<void> initialize() async {

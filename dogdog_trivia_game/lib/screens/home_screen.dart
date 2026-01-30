@@ -12,10 +12,16 @@ import '../utils/accessibility.dart';
 import '../utils/game_state_animations.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../controllers/treasure_map_controller.dart';
+import '../controllers/companion_controller.dart';
 import '../models/enums.dart';
 import '../utils/path_localization.dart';
 import 'treasure_map_screen.dart';
 import 'dog_breeds_adventure_screen.dart';
+import 'customization_screen.dart';
+import 'mindful_moments_screen.dart';
+import 'memory_journal_screen.dart';
+import 'parental_dashboard_screen.dart';
+import '../widgets/interactive_companion_widget.dart';
 
 /// Home screen with gradient background and decorative elements.
 ///
@@ -149,6 +155,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               children: [
                 _buildFloatingDecorations(),
                 _buildSettingsButton(),
+                _buildCompanionButton(),
                 FadeTransition(
                   opacity: _fadeAnimation,
                   child: SlideTransition(
@@ -159,11 +166,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            ModernSpacing.verticalSpaceXL,
-                            _buildLogo(),
+                            ModernSpacing.verticalSpaceMD,
+                            // Interactive companion as centerpiece
+                            const InteractiveCompanionWidget(),
+                            ModernSpacing.verticalSpaceMD,
+                            // Quick action buttons
+                            _buildQuickActions(),
                             ModernSpacing.verticalSpaceLG,
-                            _buildWelcomeText(),
-                            ModernSpacing.verticalSpaceXL,
+                            // Section title for adventures
+                            _buildSectionTitle(),
+                            ModernSpacing.verticalSpaceSM,
                             _buildPathSelectionSection(),
                             ModernSpacing.verticalSpaceXL,
                           ],
@@ -379,6 +391,433 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  /// Builds a companion menu button positioned in the upper left corner
+  Widget _buildCompanionButton() {
+    final audioService = AudioService();
+
+    return Consumer<CompanionController>(
+      builder: (context, companionCtrl, _) {
+        final companion = companionCtrl.companion;
+        final hasCompanion = companion != null;
+
+        return Positioned(
+          top: 16,
+          left: 16,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.95),
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: ModernColors.primaryPurple.withValues(alpha: 0.15),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(24),
+                onTap: () async {
+                  await audioService.playButtonSound();
+                  if (mounted) {
+                    _showCompanionMenu(context, hasCompanion, companion);
+                  }
+                },
+                child: Semantics(
+                  label: 'Companion Menu',
+                  button: true,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          hasCompanion ? companion.breed.emoji : '🐾',
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                        if (hasCompanion) ...[
+                          const SizedBox(width: 6),
+                          Text(
+                            companion.name,
+                            style: ModernTypography.bodySmall.copyWith(
+                              color: ModernColors.textPrimary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showCompanionMenu(BuildContext context, bool hasCompanion, dynamic companion) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.all(ModernSpacing.lg),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Handle bar
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            ModernSpacing.verticalSpaceMD,
+            // Header
+            Row(
+              children: [
+                Text(
+                  hasCompanion ? companion.breed.emoji : '🐾',
+                  style: const TextStyle(fontSize: 40),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        hasCompanion ? companion.name : 'Your Companion',
+                        style: ModernTypography.headingSmall,
+                      ),
+                      if (hasCompanion)
+                        Text(
+                          '${companion.stage.displayName} · ${(companion.bondLevel * 100).toInt()}% bond',
+                          style: ModernTypography.caption.copyWith(
+                            color: ModernColors.textSecondary,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            ModernSpacing.verticalSpaceLG,
+            // Menu items
+            _buildMenuItem(
+              icon: '🎨',
+              title: 'Customize',
+              subtitle: 'Accessories & home decor',
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CustomizationScreen()),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: '🧘',
+              title: 'Mindful Moments',
+              subtitle: 'Breathing, cuddles & rest',
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MindfulMomentsScreen()),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: '📔',
+              title: 'Memory Journal',
+              subtitle: 'Your adventures together',
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MemoryJournalScreen()),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: '👨‍👩‍👧',
+              title: 'Parent Dashboard',
+              subtitle: 'Learning progress',
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ParentalDashboardScreen()),
+                );
+              },
+            ),
+            ModernSpacing.verticalSpaceMD,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuItem({
+    required String icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: ModernSpacing.sm),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: ModernColors.primaryPurple.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Text(icon, style: const TextStyle(fontSize: 24)),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: ModernTypography.bodyMedium.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: ModernColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      subtitle,
+                      style: ModernTypography.caption.copyWith(
+                        color: ModernColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right,
+                color: ModernColors.textLight,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Quick action buttons for companion interactions
+  Widget _buildQuickActions() {
+    return Consumer<CompanionController>(
+      builder: (context, controller, chlid) {
+        final treats = controller.companion?.treats ?? 0;
+        
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildQuickActionButton(
+              emoji: '🍖',
+              label: 'Feed',
+              badgeText: '$treats',
+              onTap: _handleFeed,
+            ),
+            const SizedBox(width: 16),
+            _buildQuickActionButton(
+              emoji: '🎨',
+              label: 'Style',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CustomizationScreen()),
+              ),
+            ),
+            const SizedBox(width: 16),
+            _buildQuickActionButton(
+              emoji: '🧘',
+              label: 'Relax',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const MindfulMomentsScreen()),
+              ),
+            ),
+            const SizedBox(width: 16),
+            _buildQuickActionButton(
+              emoji: '📔',
+              label: 'Journal',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const MemoryJournalScreen()),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _handleFeed() async {
+    final controller = context.read<CompanionController>();
+    final success = await controller.feedCompanion();
+    
+    if (mounted) {
+      if (success) {
+        AudioService().playButtonSound(); // Reuse bark/crunch
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Yum! Tasty treat! 🦴'),
+            duration: Duration(seconds: 1),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      } else {
+        String msg = 'Not enough treats!';
+        if ((controller.companion?.hunger ?? 0) >= 1.0) {
+          msg = 'I\'m fully fed! 😋';
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(msg),
+            duration: const Duration(seconds: 1),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.orange,
+          ),
+        );
+      }
+    }
+  }
+
+  Widget _buildQuickActionButton({
+    required String emoji,
+    required String label,
+    required VoidCallback onTap,
+    String? badgeText,
+  }) {
+    return GestureDetector(
+      onTap: () async {
+        await AudioService().playButtonSound();
+        onTap();
+      },
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: ModernColors.primaryPurple.withValues(alpha: 0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(emoji, style: const TextStyle(fontSize: 28)),
+                const SizedBox(height: 4),
+                Text(
+                  label,
+                  style: ModernTypography.caption.copyWith(
+                    color: ModernColors.textSecondary,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (badgeText != null)
+            Positioned(
+              top: -8,
+              right: -8,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: ModernColors.primaryPink,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.white, width: 2),
+                ),
+                child: Text(
+                  badgeText,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  /// Section title for adventures
+  Widget _buildSectionTitle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 40,
+          height: 2,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.transparent,
+                ModernColors.primaryPurple.withValues(alpha: 0.5),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Text(
+            '✨ Training Adventures ✨', // Updated
+            style: ModernTypography.bodyMedium.copyWith(
+              color: ModernColors.textSecondary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        Container(
+          width: 40,
+          height: 2,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                ModernColors.primaryPurple.withValues(alpha: 0.5),
+                Colors.transparent,
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   /// Path selection section integrated into home screen
   Widget _buildPathSelectionSection() {
     return Column(
@@ -526,9 +965,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   GameStateAnimations.buildBouncingButton(
                     onPressed: () => _navigateToPath(pathType),
                     child: GradientButton.small(
-                      text: AppLocalizations.of(context).pathSelection_start,
+                      text: 'Train 🐕',
                       gradientColors: _getGradientForPath(pathType),
-                      icon: Icons.play_arrow,
+                      icon: Icons.school, // Changed icon to school/training
                       onPressed: () {
                         _navigateToPath(pathType);
                       },

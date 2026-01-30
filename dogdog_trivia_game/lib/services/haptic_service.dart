@@ -201,4 +201,63 @@ class HapticService {
       );
     }
   }
+
+  // === NEW COMPANION SYSTEM HAPTICS ===
+
+  /// Correct answer - celebratory tap
+  Future<void> correctAnswer() async => await mediumFeedback();
+
+  /// Wrong answer - gentle sympathetic nudge
+  Future<void> wrongAnswer() async => await lightFeedback();
+
+  /// Perfect streak - heartbeat pattern
+  Future<void> perfectStreak() async {
+    if (!_isEnabled || !_isInitialized) return;
+    await heavyFeedback();
+    await Future.delayed(const Duration(milliseconds: 100));
+    await mediumFeedback();
+    await Future.delayed(const Duration(milliseconds: 200));
+    await heavyFeedback();
+    await Future.delayed(const Duration(milliseconds: 100));
+    await mediumFeedback();
+  }
+
+  /// Companion cuddle - warm pulse
+  Future<void> cuddlePulse() async {
+    if (!_isEnabled || !_isInitialized) return;
+    await lightFeedback();
+    await Future.delayed(const Duration(milliseconds: 150));
+    await lightFeedback();
+  }
+
+  /// Growth stage change - excited double tap
+  Future<void> growthStageUp() async {
+    if (!_isEnabled || !_isInitialized) return;
+    await heavyFeedback();
+    await Future.delayed(const Duration(milliseconds: 150));
+    await heavyFeedback();
+  }
+
+  /// New area unlocked - discovery feel
+  Future<void> areaUnlocked() async {
+    if (!_isEnabled || !_isInitialized) return;
+    await selectionFeedback();
+    await Future.delayed(const Duration(milliseconds: 200));
+    await mediumFeedback();
+  }
+
+  /// Button tap - selection click
+  Future<void> buttonTap() async => await selectionFeedback();
+
+  /// Memory saved - soft confirmation
+  Future<void> memorySaved() async => await lightFeedback();
+
+  /// Welcome back feel
+  Future<void> welcomeBack() async {
+    if (!_isEnabled || !_isInitialized) return;
+    await lightFeedback();
+    await Future.delayed(const Duration(milliseconds: 100));
+    await mediumFeedback();
+  }
 }
+

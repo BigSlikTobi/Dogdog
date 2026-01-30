@@ -4,12 +4,16 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/home_screen.dart';
 import 'screens/error_recovery_screen.dart';
+import 'screens/adopt_companion_screen.dart';
 import 'services/progress_service.dart';
 import 'services/audio_service.dart';
 import 'services/error_service.dart';
+import 'services/narrative_engine_service.dart';
 import 'controllers/treasure_map_controller.dart';
+import 'controllers/companion_controller.dart';
 import 'widgets/error_boundary.dart';
 import 'widgets/app_initializer.dart';
+import 'widgets/companion_greeting_widget.dart';
 import 'models/enums.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'dart:async';
@@ -80,7 +84,17 @@ Future<void> _initializeApp() async {
     final audioService = AudioService();
     await audioService.initialize();
 
-    runApp(DogDogTriviaApp(progressService: progressService));
+    final companionController = CompanionController();
+    await companionController.initialize();
+
+    final narrativeEngine = NarrativeEngineService();
+    await narrativeEngine.initialize();
+
+    runApp(DogDogTriviaApp(
+      progressService: progressService,
+      companionController: companionController,
+      narrativeEngine: narrativeEngine,
+    ));
   } catch (error, stackTrace) {
     // Critical initialization error
     await ErrorService().recordError(
@@ -98,14 +112,23 @@ Future<void> _initializeApp() async {
 
 class DogDogTriviaApp extends StatelessWidget {
   final ProgressService progressService;
+  final CompanionController companionController;
+  final NarrativeEngineService narrativeEngine;
 
-  const DogDogTriviaApp({super.key, required this.progressService});
+  const DogDogTriviaApp({
+    super.key,
+    required this.progressService,
+    required this.companionController,
+    required this.narrativeEngine,
+  });
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ProgressService>.value(value: progressService),
+        ChangeNotifierProvider<CompanionController>.value(value: companionController),
+        ChangeNotifierProvider<NarrativeEngineService>.value(value: narrativeEngine),
         ChangeNotifierProvider<TreasureMapController>(
           create: (_) => TreasureMapController(),
         ),
@@ -165,7 +188,7 @@ class DogDogTriviaApp extends StatelessWidget {
             // Restart the app
             _initializeApp();
           },
-          child: const AppInitializer(child: HomeScreen()),
+          child: const AppInitializer(child: _CompanionAwareHome()),
         ),
         debugShowCheckedModeBanner: false,
       ),
@@ -198,6 +221,78 @@ class DogDogTriviaAppFallback extends StatelessWidget {
       ),
       home: const ErrorRecoveryScreen(initialError: null),
       debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+/// Wrapper that shows adoption screen or home based on companion status
+class _CompanionAwareHome extends StatefulWidget {
+  const _CompanionAwareHome();
+
+  @override
+  State<_CompanionAwareHome> createState() => _CompanionAwareHomeState();
+}
+
+class _CompanionAwareHomeState extends State<_CompanionAwareHome> {
+  bool _showGreeting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkGreeting();
+  }
+
+  void _checkGreeting() {
+    final controller = Provider.of<CompanionController>(context, listen: false);
+    if (controller.hasCompanion && controller.companion!.missedPlayer) {
+      setState(() => _showGreeting = true);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<CompanionController>(
+      builder: (context, controller, _) {
+        // Show adoption screen if no companion
+        if (!controller.hasCompanion) {
+          return AdoptCompanionScreen(
+            onAdoptionComplete: () {
+              // Refresh to show home
+              setState(() {});
+            },
+          );
+        }
+
+        // Show greeting overlay if companion missed player
+        if (_showGreeting) {
+          return Scaffold(
+            body: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFFF8F4FF),
+                    const Color(0xFFE8E0F0),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: Center(
+                child: CompanionGreetingWidget(
+                  companion: controller.companion!,
+                  onDismiss: () {
+                    controller.recordInteraction();
+                    setState(() => _showGreeting = false);
+                  },
+                ),
+              ),
+            ),
+          );
+        }
+
+        // Normal home screen
+        return const HomeScreen();
+      },
     );
   }
 }

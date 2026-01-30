@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 import '../controllers/game_controller.dart';
+import '../controllers/companion_controller.dart'; // Added
+import '../controllers/treasure_map_controller.dart'; // Added
 import '../models/question.dart';
 import '../models/achievement.dart';
+import '../models/companion_enums.dart'; // Added
 import '../services/progress_service.dart';
 import 'game_over_screen.dart';
 import '../widgets/animated_button.dart';
@@ -11,6 +14,7 @@ import '../widgets/shared/success_animation_widget.dart';
 import '../design_system/modern_colors.dart';
 import '../design_system/modern_spacing.dart';
 import '../utils/animations.dart';
+import '../utils/enum_extensions.dart'; // Added for PathType.getLocalizedName
 import '../l10n/generated/app_localizations.dart';
 import '../widgets/lives_indicator.dart';
 
@@ -620,6 +624,26 @@ class _ResultScreenState extends State<ResultScreen>
 
     // Get game statistics
     final stats = gameController.getGameStatistics();
+
+    // Create Training Memory
+    if (mounted && gameController.score > 0) {
+      try {
+        final companionController = context.read<CompanionController>();
+        final treasureMapController = context.read<TreasureMapController>();
+        final pathName = treasureMapController.currentPath.getLocalizedName(context);
+        
+        await companionController.createMemory(
+          storyTitle: 'Training: $pathName',
+          description: 'Completed a training session with ${gameController.score} points!',
+          area: WorldArea.adventureTrails, // Default to trails for now
+          factsLearned: [],
+          correctAnswers: stats['correctAnswers'] as int,
+          bondGained: (stats['correctAnswers'] as int) * 0.05,
+        );
+      } catch (e) {
+        debugPrint('Failed to create memory: $e');
+      }
+    }
 
     // Check for newly unlocked achievements
     final newlyUnlocked = <Achievement>[];

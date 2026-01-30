@@ -13,6 +13,7 @@ class ModernColors {
   static const Color primaryYellow = Color(0xFFF59E0B);
   static const Color primaryRed = Color(0xFFEF4444);
   static const Color primaryOrange = Color(0xFFFF6B35);
+  static const Color primaryPink = Color(0xFFEC4899);
 
   // Secondary Colors
   static const Color secondaryPurple = Color(0xFF7C3AED);
@@ -21,6 +22,7 @@ class ModernColors {
   static const Color secondaryYellow = Color(0xFFD97706);
   static const Color secondaryRed = Color(0xFFDC2626);
   static const Color secondaryOrange = Color(0xFFE55100);
+  static const Color secondaryPink = Color(0xFFDB2777);
 
   // Gradient Colors
   static const List<Color> purpleGradient = [primaryPurple, secondaryPurple];

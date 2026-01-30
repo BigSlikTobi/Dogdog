@@ -121,3 +121,15 @@ extension GameResultExtension on GameResult {
     }
   }
 }
+
+extension PathTypeExtension on PathType {
+  /// Returns the localized display name for the path
+  String getLocalizedName(BuildContext context) {
+    switch (this) {
+      case PathType.dogTrivia:
+        return 'Dog Trivia';
+      case PathType.puppyQuest:
+         return 'Puppy Quest';
+    }
+  }
+}
