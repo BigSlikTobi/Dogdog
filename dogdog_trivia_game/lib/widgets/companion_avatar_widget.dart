@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../companion_engine/widgets/animated_dog_widget.dart';
 import '../design_system/modern_colors.dart';
 import '../models/companion.dart';
 import '../models/companion_enums.dart';
@@ -113,7 +114,7 @@ class _CompanionAvatarWidgetState extends State<CompanionAvatarWidget>
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: _getMoodColor().withOpacity(0.3),
+                    color: _getMoodColor().withValues(alpha:0.3),
                     blurRadius: 20,
                     spreadRadius: 4,
                   ),
@@ -137,7 +138,7 @@ class _CompanionAvatarWidgetState extends State<CompanionAvatarWidget>
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha:0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -159,7 +160,7 @@ class _CompanionAvatarWidgetState extends State<CompanionAvatarWidget>
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha:0.1),
                         blurRadius: 4,
                       ),
                     ],
@@ -181,7 +182,7 @@ class _CompanionAvatarWidgetState extends State<CompanionAvatarWidget>
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
-                      color: _getStageColor().withOpacity(0.4),
+                      color: _getStageColor().withValues(alpha:0.4),
                       blurRadius: 4,
                     ),
                   ],
@@ -199,22 +200,11 @@ class _CompanionAvatarWidgetState extends State<CompanionAvatarWidget>
   }
 
   Widget _buildAvatarContent() {
-    // Try to load breed image, fallback to emoji placeholder
-    return Image.asset(
-      widget.companion.breed.imagePath,
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) {
-        // Fallback to breed emoji/icon
-        return Container(
-          color: _getStageColor().withOpacity(0.2),
-          child: Center(
-            child: Text(
-              '🐕',
-              style: TextStyle(fontSize: widget.size * 0.5),
-            ),
-          ),
-        );
-      },
+    // Procedurally animated skeleton avatar
+    return AnimatedDogWidget(
+      breed: widget.companion.breed,
+      size: widget.size,
+      moodKey: widget.companion.mood.animationKey,
     );
   }
 

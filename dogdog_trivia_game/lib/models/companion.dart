@@ -130,7 +130,7 @@ class Companion {
       name: json['name'] as String,
       breed: CompanionBreed.values.firstWhere(
         (b) => b.name == json['breed'],
-        orElse: () => CompanionBreed.labrador,
+        orElse: () => CompanionBreed.goldenRetriever,
       ),
       bondLevel: (json['bondLevel'] as num?)?.toDouble() ?? 0.0,
       mood: CompanionMood.values.firstWhere(

@@ -86,28 +86,16 @@ enum GrowthStage {
   }
 }
 
-/// Enum representing available companion breeds, unlocked progressively
+/// Enum representing available companion breeds.
+///
+/// Intentionally limited to three visually distinct breeds so each one has
+/// a fully polished procedural skeleton renderer.  All breeds are available
+/// from the puppy stage — progression is expressed through bond level, not
+/// breed gating.
 enum CompanionBreed {
-  // Puppy stage (easy breeds)
-  labrador(GrowthStage.puppy, 1, 'Labrador Retriever'),
   goldenRetriever(GrowthStage.puppy, 1, 'Golden Retriever'),
-  beagle(GrowthStage.puppy, 1, 'Beagle'),
-
-  // Adolescent stage
-  poodle(GrowthStage.adolescent, 2, 'Poodle'),
-  bulldog(GrowthStage.adolescent, 2, 'Bulldog'),
-  boxer(GrowthStage.adolescent, 2, 'Boxer'),
-  corgi(GrowthStage.adolescent, 2, 'Corgi'),
-
-  // Adult stage
-  germanShepherd(GrowthStage.adult, 3, 'German Shepherd'),
-  husky(GrowthStage.adult, 3, 'Siberian Husky'),
-  dalmatian(GrowthStage.adult, 3, 'Dalmatian'),
-
-  // Elder stage (rare breeds)
-  shibaInu(GrowthStage.elder, 4, 'Shiba Inu'),
-  akita(GrowthStage.elder, 4, 'Akita'),
-  basenji(GrowthStage.elder, 4, 'Basenji');
+  germanShepherd(GrowthStage.puppy, 1, 'German Shepherd'),
+  dachshund(GrowthStage.puppy, 1, 'Dachshund');
 
   const CompanionBreed(this.requiredStage, this.difficulty, this.displayName);
 
@@ -128,22 +116,12 @@ enum CompanionBreed {
     return values.where((b) => b.requiredStage.index <= stage.index).toList();
   }
 
-  /// Returns the emoji for this breed
+  /// Returns the emoji for this breed (used as fallback only)
   String get emoji {
     switch (this) {
-      case CompanionBreed.labrador: return '🐕‍🦺';
       case CompanionBreed.goldenRetriever: return '🦮';
-      case CompanionBreed.beagle: return '🐶';
-      case CompanionBreed.poodle: return '🐩';
-      case CompanionBreed.bulldog: return '🐕';
-      case CompanionBreed.boxer: return '🥊';
-      case CompanionBreed.corgi: return '🍞';
-      case CompanionBreed.germanShepherd: return '🐺';
-      case CompanionBreed.husky: return '🏔️';
-      case CompanionBreed.dalmatian: return '🚒';
-      case CompanionBreed.shibaInu: return '🐕';
-      case CompanionBreed.akita: return '🗾';
-      case CompanionBreed.basenji: return '🦁';
+      case CompanionBreed.germanShepherd: return '🐕';
+      case CompanionBreed.dachshund: return '🐾';
     }
   }
 }
