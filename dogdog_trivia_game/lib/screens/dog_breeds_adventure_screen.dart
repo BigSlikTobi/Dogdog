@@ -638,6 +638,22 @@ class _GameOverScreen extends StatelessWidget {
   /// Creates a new instance of [_GameOverScreen].
   const _GameOverScreen({required this.statistics});
 
+  String _getLocalizedPhaseName(BuildContext context, String? phaseName) {
+    final l10n = AppLocalizations.of(context);
+    if (phaseName == null) return l10n.breed_adventure_unknown;
+
+    switch (phaseName.toLowerCase()) {
+      case 'beginner':
+        return l10n.difficultyPhase_beginner;
+      case 'intermediate':
+        return l10n.difficultyPhase_intermediate;
+      case 'expert':
+        return l10n.difficultyPhase_expert;
+      default:
+        return phaseName;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -782,10 +798,10 @@ class _GameOverScreen extends StatelessWidget {
                           ),
                           _StatItem(
                             label: l10n.breedAdventure_phase,
-                            value:
-                                statistics.additionalStats['currentPhase']
-                                    as String? ??
-                                'Unknown',
+                            value: _getLocalizedPhaseName(
+                              context,
+                              statistics.additionalStats['currentPhase'] as String?,
+                            ),
                             color: ModernColors.primaryYellow,
                           ),
                         ],

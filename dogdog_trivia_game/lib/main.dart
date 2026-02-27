@@ -15,6 +15,7 @@ import 'widgets/error_boundary.dart';
 import 'widgets/app_initializer.dart';
 import 'widgets/companion_greeting_widget.dart';
 import 'models/enums.dart';
+import 'controllers/settings_controller.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'dart:async';
 
@@ -90,10 +91,14 @@ Future<void> _initializeApp() async {
     final narrativeEngine = NarrativeEngineService();
     await narrativeEngine.initialize();
 
+    final settingsController = SettingsController();
+    await settingsController.initialize();
+
     runApp(DogDogTriviaApp(
       progressService: progressService,
       companionController: companionController,
       narrativeEngine: narrativeEngine,
+      settingsController: settingsController,
     ));
   } catch (error, stackTrace) {
     // Critical initialization error
@@ -114,12 +119,14 @@ class DogDogTriviaApp extends StatelessWidget {
   final ProgressService progressService;
   final CompanionController companionController;
   final NarrativeEngineService narrativeEngine;
+  final SettingsController settingsController;
 
   const DogDogTriviaApp({
     super.key,
     required this.progressService,
     required this.companionController,
     required this.narrativeEngine,
+    required this.settingsController,
   });
 
   @override
@@ -129,23 +136,26 @@ class DogDogTriviaApp extends StatelessWidget {
         ChangeNotifierProvider<ProgressService>.value(value: progressService),
         ChangeNotifierProvider<CompanionController>.value(value: companionController),
         ChangeNotifierProvider<NarrativeEngineService>.value(value: narrativeEngine),
+        ChangeNotifierProvider<SettingsController>.value(value: settingsController),
         ChangeNotifierProvider<TreasureMapController>(
           create: (_) => TreasureMapController(),
         ),
       ],
-      child: MaterialApp(
-        title: 'DogDog Trivia',
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('de'), // German
-          Locale('en'), // English (fallback)
-          Locale('es'), // Spanish
-        ],
+      child: Consumer<SettingsController>(
+        builder: (context, settings, _) {
+          return MaterialApp(
+            locale: settings.locale,
+            title: 'DogDog Trivia',
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('de'), // German
+              Locale('en'), // English (fallback)
+            ],
         theme: ThemeData(
           // DogDog color scheme as defined in design document
           colorScheme: ColorScheme.fromSeed(
@@ -190,7 +200,9 @@ class DogDogTriviaApp extends StatelessWidget {
           },
           child: const AppInitializer(child: _CompanionAwareHome()),
         ),
-        debugShowCheckedModeBanner: false,
+            debugShowCheckedModeBanner: false,
+          );
+        },
       ),
     );
   }
@@ -213,7 +225,6 @@ class DogDogTriviaAppFallback extends StatelessWidget {
       supportedLocales: const [
         Locale('de'), // German
         Locale('en'), // English (fallback)
-        Locale('es'), // Spanish
       ],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4A90E2)),

@@ -794,16 +794,6 @@
     "description": "Abschnittstitel für Leistungsstatistiken"
   },
 
-  "checkpointCelebration_questions": "Fragen",
-  "@checkpointCelebration_questions": {
-    "description": "Bezeichnung für beantwortete Fragen Statistik"
-  },
-
-  "checkpointCelebration_accuracy": "Genauigkeit",
-  "@checkpointCelebration_accuracy": {
-    "description": "Bezeichnung für Genauigkeitsstatistik"
-  },
-
   "checkpointCelebration_points": "Punkte",
   "@checkpointCelebration_points": {
     "description": "Bezeichnung für verdiente Punkte Statistik"
@@ -1638,5 +1628,197 @@
   "breedAdventure_timeRemaining": "Verbleibende Zeit",
   "@breedAdventure_timeRemaining": {
     "description": "Bezeichnung für verbleibende Zeitanzeige"
-  }
+  },
+
+  "greeting_missedYou": "{name} hat dich vermisst! 💕",
+  "@greeting_missedYou": {
+    "description": "Begrüßung wenn Begleiter den Spieler vermisst hat"
+  },
+
+  "greeting_mood_happy": "{name} freut sich dich zu sehen!",
+  "@greeting_mood_happy": {
+    "description": "Begrüßung wenn Begleiter glücklich ist"
+  },
+
+  "greeting_mood_curious": "{name} ist neugierig auf das heutige Abenteuer!",
+  "@greeting_mood_curious": {
+    "description": "Begrüßung wenn Begleiter neugierig ist"
+  },
+
+  "greeting_mood_sleepy": "{name} ist etwas schläfrig... 😴",
+  "@greeting_mood_sleepy": {
+    "description": "Begrüßung wenn Begleiter schläfrig ist"
+  },
+
+  "greeting_mood_excited": "{name} kann es kaum erwarten zu spielen!",
+  "@greeting_mood_excited": {
+    "description": "Begrüßung wenn Begleiter aufgeregt ist"
+  },
+
+  "greeting_timeSince": "Es ist {time} her!",
+  "@greeting_timeSince": {
+    "description": "Zeigt Zeit seit letztem Besuch"
+  },
+
+  "action_letsPlay": "Lass uns spielen! 🎮",
+  "@action_letsPlay": {
+    "description": "Schaltflächentext zum Spielen"
+  },
+
+  "action_train": "Trainieren 🐕",
+  "@action_train": {
+    "description": "Schaltflächentext zum Starten des Trainings"
+  },
+
+  "semantics_pathCard": "{path} Pfad Karte",
+  "@semantics_pathCard": {
+    "description": "Semantik-Label für Pfadkarte"
+  },
+
+  "breed_adventure_beginner": "Anfänger",
+  "@breed_adventure_beginner": {
+    "description": "Schwierigkeitsgrad Anfänger"
+  },
+  "breed_adventure_intermediate": "Fortgeschritten",
+  "@breed_adventure_intermediate": {
+    "description": "Schwierigkeitsgrad Fortgeschritten"
+  },
+  "breed_adventure_expert": "Experte",
+  "@breed_adventure_expert": {
+    "description": "Schwierigkeitsgrad Experte"
+  },
+  "breed_adventure_unknown": "Unbekannt",
+  "@breed_adventure_unknown": {
+    "description": "Unbekannter Schwierigkeitsgrad"
+  },
+
+  "checkpoint_chihuahua": "Chihuahua",
+  "@checkpoint_chihuahua": {
+    "description": "Checkpoint Name für Chihuahua"
+  },
+  "checkpoint_pug": "Mops",
+  "@checkpoint_pug": {
+    "description": "Checkpoint Name für Mops"
+  },
+  "checkpoint_cockerSpaniel": "Cocker Spaniel",
+  "@checkpoint_cockerSpaniel": {
+    "description": "Checkpoint Name für Cocker Spaniel"
+  },
+  "checkpoint_germanShepherd": "Deutscher Schäferhund",
+  "@checkpoint_germanShepherd": {
+    "description": "Checkpoint Name für Deutscher Schäferhund"
+  },
+  "checkpoint_greatDane": "Deutsche Dogge",
+  "@checkpoint_greatDane": {
+    "description": "Checkpoint Name für Deutsche Dogge"
+  },
+  "checkpoint_deutscheDogge": "Deutsche Dogge",
+  "@checkpoint_deutscheDogge": {
+    "description": "Checkpoint Name für Deutsche Dogge"
+  },
+
+  "semantics_pauseGame_hint": "Tippen Sie, um das aktuelle Spiel zu pausieren",
+  "@semantics_pauseGame_hint": { "description": "Hinweis für Pause-Schaltfläche" },
+  "semantics_powerUp_hint_available": "Tippen Sie zur Verwendung. {count} übrig.",
+  "@semantics_powerUp_hint_available": { "description": "Hinweis für verfügbares Power-Up" },
+  "semantics_powerUp_hint_unavailable": "Momentan nicht verfügbar",
+  "@semantics_powerUp_hint_unavailable": { "description": "Hinweis für nicht verfügbares Power-Up" },
+  "semantics_powerUp_hint_none": "Keine mehr übrig",
+  "@semantics_powerUp_hint_none": { "description": "Hinweis für aufgebrauchtes Power-Up" },
+  "semantics_timer_plenty": "noch viel Zeit",
+  "@semantics_timer_plenty": { "description": "Timer Kontext viel Zeit" },
+  "semantics_timer_low": "Zeit wird knapp",
+  "@semantics_timer_low": { "description": "Timer Kontext wenig Zeit" },
+  "semantics_timer_up": "Zeit fast abgelaufen",
+  "@semantics_timer_up": { "description": "Timer Kontext fast vorbei" },
+  "semantics_timer_label": "Timer",
+  "@semantics_timer_label": { "description": "Timer Label" },
+  "semantics_timer_value": "{seconds} Sekunden verbleibend",
+  "@semantics_timer_value": { "description": "Timer Wert" },
+  "semantics_currentPath": "Aktueller Pfad: {path}",
+  "@semantics_currentPath": { "description": "Aktueller Pfad Semantik" },
+  "gameScreen_treasureHunt": "Schatzsuche",
+  "@gameScreen_treasureHunt": { "description": "Schatzsuche Titel" },
+  "gameScreen_noQuestion": "Keine Frage verfügbar",
+  "@gameScreen_noQuestion": { "description": "Keine Frage Nachricht" },
+  "semantics_answer_label": "Antwort {letter}: {answer}",
+  "@semantics_answer_label": { "description": "Antwort Semantik" },
+  "semantics_answer_disabled": "deaktiviert",
+  "@semantics_answer_disabled": { "description": "Antwort deaktiviert" },
+  "semantics_answer_correct": "richtig",
+  "@semantics_answer_correct": { "description": "Antwort richtig" },
+  "semantics_answer_incorrect": "falsch",
+  "@semantics_answer_incorrect": { "description": "Antwort falsch" },
+  "semantics_answer_correctAnswer": "richtige Antwort",
+  "@semantics_answer_correctAnswer": { "description": "Richtige Antwort Label" },
+  "semantics_answer_eliminated": "Diese Antwort wurde eliminiert",
+  "@semantics_answer_eliminated": { "description": "Antwort eliminiert Hinweis" },
+  "semantics_answer_select": "Tippen Sie, um diese Antwort auszuwählen",
+  "@semantics_answer_select": { "description": "Antwort auswählen Hinweis" },
+
+  "resultScreen_correctAnswerWas": "Die richtige Antwort war:",
+  "@resultScreen_correctAnswerWas": { "description": "Label für richtige Antwort" },
+  "memory_training_title": "Training: {path}",
+  "@memory_training_title": { "description": "Erinnerungstitel" },
+  "memory_training_description": "Trainingseinheit mit {score} Punkten abgeschlossen!",
+  "@memory_training_description": { "description": "Erinnerungsbeschreibung" },
+  "semantics_correct_celebration": "Feieranimation für richtige Antwort",
+  "@semantics_correct_celebration": { "description": "Semantik für Feieranimation" },
+
+  "difficultyScreen_semantics_play": "{difficulty} Schwierigkeitsgrad spielen",
+  "@difficultyScreen_semantics_play": { "description": "Semantisches Label für Schwierigkeitskarte" },
+  "difficultyScreen_semantics_hint": "{description}. {points}. Tippen Sie, um diesen Schwierigkeitsgrad auszuwählen.",
+  "@difficultyScreen_semantics_hint": { "description": "Semantischer Hinweis für Schwierigkeitskarte" },
+  "difficultyScreen_semantics_selected_announcement": "{difficulty} Schwierigkeitsgrad ausgewählt. Spiel startet.",
+  "@difficultyScreen_semantics_selected_announcement": { "description": "Ankündigung bei Auswahl des Schwierigkeitsgrads" },
+
+  "errorCriticalTitle": "Kritischer Fehler",
+  "errorCriticalMessage": "Ein unerwarteter Fehler ist aufgetreten. Bitte starten Sie die App neu.",
+  "errorLocalizationTitle": "Lokalisierungsfehler",
+  "errorLocalizationMessage": "Sprachressourcen konnten nicht geladen werden.",
+  "errorNoQuestionsTitle": "Keine Fragen",
+  "errorNoQuestionsForCategoryMessage": "Keine Fragen für diese Kategorie gefunden.",
+  "errorFewQuestionsMessage": "Zu wenige Fragen verfügbar.",
+  "errorLoadingTitle": "Fehler beim Laden",
+  "errorGenericMessage": "Etwas ist schiefgelaufen.",
+  "errorActionRetry": "Wiederholen",
+  "errorActionSwitchCategory": "Kategorie wechseln",
+  "errorActionContinueAnyway": "Trotzdem fortfahren",
+  "errorActionUseDefaultLanguage": "Standardsprache verwenden",
+  "errorActionGoHome": "Zur Startseite",
+  "treasureMap_questions": "Fragen",
+  "treasureMap_currentRank": "Aktueller Rang",
+  "treasureMap_allCompleted": "Alle Abenteuer abgeschlossen!",
+  "categorySelection_title": "Kategorie wählen",
+  "categorySelection_hint": "Wählen Sie ein Thema für Ihr Quiz",
+  "categorySelection_description": "Tippen Sie auf eine Kategorie, um zu starten.",
+  "categorySelection_selectedHint": "Ausgewählt. Doppeltippen zum Starten.",
+  "categorySelection_selectHint": "Doppeltippen zum Auswählen.",
+  "categorySelection_announceSelection": "Kategorie {category} ausgewählt",
+  "semantics_settings": "Einstellungen",
+  "semantics_companionMenu": "Begleiter-Menü",
+  "companion_yourCompanion": "Ihr Begleiter",
+  "companion_bond": "Bindung",
+  "menu_customize_title": "Anpassen",
+  "menu_customize_subtitle": "Ändern Sie das Aussehen Ihres Hundes",
+  "menu_mindful_title": "Achtsamkeit",
+  "menu_mindful_subtitle": "Entspannen Sie mit Ihrem Hund",
+  "menu_journal_title": "Tagebuch",
+  "menu_journal_subtitle": "Erinnerungen festhalten",
+  "menu_parent_title": "Elternbereich",
+  "menu_parent_subtitle": "Einstellungen und Fortschritt",
+  "action_feed": "Füttern",
+  "action_style": "Stylen",
+  "action_relax": "Entspannen",
+  "action_journal": "Tagebuch",
+  "feedback_feed_success": "Lecker! Das hat geschmeckt.",
+  "feedback_feed_notEnough": "Nicht genug Leckerlis.",
+  "feedback_feed_full": "Ich bin satt!",
+  "home_trainingAdventures": "Trainingsabenteuer",
+
+  "settings_userName": "Dein Name",
+  "settings_userNameHint": "Gib deinen Namen ein",
+  "settings_dogName": "Hundename",
+  "settings_dogNameHint": "Gib den Namen deines Hundes ein",
+  "common_close": "Schließen"
 }

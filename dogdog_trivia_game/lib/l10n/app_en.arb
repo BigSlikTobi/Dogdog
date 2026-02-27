@@ -1793,5 +1793,316 @@
   "breedAdventure_timeRemaining": "Time Remaining",
   "@breedAdventure_timeRemaining": {
     "description": "Label for time remaining display"
-  }
+  },
+
+  "semantics_settings": "Settings",
+  "@semantics_settings": {
+    "description": "Accessibility label for settings button"
+  },
+
+  "semantics_companionMenu": "Companion Menu",
+  "@semantics_companionMenu": {
+    "description": "Accessibility label for companion menu button"
+  },
+
+  "companion_yourCompanion": "Your Companion",
+  "@companion_yourCompanion": {
+    "description": "Default title when generic companion is shown"
+  },
+
+  "companion_bond": "{percent}% bond",
+  "@companion_bond": {
+    "description": "Shows companion bond percentage",
+    "placeholders": {
+      "percent": {
+        "type": "int",
+        "example": "85"
+      }
+    }
+  },
+
+  "menu_customize_title": "Customize",
+  "@menu_customize_title": {
+    "description": "Title for customization menu item"
+  },
+
+  "menu_customize_subtitle": "Accessories & home decor",
+  "@menu_customize_subtitle": {
+    "description": "Subtitle for customization menu item"
+  },
+
+  "menu_mindful_title": "Mindful Moments",
+  "@menu_mindful_title": {
+    "description": "Title for mindful moments menu item"
+  },
+
+  "menu_mindful_subtitle": "Breathing, cuddles & rest",
+  "@menu_mindful_subtitle": {
+    "description": "Subtitle for mindful moments menu item"
+  },
+
+  "menu_journal_title": "Memory Journal",
+  "@menu_journal_title": {
+    "description": "Title for memory journal menu item"
+  },
+
+  "menu_journal_subtitle": "Your adventures together",
+  "@menu_journal_subtitle": {
+    "description": "Subtitle for memory journal menu item"
+  },
+
+  "menu_parent_title": "Parent Dashboard",
+  "@menu_parent_title": {
+    "description": "Title for parent dashboard menu item"
+  },
+
+  "menu_parent_subtitle": "Learning progress",
+  "@menu_parent_subtitle": {
+    "description": "Subtitle for parent dashboard menu item"
+  },
+
+  "action_feed": "Feed",
+  "@action_feed": {
+    "description": "Label for feed action"
+  },
+
+  "action_style": "Style",
+  "@action_style": {
+    "description": "Label for style action"
+  },
+
+  "action_relax": "Relax",
+  "@action_relax": {
+    "description": "Label for relax action"
+  },
+
+  "action_journal": "Journal",
+  "@action_journal": {
+    "description": "Label for journal action"
+  },
+
+  "feedback_feed_success": "Yum! Tasty treat! 🦴",
+  "@feedback_feed_success": {
+    "description": "Feedback when feeding is successful"
+  },
+
+  "feedback_feed_notEnough": "Not enough treats!",
+  "@feedback_feed_notEnough": {
+    "description": "Feedback when not enough treats"
+  },
+
+  "feedback_feed_full": "I'm fully fed! 😋",
+  "@feedback_feed_full": {
+    "description": "Feedback when companion is full"
+  },
+
+  "home_trainingAdventures": "✨ Training Adventures ✨",
+  "@home_trainingAdventures": {
+    "description": "Section title for training adventures"
+  },
+
+  "greeting_missedYou": "{name} missed you! 💕",
+  "@greeting_missedYou": {
+    "description": "Greeting when companion missed player",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Buddy"
+      }
+    }
+  },
+
+  "greeting_mood_happy": "{name} is happy to see you!",
+  "@greeting_mood_happy": {
+    "description": "Greeting when companion is happy",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Buddy"
+      }
+    }
+  },
+
+  "greeting_mood_curious": "{name} is curious about today's adventure!",
+  "@greeting_mood_curious": {
+    "description": "Greeting when companion is curious",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Buddy"
+      }
+    }
+  },
+
+  "greeting_mood_sleepy": "{name} is a bit sleepy... 😴",
+  "@greeting_mood_sleepy": {
+    "description": "Greeting when companion is sleepy",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Buddy"
+      }
+    }
+  },
+
+  "greeting_mood_excited": "{name} can't wait to play!",
+  "@greeting_mood_excited": {
+    "description": "Greeting when companion is excited",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "Buddy"
+      }
+    }
+  },
+
+  "greeting_timeSince": "It's been {time}!",
+  "@greeting_timeSince": {
+    "description": "Shows time since last visit",
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "2 days"
+      }
+    }
+  },
+
+  "action_letsPlay": "Let's Play! 🎮",
+  "@action_letsPlay": {
+    "description": "Button text to start playing"
+  },
+
+  "action_train": "Train 🐕",
+  "@action_train": {
+    "description": "Button text to start training"
+  },
+
+  "semantics_pathCard": "{path} path card",
+  "@semantics_pathCard": {
+    "description": "Semantics label for path card",
+    "placeholders": {
+      "path": {
+        "type": "String",
+        "example": "Dog Training"
+      }
+    }
+  },
+
+  "breed_adventure_beginner": "Beginner",
+  "@breed_adventure_beginner": {
+    "description": "Difficulty phase beginner"
+  },
+  "breed_adventure_intermediate": "Intermediate",
+  "@breed_adventure_intermediate": {
+    "description": "Difficulty phase intermediate"
+  },
+  "breed_adventure_expert": "Expert",
+  "@breed_adventure_expert": {
+    "description": "Difficulty phase expert"
+  },
+  "breed_adventure_unknown": "Unknown",
+  "@breed_adventure_unknown": {
+    "description": "Unknown difficulty phase"
+  },
+
+  "checkpoint_chihuahua": "Chihuahua",
+  "@checkpoint_chihuahua": {
+    "description": "Checkpoint name for Chihuahua"
+  },
+  "checkpoint_pug": "Pug",
+  "@checkpoint_pug": {
+    "description": "Checkpoint name for Pug"
+  },
+  "checkpoint_cockerSpaniel": "Cocker Spaniel",
+  "@checkpoint_cockerSpaniel": {
+    "description": "Checkpoint name for Cocker Spaniel"
+  },
+  "checkpoint_germanShepherd": "German Shepherd",
+  "@checkpoint_germanShepherd": {
+    "description": "Checkpoint name for German Shepherd"
+  },
+  "checkpoint_greatDane": "Great Dane",
+  "@checkpoint_greatDane": {
+    "description": "Checkpoint name for Great Dane"
+  },
+  "checkpoint_deutscheDogge": "Great Dane (German)",
+  "@checkpoint_deutscheDogge": {
+    "description": "Checkpoint name for Deutsche Dogge"
+  },
+
+  "semantics_pauseGame_hint": "Tap to pause the current game",
+  "@semantics_pauseGame_hint": { "description": "Hint for pause button" },
+  "semantics_powerUp_hint_available": "Tap to use. {count} left.",
+  "@semantics_powerUp_hint_available": { "description": "Hint for available power up", "placeholders": { "count": { "type": "int" } } },
+  "semantics_powerUp_hint_unavailable": "Unavailable now",
+  "@semantics_powerUp_hint_unavailable": { "description": "Hint for unavailable power up" },
+  "semantics_powerUp_hint_none": "None left",
+  "@semantics_powerUp_hint_none": { "description": "Hint for empty power up" },
+  "semantics_timer_plenty": "plenty of time remaining",
+  "@semantics_timer_plenty": { "description": "Timer context plenty" },
+  "semantics_timer_low": "time running low",
+  "@semantics_timer_low": { "description": "Timer context low" },
+  "semantics_timer_up": "time almost up",
+  "@semantics_timer_up": { "description": "Timer context up" },
+  "semantics_timer_label": "Timer",
+  "@semantics_timer_label": { "description": "Timer label" },
+  "semantics_timer_value": "{seconds} seconds remaining",
+  "@semantics_timer_value": { "description": "Timer value", "placeholders": { "seconds": { "type": "int" } } },
+  "semantics_currentPath": "Current path: {path}",
+  "@semantics_currentPath": { "description": "Current path semantics", "placeholders": { "path": { "type": "String" } } },
+  "gameScreen_treasureHunt": "Treasure Hunt",
+  "@gameScreen_treasureHunt": { "description": "Treasure hunt title" },
+  "gameScreen_noQuestion": "No question available",
+  "@gameScreen_noQuestion": { "description": "No question message" },
+  "semantics_answer_label": "Answer {letter}: {answer}",
+  "@semantics_answer_label": { "description": "Answer semantics", "placeholders": { "letter": { "type": "String" }, "answer": { "type": "String" } } },
+  "semantics_answer_disabled": "disabled",
+  "@semantics_answer_disabled": { "description": "Answer disabled" },
+  "semantics_answer_correct": "correct",
+  "@semantics_answer_correct": { "description": "Answer correct" },
+  "semantics_answer_incorrect": "incorrect",
+  "@semantics_answer_incorrect": { "description": "Answer incorrect" },
+  "semantics_answer_correctAnswer": "correct answer",
+  "@semantics_answer_correctAnswer": { "description": "Correct answer label" },
+  "semantics_answer_eliminated": "This answer has been eliminated",
+  "@semantics_answer_eliminated": { "description": "Answer eliminated hint" },
+  "semantics_answer_select": "Tap to select this answer",
+  "@semantics_answer_select": { "description": "Select answer hint" },
+
+  "resultScreen_correctAnswerWas": "The correct answer was:",
+  "@resultScreen_correctAnswerWas": { "description": "Label for correct answer" },
+  "memory_training_title": "Training: {path}",
+  "@memory_training_title": { "description": "Memory title", "placeholders": { "path": { "type": "String" } } },
+  "memory_training_description": "Completed a training session with {score} points!",
+  "@memory_training_description": { "description": "Memory description", "placeholders": { "score": { "type": "int" } } },
+  "semantics_correct_celebration": "Correct answer celebration animation",
+  "@semantics_correct_celebration": { "description": "Semantics for celebration" },
+
+  "difficultyScreen_semantics_play": "Play {difficulty} difficulty",
+  "@difficultyScreen_semantics_play": { "description": "Semantic label for difficulty card", "placeholders": { "difficulty": { "type": "String" } } },
+  "difficultyScreen_semantics_hint": "{description}. {points}. Tap to select this difficulty.",
+  "@difficultyScreen_semantics_hint": { "description": "Semantic hint for difficulty card", "placeholders": { "description": { "type": "String" }, "points": { "type": "String" } } },
+  "difficultyScreen_semantics_selected_announcement": "{difficulty} difficulty selected. Starting game.",
+  "@difficultyScreen_semantics_selected_announcement": { "description": "Announcement when difficulty is selected", "placeholders": { "difficulty": { "type": "String" } } },
+
+  "pathType_dogTrivia_name": "Dog Trivia",
+  "@pathType_dogTrivia_name": { "description": "Name of the trivia path" },
+  "pathType_dogTrivia_description": "Learn about different dog breeds, their characteristics, and origins",
+  "@pathType_dogTrivia_description": { "description": "Description of the trivia path" },
+
+  "pathType_puppyQuest_name": "Puppy Quest",
+  "@pathType_puppyQuest_name": { "description": "Name of the puppy quest path" },
+  "pathType_puppyQuest_description": "Test your knowledge by identifying dog breeds from photos",
+  "@pathType_puppyQuest_description": { "description": "Description of the puppy quest path" },
+
+  "settings_userName": "Your Name",
+  "@settings_userName": { "description": "Settings section title for user name" },
+  "settings_userNameHint": "Enter your name",
+  "@settings_userNameHint": { "description": "Hint for user name text field" },
+  "settings_dogName": "Dog Name",
+  "@settings_dogName": { "description": "Settings section title for dog name" },
+  "settings_dogNameHint": "Enter your dog's name",
+  "@settings_dogNameHint": { "description": "Hint for dog name text field" },
+  "common_close": "Close",
+  "@common_close": { "description": "Close button text" }
 }
