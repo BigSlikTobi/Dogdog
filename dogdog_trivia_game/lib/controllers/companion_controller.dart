@@ -109,6 +109,15 @@ class CompanionController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Rename the companion
+  Future<void> renameDog(String newName) async {
+    if (_companion == null || newName.isEmpty) return;
+    
+    _companion = _companion!.copyWith(name: newName);
+    await _save();
+    notifyListeners();
+  }
+
   /// Add bond from correct answer
   Future<void> onCorrectAnswer({int streak = 0}) async {
     if (_companion == null) return;

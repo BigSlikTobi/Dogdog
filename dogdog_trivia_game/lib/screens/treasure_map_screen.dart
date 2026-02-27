@@ -222,25 +222,15 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
   }
 
   String _getHeaderTitle(TreasureMapController controller) {
-    try {
-      final l10n = AppLocalizations.of(context);
-      // Use focused category for header display, fallback to selected category
-      final displayCategory =
-          controller.focusedCategory ?? controller.selectedCategory;
-      if (displayCategory != null) {
-        final locale = Localizations.localeOf(context).languageCode;
-        return '${displayCategory.getLocalizedName(locale)} ${l10n.treasureMap_adventure}';
-      }
-      return '${controller.currentPath.getLocalizedName(context)} ${l10n.treasureMap_adventure}';
-    } catch (e) {
-      // Fallback for test environment
-      final displayCategory =
-          controller.focusedCategory ?? controller.selectedCategory;
-      if (displayCategory != null) {
-        return '${displayCategory.displayName} Adventure';
-      }
-      return '${controller.currentPath.displayName} Adventure';
+    final l10n = AppLocalizations.of(context);
+    // Use focused category for header display, fallback to selected category
+    final displayCategory =
+        controller.focusedCategory ?? controller.selectedCategory;
+    if (displayCategory != null) {
+      final locale = Localizations.localeOf(context).languageCode;
+      return '${displayCategory.getLocalizedName(locale)} ${l10n.treasureMap_adventure}';
     }
+    return '${controller.currentPath.getLocalizedName(context)} ${l10n.treasureMap_adventure}';
   }
 
   Color _getHeaderColor(TreasureMapController controller) {
@@ -308,40 +298,23 @@ class _TreasureMapScreenState extends State<TreasureMapScreen>
 
   /// Get localized segment display text
   String _getLocalizedSegmentDisplay(TreasureMapController controller) {
-    try {
-      final l10n = AppLocalizations.of(context);
-      final next = controller.nextCheckpoint;
+    final l10n = AppLocalizations.of(context);
+    final next = controller.nextCheckpoint;
 
-      if (next == null) {
-        return l10n.treasureMap_pathCompletedStatus;
-      }
-
-      final previousQuestions =
-          controller.lastCompletedCheckpoint?.questionsRequired ?? 0;
-      final questionsInSegment =
-          controller.currentQuestionCount - previousQuestions;
-      final questionsNeeded = next.questionsRequired - previousQuestions;
-
-      return l10n.treasureMap_questionsTo(
-        questionsInSegment,
-        questionsNeeded,
-        next.displayName,
-      );
-    } catch (e) {
-      // Fallback for test environment
-      final next = controller.nextCheckpoint;
-
-      if (next == null) {
-        return 'Path Completed!';
-      }
-
-      final previousQuestions =
-          controller.lastCompletedCheckpoint?.questionsRequired ?? 0;
-      final questionsInSegment =
-          controller.currentQuestionCount - previousQuestions;
-      final questionsNeeded = next.questionsRequired - previousQuestions;
-
-      return '$questionsInSegment/$questionsNeeded questions to ${next.displayName}';
+    if (next == null) {
+      return l10n.treasureMap_pathCompletedStatus;
     }
+
+    final previousQuestions =
+        controller.lastCompletedCheckpoint?.questionsRequired ?? 0;
+    final questionsInSegment =
+        controller.currentQuestionCount - previousQuestions;
+    final questionsNeeded = next.questionsRequired - previousQuestions;
+
+    return l10n.treasureMap_questionsTo(
+      questionsInSegment,
+      questionsNeeded,
+      next.getLocalizedName(context),
+    );
   }
 }

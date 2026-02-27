@@ -7,6 +7,7 @@ import '../models/companion_enums.dart';
 import '../services/haptic_service.dart';
 import 'bond_meter_widget.dart';
 import 'companion_avatar_widget.dart';
+import '../l10n/generated/app_localizations.dart';
 
 /// Widget showing companion greeting when player returns
 /// 
@@ -72,26 +73,27 @@ class _CompanionGreetingWidgetState extends State<CompanionGreetingWidget>
   String get _greetingMessage {
     final name = widget.companion.name;
     final mood = widget.companion.mood;
+    final l10n = AppLocalizations.of(context);
     
     if (widget.companion.missedPlayer) {
-      return '$name missed you! 💕';
+      return l10n.greeting_missedYou(name);
     }
     
     switch (mood) {
       case CompanionMood.happy:
-        return '$name is happy to see you!';
+        return l10n.greeting_mood_happy(name);
       case CompanionMood.curious:
-        return '$name is curious about today\'s adventure!';
+        return l10n.greeting_mood_curious(name);
       case CompanionMood.sleepy:
-        return '$name is a bit sleepy... 😴';
+        return l10n.greeting_mood_sleepy(name);
       case CompanionMood.excited:
-        return '$name can\'t wait to play!';
+        return l10n.greeting_mood_excited(name);
     }
   }
 
   String get _timeSinceMessage {
     if (!widget.companion.missedPlayer) return '';
-    return 'It\'s been ${widget.companion.timeSinceLastVisit}!';
+    return AppLocalizations.of(context).greeting_timeSince(widget.companion.timeSinceLastVisit);
   }
 
   @override
@@ -241,7 +243,7 @@ class _CompanionGreetingWidgetState extends State<CompanionGreetingWidget>
                       ],
                     ),
                     child: Text(
-                      'Let\'s Play! 🎮',
+                      AppLocalizations.of(context).action_letsPlay,
                       style: ModernTypography.buttonMedium.copyWith(
                         color: Colors.white,
                       ),

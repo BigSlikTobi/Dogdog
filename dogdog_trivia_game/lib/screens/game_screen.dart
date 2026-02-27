@@ -26,6 +26,7 @@ import '../design_system/modern_typography.dart';
 import '../design_system/modern_spacing.dart';
 import '../design_system/modern_shadows.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../utils/path_localization.dart';
 
 /// Main game screen widget displaying questions, answers, and game UI elements
 class GameScreen extends StatefulWidget {
@@ -163,8 +164,8 @@ class _GameScreenState extends State<GameScreen> {
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: Semantics(
-                label: AppLocalizations.of(context).accessibility_pauseGame,
-                hint: 'Tap to pause the current game',
+                label: AppLocalizations.of(context).semantics_pauseGame_hint,
+                hint: AppLocalizations.of(context).semantics_pauseGame_hint,
                 child: IconButton(
                   icon: Icon(
                     Icons.pause_rounded,
@@ -362,11 +363,12 @@ class _GameScreenState extends State<GameScreen> {
   ) {
     final count = controller.getPowerUpCount(type);
     final canUse = controller.canUsePowerUp(type) && count > 0;
+    final l10n = AppLocalizations.of(context);
     final semantic = AccessibilityUtils.createButtonLabel(
       '${type.displayName(context)} power-up',
       hint: canUse
-          ? 'Tap to use. $count left.'
-          : (count > 0 ? 'Unavailable now' : 'None left'),
+          ? l10n.semantics_powerUp_hint_available(count)
+          : (count > 0 ? l10n.semantics_powerUp_hint_unavailable : l10n.semantics_powerUp_hint_none),
       isEnabled: canUse,
     );
     return Padding(
@@ -447,24 +449,26 @@ class _GameScreenState extends State<GameScreen> {
     List<Color> timerGradient;
     String urgencyContext;
 
+    final l10n = AppLocalizations.of(context);
+
     if (progress > 0.5) {
       timerColor = ModernColors.success;
       timerGradient = ModernColors.greenGradient;
-      urgencyContext = 'plenty of time remaining';
+      urgencyContext = l10n.semantics_timer_plenty;
     } else if (progress > 0.3) {
       timerColor = ModernColors.warning;
       timerGradient = ModernColors.yellowGradient;
-      urgencyContext = 'time running low';
+      urgencyContext = l10n.semantics_timer_low;
     } else {
       timerColor = ModernColors.error;
       timerGradient = ModernColors.redGradient;
-      urgencyContext = 'time almost up';
+      urgencyContext = l10n.semantics_timer_up;
     }
 
     return GameElementSemantics(
       label: AccessibilityUtils.createGameElementLabel(
-        element: 'Timer',
-        value: '$timeRemaining seconds remaining',
+        element: l10n.semantics_timer_label,
+        value: l10n.semantics_timer_value(timeRemaining),
         context: urgencyContext,
       ),
       child: Container(
@@ -512,8 +516,9 @@ class _GameScreenState extends State<GameScreen> {
   // APP BAR TITLE -----------------------------------------------------------
   Widget _buildAppBarTitle(TreasureMapController treasureMapController) {
     final currentPath = treasureMapController.currentPath;
+    final l10n = AppLocalizations.of(context);
     return Semantics(
-      label: 'Current path: ${currentPath.displayName}',
+      label: l10n.semantics_currentPath(currentPath.getLocalizedName(context)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -521,7 +526,7 @@ class _GameScreenState extends State<GameScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                currentPath.displayName,
+                currentPath.getLocalizedName(context),
                 style: ModernTypography.headingSmall.copyWith(fontSize: 18),
               ),
               SizedBox(width: 8),
@@ -535,7 +540,7 @@ class _GameScreenState extends State<GameScreen> {
             ],
           ),
           Text(
-            'Treasure Hunt',
+            l10n.gameScreen_treasureHunt,
             style: ModernTypography.caption.copyWith(
               color: ModernColors.textSecondary,
               fontSize: 12,
@@ -552,7 +557,7 @@ class _GameScreenState extends State<GameScreen> {
     if (question == null) {
       return Center(
         child: Text(
-          'No question available',
+          AppLocalizations.of(context).gameScreen_noQuestion,
           style: ModernTypography.bodyLarge.copyWith(
             color: ModernColors.textSecondary,
           ),
@@ -683,22 +688,23 @@ class _GameScreenState extends State<GameScreen> {
     }
 
     final letter = String.fromCharCode(65 + index);
-    String semantic = 'Answer $letter: $answer';
+    final l10n = AppLocalizations.of(context);
+    String semantic = l10n.semantics_answer_label(letter, answer);
     if (isDisabled) {
-      semantic += ', disabled';
+      semantic += ', ${l10n.semantics_answer_disabled}';
     } else if (isFeedback) {
       if (isSelected) {
-        semantic += lastCorrect == true ? ', correct' : ', incorrect';
+        semantic += lastCorrect == true ? ', ${l10n.semantics_answer_correct}' : ', ${l10n.semantics_answer_incorrect}';
       } else if (isCorrect && lastCorrect == false)
         // ignore: curly_braces_in_flow_control_structures
-        semantic += ', correct answer';
+        semantic += ', ${l10n.semantics_answer_correctAnswer}';
     }
 
     return GameElementSemantics(
       label: semantic,
       hint: isDisabled
-          ? 'This answer has been eliminated'
-          : 'Tap to select this answer',
+          ? l10n.semantics_answer_eliminated
+          : l10n.semantics_answer_select,
       enabled: gc.isGameActive && !isFeedback && !isDisabled,
       onTap: (gc.isGameActive && !isFeedback && !isDisabled)
           ? () => _onAnswerSelected(index, gc)

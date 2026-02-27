@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/enums.dart';
+import '../utils/enum_extensions.dart';
 import 'game_screen.dart';
 import '../utils/responsive.dart';
 import '../utils/animations.dart';
@@ -53,19 +54,14 @@ class DifficultySelectionScreen extends StatelessWidget {
 
   /// Builds the modern app bar
   Widget _buildAppBar(BuildContext context) {
-    AppLocalizations? l10n;
-    try {
-      l10n = AppLocalizations.of(context);
-    } catch (e) {
-      l10n = null;
-    }
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: ModernSpacing.screenPaddingInsets.copyWith(bottom: 0),
       child: Row(
         children: [
           GameElementSemantics(
-            label: l10n?.accessibility_goBack ?? 'Go back',
-            hint: 'Tap to return to the main menu',
+            label: l10n.accessibility_goBack,
+            hint: l10n.accessibility_goBack, // Using same label as hint for now or could add specific hint
             onTap: () => Navigator.of(context).pop(),
             child: IconButton(
               icon: Icon(
@@ -78,7 +74,7 @@ class DifficultySelectionScreen extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              l10n?.difficultyScreen_title ?? 'Select Difficulty',
+              l10n.difficultyScreen_title,
               style: AccessibilityUtils.getAccessibleTextStyle(
                 context,
                 ModernTypography.headingMedium,
@@ -94,19 +90,14 @@ class DifficultySelectionScreen extends StatelessWidget {
 
   /// Builds the header text explaining difficulty selection
   Widget _buildHeaderText(BuildContext context) {
-    AppLocalizations? l10n;
-    try {
-      l10n = AppLocalizations.of(context);
-    } catch (e) {
-      l10n = null;
-    }
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: ModernSpacing.paddingHorizontalLG,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            l10n?.difficultyScreen_headerTitle ?? 'Choose your difficulty',
+            l10n.difficultyScreen_headerTitle,
             style: AccessibilityUtils.getAccessibleTextStyle(
               context,
               ModernTypography.headingLarge,
@@ -114,8 +105,7 @@ class DifficultySelectionScreen extends StatelessWidget {
           ),
           ModernSpacing.verticalSpaceSM,
           Text(
-            l10n?.difficultyScreen_headerSubtitle ??
-                'Select the difficulty level that matches your knowledge',
+            l10n.difficultyScreen_headerSubtitle,
             style: AccessibilityUtils.getAccessibleTextStyle(
               context,
               ModernTypography.withSecondaryColor(ModernTypography.bodyLarge),
@@ -128,12 +118,7 @@ class DifficultySelectionScreen extends StatelessWidget {
 
   /// Builds a 2x2 grid of difficulty cards
   Widget _buildDifficultyList(BuildContext context) {
-    AppLocalizations? l10n;
-    try {
-      l10n = AppLocalizations.of(context);
-    } catch (e) {
-      l10n = null;
-    }
+    final l10n = AppLocalizations.of(context);
 
     final difficulties = [
       {
@@ -141,45 +126,32 @@ class DifficultySelectionScreen extends StatelessWidget {
         'breedName': 'Chihuahua',
         'imagePath': 'assets/images/chihuahua.png',
         'difficultyKey': 'easy',
-        'description':
-            l10n?.difficulty_easy_description ?? 'Perfect for beginners',
-        'pointsText':
-            l10n?.difficulty_points_per_question(Difficulty.easy.points) ??
-            '${Difficulty.easy.points} points per question',
+        'description': Difficulty.easy.description(context),
+        'pointsText': l10n.difficulty_points_per_question(Difficulty.easy.points),
       },
       {
         'difficulty': Difficulty.medium,
         'breedName': 'Cocker Spaniel',
         'imagePath': 'assets/images/cocker.png',
         'difficultyKey': 'medium',
-        'description':
-            l10n?.difficulty_medium_description ??
-            'For those with some knowledge',
-        'pointsText':
-            l10n?.difficulty_points_per_question(Difficulty.medium.points) ??
-            '${Difficulty.medium.points} points per question',
+        'description': Difficulty.medium.description(context),
+        'pointsText': l10n.difficulty_points_per_question(Difficulty.medium.points),
       },
       {
         'difficulty': Difficulty.hard,
         'breedName': 'German Shepherd',
         'imagePath': 'assets/images/schaeferhund.png',
         'difficultyKey': 'hard',
-        'description':
-            l10n?.difficulty_hard_description ?? 'Challenging questions',
-        'pointsText':
-            l10n?.difficulty_points_per_question(Difficulty.hard.points) ??
-            '${Difficulty.hard.points} points per question',
+        'description': Difficulty.hard.description(context),
+        'pointsText': l10n.difficulty_points_per_question(Difficulty.hard.points),
       },
       {
         'difficulty': Difficulty.expert,
         'breedName': 'Great Dane',
         'imagePath': 'assets/images/dogge.png',
         'difficultyKey': 'expert',
-        'description':
-            l10n?.difficulty_expert_description ?? 'For true dog experts',
-        'pointsText':
-            l10n?.difficulty_points_per_question(Difficulty.expert.points) ??
-            '${Difficulty.expert.points} points per question',
+        'description': Difficulty.expert.description(context),
+        'pointsText': l10n.difficulty_points_per_question(Difficulty.expert.points),
       },
     ];
 
@@ -219,13 +191,12 @@ class DifficultySelectionScreen extends StatelessWidget {
     String description,
     String pointsText,
   ) {
-    final difficultyName = _getLocalizedDifficultyName(context, difficulty);
+    final difficultyName = difficulty.displayName(context);
+    final l10n = AppLocalizations.of(context);
 
     return GameElementSemantics(
-      label: AccessibilityUtils.createButtonLabel(
-        'Play $difficultyName difficulty',
-        hint: '$description. $pointsText. Tap to select this difficulty.',
-      ),
+      label: l10n.difficultyScreen_semantics_play(difficultyName),
+      hint: l10n.difficultyScreen_semantics_hint(description, pointsText),
       onTap: () => _onDifficultySelected(context, difficulty),
       child: InkWell(
         onTap: () => _onDifficultySelected(context, difficulty),
@@ -340,28 +311,7 @@ class DifficultySelectionScreen extends StatelessWidget {
     );
   }
 
-  /// Gets the localized name for a difficulty level
-  String _getLocalizedDifficultyName(
-    BuildContext context,
-    Difficulty difficulty,
-  ) {
-    AppLocalizations? l10n;
-    try {
-      l10n = AppLocalizations.of(context);
-    } catch (e) {
-      l10n = null;
-    }
-    switch (difficulty) {
-      case Difficulty.easy:
-        return l10n?.difficulty_easy ?? 'Easy';
-      case Difficulty.medium:
-        return l10n?.difficulty_medium ?? 'Medium';
-      case Difficulty.hard:
-        return l10n?.difficulty_hard ?? 'Hard';
-      case Difficulty.expert:
-        return l10n?.difficulty_expert ?? 'Expert';
-    }
-  }
+
 
   /// Handles difficulty selection
   void _onDifficultySelected(
@@ -375,7 +325,9 @@ class DifficultySelectionScreen extends StatelessWidget {
     if (context.mounted && AccessibilityUtils.isScreenReaderEnabled(context)) {
       AccessibilityUtils.announceToScreenReader(
         context,
-        '${_getLocalizedDifficultyName(context, difficulty)} difficulty selected. Starting game.',
+        AppLocalizations.of(context).difficultyScreen_semantics_selected_announcement(
+          difficulty.displayName(context),
+        ),
       );
     }
 

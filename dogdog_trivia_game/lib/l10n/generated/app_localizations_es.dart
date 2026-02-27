@@ -1026,4 +1026,249 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get breedAdventure_criticalTime => 'Tiempo crítico restante';
+
+  @override
+  String get semantics_settings => 'Settings';
+
+  @override
+  String get semantics_companionMenu => 'Companion Menu';
+
+  @override
+  String get companion_yourCompanion => 'Your Companion';
+
+  @override
+  String companion_bond(int percent) {
+    return '$percent% bond';
+  }
+
+  @override
+  String get menu_customize_title => 'Customize';
+
+  @override
+  String get menu_customize_subtitle => 'Accessories & home decor';
+
+  @override
+  String get menu_mindful_title => 'Mindful Moments';
+
+  @override
+  String get menu_mindful_subtitle => 'Breathing, cuddles & rest';
+
+  @override
+  String get menu_journal_title => 'Memory Journal';
+
+  @override
+  String get menu_journal_subtitle => 'Your adventures together';
+
+  @override
+  String get menu_parent_title => 'Parent Dashboard';
+
+  @override
+  String get menu_parent_subtitle => 'Learning progress';
+
+  @override
+  String get action_feed => 'Feed';
+
+  @override
+  String get action_style => 'Style';
+
+  @override
+  String get action_relax => 'Relax';
+
+  @override
+  String get action_journal => 'Journal';
+
+  @override
+  String get feedback_feed_success => 'Yum! Tasty treat! 🦴';
+
+  @override
+  String get feedback_feed_notEnough => 'Not enough treats!';
+
+  @override
+  String get feedback_feed_full => 'I\'m fully fed! 😋';
+
+  @override
+  String get home_trainingAdventures => '✨ Training Adventures ✨';
+
+  @override
+  String greeting_missedYou(String name) {
+    return '$name missed you! 💕';
+  }
+
+  @override
+  String greeting_mood_happy(String name) {
+    return '$name is happy to see you!';
+  }
+
+  @override
+  String greeting_mood_curious(String name) {
+    return '$name is curious about today\'s adventure!';
+  }
+
+  @override
+  String greeting_mood_sleepy(String name) {
+    return '$name is a bit sleepy... 😴';
+  }
+
+  @override
+  String greeting_mood_excited(String name) {
+    return '$name can\'t wait to play!';
+  }
+
+  @override
+  String greeting_timeSince(String time) {
+    return 'It\'s been $time!';
+  }
+
+  @override
+  String get action_letsPlay => 'Let\'s Play! 🎮';
+
+  @override
+  String get action_train => 'Train 🐕';
+
+  @override
+  String semantics_pathCard(String path) {
+    return '$path path card';
+  }
+
+  @override
+  String get breed_adventure_beginner => 'Beginner';
+
+  @override
+  String get breed_adventure_intermediate => 'Intermediate';
+
+  @override
+  String get breed_adventure_expert => 'Expert';
+
+  @override
+  String get breed_adventure_unknown => 'Unknown';
+
+  @override
+  String get checkpoint_chihuahua => 'Chihuahua';
+
+  @override
+  String get checkpoint_pug => 'Pug';
+
+  @override
+  String get checkpoint_cockerSpaniel => 'Cocker Spaniel';
+
+  @override
+  String get checkpoint_germanShepherd => 'German Shepherd';
+
+  @override
+  String get checkpoint_greatDane => 'Great Dane';
+
+  @override
+  String get checkpoint_deutscheDogge => 'Great Dane (German)';
+
+  @override
+  String get semantics_pauseGame_hint => 'Tap to pause the current game';
+
+  @override
+  String semantics_powerUp_hint_available(int count) {
+    return 'Tap to use. $count left.';
+  }
+
+  @override
+  String get semantics_powerUp_hint_unavailable => 'Unavailable now';
+
+  @override
+  String get semantics_powerUp_hint_none => 'None left';
+
+  @override
+  String get semantics_timer_plenty => 'plenty of time remaining';
+
+  @override
+  String get semantics_timer_low => 'time running low';
+
+  @override
+  String get semantics_timer_up => 'time almost up';
+
+  @override
+  String get semantics_timer_label => 'Timer';
+
+  @override
+  String semantics_timer_value(int seconds) {
+    return '$seconds seconds remaining';
+  }
+
+  @override
+  String semantics_currentPath(String path) {
+    return 'Current path: $path';
+  }
+
+  @override
+  String get gameScreen_treasureHunt => 'Treasure Hunt';
+
+  @override
+  String get gameScreen_noQuestion => 'No question available';
+
+  @override
+  String semantics_answer_label(String letter, String answer) {
+    return 'Answer $letter: $answer';
+  }
+
+  @override
+  String get semantics_answer_disabled => 'disabled';
+
+  @override
+  String get semantics_answer_correct => 'correct';
+
+  @override
+  String get semantics_answer_incorrect => 'incorrect';
+
+  @override
+  String get semantics_answer_correctAnswer => 'correct answer';
+
+  @override
+  String get semantics_answer_eliminated => 'This answer has been eliminated';
+
+  @override
+  String get semantics_answer_select => 'Tap to select this answer';
+
+  @override
+  String get resultScreen_correctAnswerWas => 'The correct answer was:';
+
+  @override
+  String memory_training_title(String path) {
+    return 'Training: $path';
+  }
+
+  @override
+  String memory_training_description(int score) {
+    return 'Completed a training session with $score points!';
+  }
+
+  @override
+  String get semantics_correct_celebration =>
+      'Correct answer celebration animation';
+
+  @override
+  String difficultyScreen_semantics_play(String difficulty) {
+    return 'Play $difficulty difficulty';
+  }
+
+  @override
+  String difficultyScreen_semantics_hint(String description, String points) {
+    return '$description. $points. Tap to select this difficulty.';
+  }
+
+  @override
+  String difficultyScreen_semantics_selected_announcement(String difficulty) {
+    return '$difficulty difficulty selected. Starting game.';
+  }
+
+  @override
+  String get settings_userName => 'Your Name';
+
+  @override
+  String get settings_userNameHint => 'Enter your name';
+
+  @override
+  String get settings_dogName => 'Dog Name';
+
+  @override
+  String get settings_dogNameHint => 'Enter your dog\'s name';
+
+  @override
+  String get common_close => 'Close';
 }

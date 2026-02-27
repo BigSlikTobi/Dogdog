@@ -1,3 +1,6 @@
+import 'package:flutter/widgets.dart';
+import '../l10n/generated/app_localizations.dart';
+
 /// Enum representing different difficulty levels in the game
 enum Difficulty {
   easy,
@@ -239,6 +242,25 @@ enum Checkpoint {
 
   /// Path to the image asset for this checkpoint
   final String imagePath;
+
+  /// Returns the localized name for the checkpoint
+  String getLocalizedName(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    switch (this) {
+      case Checkpoint.chihuahua:
+        return l10n.checkpoint_chihuahua;
+      case Checkpoint.pug:
+        return l10n.checkpoint_pug;
+      case Checkpoint.cockerSpaniel:
+        return l10n.checkpoint_cockerSpaniel;
+      case Checkpoint.germanShepherd:
+        return l10n.checkpoint_germanShepherd;
+      case Checkpoint.greatDane:
+        return l10n.checkpoint_greatDane;
+      case Checkpoint.deutscheDogge:
+        return l10n.checkpoint_deutscheDogge;
+    }
+  }
 }
 
 /// Enum for feedback state after an answer.

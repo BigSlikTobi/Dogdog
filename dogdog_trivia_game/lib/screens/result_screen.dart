@@ -14,7 +14,8 @@ import '../widgets/shared/success_animation_widget.dart';
 import '../design_system/modern_colors.dart';
 import '../design_system/modern_spacing.dart';
 import '../utils/animations.dart';
-import '../utils/enum_extensions.dart'; // Added for PathType.getLocalizedName
+import '../utils/enum_extensions.dart';
+import '../utils/path_localization.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../widgets/lives_indicator.dart';
 
@@ -351,7 +352,7 @@ class _ResultScreenState extends State<ResultScreen>
                 // Correct answer display (for incorrect answers)
                 if (!widget.isCorrect) ...[
                   Text(
-                    'The correct answer was:', // This could be localized if needed
+                    AppLocalizations.of(context).resultScreen_correctAnswerWas,
                     style: const TextStyle(fontSize: 14, color: Colors.white70),
                   ),
                   const SizedBox(height: 4),
@@ -541,7 +542,7 @@ class _ResultScreenState extends State<ResultScreen>
                       });
                     }
                   },
-                  semanticLabel: 'Correct answer celebration animation',
+                  semanticLabel: AppLocalizations.of(context).semantics_correct_celebration,
                 ),
               ),
             ),
@@ -633,8 +634,8 @@ class _ResultScreenState extends State<ResultScreen>
         final pathName = treasureMapController.currentPath.getLocalizedName(context);
         
         await companionController.createMemory(
-          storyTitle: 'Training: $pathName',
-          description: 'Completed a training session with ${gameController.score} points!',
+          storyTitle: AppLocalizations.of(context).memory_training_title(pathName),
+          description: AppLocalizations.of(context).memory_training_description(gameController.score),
           area: WorldArea.adventureTrails, // Default to trails for now
           factsLearned: [],
           correctAnswers: stats['correctAnswers'] as int,

@@ -1035,28 +1035,28 @@ abstract class AppLocalizations {
   /// **'Start'**
   String get pathSelection_start;
 
-  /// Display name for dog trivia path
+  /// Name of the trivia path
   ///
   /// In en, this message translates to:
   /// **'Dog Trivia'**
   String get pathType_dogTrivia_name;
 
-  /// Description for dog trivia path
+  /// Description of the trivia path
   ///
   /// In en, this message translates to:
   /// **'Learn about different dog breeds, their characteristics, and origins'**
   String get pathType_dogTrivia_description;
 
-  /// Display name for puppy quest path
+  /// Name of the puppy quest path
   ///
   /// In en, this message translates to:
   /// **'Puppy Quest'**
   String get pathType_puppyQuest_name;
 
-  /// Description for puppy quest path
+  /// Description of the puppy quest path
   ///
   /// In en, this message translates to:
-  /// **'Test your breed identification skills with timed picture challenges'**
+  /// **'Test your knowledge by identifying dog breeds from photos'**
   String get pathType_puppyQuest_description;
 
   /// Display name for dog breeds path
@@ -1868,6 +1868,426 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Critical time remaining'**
   String get breedAdventure_criticalTime;
+
+  /// Accessibility label for settings button
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get semantics_settings;
+
+  /// Accessibility label for companion menu button
+  ///
+  /// In en, this message translates to:
+  /// **'Companion Menu'**
+  String get semantics_companionMenu;
+
+  /// Default title when generic companion is shown
+  ///
+  /// In en, this message translates to:
+  /// **'Your Companion'**
+  String get companion_yourCompanion;
+
+  /// Shows companion bond percentage
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% bond'**
+  String companion_bond(int percent);
+
+  /// Title for customization menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Customize'**
+  String get menu_customize_title;
+
+  /// Subtitle for customization menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Accessories & home decor'**
+  String get menu_customize_subtitle;
+
+  /// Title for mindful moments menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Mindful Moments'**
+  String get menu_mindful_title;
+
+  /// Subtitle for mindful moments menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Breathing, cuddles & rest'**
+  String get menu_mindful_subtitle;
+
+  /// Title for memory journal menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Memory Journal'**
+  String get menu_journal_title;
+
+  /// Subtitle for memory journal menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Your adventures together'**
+  String get menu_journal_subtitle;
+
+  /// Title for parent dashboard menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Parent Dashboard'**
+  String get menu_parent_title;
+
+  /// Subtitle for parent dashboard menu item
+  ///
+  /// In en, this message translates to:
+  /// **'Learning progress'**
+  String get menu_parent_subtitle;
+
+  /// Label for feed action
+  ///
+  /// In en, this message translates to:
+  /// **'Feed'**
+  String get action_feed;
+
+  /// Label for style action
+  ///
+  /// In en, this message translates to:
+  /// **'Style'**
+  String get action_style;
+
+  /// Label for relax action
+  ///
+  /// In en, this message translates to:
+  /// **'Relax'**
+  String get action_relax;
+
+  /// Label for journal action
+  ///
+  /// In en, this message translates to:
+  /// **'Journal'**
+  String get action_journal;
+
+  /// Feedback when feeding is successful
+  ///
+  /// In en, this message translates to:
+  /// **'Yum! Tasty treat! 🦴'**
+  String get feedback_feed_success;
+
+  /// Feedback when not enough treats
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough treats!'**
+  String get feedback_feed_notEnough;
+
+  /// Feedback when companion is full
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m fully fed! 😋'**
+  String get feedback_feed_full;
+
+  /// Section title for training adventures
+  ///
+  /// In en, this message translates to:
+  /// **'✨ Training Adventures ✨'**
+  String get home_trainingAdventures;
+
+  /// Greeting when companion missed player
+  ///
+  /// In en, this message translates to:
+  /// **'{name} missed you! 💕'**
+  String greeting_missedYou(String name);
+
+  /// Greeting when companion is happy
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is happy to see you!'**
+  String greeting_mood_happy(String name);
+
+  /// Greeting when companion is curious
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is curious about today\'s adventure!'**
+  String greeting_mood_curious(String name);
+
+  /// Greeting when companion is sleepy
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is a bit sleepy... 😴'**
+  String greeting_mood_sleepy(String name);
+
+  /// Greeting when companion is excited
+  ///
+  /// In en, this message translates to:
+  /// **'{name} can\'t wait to play!'**
+  String greeting_mood_excited(String name);
+
+  /// Shows time since last visit
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s been {time}!'**
+  String greeting_timeSince(String time);
+
+  /// Button text to start playing
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s Play! 🎮'**
+  String get action_letsPlay;
+
+  /// Button text to start training
+  ///
+  /// In en, this message translates to:
+  /// **'Train 🐕'**
+  String get action_train;
+
+  /// Semantics label for path card
+  ///
+  /// In en, this message translates to:
+  /// **'{path} path card'**
+  String semantics_pathCard(String path);
+
+  /// Difficulty phase beginner
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner'**
+  String get breed_adventure_beginner;
+
+  /// Difficulty phase intermediate
+  ///
+  /// In en, this message translates to:
+  /// **'Intermediate'**
+  String get breed_adventure_intermediate;
+
+  /// Difficulty phase expert
+  ///
+  /// In en, this message translates to:
+  /// **'Expert'**
+  String get breed_adventure_expert;
+
+  /// Unknown difficulty phase
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get breed_adventure_unknown;
+
+  /// Checkpoint name for Chihuahua
+  ///
+  /// In en, this message translates to:
+  /// **'Chihuahua'**
+  String get checkpoint_chihuahua;
+
+  /// Checkpoint name for Pug
+  ///
+  /// In en, this message translates to:
+  /// **'Pug'**
+  String get checkpoint_pug;
+
+  /// Checkpoint name for Cocker Spaniel
+  ///
+  /// In en, this message translates to:
+  /// **'Cocker Spaniel'**
+  String get checkpoint_cockerSpaniel;
+
+  /// Checkpoint name for German Shepherd
+  ///
+  /// In en, this message translates to:
+  /// **'German Shepherd'**
+  String get checkpoint_germanShepherd;
+
+  /// Checkpoint name for Great Dane
+  ///
+  /// In en, this message translates to:
+  /// **'Great Dane'**
+  String get checkpoint_greatDane;
+
+  /// Checkpoint name for Deutsche Dogge
+  ///
+  /// In en, this message translates to:
+  /// **'Great Dane (German)'**
+  String get checkpoint_deutscheDogge;
+
+  /// Hint for pause button
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to pause the current game'**
+  String get semantics_pauseGame_hint;
+
+  /// Hint for available power up
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to use. {count} left.'**
+  String semantics_powerUp_hint_available(int count);
+
+  /// Hint for unavailable power up
+  ///
+  /// In en, this message translates to:
+  /// **'Unavailable now'**
+  String get semantics_powerUp_hint_unavailable;
+
+  /// Hint for empty power up
+  ///
+  /// In en, this message translates to:
+  /// **'None left'**
+  String get semantics_powerUp_hint_none;
+
+  /// Timer context plenty
+  ///
+  /// In en, this message translates to:
+  /// **'plenty of time remaining'**
+  String get semantics_timer_plenty;
+
+  /// Timer context low
+  ///
+  /// In en, this message translates to:
+  /// **'time running low'**
+  String get semantics_timer_low;
+
+  /// Timer context up
+  ///
+  /// In en, this message translates to:
+  /// **'time almost up'**
+  String get semantics_timer_up;
+
+  /// Timer label
+  ///
+  /// In en, this message translates to:
+  /// **'Timer'**
+  String get semantics_timer_label;
+
+  /// Timer value
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} seconds remaining'**
+  String semantics_timer_value(int seconds);
+
+  /// Current path semantics
+  ///
+  /// In en, this message translates to:
+  /// **'Current path: {path}'**
+  String semantics_currentPath(String path);
+
+  /// Treasure hunt title
+  ///
+  /// In en, this message translates to:
+  /// **'Treasure Hunt'**
+  String get gameScreen_treasureHunt;
+
+  /// No question message
+  ///
+  /// In en, this message translates to:
+  /// **'No question available'**
+  String get gameScreen_noQuestion;
+
+  /// Answer semantics
+  ///
+  /// In en, this message translates to:
+  /// **'Answer {letter}: {answer}'**
+  String semantics_answer_label(String letter, String answer);
+
+  /// Answer disabled
+  ///
+  /// In en, this message translates to:
+  /// **'disabled'**
+  String get semantics_answer_disabled;
+
+  /// Answer correct
+  ///
+  /// In en, this message translates to:
+  /// **'correct'**
+  String get semantics_answer_correct;
+
+  /// Answer incorrect
+  ///
+  /// In en, this message translates to:
+  /// **'incorrect'**
+  String get semantics_answer_incorrect;
+
+  /// Correct answer label
+  ///
+  /// In en, this message translates to:
+  /// **'correct answer'**
+  String get semantics_answer_correctAnswer;
+
+  /// Answer eliminated hint
+  ///
+  /// In en, this message translates to:
+  /// **'This answer has been eliminated'**
+  String get semantics_answer_eliminated;
+
+  /// Select answer hint
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to select this answer'**
+  String get semantics_answer_select;
+
+  /// Label for correct answer
+  ///
+  /// In en, this message translates to:
+  /// **'The correct answer was:'**
+  String get resultScreen_correctAnswerWas;
+
+  /// Memory title
+  ///
+  /// In en, this message translates to:
+  /// **'Training: {path}'**
+  String memory_training_title(String path);
+
+  /// Memory description
+  ///
+  /// In en, this message translates to:
+  /// **'Completed a training session with {score} points!'**
+  String memory_training_description(int score);
+
+  /// Semantics for celebration
+  ///
+  /// In en, this message translates to:
+  /// **'Correct answer celebration animation'**
+  String get semantics_correct_celebration;
+
+  /// Semantic label for difficulty card
+  ///
+  /// In en, this message translates to:
+  /// **'Play {difficulty} difficulty'**
+  String difficultyScreen_semantics_play(String difficulty);
+
+  /// Semantic hint for difficulty card
+  ///
+  /// In en, this message translates to:
+  /// **'{description}. {points}. Tap to select this difficulty.'**
+  String difficultyScreen_semantics_hint(String description, String points);
+
+  /// Announcement when difficulty is selected
+  ///
+  /// In en, this message translates to:
+  /// **'{difficulty} difficulty selected. Starting game.'**
+  String difficultyScreen_semantics_selected_announcement(String difficulty);
+
+  /// Settings section title for user name
+  ///
+  /// In en, this message translates to:
+  /// **'Your Name'**
+  String get settings_userName;
+
+  /// Hint for user name text field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get settings_userNameHint;
+
+  /// Settings section title for dog name
+  ///
+  /// In en, this message translates to:
+  /// **'Dog Name'**
+  String get settings_dogName;
+
+  /// Hint for dog name text field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your dog\'s name'**
+  String get settings_dogNameHint;
+
+  /// Close button text
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get common_close;
 }
 
 class _AppLocalizationsDelegate

@@ -317,55 +317,54 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get errorCriticalTitle => 'Critical Error';
+  String get errorCriticalTitle => 'Kritischer Fehler';
 
   @override
   String get errorCriticalMessage =>
-      'A critical error has occurred that prevents the game from functioning properly. Please restart the app.';
+      'Ein unerwarteter Fehler ist aufgetreten. Bitte starten Sie die App neu.';
 
   @override
-  String get errorLocalizationTitle => 'Language Issue';
+  String get errorLocalizationTitle => 'Lokalisierungsfehler';
 
   @override
   String get errorLocalizationMessage =>
-      'Some content may not be available in your selected language. Would you like to continue in English?';
+      'Sprachressourcen konnten nicht geladen werden.';
 
   @override
-  String get errorNoQuestionsTitle => 'No Questions Available';
+  String get errorNoQuestionsTitle => 'Keine Fragen';
 
   @override
   String errorNoQuestionsForCategoryMessage(String category) {
-    return 'No questions are available for $category. Please try a different category.';
+    return 'Keine Fragen für diese Kategorie gefunden.';
   }
 
   @override
   String errorFewQuestionsMessage(int count) {
-    return 'Only $count questions are available for this category. The game may be shorter than usual.';
+    return 'Zu wenige Fragen verfügbar.';
   }
 
   @override
-  String get errorLoadingTitle => 'Loading Issue';
+  String get errorLoadingTitle => 'Fehler beim Laden';
 
   @override
-  String get errorGenericMessage =>
-      'An unexpected error occurred. Please try again.';
+  String get errorGenericMessage => 'Etwas ist schiefgelaufen.';
 
   @override
-  String get errorActionRetry => 'Try Again';
+  String get errorActionRetry => 'Wiederholen';
 
   @override
-  String get errorActionSwitchCategory => 'Choose Different Category';
+  String get errorActionSwitchCategory => 'Kategorie wechseln';
 
   @override
   String errorActionContinueAnyway(int count) {
-    return 'Continue with $count Questions';
+    return 'Trotzdem fortfahren';
   }
 
   @override
-  String get errorActionUseDefaultLanguage => 'Use English Instead';
+  String get errorActionUseDefaultLanguage => 'Standardsprache verwenden';
 
   @override
-  String get errorActionGoHome => 'Return to Main Menu';
+  String get errorActionGoHome => 'Zur Startseite';
 
   @override
   String get powerUp_extraTimeAdded => 'Extra Zeit hinzugefügt!';
@@ -601,13 +600,13 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get treasureMap_questions => 'questions';
+  String get treasureMap_questions => 'Fragen';
 
   @override
-  String get treasureMap_currentRank => 'Current Rank';
+  String get treasureMap_currentRank => 'Aktueller Rang';
 
   @override
-  String get treasureMap_allCompleted => 'All Completed!';
+  String get treasureMap_allCompleted => 'Alle Abenteuer abgeschlossen!';
 
   @override
   String get treasureMap_pathCompletedStatus => 'Pfad Abgeschlossen!';
@@ -877,29 +876,28 @@ class AppLocalizationsDe extends AppLocalizations {
       'Entdecke die Geschichte der Hunde, Genetik und Evolution';
 
   @override
-  String get categorySelection_title => 'Choose Your Adventure';
+  String get categorySelection_title => 'Kategorie wählen';
 
   @override
-  String get categorySelection_hint =>
-      'Select a category to start your quiz adventure';
+  String get categorySelection_hint => 'Wählen Sie ein Thema für Ihr Quiz';
 
   @override
   String get categorySelection_description =>
-      'Select a category to start your learning adventure with fun questions about dogs';
+      'Tippen Sie auf eine Kategorie, um zu starten.';
 
   @override
   String categorySelection_selectedHint(String category) {
-    return 'Currently selected: $category. Tap to confirm or choose a different category';
+    return 'Ausgewählt. Doppeltippen zum Starten.';
   }
 
   @override
   String categorySelection_selectHint(String category) {
-    return 'Tap to select $category category';
+    return 'Doppeltippen zum Auswählen.';
   }
 
   @override
   String categorySelection_announceSelection(String category) {
-    return 'Selected $category category';
+    return 'Kategorie $category ausgewählt';
   }
 
   @override
@@ -1022,4 +1020,251 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get breedAdventure_criticalTime => 'Kritische Zeit verbleibend';
+
+  @override
+  String get semantics_settings => 'Einstellungen';
+
+  @override
+  String get semantics_companionMenu => 'Begleiter-Menü';
+
+  @override
+  String get companion_yourCompanion => 'Ihr Begleiter';
+
+  @override
+  String companion_bond(int percent) {
+    return 'Bindung';
+  }
+
+  @override
+  String get menu_customize_title => 'Anpassen';
+
+  @override
+  String get menu_customize_subtitle => 'Ändern Sie das Aussehen Ihres Hundes';
+
+  @override
+  String get menu_mindful_title => 'Achtsamkeit';
+
+  @override
+  String get menu_mindful_subtitle => 'Entspannen Sie mit Ihrem Hund';
+
+  @override
+  String get menu_journal_title => 'Tagebuch';
+
+  @override
+  String get menu_journal_subtitle => 'Erinnerungen festhalten';
+
+  @override
+  String get menu_parent_title => 'Elternbereich';
+
+  @override
+  String get menu_parent_subtitle => 'Einstellungen und Fortschritt';
+
+  @override
+  String get action_feed => 'Füttern';
+
+  @override
+  String get action_style => 'Stylen';
+
+  @override
+  String get action_relax => 'Entspannen';
+
+  @override
+  String get action_journal => 'Tagebuch';
+
+  @override
+  String get feedback_feed_success => 'Lecker! Das hat geschmeckt.';
+
+  @override
+  String get feedback_feed_notEnough => 'Nicht genug Leckerlis.';
+
+  @override
+  String get feedback_feed_full => 'Ich bin satt!';
+
+  @override
+  String get home_trainingAdventures => 'Trainingsabenteuer';
+
+  @override
+  String greeting_missedYou(String name) {
+    return '$name hat dich vermisst! 💕';
+  }
+
+  @override
+  String greeting_mood_happy(String name) {
+    return '$name freut sich dich zu sehen!';
+  }
+
+  @override
+  String greeting_mood_curious(String name) {
+    return '$name ist neugierig auf das heutige Abenteuer!';
+  }
+
+  @override
+  String greeting_mood_sleepy(String name) {
+    return '$name ist etwas schläfrig... 😴';
+  }
+
+  @override
+  String greeting_mood_excited(String name) {
+    return '$name kann es kaum erwarten zu spielen!';
+  }
+
+  @override
+  String greeting_timeSince(String time) {
+    return 'Es ist $time her!';
+  }
+
+  @override
+  String get action_letsPlay => 'Lass uns spielen! 🎮';
+
+  @override
+  String get action_train => 'Trainieren 🐕';
+
+  @override
+  String semantics_pathCard(String path) {
+    return '$path Pfad Karte';
+  }
+
+  @override
+  String get breed_adventure_beginner => 'Anfänger';
+
+  @override
+  String get breed_adventure_intermediate => 'Fortgeschritten';
+
+  @override
+  String get breed_adventure_expert => 'Experte';
+
+  @override
+  String get breed_adventure_unknown => 'Unbekannt';
+
+  @override
+  String get checkpoint_chihuahua => 'Chihuahua';
+
+  @override
+  String get checkpoint_pug => 'Mops';
+
+  @override
+  String get checkpoint_cockerSpaniel => 'Cocker Spaniel';
+
+  @override
+  String get checkpoint_germanShepherd => 'Deutscher Schäferhund';
+
+  @override
+  String get checkpoint_greatDane => 'Deutsche Dogge';
+
+  @override
+  String get checkpoint_deutscheDogge => 'Deutsche Dogge';
+
+  @override
+  String get semantics_pauseGame_hint =>
+      'Tippen Sie, um das aktuelle Spiel zu pausieren';
+
+  @override
+  String semantics_powerUp_hint_available(int count) {
+    return 'Tippen Sie zur Verwendung. $count übrig.';
+  }
+
+  @override
+  String get semantics_powerUp_hint_unavailable => 'Momentan nicht verfügbar';
+
+  @override
+  String get semantics_powerUp_hint_none => 'Keine mehr übrig';
+
+  @override
+  String get semantics_timer_plenty => 'noch viel Zeit';
+
+  @override
+  String get semantics_timer_low => 'Zeit wird knapp';
+
+  @override
+  String get semantics_timer_up => 'Zeit fast abgelaufen';
+
+  @override
+  String get semantics_timer_label => 'Timer';
+
+  @override
+  String semantics_timer_value(int seconds) {
+    return '$seconds Sekunden verbleibend';
+  }
+
+  @override
+  String semantics_currentPath(String path) {
+    return 'Aktueller Pfad: $path';
+  }
+
+  @override
+  String get gameScreen_treasureHunt => 'Schatzsuche';
+
+  @override
+  String get gameScreen_noQuestion => 'Keine Frage verfügbar';
+
+  @override
+  String semantics_answer_label(String letter, String answer) {
+    return 'Antwort $letter: $answer';
+  }
+
+  @override
+  String get semantics_answer_disabled => 'deaktiviert';
+
+  @override
+  String get semantics_answer_correct => 'richtig';
+
+  @override
+  String get semantics_answer_incorrect => 'falsch';
+
+  @override
+  String get semantics_answer_correctAnswer => 'richtige Antwort';
+
+  @override
+  String get semantics_answer_eliminated => 'Diese Antwort wurde eliminiert';
+
+  @override
+  String get semantics_answer_select =>
+      'Tippen Sie, um diese Antwort auszuwählen';
+
+  @override
+  String get resultScreen_correctAnswerWas => 'Die richtige Antwort war:';
+
+  @override
+  String memory_training_title(String path) {
+    return 'Training: $path';
+  }
+
+  @override
+  String memory_training_description(int score) {
+    return 'Trainingseinheit mit $score Punkten abgeschlossen!';
+  }
+
+  @override
+  String get semantics_correct_celebration =>
+      'Feieranimation für richtige Antwort';
+
+  @override
+  String difficultyScreen_semantics_play(String difficulty) {
+    return '$difficulty Schwierigkeitsgrad spielen';
+  }
+
+  @override
+  String difficultyScreen_semantics_hint(String description, String points) {
+    return '$description. $points. Tippen Sie, um diesen Schwierigkeitsgrad auszuwählen.';
+  }
+
+  @override
+  String difficultyScreen_semantics_selected_announcement(String difficulty) {
+    return '$difficulty Schwierigkeitsgrad ausgewählt. Spiel startet.';
+  }
+
+  @override
+  String get settings_userName => 'Dein Name';
+
+  @override
+  String get settings_userNameHint => 'Gib deinen Namen ein';
+
+  @override
+  String get settings_dogName => 'Hundename';
+
+  @override
+  String get settings_dogNameHint => 'Gib den Namen deines Hundes ein';
+
+  @override
+  String get common_close => 'Schließen';
 }

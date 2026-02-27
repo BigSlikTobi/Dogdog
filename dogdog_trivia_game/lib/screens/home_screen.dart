@@ -6,7 +6,7 @@ import '../design_system/modern_typography.dart';
 import '../design_system/modern_spacing.dart';
 import '../design_system/modern_shadows.dart';
 import '../widgets/gradient_button.dart';
-import '../widgets/audio_settings.dart';
+import '../widgets/settings_dialog.dart';
 import '../utils/responsive.dart';
 import '../utils/accessibility.dart';
 import '../utils/game_state_animations.dart';
@@ -154,8 +154,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Stack(
               children: [
                 _buildFloatingDecorations(),
-                _buildSettingsButton(),
-                _buildCompanionButton(),
                 FadeTransition(
                   opacity: _fadeAnimation,
                   child: SlideTransition(
@@ -184,6 +182,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
+                // Buttons on top so they're clickable
+                _buildSettingsButton(),
+                _buildCompanionButton(),
               ],
             ),
           ),
@@ -194,79 +195,81 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   /// Builds floating decorative elements (stars, circles) with subtle animations
   Widget _buildFloatingDecorations() {
-    return AnimatedBuilder(
-      animation: _decorationAnimation,
-      builder: (context, child) {
-        return Stack(
-          children: [
-            // Floating star 1
-            Positioned(
-              top: 100 + (20 * _decorationAnimation.value),
-              left: 50,
-              child: Transform.rotate(
-                angle: _decorationAnimation.value * 2 * 3.14159,
-                child: Icon(
-                  Icons.star,
-                  color: ModernColors.primaryYellow.withValues(alpha: 0.3),
-                  size: 24,
+    return IgnorePointer(
+      child: AnimatedBuilder(
+        animation: _decorationAnimation,
+        builder: (context, child) {
+          return Stack(
+            children: [
+              // Floating star 1
+              Positioned(
+                top: 100 + (20 * _decorationAnimation.value),
+                left: 50,
+                child: Transform.rotate(
+                  angle: _decorationAnimation.value * 2 * 3.14159,
+                  child: Icon(
+                    Icons.star,
+                    color: ModernColors.primaryYellow.withValues(alpha: 0.3),
+                    size: 24,
+                  ),
                 ),
               ),
-            ),
-            // Floating circle 1
-            Positioned(
-              top: 200 + (15 * _decorationAnimation.value),
-              right: 80,
-              child: Container(
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
-                  color: ModernColors.primaryBlue.withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
+              // Floating circle 1
+              Positioned(
+                top: 200 + (15 * _decorationAnimation.value),
+                right: 80,
+                child: Container(
+                  width: 16,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: ModernColors.primaryBlue.withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
-            ),
-            // Floating star 2
-            Positioned(
-              top: 350 + (25 * _decorationAnimation.value),
-              left: MediaQuery.of(context).size.width * 0.8,
-              child: Transform.rotate(
-                angle: -_decorationAnimation.value * 1.5 * 3.14159,
-                child: Icon(
-                  Icons.star_outline,
-                  color: ModernColors.primaryPurple.withValues(alpha: 0.25),
-                  size: 20,
+              // Floating star 2
+              Positioned(
+                top: 350 + (25 * _decorationAnimation.value),
+                left: MediaQuery.of(context).size.width * 0.8,
+                child: Transform.rotate(
+                  angle: -_decorationAnimation.value * 1.5 * 3.14159,
+                  child: Icon(
+                    Icons.star_outline,
+                    color: ModernColors.primaryPurple.withValues(alpha: 0.25),
+                    size: 20,
+                  ),
                 ),
               ),
-            ),
-            // Floating circle 2
-            Positioned(
-              top: 450 + (18 * _decorationAnimation.value),
-              left: 30,
-              child: Container(
-                width: 12,
-                height: 12,
-                decoration: BoxDecoration(
-                  color: ModernColors.primaryGreen.withValues(alpha: 0.15),
-                  shape: BoxShape.circle,
+              // Floating circle 2
+              Positioned(
+                top: 450 + (18 * _decorationAnimation.value),
+                left: 30,
+                child: Container(
+                  width: 12,
+                  height: 12,
+                  decoration: BoxDecoration(
+                    color: ModernColors.primaryGreen.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
-            ),
-            // Floating star 3
-            Positioned(
-              bottom: 200 + (22 * _decorationAnimation.value),
-              right: 40,
-              child: Transform.rotate(
-                angle: _decorationAnimation.value * 1.2 * 3.14159,
-                child: Icon(
-                  Icons.star,
-                  color: ModernColors.warning.withValues(alpha: 0.2),
-                  size: 18,
+              // Floating star 3
+              Positioned(
+                bottom: 200 + (22 * _decorationAnimation.value),
+                right: 40,
+                child: Transform.rotate(
+                  angle: _decorationAnimation.value * 1.2 * 3.14159,
+                  child: Icon(
+                    Icons.star,
+                    color: ModernColors.warning.withValues(alpha: 0.2),
+                    size: 18,
+                  ),
                 ),
               ),
-            ),
-          ],
-        );
-      },
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -343,14 +346,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Positioned(
       top: 16,
       right: 16,
-      child: GameStateAnimations.buildBouncingButton(
-        onPressed: () async {
-          await audioService.playButtonSound();
-          if (mounted) {
-            await AudioSettingsDialog.show(context);
-          }
-        },
-        child: Container(
+      child: Container(
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.9),
             shape: BoxShape.circle,
@@ -369,11 +365,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               onTap: () async {
                 await audioService.playButtonSound();
                 if (mounted) {
-                  await AudioSettingsDialog.show(context);
+                  await SettingsDialog.show(context);
                 }
               },
               child: Semantics(
-                label: 'Settings',
+                label: AppLocalizations.of(context).semantics_settings,
                 button: true,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -387,7 +383,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
           ),
         ),
-      ),
     );
   }
 
@@ -426,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   }
                 },
                 child: Semantics(
-                  label: 'Companion Menu',
+                  label: AppLocalizations.of(context).semantics_companionMenu,
                   button: true,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -440,16 +435,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           hasCompanion ? companion.breed.emoji : '🐾',
                           style: const TextStyle(fontSize: 24),
                         ),
-                        if (hasCompanion) ...[
-                          const SizedBox(width: 6),
-                          Text(
-                            companion.name,
-                            style: ModernTypography.bodySmall.copyWith(
-                              color: ModernColors.textPrimary,
-                              fontWeight: FontWeight.w600,
+                          if (hasCompanion) ...[
+                            const SizedBox(width: 6),
+                            Text(
+                              companion.name,
+                              style: ModernTypography.bodySmall.copyWith(
+                                color: ModernColors.textPrimary,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
                       ],
                     ),
                   ),
@@ -498,12 +493,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        hasCompanion ? companion.name : 'Your Companion',
+                        hasCompanion ? companion.name : AppLocalizations.of(context).companion_yourCompanion,
                         style: ModernTypography.headingSmall,
                       ),
                       if (hasCompanion)
                         Text(
-                          '${companion.stage.displayName} · ${(companion.bondLevel * 100).toInt()}% bond',
+                          '${companion.stage.displayName} · ${AppLocalizations.of(context).companion_bond((companion.bondLevel * 100).toInt())}',
                           style: ModernTypography.caption.copyWith(
                             color: ModernColors.textSecondary,
                           ),
@@ -517,8 +512,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             // Menu items
             _buildMenuItem(
               icon: '🎨',
-              title: 'Customize',
-              subtitle: 'Accessories & home decor',
+              title: AppLocalizations.of(context).menu_customize_title,
+              subtitle: AppLocalizations.of(context).menu_customize_subtitle,
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -529,8 +524,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             _buildMenuItem(
               icon: '🧘',
-              title: 'Mindful Moments',
-              subtitle: 'Breathing, cuddles & rest',
+              title: AppLocalizations.of(context).menu_mindful_title,
+              subtitle: AppLocalizations.of(context).menu_mindful_subtitle,
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -541,8 +536,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             _buildMenuItem(
               icon: '📔',
-              title: 'Memory Journal',
-              subtitle: 'Your adventures together',
+              title: AppLocalizations.of(context).menu_journal_title,
+              subtitle: AppLocalizations.of(context).menu_journal_subtitle,
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -553,8 +548,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ),
             _buildMenuItem(
               icon: '👨‍👩‍👧',
-              title: 'Parent Dashboard',
-              subtitle: 'Learning progress',
+              title: AppLocalizations.of(context).menu_parent_title,
+              subtitle: AppLocalizations.of(context).menu_parent_subtitle,
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
@@ -634,37 +629,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       builder: (context, controller, chlid) {
         final treats = controller.companion?.treats ?? 0;
         
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        return Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 12,
+          runSpacing: 12,
           children: [
             _buildQuickActionButton(
               emoji: '🍖',
-              label: 'Feed',
+              label: AppLocalizations.of(context).action_feed,
               badgeText: '$treats',
               onTap: _handleFeed,
             ),
-            const SizedBox(width: 16),
             _buildQuickActionButton(
               emoji: '🎨',
-              label: 'Style',
+              label: AppLocalizations.of(context).action_style,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const CustomizationScreen()),
               ),
             ),
-            const SizedBox(width: 16),
             _buildQuickActionButton(
               emoji: '🧘',
-              label: 'Relax',
+              label: AppLocalizations.of(context).action_relax,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const MindfulMomentsScreen()),
               ),
             ),
-            const SizedBox(width: 16),
             _buildQuickActionButton(
               emoji: '📔',
-              label: 'Journal',
+              label: AppLocalizations.of(context).action_journal,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const MemoryJournalScreen()),
@@ -684,16 +678,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       if (success) {
         AudioService().playButtonSound(); // Reuse bark/crunch
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Yum! Tasty treat! 🦴'),
-            duration: Duration(seconds: 1),
+          SnackBar(
+            content: Text(AppLocalizations.of(context).feedback_feed_success),
+            duration: const Duration(seconds: 1),
             behavior: SnackBarBehavior.floating,
           ),
         );
       } else {
-        String msg = 'Not enough treats!';
+        String msg = AppLocalizations.of(context).feedback_feed_notEnough;
         if ((controller.companion?.hunger ?? 0) >= 1.0) {
-          msg = 'I\'m fully fed! 😋';
+          msg = AppLocalizations.of(context).feedback_feed_full;
         }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -795,7 +789,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Text(
-            '✨ Training Adventures ✨', // Updated
+            AppLocalizations.of(context).home_trainingAdventures,
             style: ModernTypography.bodyMedium.copyWith(
               color: ModernColors.textSecondary,
               fontWeight: FontWeight.w600,
@@ -874,7 +868,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         );
       },
       child: Semantics(
-        label: '${pathType.getLocalizedName(context)} path card',
+        label: AppLocalizations.of(context).semantics_pathCard(pathType.getLocalizedName(context)),
         selected: isSelected,
         button: true,
         child: GestureDetector(
@@ -965,7 +959,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   GameStateAnimations.buildBouncingButton(
                     onPressed: () => _navigateToPath(pathType),
                     child: GradientButton.small(
-                      text: 'Train 🐕',
+                      text: AppLocalizations.of(context).action_train,
                       gradientColors: _getGradientForPath(pathType),
                       icon: Icons.school, // Changed icon to school/training
                       onPressed: () {
